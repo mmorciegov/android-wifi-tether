@@ -1,0 +1,10 @@
+#summary Frequently Asked Questions
+#labels FAQ,support,help
+
+*What is this root thing and how do I get it?*
+
+Root means more power over your device. This is useful, but can also be a security risk, so it's disabled in the retail Android distribution. You can find instructions on how to get it [http://forum.xda-developers.com/showthread.php?t=442480]here.
+
+*How do I install the program?*
+
+You can either download it [http://code.google.com/p/android-wifi-tether/downloads/list]directly on your phone or look it up in the Market.
