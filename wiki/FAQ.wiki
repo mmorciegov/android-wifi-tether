@@ -17,7 +17,7 @@ If you have root permissions, but still cannot start tethering, it may be an iss
 
 *My computer is having trouble connecting! What can I do?*
 
-Check whether your operating system supports ad-hoc connections. Ubuntu is known to have poor support for these types of connections.
+Check whether your operating system and wireless card support ad-hoc connections. Ubuntu is known to have poor support for these types of connections, for instance.
 
 If you think your OS is not the issue, it may be an issue with either the tethering binaries or your tethering settings. From the main tether screen, try going to Menu->Setup->Menu->Reinstall binaries/configs.
 
