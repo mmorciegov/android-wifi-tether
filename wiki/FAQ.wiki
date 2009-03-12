@@ -8,3 +8,17 @@ Root means more power over your device. This is useful, but can also be a securi
 *How do I install the program?*
 
 You can either download it [http://code.google.com/p/android-wifi-tether/downloads/list directly] on your phone or look it up in the Market.
+
+*Why won't tethering start on my phone?*
+
+First, check that you have root permissions. When you open Wifi Tether for Root Users, you should see a message warning you if you do not have root permissions. However, you may still want to check the steps [http://forum.xda-developers.com/showthread.php?t=442480 here] and make sure you have done them or something like them to obtain root permissions.
+
+If you have root permissions, but still cannot start tethering, it may be an issue with either the tethering binaries or your tethering settings. From the main tether screen, try going to Menu->Setup->Menu->Reinstall binaries/configs.
+
+*My computer is having trouble connecting! What can I do?*
+
+Check whether your operating system supports ad-hoc connections. Ubuntu is known to have poor support for these types of connections.
+
+If you think your OS is not the issue, it may be an issue with either the tethering binaries or your tethering settings. From the main tether screen, try going to Menu->Setup->Menu->Reinstall binaries/configs.
+
+If that still doesn't resolve your issue, it may be a problem with your allowed clients or security settings. Start tethering and connect your laptop. then from the main tether screen, go Menu->Setup. If "Activate Access-Control" is already checked, either uncheck it or check the entry below containing your laptop's MAC address. If "Activate Access-Control" was unchecked originally, try checking it and checking the entry below containing your laptop's MAC address.
