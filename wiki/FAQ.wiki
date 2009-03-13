@@ -22,3 +22,8 @@ Check whether your operating system and wireless card support ad-hoc connections
 If you think your OS is not the issue, it may be an issue with either the tethering binaries or your tethering settings. From the main tether screen, try going to Menu->Setup->Menu->Reinstall binaries/configs.
 
 If that still doesn't resolve your issue, it may be a problem with your allowed clients or security settings. Start tethering and connect your laptop. then from the main tether screen, go Menu->Setup. If "Activate Access-Control" is already checked, either uncheck it or check the entry below containing your laptop's MAC address. If "Activate Access-Control" was unchecked originally, try checking it and checking the entry below containing your laptop's MAC address.
+
+*I'm running JF's-Firmware (1.4x) but tethering doesn't start or my phone hangs!*
+JF's-Firmware comes with an application called "superuser whitelist". This application is responsible (due an error) that other programs are not able to accquire root-permissions!
+See [http://code.google.com/p/superuser/issues/detail?id=1 Bugreport].
+Try to uninstall the tethering-app and install it again. If you are lucky enough (superuser randomly crashes) you will come around this problem!
