@@ -1,6 +1,11 @@
 #summary Frequently Asked Questions
 #labels FAQ,support,help
 
+*What does this application?*
+
+This program enables wifi-tethering for "rooted" handsets.
+Clients (your laptop for example) can connect via wifi (ad-hoc mode) and get access to the internet using the 3G-connection which is established by the handset.
+
 *What is this root thing and how do I get it?*
 
 Root means more power over your device. This is useful, but can also be a security risk, so it's disabled in the retail Android distribution. You can find instructions on how to get it [http://forum.xda-developers.com/showthread.php?t=442480 here].
