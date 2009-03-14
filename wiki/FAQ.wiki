@@ -32,4 +32,4 @@ If that still doesn't resolve your issue, it may be a problem with your allowed 
 
 JF's firmware comes with an application called Superuser Whitelist. This application has an error which sometimes prevents programs from being able to acquire root-permission, even when the user tells it to give them!
 See the [http://code.google.com/p/superuser/issues/detail?id=1 bug report].
-Try to uninstall the Android Wifi Tether and install it again. If you are lucky enough (this issue happens and/or is fixed randomly) you will no longer experience this issue!
+Try to uninstall Android Wifi Tether and install it again. If you are lucky enough (this issue happens and/or is fixed randomly) you will no longer experience this issue!
