@@ -1,10 +1,10 @@
 #summary Frequently Asked Questions
 #labels FAQ,support,help
 
-*What does this application?*
+*What does this application do?*
 
 This program enables wifi-tethering for "rooted" handsets.
-Clients (your laptop for example) can connect via wifi (ad-hoc mode) and get access to the internet using the 3G-connection which is established by the handset.
+Clients (your laptop for example) can connect via wifi (ad-hoc mode) and get access to the internet using the 3G or 2G connection which is established by the handset.
 
 *What is this root thing and how do I get it?*
 
@@ -30,6 +30,6 @@ If that still doesn't resolve your issue, it may be a problem with your allowed 
 
 *I'm running JF's-Firmware (1.4x) but tethering doesn't start or my phone hangs!*
 
-JF's-Firmware comes with an application called "superuser whitelist". This application is responsible (due an error) that other programs are not able to accquire root-permissions!
-See [http://code.google.com/p/superuser/issues/detail?id=1 Bugreport].
-Try to uninstall the tethering-app and install it again. If you are lucky enough (superuser randomly crashes) you will come around this problem!
+JF's firmware comes with an application called Superuser Whitelist. This application has an error which sometimes prevents programs from being able to acquire root-permission, even when the user tells it to give them!
+See the [http://code.google.com/p/superuser/issues/detail?id=1 bug report].
+Try to uninstall the Android Wifi Tether and install it again. If you are lucky enough (this issue happens and/or is fixed randomly) you will no longer experience this issue!
