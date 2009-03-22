@@ -12,7 +12,7 @@ Root means more power over your device. This is useful, but can also be a securi
 
 *How do I install the program?*
 
-You can either download it [http://code.google.com/p/android-wifi-tether/downloads/list directly] on your phone or look it up in the [market://search?q=pname:android.tether Market].
+You can either download it [http://code.google.com/p/android-wifi-tether/downloads/list directly] on your phone or look it up in the Market.
 
 *Why won't tethering start on my phone?*
 
