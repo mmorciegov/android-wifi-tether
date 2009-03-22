@@ -52,5 +52,5 @@ If that still doesn't resolve your issue, it may be a problem with your allowed 
 *I'm running JF's-Firmware (1.4x) but tethering doesn't start or my phone hangs!*
 
 JF's firmware comes with an application called Superuser Whitelist. This application has an error which sometimes prevents programs from being able to acquire root-permission, even when the user tells it to give them!
-See the [http://code.google.com/p/superuser/issues/detail?id=1 bug report].
-Try to uninstall Android Wifi Tether and install it again. If you are lucky enough (this issue happens and/or is fixed randomly) you will no longer experience this issue!
+See the [http://code.google.com/p/superuser/issues/detail?id=1 bug report]. You can first try simply opening Superuser Whitelist and removing the entry for "android.tether".
+If that doesn't work, try uninstalling Android Wifi Tether and installing it again. If you are lucky enough (this issue happens and/or is fixed randomly) you will no longer experience this issue!
