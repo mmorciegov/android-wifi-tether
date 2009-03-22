@@ -37,15 +37,7 @@ Now, open Wifi Tether for Root Users and go to Menu->Setup->Menu->Reinstall bina
 
 *What keeps killing tethering or turning wifi/GPS on during tether?*
 
-It's probably another application. The most common we've seen causing this issue is ShopSavvy. Here are the steps to prevent this from happening:
-
-1. Open the Shop Savvy application
-
-2. Select "Settings"
-
-3. Select "Privacy"
-
-4. If you see a "Find my location" setting and it is currently on, turn it off
+It's probably another application. The most common we've seen causing this issue is ShopSavvy. To prevent this from happening, open the Shop Savvy application and go to Settings->Privacy. If you see a "Find my location" setting and it is currently on, turn it off.
 
 
 *My computer is having trouble connecting! What can I do?*
