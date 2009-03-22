@@ -26,7 +26,7 @@ If you have root permissions, but still cannot start tethering, it may be an iss
 
 *I am running my apps from SD card instead of internal memory. How can I get Wifi Tether to work?*
 
-You will need to move Wifi Tether for Root Users back to system memory. You can do the following if you only want to move Wifi Tether back to system memory. On your phone, open Terminal Emulator and type these commands:
+You will need to move Wifi Tether for Root Users back to system memory. You can do the following if you only want to move Wifi Tether back. On your phone, open Terminal Emulator and type these commands:
 
 busybox cp -a /system/sd/data/android.tether /data/tether
 rm -r /system/sd/data/android.tether
