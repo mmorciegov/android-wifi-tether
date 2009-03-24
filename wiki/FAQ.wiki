@@ -29,7 +29,9 @@ If you have root permissions, but still cannot start tethering, it may be an iss
 You will need to move Wifi Tether for Root Users back to system memory. You can do the following if you only want to move Wifi Tether back. On your phone, open Terminal Emulator and type these commands:
 
 busybox cp -a /system/sd/data/android.tether /data/tether
+
 rm -r /system/sd/data/android.tether
+
 ln -s /data/tether /system/sd/data/android.tether
 
 Now, open Wifi Tether for Root Users and go to Menu->Setup->Menu->Reinstall binaries/configs.
