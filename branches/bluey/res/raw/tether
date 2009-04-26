@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# @Version=7
+# @Version=8
 # Copyright 2008 parrothd
 # Copyright 2009 zodiac (Markus Gutschke)
 
@@ -13,6 +13,7 @@ dnsmasq_conf="$dir"/conf/dnsmasq.conf
 iptables="$dir"/bin/iptables
 tiwlan_ini="$dir"/conf/tiwlan.ini
 wpa_supplicant_conf="$dir"/conf/wpa_supplicant.conf
+pand_pidfile="$dir"/var/pand.pid
 
 really_kill() {
   kill "$1" || :
@@ -65,16 +66,42 @@ stopwifi() {
         "Stopping current WiFi users" \
         '{ ps | while read u p pp v r w pc s n; do case "$n" in *dnsmasq*|*wpa_supplicant*|*dhcp*) really_kill "$p";; esac; done; :; }'
 
-    ## Configuring WiFi
-    run '{ echo; lsmod; } | while read m; do case "$m" in wlan*) break;; esac; false; done' \
-        "Configuring WiFi interface" \
-        'wlan_loader -f /system/etc/wifi/Fw1251r1c.bin -e /proc/calibration -i /system/etc/wifi/tiwlan.ini'
-
     # Unloading module
     run '{ echo; lsmod; } | while read m; do case "$m" in wlan*) break;; esac; false; done' \
         "Unloading wlan.ko module" \
         'rmmod wlan'
 }
+
+startbluetooth() {
+    ## Loading bnep.ko module
+    run '!({ echo; lsmod; } | while read m; do case "$m" in *bnep*) break;; esac; false; done)' \
+        "Loading bnep.ko module" \
+        'insmod "$dir"/bin/bnep.ko'
+}
+
+stopbluetooth() {
+    # Unloading module
+    run '{ echo; lsmod; } | while read m; do case "$m" in *bnep*) break;; esac; false; done' \
+        "Unloading bnep.ko module" \
+        '"$dir"/bin/rmmod bnep'
+}
+
+startpand() {
+    ## Starting pand
+    run '!(ps | while read u p pp v r w pc s n; do case "$n" in *pand*) break;; esac; false; done)' \
+        "Starting pand" \
+        '"$dir"/bin/pand --listen --role NAP --devup "$dir"/bin/blue-up.sh --devdown "$dir"/bin/blue-down.sh --pidfile "$dir"/var/pand.pid'
+}
+
+stoppand() {
+    ## Stopping pand
+    "$dir"/bin/pand -K
+    run 'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) break;; esac; false; done' \
+        "Stopping pand" \
+        'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) really_kill "$p";; esac; done; rm '"'$pand_pidfile' 2>/dev/null"
+}
+
+
 
 startint() {
     # Configuring network interface
@@ -92,7 +119,7 @@ stopint() {
 
 startipt() {
     ## Setting up firewall rules
-    run '{ echo; lsmod; } | while read m; do case "$m" in wlan*) break;; esac; false; done' \
+    run '{ echo; lsmod; } | while read m; do case "$m" in wlan*) break;; bnep*) break;; esac; false; done' \
         "Setting up firewall rules" \
         '"$iptables" -F &&
          "$iptables" -F -t nat &&
@@ -157,22 +184,42 @@ startmacwhitelist() {
 case "$1" in
 'start')
     rm "$tetherlog" 2>/dev/null
-    startwifi
-    startint
-    startipt
-    startipfw
-    startdnsmasq
-    startsecnat
-    startmacwhitelist
+    case "$2" in
+    'bluetooth')
+      startbluetooth
+      startpand
+      startipt
+      startipfw
+      startsecnat
+    ;;
+    *)
+      startwifi
+      startint
+      startipt
+      startipfw
+      startdnsmasq
+      startsecnat
+      startmacwhitelist
+    ;;
+    esac
 ;;
 'stop')
     rm "$tetherlog" 2>/dev/null
-    rm "$dnsmasq_leasefile" 2>/dev/null    
-    stopdnsmasq
-    stopint
+    rm "$dnsmasq_leasefile" 2>/dev/null
+    case "$2" in
+    'bluetooth')
+      stoppand
+      stopbluetooth
+    ;;
+    *)
+      stopdnsmasq
+      stopint
+      stopwifi
+    ;;
+    esac
     stopipfw
     stopipt
-    stopwifi
+
 ;;
 'restartsecwifi')
     stopipt

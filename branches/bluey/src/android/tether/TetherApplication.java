@@ -104,7 +104,7 @@ public class TetherApplication extends Application {
 		coretask = new CoreTask();
 		coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
 		Log.d(MSG_TAG, "Current directory is "+this.getApplicationContext().getFilesDir().getParent());
-		
+
         // Check Homedir, or create it
         this.checkDirs(); 
 		// Preferences
@@ -204,8 +204,13 @@ public class TetherApplication extends Application {
         }
         // Updating dnsmasq-Config
         this.coretask.updateDnsmasqConf();
+        
+        String bluetooth = "";
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
+        	bluetooth = " bluetooth";
+        	
     	// Starting service
-    	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start")) {
+    	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + bluetooth)) {
     		// Starting client-Connect-Thread	
     		
     		if (this.clientConnectThread == null || this.clientConnectThread.isAlive() == false) {
@@ -222,7 +227,13 @@ public class TetherApplication extends Application {
     	if (this.clientConnectThread != null && this.clientConnectThread.isAlive()) {
     		this.clientConnectThread.interrupt();
     	}
-    	boolean stopped = this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether stop");
+    	
+        String bluetooth = "";
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
+        	bluetooth = " bluetooth";
+        
+    	boolean stopped = this.coretask.runRootCommand(
+    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + bluetooth);
 		this.notificationManager.cancelAll();
     	this.enableWifi();
 		this.enableSync();
@@ -230,7 +241,13 @@ public class TetherApplication extends Application {
     }
 	
     public boolean restartTether() {
-    	boolean stopped = this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether stop");
+    	
+        String bluetooth = "";
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
+        	bluetooth = " bluetooth";
+        
+    	boolean stopped = this.coretask.runRootCommand(
+    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + bluetooth);
     	if (this.clientConnectThread != null && this.clientConnectThread.isAlive()) {
     		this.clientConnectThread.interrupt();
     	}
@@ -238,7 +255,7 @@ public class TetherApplication extends Application {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
-    	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start")) {
+    	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + bluetooth)) {
     		// Starting client-Connect-Thread	
     		if (this.clientConnectThread == null || this.clientConnectThread.isAlive() == false) {
 	    		this.clientConnectThread = new Thread(new ClientConnect());
@@ -461,11 +478,31 @@ public class TetherApplication extends Application {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/dnsmasq", R.raw.dnsmasq);
 			    	filenames.add("dnsmasq");
 		    	}
+		    	//pand
+		    	if (message == null) {
+			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/pand", R.raw.pand);
+			    	filenames.add("pand");
+		    	}
+		    	//rmmod
+		    	if (message == null) {
+			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/rmmod", R.raw.rmmod);
+			    	filenames.add("rmmod");
+		    	}
 		    	// iptables
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iptables", R.raw.iptables);
 			    	filenames.add("iptables");
 		    	}
+		    	// blue-up.sh
+				if (message == null) {
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-up.sh", R.raw.blue_up_sh);
+					filenames.add("blue-up.sh");
+				}
+				// blue-down.sh
+				if (message == null) {
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-down.sh", R.raw.blue_down_sh);
+					filenames.add("blue-down.sh");
+				}
 		    	try {
 		    		TetherApplication.this.coretask.chmodBin(filenames);
 				} catch (Exception e) {
@@ -480,6 +517,10 @@ public class TetherApplication extends Application {
 				if (message == null) {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/dnsmasq.conf", R.raw.dnsmasq_conf);
 					TetherApplication.this.coretask.updateDnsmasqFilepath();
+				}
+				// bnep.ko
+				if (message == null) {
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/bnep.ko", R.raw.bnep_ko);
 				}
 		    	// tiwlan.ini
 				if (message == null) {

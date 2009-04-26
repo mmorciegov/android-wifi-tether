@@ -1,0 +1,42 @@
+#!/system/bin/sh
+# blue-down.sh
+
+tetherpath="$(pwd)"
+tetherlog="$tetherpath"/var/tether.log
+dnsmasq_pidfile="$tetherpath"/var/dnsmasq.pid
+
+really_kill() {
+  kill "$1" || :
+  kill -0 "$1" && {
+    sleep 1
+    kill -9 "$1"
+  } || :
+  kill -0 "$1" || {
+    echo "Failed to kill process $1"
+    false
+  }
+}
+
+run() {
+    if eval { "$1;" } >/dev/null 2>&1; then
+      local i
+      echo -n "<div class=\"date\">`date +"%d.%m.%y %T"`</div><div class=\"action\">$2...</div><div class=\"output\">" >>"$tetherlog"
+      if i=`eval "$3" 2>&1`; then
+        echo "</div><div class=\"done\">done</div><hr>" >>"$tetherlog"
+      else
+        { echo "$i" | while read i; do echo -n "$i<br />"; done
+        echo "</div><div class=\"failed\">failed</div><hr>"; } >>"$tetherlog"
+      fi
+    fi
+}
+
+stopdnsmasq() {
+    ## Stopping dnsmasq
+    run 'ps | while read u p pp v r w pc s n; do case "$n" in *dnsmasq*) break;; esac; false; done' \
+        "Stopping dnsmasq" \
+        'ps | while read u p pp v r w pc s n; do case "$n" in *dnsmasq*) really_kill "$p";; esac; done; rm '"'$dnsmasq_pidfile' 2>/dev/null"
+}
+
+stopdnsmasq
+
+ifconfig bnep0 down

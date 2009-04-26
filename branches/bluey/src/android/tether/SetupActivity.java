@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.widget.TextView;
 
 public class SetupActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	
@@ -429,6 +430,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			msg.obj = message;
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
+		    	}
+		    	else if (key.equals("bluetoothon")) {
+		    		Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", false);
+		    		if (bluetoothOn)
+		    			application.coretask.getKernelVersion();
 		    	}
 		    	Looper.loop();
 			}
