@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Properties;
 
 import android.app.Application;
 import android.app.Notification;
@@ -31,6 +32,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -43,12 +45,16 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.tether.data.ClientData;
 import android.tether.system.CoreTask;
+import android.tether.system.WebserviceTask;
 import android.util.Log;
 import android.widget.Toast;
 
 public class TetherApplication extends Application {
 
 	public static final String MSG_TAG = "TETHER -> TetherApplication";
+	
+	// StartUp-Check perfomed
+	public boolean startupCheckPerformed = false;
 	
 	// Client-Connect-Thread
 	private Thread clientConnectThread = null;
@@ -96,19 +102,30 @@ public class TetherApplication extends Application {
 	// CoreTask
 	public CoreTask coretask = null;
 	
+	// WebserviceTask
+	public WebserviceTask webserviceTask = null;
+	
+	// Update Url
+	private static final String APPLICATION_PROPERTIES_URL = "http://android-wifi-tether.googlecode.com/svn/download/update/application.properties";
+	private static final String APPLICATION_DOWNLOAD_URL = "http://android-wifi-tether.googlecode.com/files/";
+	
 	@Override
 	public void onCreate() {
 		Log.d(MSG_TAG, "Calling onCreate()");
 		
 		//create CoreTask
-		coretask = new CoreTask();
-		coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
+		this.coretask = new CoreTask();
+		this.coretask.setPath(this.getApplicationContext().getFilesDir().getParent());
 		Log.d(MSG_TAG, "Current directory is "+this.getApplicationContext().getFilesDir().getParent());
 
+		//create WebserviceTask
+		this.webserviceTask = new WebserviceTask();
+		
         // Check Homedir, or create it
         this.checkDirs(); 
-		// Preferences
-		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		
+        // Preferences
+		this.settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
         // preferenceEditor
         this.preferenceEditor = settings.edit();
@@ -531,9 +548,44 @@ public class TetherApplication extends Application {
 				Message msg = new Message();
 				msg.obj = message;
 				TetherApplication.this.displayMessageHandler.sendMessage(msg);
+				
+				Looper.loop();
 			}
 		}).start();
     }
+    
+    public void checkForUpdate() {
+    	new Thread(new Runnable(){
+			public void run(){
+				Looper.prepare();
+				// Getting Properties
+				Properties updateProperties = TetherApplication.this.webserviceTask.queryForProperty(APPLICATION_PROPERTIES_URL);
+				if (updateProperties != null && updateProperties.containsKey("versionCode") && updateProperties.containsKey("fileName")) {
+					int availableVersion = Integer.parseInt(updateProperties.getProperty("versionCode"));
+					int installedVersion = TetherApplication.this.getVersionNumber();
+					String fileName = updateProperties.getProperty("fileName");
+					if (availableVersion != installedVersion) {
+						Log.d(MSG_TAG, "Installed version '"+installedVersion+"' and available version '"+availableVersion+"' do not match!");
+						MainActivity.currentInstance.openUpdateDialog(APPLICATION_DOWNLOAD_URL+fileName, fileName);
+					}
+				}
+				Looper.loop();
+			}
+    	}).start();
+    }
+   
+    public void downloadUpdate(final String downloadFileUrl, final String fileName) {
+    	new Thread(new Runnable(){
+			public void run(){
+				Looper.prepare();
+				TetherApplication.this.webserviceTask.downloadUpdateFile(downloadFileUrl, fileName);
+				Intent intent = new Intent(Intent.ACTION_VIEW); 
+			    intent.setDataAndType(android.net.Uri.fromFile(new File(WebserviceTask.DOWNLOAD_FILEPATH+"/"+fileName)),"application/vnd.android.package-archive"); 
+			    MainActivity.currentInstance.startActivity(intent);
+				Looper.loop();
+			}
+    	}).start();
+    }				
     
     private String copyBinary(String filename, int resource) {
     	File outFile = new File(filename);
@@ -605,6 +657,27 @@ public class TetherApplication extends Application {
         contentResolver.insert(CONTENT_URI, values);
     }
     
+    public int getVersionNumber() {
+    	int version = -1;
+        try {
+            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = pi.versionCode;
+        } catch (Exception e) {
+            Log.e(MSG_TAG, "Package name not found", e);
+        }
+        return version;
+    }
+    
+    public String getVersionName() {
+    	String version = "?";
+        try {
+            PackageInfo pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = pi.versionName;
+        } catch (Exception e) {
+            Log.e(MSG_TAG, "Package name not found", e);
+        }
+        return version;
+    }
     
     class ClientConnect implements Runnable {
 
