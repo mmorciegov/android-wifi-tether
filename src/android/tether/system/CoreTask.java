@@ -236,6 +236,13 @@ public class CoreTask {
     	return lines.contains("1");
     }
     
+    public String getKernelVersion() {
+    	ArrayList<String> lines = readLinesFromFile("/proc/version");
+    	String version = lines.get(0).split(" ")[2];
+    	Log.d(MSG_TAG, "Kernel version: " + version);
+    	return version;
+    }
+    
     public boolean isProcessRunning(String processName) throws Exception {
     	
     	ArrayList<String> lines = readLinesFromCmd("ps");

@@ -55,6 +55,21 @@
 					</TableRow>
 				</TableLayout>					
 			</TableRow>	
+            <TableRow android:id="@+id/radioRow">
+                <TableLayout
+                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content">
+                    <TableRow>
+                        <TextView android:id="@+id/radioModeText"
+                                  android:text="Mode:"
+                                  android:paddingTop="15px"
+                                  android:layout_gravity="center_vertical"
+                                  android:textStyle="bold"
+                                  android:textColor="#ffffff" />
+                        </TableRow>
+                </TableLayout>
+            </TableRow>
 		</TableLayout>
 	</ScrollView>	    
 </LinearLayout>

@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	
@@ -39,6 +41,7 @@ public class MainActivity extends Activity {
 
 	private ImageButton startBtn = null;
 	private ImageButton stopBtn = null;
+	private TextView radioModeLabel = null;
 	
 	private TableRow startTblRow = null;
 	private TableRow stopTblRow = null;
@@ -61,6 +64,7 @@ public class MainActivity extends Activity {
         // Init Table-Rows
         this.startTblRow = (TableRow)findViewById(R.id.startRow);
         this.stopTblRow = (TableRow)findViewById(R.id.stopRow);
+        this.radioModeLabel = (TextView)findViewById(R.id.radioModeText);
 
         // Check for binaries
         boolean filesetoutdated = false;
@@ -130,6 +134,12 @@ public class MainActivity extends Activity {
 	public void onDestroy() {
     	Log.d(MSG_TAG, "Calling onDestroy()");
     	super.onDestroy();
+	}
+	
+	public void onResume() {
+		Log.d(MSG_TAG, "Calling onResume()");
+		this.showRadioMode();
+		super.onResume();
 	}
 	
 	private static final int MENU_SETUP = 0;
@@ -212,13 +222,21 @@ public class MainActivity extends Activity {
 
    private void toggleStartStop() {
     	boolean dnsmasqRunning = false;
+    	boolean pandRunning = false;
 		try {
 			dnsmasqRunning = this.application.coretask.isProcessRunning("bin/dnsmasq");
 		} catch (Exception e) {
 			MainActivity.this.application.displayToastMessage("Unable to check if dnsmasq is currently running!");
 		}
+		try {
+			pandRunning = this.application.coretask.isProcessRunning("bin/pand");
+		} catch (Exception e) {
+			MainActivity.this.application.displayToastMessage("Unable to check if pand is currently running!");
+		}
     	boolean natEnabled = this.application.coretask.isNatEnabled();
-    	if (dnsmasqRunning == true && natEnabled == true) {
+    	boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
+    	if ((dnsmasqRunning == true && natEnabled == true) ||
+    			(usingBluetooth == true && pandRunning == true)){
     		this.startTblRow.setVisibility(View.GONE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
     		// Notification
@@ -236,6 +254,7 @@ public class MainActivity extends Activity {
     		this.stopTblRow.setVisibility(View.VISIBLE);
     		MainActivity.this.application.displayToastMessage("Your phone is currently in an unknown state - try to reboot!");
     	}
+    	this.showRadioMode();
     }
     
    	private void openNotRootDialog() {
@@ -331,6 +350,13 @@ public class MainActivity extends Activity {
                 }
         })
         .show();
+   	}
+   	private void showRadioMode() {
+   		boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
+   		if (usingBluetooth)
+   			this.radioModeLabel.setText("Mode: Bluetooth");
+   		else
+   			this.radioModeLabel.setText("Mode: Wifi");
    	}
 }
 

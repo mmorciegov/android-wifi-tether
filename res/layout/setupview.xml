@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen  
     xmlns:android="http://schemas.android.com/apk/res/android">  
+    <PreferenceCategory android:title="Tether Mode">
+       <CheckBoxPreference
+               android:key="bluetoothon"
+               android:title="Use Bluetooth"
+               android:summary="Bluetooth tether instead of WiFi" />
+    </PreferenceCategory>
+    
 	<PreferenceCategory android:title="Security">
 	    <CheckBoxPreference  
 			android:key="encpref"  
