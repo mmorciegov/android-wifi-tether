@@ -31,6 +31,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -42,12 +43,21 @@ public class MainActivity extends Activity {
 	private ImageButton startBtn = null;
 	private ImageButton stopBtn = null;
 	private TextView radioModeLabel = null;
+	private TextView progressTitle = null;
+	private TextView progressText = null;
+	private ProgressBar progressBar = null;
 	
 	private TableRow startTblRow = null;
 	private TableRow stopTblRow = null;
 	
 	private static int ID_DIALOG_STARTING = 0;
 	private static int ID_DIALOG_STOPPING = 1;
+	
+	public static final int MESSAGE_NO_DATA_CONNECTION = 1;
+	public static final int MESSAGE_CANT_START_TETHER = 2;
+	public static final int MESSAGE_DOWNLOAD_STARTING = 3;
+	public static final int MESSAGE_DOWNLOAD_PROGRESS = 4;
+	public static final int MESSAGE_DOWNLOAD_COMPLETE = 5;
 	
 	public static final String MSG_TAG = "TETHER -> MainActivity";
 	public static MainActivity currentInstance = null;
@@ -71,6 +81,9 @@ public class MainActivity extends Activity {
         this.startTblRow = (TableRow)findViewById(R.id.startRow);
         this.stopTblRow = (TableRow)findViewById(R.id.stopRow);
         this.radioModeLabel = (TextView)findViewById(R.id.radioModeText);
+        this.progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        this.progressText = (TextView)findViewById(R.id.progressText);
+        this.progressTitle = (TextView)findViewById(R.id.progressTitle);
 
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
@@ -219,17 +232,46 @@ public class MainActivity extends Activity {
     	return null;
     }
 
-    Handler viewUpdateHandler = new Handler(){
+    public Handler viewUpdateHandler = new Handler(){
         public void handleMessage(Message msg) {
-        	if (msg.what == 1) {
+        	switch(msg.what) {
+        	case MESSAGE_NO_DATA_CONNECTION :
         		Log.d(MSG_TAG, "No mobile-data-connection established!");
         		MainActivity.this.application.displayToastMessage("No mobile-data-connection established!");
-        	}
-        	else if (msg.what == 2) {
+            	MainActivity.this.toggleStartStop();
+            	break;
+        	case MESSAGE_CANT_START_TETHER :
         		Log.d(MSG_TAG, "Unable to start tetering!");
         		MainActivity.this.application.displayToastMessage("Unable to start tethering!");
+            	MainActivity.this.toggleStartStop();
+            	break;
+        	case MESSAGE_DOWNLOAD_STARTING :
+        		Log.d(MSG_TAG, "Start progress bar");
+        		MainActivity.this.progressBar.setIndeterminate(true);
+        		MainActivity.this.progressBar.setVisibility(View.VISIBLE);
+        		MainActivity.this.progressTitle.setText((String)msg.obj);
+        		MainActivity.this.progressTitle.setVisibility(View.VISIBLE);
+        		MainActivity.this.progressText.setText("Starting...");
+        		MainActivity.this.progressText.setVisibility(View.VISIBLE);
+        		break;
+        	case MESSAGE_DOWNLOAD_PROGRESS :
+        		Log.d(MSG_TAG, "Downloaded " + msg.arg1 + " of " + msg.arg2);
+        		MainActivity.this.progressBar.setIndeterminate(false);
+        		MainActivity.this.progressText.setText(msg.arg1 + "k /" + msg.arg2 + "k");
+        		MainActivity.this.progressBar.setProgress(msg.arg1*100/msg.arg2);
+        		break;
+        	case MESSAGE_DOWNLOAD_COMPLETE :
+        		Log.d(MSG_TAG, "Finished download.");
+        		MainActivity.this.progressBar.setVisibility(View.INVISIBLE);
+        		MainActivity.this.progressText.setText("");
+        		MainActivity.this.progressText.setVisibility(View.INVISIBLE);
+        		MainActivity.this.progressTitle.setText("");
+        		MainActivity.this.progressTitle.setVisibility(View.INVISIBLE);
+        		break;
+        	default:
+        		MainActivity.this.toggleStartStop();
         	}
-        	MainActivity.this.toggleStartStop();
+
         	super.handleMessage(msg);
         }
    };
@@ -270,7 +312,7 @@ public class MainActivity extends Activity {
     	}
     	this.showRadioMode();
     }
-    
+  
    	private void openNotRootDialog() {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.norootview, null); 
@@ -366,14 +408,14 @@ public class MainActivity extends Activity {
         .show();
    	}
 
-   	private void showRadioMode() {
-   		boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
-   		if (usingBluetooth)
-   			this.radioModeLabel.setText("Mode: Bluetooth");
-   		else
-   			this.radioModeLabel.setText("Mode: Wifi");
-   	}
-   	
+  	private void showRadioMode() {
+  		boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
+  		if (usingBluetooth)
+  			this.radioModeLabel.setText("Mode: Bluetooth");
+  		else
+  			this.radioModeLabel.setText("Mode: Wifi");
+  	}
+	
    	public void openUpdateDialog(final String downloadFileUrl, final String fileName) {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.updateview, null); 
