@@ -3,6 +3,27 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+	<TextView  
+		android:id="@+id/progressTitle"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:visibility="invisible"
+	    android:text=""
+	    />
+	<ProgressBar
+		android:id="@+id/progressBar"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		style="?android:attr/progressBarStyleHorizontal"
+		android:visibility="invisible"
+		android:max="100"/>
+	<TextView  
+		android:id="@+id/progressText"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:visibility="invisible"
+	    android:text=""
+	    />
 	<ScrollView android:id="@+id/mainview" 
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
