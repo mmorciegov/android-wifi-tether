@@ -50,7 +50,12 @@ public class MainActivity extends Activity {
 	private static int ID_DIALOG_STOPPING = 1;
 	
 	public static final String MSG_TAG = "TETHER -> MainActivity";
+	public static MainActivity currentInstance = null;
 
+    private static void setCurrent(MainActivity current){
+    	MainActivity.currentInstance = current;
+    }
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,27 +65,37 @@ public class MainActivity extends Activity {
         
         // Init Application
         this.application = (TetherApplication)this.getApplication();
+        MainActivity.setCurrent(this);
         
         // Init Table-Rows
         this.startTblRow = (TableRow)findViewById(R.id.startRow);
         this.stopTblRow = (TableRow)findViewById(R.id.stopRow);
         this.radioModeLabel = (TextView)findViewById(R.id.radioModeText);
 
-        // Check for binaries
-        boolean filesetoutdated = false;
-        if (this.application.binariesExists() == false || this.application.coretask.filesetOutdated()) {
-        	if (this.application.coretask.hasRootPermission()) {
-        		if (this.application.coretask.filesetOutdated()) {
-        			filesetoutdated = true;
-        		}
-        		this.application.installBinaries();
-        	}
-        	else {
-        		this.openNotRootDialog();
-        	}
-        }
-        if (filesetoutdated) {
-        	this.openConfigRecoverDialog();
+        // Startup-Check
+        if (this.application.startupCheckPerformed == false) {
+	        this.application.startupCheckPerformed = true;
+        	// Checking root-permission, files
+	        boolean filesetoutdated = false;
+	        if (this.application.binariesExists() == false || this.application.coretask.filesetOutdated()) {
+	        	if (this.application.coretask.hasRootPermission()) {
+	        		if (this.application.coretask.filesetOutdated()) {
+	        			filesetoutdated = true;
+	        		}
+	        		this.application.installBinaries();
+	        	}
+	        	else {
+	        		this.openNotRootDialog();
+	        	}
+	        }
+	        if (filesetoutdated) {
+	        	this.openConfigRecoverDialog();
+	        }
+	        // Open donate-dialog
+			this.openDonateDialog();
+        
+			// Check for updates
+			this.application.checkForUpdate();
         }
         
         // Start Button
@@ -123,7 +138,6 @@ public class MainActivity extends Activity {
 			}
 		});			
 		this.toggleStartStop();
-		this.openDonateDialog();
     }
     
 	public void onStop() {
@@ -135,7 +149,7 @@ public class MainActivity extends Activity {
     	Log.d(MSG_TAG, "Calling onDestroy()");
     	super.onDestroy();
 	}
-	
+
 	public void onResume() {
 		Log.d(MSG_TAG, "Calling onResume()");
 		this.showRadioMode();
@@ -351,12 +365,34 @@ public class MainActivity extends Activity {
         })
         .show();
    	}
+
    	private void showRadioMode() {
    		boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
    		if (usingBluetooth)
    			this.radioModeLabel.setText("Mode: Bluetooth");
    		else
    			this.radioModeLabel.setText("Mode: Wifi");
+   	}
+   	
+   	public void openUpdateDialog(final String downloadFileUrl, final String fileName) {
+		LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.updateview, null); 
+		new AlertDialog.Builder(MainActivity.this)
+        .setTitle("Update Application?")
+        .setIcon(R.drawable.download)
+        .setView(view)
+        .setNeutralButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	Log.d(MSG_TAG, "No pressed");
+                }
+        })
+        .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Log.d(MSG_TAG, "Yes pressed");
+                    MainActivity.this.application.downloadUpdate(downloadFileUrl, fileName);
+                }
+        })
+        .show();
    	}
 }
 
