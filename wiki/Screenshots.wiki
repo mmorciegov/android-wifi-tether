@@ -1,3 +1,4 @@
+#summary Screenshots
 #labels Screenshots
 [http://android-wifi-tether.googlecode.com/files/screenshot_01.png http://android-wifi-tether.googlecode.com/files/screenshot_01.png]
 [http://android-wifi-tether.googlecode.com/files/screenshot_02.png http://android-wifi-tether.googlecode.com/files/screenshot_02.png]
