@@ -6,7 +6,7 @@ You might have noticed that "Wifi Tether for Root Users" does not work anymore a
 
 The new kernel does not support netfilter/iptables anymore! To make our application run you have to *replace the original kernel* with our "netfilter-enabled" kernel.  
 
-== Introduction ==
+== Instruction ==
 
 *** === AT YOUR OWN RISK === ***
 
