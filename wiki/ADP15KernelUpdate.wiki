@@ -1,0 +1,28 @@
+#labels support,help
+=ADP 1.5 - Kernel-Update=
+
+You might have noticed that "Wifi Tether for Root Users" does not work anymore after updating your *Android DevPhone 1* to [http://www.htc.com/www/support/android/adp.html ADP1.5 (cupcake)] *(official firmware from HTC)*.
+
+The new kernel does not support netfilter/iptables anymore! To make our application run you have to *replace the original kernel* with our "netfilter-enabled" kernel.  
+
+== Introduction ==
+
+*** === AT YOUR OWN RISK === ***
+
+1) Install the official firmware (if not already installed) - [http://www.htc.com/www/support/android/adp.html ADP1.5 (cupcake)]
+
+*=== MAKE SURE THE NEW FIRMWARE IS INSTALLED CORRECTLY ===*
+
+2) Download the kernel-update from [http://android-wifi-tether.googlecode.com/files/adp-1_5-kernel-update.zip here]
+
+3) Copy adp-1_5-kernel-update.zip to you sd-card and rename it to "update.zip"
+
+4) Reboot the device into recovery mode by holding down the HOME key during reboot. When the device enters recovery mode, it displays a "!" icon.
+
+5) With the recovery console displayed, open the sliding keyboard and hold down the ALT+l key combination to enable log output in the recovery console.
+
+6) Next, hold down the ALT+s key combination to install the update. An "installing update" icon and progress bar (or a similar status message) are displayed. When the progress bar completes, the installation is finished.
+
+7) Press the HOME-BACK key combination to write the radio image, update the firmware, and automatically reboot. 
+
+Enjoy!
