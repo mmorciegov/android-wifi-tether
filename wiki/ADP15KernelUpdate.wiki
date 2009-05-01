@@ -24,6 +24,5 @@ The new kernel does not support netfilter/iptables! To make our application run 
 
 6) Next, hold down the ALT+s key combination to install the update. An "installing update" icon and progress bar (or a similar status message) are displayed. When the progress bar completes, the installation is finished.
 
-7) Press the HOME-BACK key combination to write the radio image, update the firmware, and automatically reboot. 
-
+7) Press the HOME-BACK key combination to reboot.
 Enjoy!
