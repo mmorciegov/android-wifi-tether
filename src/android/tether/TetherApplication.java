@@ -12,16 +12,20 @@
 
 package android.tether;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
+import java.util.zip.GZIPInputStream;
 
 import android.app.Application;
 import android.app.Notification;
@@ -287,14 +291,19 @@ public class TetherApplication extends Application {
     	return true;
     }
     
-    //gets user preference on whether wakelock should be disabled during tethering
-    public boolean getWakeLock(){
+    // gets user preference on whether wakelock should be disabled during tethering
+    public boolean isWakeLockDisabled(){
 		return this.settings.getBoolean("wakelockpref", false);
 	} 
 	
-    //gets user preference on whether wakelock should be disabled during tethering
-    public boolean getSync(){
+    // gets user preference on whether sync should be disabled during tethering
+    public boolean isSyncDisabled(){
 		return this.settings.getBoolean("syncpref", false);
+	}
+    
+    // gets user preference on whether sync should be disabled during tethering
+    public boolean isUpdatecDisabled(){
+		return this.settings.getBoolean("updatepref", false);
 	}
     
     // get preferences on whether donate-dialog should be displayed
@@ -344,7 +353,7 @@ public class TetherApplication extends Application {
     
 	public void acquireWakeLock() {
 		try {
-			if (this.getWakeLock() == false) {
+			if (this.isWakeLockDisabled() == false) {
 				Log.d(MSG_TAG, "Trying to acquire WakeLock NOW!");
 				this.wakeLock.acquire();
 			}
@@ -535,10 +544,6 @@ public class TetherApplication extends Application {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/dnsmasq.conf", R.raw.dnsmasq_conf);
 					TetherApplication.this.coretask.updateDnsmasqFilepath();
 				}
-				// bnep.ko
-				if (message == null) {
-					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/bnep.ko", R.raw.bnep_ko);
-				}
 		    	// tiwlan.ini
 				if (message == null) {
 					TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/tiwlan.ini", R.raw.tiwlan_ini);
@@ -555,6 +560,10 @@ public class TetherApplication extends Application {
     }
     
     public void checkForUpdate() {
+    	if (this.isUpdatecDisabled()) {
+    		Log.d(MSG_TAG, "Update-checks are disabled!");	
+    		return;
+    	}
     	new Thread(new Runnable(){
 			public void run(){
 				Looper.prepare();
@@ -589,7 +598,60 @@ public class TetherApplication extends Application {
 				Looper.loop();
 			}
     	}).start();
-    }				
+    }
+    
+    public synchronized String findBnepModule() {
+    	try {
+			FileInputStream fis = new FileInputStream("/proc/config.gz");
+			GZIPInputStream gzin = new GZIPInputStream(fis);
+			BufferedReader in = null;
+			String line = "";
+			in = new BufferedReader(new InputStreamReader(gzin));
+			while ((line = in.readLine()) != null) {
+				   if (line.contains("CONFIG_BT_BNEP=y")) {
+					    gzin.close();
+						return "BUILTIN";
+					}
+			}
+			gzin.close();
+			Log.d(MSG_TAG, "No bluetooth in the kernel.");
+    	} catch (IOException e) {
+    		//
+    		Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
+    	}
+		String moduleFileName = "/sdcard/android.tether/bnep.ko";
+		File bnepFile = new File(moduleFileName);
+		if (bnepFile.exists() == false) {
+			downloadBnepModule();
+			return "";
+		}
+		return moduleFileName;
+    }
+    
+    public void downloadBnepModule() {
+    	new Thread(new Runnable(){
+			public void run(){
+				Looper.prepare();
+				String moduleFileName = "bnep-" + TetherApplication.this.coretask.getKernelVersion() +
+										".ko";
+				String downloadFileUrl = "http://android-wifi-tether.googlecode.com/svn/download/bluetooth/";
+				downloadFileUrl += moduleFileName + ".gz";
+				String downloadLocation = "/sdcard/android.tether/bnep.ko.gz";
+				Message msg = Message.obtain();
+            	msg.what = MainActivity.MESSAGE_DOWNLOAD_STARTING;
+            	msg.obj = "Downloading bluetooth module...";
+            	MainActivity.currentInstance.viewUpdateHandler.sendMessage(msg);
+            	Message msg2 = Message.obtain();
+				if (TetherApplication.this.webserviceTask.downloadBluetoothModule(downloadFileUrl, downloadLocation)) {
+	            	msg2.what = MainActivity.MESSAGE_DOWNLOAD_BLUETOOTH_COMPLETE;
+				} else {
+					msg2.what = MainActivity.MESSAGE_DOWNLOAD_BLUETOOTH_FAILED;
+				}
+            	MainActivity.currentInstance.viewUpdateHandler.sendMessage(msg2);
+				Looper.loop();
+			}
+    	}).start();
+    }	
     
     private String copyBinary(String filename, int resource) {
     	File outFile = new File(filename);
