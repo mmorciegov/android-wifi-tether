@@ -1,9 +1,9 @@
 #!/system/bin/sh
-# @Version=8
+# @Version=9
 # Copyright 2008 parrothd
 # Copyright 2009 zodiac (Markus Gutschke)
 
-dir="$(pwd)"
+dir=/data/data/android.tether/
 tetherlog="$dir"/var/tether.log
 mac_whitelist="$dir"/conf/whitelist_mac.conf
 dnsmasq_pidfile="$dir"/var/dnsmasq.pid
@@ -76,7 +76,7 @@ startbluetooth() {
     ## Loading bnep.ko module
     run '!({ echo; lsmod; } | while read m; do case "$m" in *bnep*) break;; esac; false; done)' \
         "Loading bnep.ko module" \
-        'insmod "$dir"/bin/bnep.ko'
+        'insmod /sdcard/android.tether/bnep.ko'
 }
 
 stopbluetooth() {
@@ -119,7 +119,7 @@ stopint() {
 
 startipt() {
     ## Setting up firewall rules
-    run '{ echo; lsmod; } | while read m; do case "$m" in wlan*) break;; bnep*) break;; esac; false; done' \
+    run : \
         "Setting up firewall rules" \
         '"$iptables" -F &&
          "$iptables" -F -t nat &&

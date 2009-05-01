@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class MainActivity extends Activity {
 	private TextView progressTitle = null;
 	private TextView progressText = null;
 	private ProgressBar progressBar = null;
+	private RelativeLayout downloadUpdateLayout = null;
 	
 	private TableRow startTblRow = null;
 	private TableRow stopTblRow = null;
@@ -58,6 +60,8 @@ public class MainActivity extends Activity {
 	public static final int MESSAGE_DOWNLOAD_STARTING = 3;
 	public static final int MESSAGE_DOWNLOAD_PROGRESS = 4;
 	public static final int MESSAGE_DOWNLOAD_COMPLETE = 5;
+	public static final int MESSAGE_DOWNLOAD_BLUETOOTH_COMPLETE = 6;
+	public static final int MESSAGE_DOWNLOAD_BLUETOOTH_FAILED = 7;
 	
 	public static final String MSG_TAG = "TETHER -> MainActivity";
 	public static MainActivity currentInstance = null;
@@ -84,6 +88,7 @@ public class MainActivity extends Activity {
         this.progressBar = (ProgressBar)findViewById(R.id.progressBar);
         this.progressText = (TextView)findViewById(R.id.progressText);
         this.progressTitle = (TextView)findViewById(R.id.progressTitle);
+        this.downloadUpdateLayout = (RelativeLayout)findViewById(R.id.layoutDownloadUpdate);
 
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
@@ -120,7 +125,7 @@ public class MainActivity extends Activity {
 				new Thread(new Runnable(){
 					public void run(){
 						MainActivity.this.application.disableWifi();
-						if (MainActivity.this.application.getSync()){
+						if (MainActivity.this.application.isSyncDisabled()){
 							MainActivity.this.application.disableSync();
 						}
 						int started = MainActivity.this.application.startTether();
@@ -248,26 +253,34 @@ public class MainActivity extends Activity {
         	case MESSAGE_DOWNLOAD_STARTING :
         		Log.d(MSG_TAG, "Start progress bar");
         		MainActivity.this.progressBar.setIndeterminate(true);
-        		MainActivity.this.progressBar.setVisibility(View.VISIBLE);
         		MainActivity.this.progressTitle.setText((String)msg.obj);
-        		MainActivity.this.progressTitle.setVisibility(View.VISIBLE);
         		MainActivity.this.progressText.setText("Starting...");
-        		MainActivity.this.progressText.setVisibility(View.VISIBLE);
+        		MainActivity.this.downloadUpdateLayout.setVisibility(View.VISIBLE);
+
         		break;
         	case MESSAGE_DOWNLOAD_PROGRESS :
-        		Log.d(MSG_TAG, "Downloaded " + msg.arg1 + " of " + msg.arg2);
         		MainActivity.this.progressBar.setIndeterminate(false);
         		MainActivity.this.progressText.setText(msg.arg1 + "k /" + msg.arg2 + "k");
         		MainActivity.this.progressBar.setProgress(msg.arg1*100/msg.arg2);
         		break;
         	case MESSAGE_DOWNLOAD_COMPLETE :
         		Log.d(MSG_TAG, "Finished download.");
-        		MainActivity.this.progressBar.setVisibility(View.INVISIBLE);
         		MainActivity.this.progressText.setText("");
-        		MainActivity.this.progressText.setVisibility(View.INVISIBLE);
         		MainActivity.this.progressTitle.setText("");
-        		MainActivity.this.progressTitle.setVisibility(View.INVISIBLE);
+        		MainActivity.this.downloadUpdateLayout.setVisibility(View.GONE);
         		break;
+        	case MESSAGE_DOWNLOAD_BLUETOOTH_COMPLETE :
+        		Log.d(MSG_TAG, "Finished bluetooth download.");
+        		MainActivity.this.startBtn.setClickable(true);
+        		MainActivity.this.radioModeLabel.setText("Mode: Bluetooth");
+        		break;
+        	case MESSAGE_DOWNLOAD_BLUETOOTH_FAILED :
+        		Log.d(MSG_TAG, "FAILED bluetooth download.");
+        		MainActivity.this.startBtn.setClickable(true);
+        		MainActivity.this.application.preferenceEditor.putBoolean("bluetoothon", false);
+        		MainActivity.this.application.preferenceEditor.commit();
+        		// TODO: More detailed popup info.
+        		MainActivity.this.application.displayToastMessage("No bluetooth available for your kernel!");
         	default:
         		MainActivity.this.toggleStartStop();
         	}
@@ -410,9 +423,13 @@ public class MainActivity extends Activity {
 
   	private void showRadioMode() {
   		boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
-  		if (usingBluetooth)
+  		if (usingBluetooth) {
+  			String bnepLocation = this.application.findBnepModule();
+  			if (bnepLocation == "") {
+  	  			this.radioModeLabel.setText("Mode: Bluetooth (downloading)");	
+  			} else
   			this.radioModeLabel.setText("Mode: Bluetooth");
-  		else
+  		} else
   			this.radioModeLabel.setText("Mode: Wifi");
   	}
 	

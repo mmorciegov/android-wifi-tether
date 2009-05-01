@@ -431,11 +431,9 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
 		    	}
-		    	else if (key.equals("bluetoothon")) {
-		    		Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", false);
-		    		if (bluetoothOn)
-		    			application.coretask.getKernelVersion();
-		    	}
+//		    	else if (key.equals("bluetoothon")) {
+//		    		Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", false);
+//		    	}
 		    	Looper.loop();
 			}
 		}).start();

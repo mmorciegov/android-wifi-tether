@@ -1,6 +1,6 @@
 #!/system/bin/sh
 # blue-up.sh
-tetherpath="$(pwd)"
+tetherpath=/data/data/android.tether/
 tetherlog=$tetherpath/var/tether.log
 
 ifconfig bnep0 192.168.2.254 netmask 255.255.255.0 up >> $tetherlog 2>> $tetherlog
