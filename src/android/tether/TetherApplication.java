@@ -633,9 +633,9 @@ public class TetherApplication extends Application {
 			public void run(){
 				Looper.prepare();
 				String moduleFileName = "bnep-" + TetherApplication.this.coretask.getKernelVersion() +
-										".ko";
+										".ko.gz";
 				String downloadFileUrl = "http://android-wifi-tether.googlecode.com/svn/download/bluetooth/";
-				downloadFileUrl += moduleFileName + ".gz";
+				downloadFileUrl += moduleFileName;
 				String downloadLocation = "/sdcard/android.tether/bnep.ko.gz";
 				Message msg = Message.obtain();
             	msg.what = MainActivity.MESSAGE_DOWNLOAD_STARTING;
