@@ -84,7 +84,7 @@ public class CoreTask {
 		}
     }
     
-    public ArrayList<String> getWhitelist() throws Exception {
+    public ArrayList<String> getWhitelist() {
     	return readLinesFromFile(this.DATA_FILE_PATH+"/conf/whitelist_mac.conf");
     }    
     
@@ -105,7 +105,7 @@ public class CoreTask {
     }
 
     
-    public Hashtable<String,ClientData> getLeases() throws Exception {
+    public Hashtable<String,ClientData> getLeases() {
         Hashtable<String,ClientData> returnHash = new Hashtable<String,ClientData>();
         
         ClientData clientData;
@@ -134,26 +134,13 @@ public class CoreTask {
 		process = Runtime.getRuntime().exec("su");
         DataOutputStream os = new DataOutputStream(process.getOutputStream());
     	for (String tmpFilename : filenames) {
-    		os.writeBytes("chmod 4755 "+this.DATA_FILE_PATH+"/bin/"+tmpFilename+"\n");
+    		os.writeBytes("chmod 0755 "+this.DATA_FILE_PATH+"/bin/"+tmpFilename+"\n");
     	}
     	os.writeBytes("exit\n");
         os.flush();
         os.close();
         process.waitFor();
     }   
-    
-    public void chownBin(List<String> filenames) throws Exception {
-        Process process = null;
-		process = Runtime.getRuntime().exec("su");
-        DataOutputStream os = new DataOutputStream(process.getOutputStream());
-    	for (String tmpFilename : filenames) {
-    		os.writeBytes("chown 0.0 "+this.DATA_FILE_PATH+"/bin/"+tmpFilename+"\n");
-    	}
-    	os.writeBytes("exit\n");
-        os.flush();
-        os.close();
-        process.waitFor();
-    }
 
     public ArrayList<String> readLinesFromCmd(String command) {
     	Process process = null;

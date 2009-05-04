@@ -41,7 +41,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
@@ -64,6 +63,9 @@ public class TetherApplication extends Application {
 	
 	// Client-Connect-Thread
 	private Thread clientConnectThread = null;
+	private static final int CLIENT_CONNECT_ACDISABLED = 0;
+	private static final int CLIENT_CONNECT_AUTHORIZED = 1;
+	private static final int CLIENT_CONNECT_NOTAUTHORIZED = 2;
 	
 	// WifiManager
 	private WifiManager wifiManager;
@@ -71,9 +73,6 @@ public class TetherApplication extends Application {
 	// PowerManagement
 	private PowerManager powerManager = null;
 	private PowerManager.WakeLock wakeLock = null;
-	
-	// ConnectivityManager
-	private ConnectivityManager connectivityManager;
 	
 	// Preferences
 	public SharedPreferences settings = null;
@@ -143,9 +142,6 @@ public class TetherApplication extends Application {
         // Powermanagement
         powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "TETHER_WAKE_LOCK");
-        
-        // Connectivitymanager
-        connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
         
         // Original sync states
 		origTickleState = getBoolean(getContentResolver(), SETTING_LISTEN_FOR_TICKLES, true);
@@ -444,62 +440,37 @@ public class TetherApplication extends Application {
     Handler clientConnectHandler = new Handler() {
  	   public void handleMessage(Message msg) {
  		    ClientData clientData = (ClientData)msg.obj;
- 		   TetherApplication.this.showClientConnectNotification(clientData);
- 		    Log.d(MSG_TAG, "New client connected (access-control disabled) ==> "+clientData.getClientName()+" - "+clientData.getMacAddress());
+ 		   TetherApplication.this.showClientConnectNotification(clientData, msg.what);
  	   }
     };
     
-    public void showClientConnectNotification(ClientData clientData) {
- 	   	Notification clientConnectNotification = new Notification(R.drawable.secmedium, "Wifi Tether", System.currentTimeMillis());
+    public void showClientConnectNotification(ClientData clientData, int authType) {
+    	int notificationIcon = R.drawable.secmedium;
+    	String notificationString = "";
+    	switch (authType) {
+	    	case CLIENT_CONNECT_ACDISABLED :
+	    		notificationIcon = R.drawable.secmedium;
+	    		notificationString = "AC disabled";
+	    		break;
+	    	case CLIENT_CONNECT_AUTHORIZED :
+	    		notificationIcon = R.drawable.sechigh;
+	    		notificationString = "Authorized";
+	    		break;
+	    	case CLIENT_CONNECT_NOTAUTHORIZED :
+	    		notificationIcon = R.drawable.seclow;
+	    		notificationString = "Unauthorized";
+    	}
+		Log.d(MSG_TAG, "New (" + notificationString + ") client connected ==> "+clientData.getClientName()+" - "+clientData.getMacAddress());
+ 	   	Notification clientConnectNotification = new Notification(notificationIcon, "Wifi Tether", System.currentTimeMillis());
  	   	clientConnectNotification.tickerText = clientData.getClientName()+" ("+clientData.getMacAddress()+")";
  	   	if (!PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", "").equals("")){
  	   		clientConnectNotification.sound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", ""));
  	   	}
- 	   	clientConnectNotification.setLatestEventInfo(this, "Wifi Tether - AC disabled", clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
+ 	   	clientConnectNotification.setLatestEventInfo(this, "Wifi Tether - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
  	   	clientConnectNotification.flags = Notification.FLAG_AUTO_CANCEL;
  	   	this.notificationManager.notify(this.clientNotificationCount, clientConnectNotification);
  	   	this.clientNotificationCount++;
-    }
-    
-    Handler clientUnauthConnectHandler = new Handler() {
- 	   public void handleMessage(Message msg) {
- 		    ClientData clientData = (ClientData)msg.obj;
- 		    TetherApplication.this.showClientUnauthConnectNotification(clientData);
- 		    Log.d(MSG_TAG, "New client connected which is NOT authorized ==> "+clientData.getClientName()+" - "+clientData.getMacAddress());
- 	   }
-    };
-    
-    public void showClientUnauthConnectNotification(ClientData clientData) {
- 	   	Notification clientConnectNotification = new Notification(R.drawable.seclow, "Wifi Tether", System.currentTimeMillis());
- 	   	clientConnectNotification.tickerText = clientData.getClientName()+" ("+clientData.getMacAddress()+")";
- 	   	if (!PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", "").equals("")){
- 	   		clientConnectNotification.sound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", ""));
- 	   	}
- 	   	clientConnectNotification.setLatestEventInfo(this, "Wifi Tether - Unauthorized", clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
- 	   	clientConnectNotification.flags = Notification.FLAG_AUTO_CANCEL;
- 	   	this.notificationManager.notify(this.clientNotificationCount, clientConnectNotification);
- 	   	this.clientNotificationCount++;
-    }
-    
-    Handler clientAuthConnectHandler = new Handler() {
- 	   public void handleMessage(Message msg) {
- 		    ClientData clientData = (ClientData)msg.obj;
- 		   TetherApplication.this.showClientAuthConnectNotification(clientData);
- 		    Log.d(MSG_TAG, "New client connected which IS authorized ==> "+clientData.getClientName()+" - "+clientData.getMacAddress());
- 	   }
-    };
-    
-    public void showClientAuthConnectNotification(ClientData clientData) {
- 	   	Notification clientConnectNotification = new Notification(R.drawable.sechigh, "Wifi Tether", System.currentTimeMillis());
- 	   	clientConnectNotification.tickerText = clientData.getClientName()+" ("+clientData.getMacAddress()+")";
- 	   	if (!PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", "").equals("")){
- 	   		clientConnectNotification.sound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", ""));
- 	   	}
- 	   	clientConnectNotification.setLatestEventInfo(this, "Wifi Tether - Authorized", clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
- 	   	clientConnectNotification.flags = Notification.FLAG_AUTO_CANCEL;
- 	   	this.notificationManager.notify(this.clientNotificationCount, clientConnectNotification);
- 	   	this.clientNotificationCount++;
-    }      
+    }    
     
     public void recoverConfig() {
     	Hashtable<String,String> values = new Hashtable<String,String>();
@@ -580,11 +551,6 @@ public class TetherApplication extends Application {
 		    		TetherApplication.this.coretask.chmodBin(filenames);
 				} catch (Exception e) {
 					message = "Unable to change permission on binary files!";
-				}
-		    	try {
-		    		TetherApplication.this.coretask.chownBin(filenames);
-				} catch (Exception e) {
-					message = "Unable to change ownership on binary files!";
 				}
 		    	// dnsmasq.conf
 				if (message == null) {
@@ -735,7 +701,21 @@ public class TetherApplication extends Application {
     	    	}
     		}
     	}
-    }    
+    }
+    
+    public void restartSecuredWifi() {
+    	try {
+			if (this.coretask.isNatEnabled() && this.coretask.isProcessRunning("bin/dnsmasq")) {
+		    	Log.d(MSG_TAG, "Restarting iptables for access-control-changes!");
+				if (!this.coretask.runRootCommand("cd "+this.coretask.DATA_FILE_PATH+";./bin/tether restartsecwifi")) {
+					this.displayToastMessage("Unable to restart secured wifi!");
+					return;
+				}
+			}
+		} catch (Exception e) {
+			// nothing
+		}
+    }
     
     // Display Toast-Message
 	public void displayToastMessage(String message) {
@@ -814,12 +794,7 @@ public class TetherApplication extends Application {
                     // Checking whitelistfile
                     long currentTimestampWhitelistFile = TetherApplication.this.coretask.getModifiedDate(TetherApplication.this.coretask.DATA_FILE_PATH + "/conf/whitelist_mac.conf");
                     if (this.timestampWhitelistfile != currentTimestampWhitelistFile) {
-                        try {
-                            knownWhitelists = TetherApplication.this.coretask.getWhitelist();
-                        } catch (Exception e) {
-                            Log.d(MSG_TAG, "Unexpected error detected - Here is what I know: " + e.getMessage());
-                            e.printStackTrace();
-                        }
+                        knownWhitelists = TetherApplication.this.coretask.getWhitelist();
                         this.timestampWhitelistfile = currentTimestampWhitelistFile;
                     }
 		        }
@@ -852,12 +827,14 @@ public class TetherApplication extends Application {
 	                            	
 	                            	if (accessControlActive) {
 	                            		if (notificationType == 1 || notificationType == 2) {
-	                            			this.sendUnAuthClientMessage(this.currentLeases.get(mac));
+	                            			this.sendClientMessage(this.currentLeases.get(mac),
+	                            					CLIENT_CONNECT_NOTAUTHORIZED);
 	                            		}
 	                            	}
 	                            	else {
 	                            		if (notificationType == 2) {
-	                            			this.sendClientMessage(this.currentLeases.get(mac));
+	                            			this.sendClientMessage(this.currentLeases.get(mac),
+	                            					CLIENT_CONNECT_ACDISABLED);
 	                            		}
 	                            	}
 	                                this.knownLeases.add(mac);
@@ -868,7 +845,8 @@ public class TetherApplication extends Application {
 	                            	TetherApplication.this.addClientData(clientData);
 	                            	
 	                                if (notificationType == 2) {
-	                                    this.sendAuthClientMessage(this.currentLeases.get(mac));
+	                                    this.sendClientMessage(this.currentLeases.get(mac),
+	                                    		CLIENT_CONNECT_AUTHORIZED);
 	                                    this.knownLeases.add(mac);
 	                                }
 	                            }
@@ -896,22 +874,12 @@ public class TetherApplication extends Application {
         	}
         }
         
-        private void sendClientMessage(ClientData clientData) {
+        private void sendClientMessage(ClientData clientData, int connectType) {
             Message m = new Message();
             m.obj = clientData;
+            m.what = connectType;
             TetherApplication.this.clientConnectHandler.sendMessage(m);
         }
 
-        private void sendUnAuthClientMessage(ClientData clientData) {
-            Message m = new Message();
-            m.obj = clientData;
-            TetherApplication.this.clientUnauthConnectHandler.sendMessage(m);
-        }
-
-        private void sendAuthClientMessage(ClientData clientData) {
-            Message m = new Message();
-            m.obj = clientData;
-            TetherApplication.this.clientAuthConnectHandler.sendMessage(m);
-        }
     }
 }

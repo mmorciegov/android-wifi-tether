@@ -332,7 +332,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			if (whitelistFileExists == false) {
 		    				try {
 								application.coretask.touchWhitelist();
-								SetupActivity.this.restartSecuredWifi();
+								application.restartSecuredWifi();
 								message = "Access Control enabled.";
 		    				} catch (IOException e) {
 		    					message = "Unable to touch 'whitelist_mac.conf'.";
@@ -342,7 +342,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		else {
 		    			if (whitelistFileExists == true) {
 		    				application.coretask.removeWhitelist();
-		    				SetupActivity.this.restartSecuredWifi();
+		    				application.restartSecuredWifi();
 		    				message = "Access Control disabled.";
 		    			}
 		    		}
@@ -437,20 +437,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    	Looper.loop();
 			}
 		}).start();
-    }
-    
-    private void restartSecuredWifi() {
-    	try {
-			if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
-		    	Log.d(MSG_TAG, "Restarting iptables for access-control-changes!");
-				if (!application.coretask.runRootCommand("cd "+application.coretask.DATA_FILE_PATH+";./bin/tether restartsecwifi")) {
-					this.application.displayToastMessage("Unable to restart secured wifi!");
-					return;
-				}
-			}
-		} catch (Exception e) {
-			// nothing
-		}
     }
     
     private void updatePreferences() {

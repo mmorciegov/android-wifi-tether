@@ -190,7 +190,6 @@ case "$1" in
       startpand
       startipt
       startipfw
-      startsecnat
     ;;
     *)
       startwifi
