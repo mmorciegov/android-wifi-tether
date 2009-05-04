@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -96,6 +98,7 @@ public class TetherApplication extends Application {
     
 	// Original States
 	private static boolean origWifiState = false;
+	private static boolean origBluetoothState = false;
 	public static boolean origTickleState = false;
 	public static boolean origBackState = false;	
 	
@@ -189,47 +192,85 @@ public class TetherApplication extends Application {
 		this.clientDataAddList = new ArrayList<ClientData>();
 		this.clientMacRemoveList = new ArrayList<String>();
 	}
+
+/*
+ * Bluetooth API is not exposed publicly, so we need to use reflection
+ * to query and set the configuration.
+ */
+	public Object callBluetoothMethod(String methodName) {
+    	Object manager = getSystemService("bluetooth");
+    	Class c = manager.getClass();
+    	Object returnValue = null;
+    	if (c == null) {
+    		Log.d(MSG_TAG, "Cant get BT manager");
+    	} else {
+        	try {
+	        	Method enable = c.getMethod(methodName);
+	        	enable.setAccessible(true);
+	        	returnValue = enable.invoke(manager);
+	        } catch (NoSuchMethodException e){
+	        		Log.d(MSG_TAG, "No such method: " + e);
+		    } catch (InvocationTargetException e) {
+		    		Log.d(MSG_TAG, "Invocation target exception: " + e.getTargetException().getMessage());
+		    		//pass
+		    } catch (IllegalAccessException e) {
+		    		Log.d(MSG_TAG, "Illegal access: " + e);
+		    		//pass
+		    }
+	    }
+    	return returnValue;
+	}
+	
+	public boolean enableBluetooth() {
+		boolean connected = false;
+		int checkcounter = 0;
+		
+		origBluetoothState = (Boolean) callBluetoothMethod("isEnabled");
+		if (origBluetoothState == false) {
+			callBluetoothMethod("enable");
+			while (connected == false && checkcounter <= 10) {
+				// Wait up to 10s for bluetooth to come up.
+				// pand does not behave unless started after BT is enabled.
+				connected = (Boolean) callBluetoothMethod("isEnabled");
+				if (connected == false) {
+					checkcounter++;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						//
+					}
+				} else {
+					break;
+				}
+			}
+			if (connected == false)
+				Log.d(MSG_TAG, "Enable bluetooth failed");
+		} else {
+			connected = true;
+		}
+		return connected;
+	}
 	
 	// Start/Stop Tethering
     public int startTether() {
     	/*
     	 * ReturnCodes:
     	 *    0 = All OK, Service started
-    	 *    1 = Mobile-Data-Connection not established
+    	 *    1 = Mobile-Data-Connection not established (not used at the moment)
     	 *    2 = Fatal error 
     	 */
     	this.acquireWakeLock();
-    	boolean connected = false;
-    	int checkcounter = 0;
-    	while (connected == false && checkcounter <= 5) {
-	    	NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-	        if (networkInfo != null) {
-		    	if (networkInfo != null && networkInfo.getState().equals(NetworkInfo.State.CONNECTED) == true) {
-		    		connected = true;
-		    	}
-	        }
-	        if (connected == false) {
-		    	checkcounter++;
-	        	try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// nothing
-				}
-	        }
-	        else {
-	        	break;
-	        }
-    	}
-        if (connected == false) {
-        	return 1;
-        }
+
         // Updating dnsmasq-Config
         this.coretask.updateDnsmasqConf();
         
         String bluetooth = "";
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
-        	bluetooth = " bluetooth";
-        	
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false)) {
+    		if (enableBluetooth() == false)
+    			return 2;
+	        bluetooth = " bluetooth";
+        }
+
     	// Starting service
     	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + bluetooth)) {
     		// Starting client-Connect-Thread	
@@ -250,8 +291,14 @@ public class TetherApplication extends Application {
     	}
     	
         String bluetooth = "";
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false)) {
+        	if (origBluetoothState == false) {
+            	Log.d(MSG_TAG, "Re-disabling bluetooth");
+        		callBluetoothMethod("disable");
+        	}
         	bluetooth = " bluetooth";
+        }
+
         
     	boolean stopped = this.coretask.runRootCommand(
     			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + bluetooth);
