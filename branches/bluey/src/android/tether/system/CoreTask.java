@@ -13,11 +13,13 @@
 package android.tether.system;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -144,26 +146,28 @@ public class CoreTask {
 
     public ArrayList<String> readLinesFromCmd(String command) {
     	Process process = null;
-    	BufferedReader in = null;
+    	InputStream stderr = null;
+    	InputStream stdout = null;
+    	String line;
+    	
     	ArrayList<String> lines = new ArrayList<String>();
     	Log.d(MSG_TAG, "Reading lines from command: " + command);
     	try {
     		process = Runtime.getRuntime().exec(command);
-    		in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    		String line = null;
-    		while ((line = in.readLine()) != null) {
+    		stderr = process.getErrorStream();
+    		stdout = process.getInputStream();
+    		BufferedReader inputBr = new BufferedReader(new InputStreamReader(stdout));
+    		while ((line = inputBr.readLine()) != null) {
     			lines.add(line.trim());
     		}
-    		in.close();
+    		BufferedReader errBr = new BufferedReader(new InputStreamReader(stderr));
+    		while ((line = errBr.readLine()) != null);
     		process.waitFor();
     	} catch (Exception e) {
     		Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
     	}
     	finally {
 			try {
-				if (in != null) {
-					in.close();
-				}
 				process.destroy();
 			} catch (Exception e) {
 				// nothing
@@ -175,10 +179,12 @@ public class CoreTask {
     public ArrayList<String> readLinesFromFile(String filename) {
     	String line = null;
     	BufferedReader br = null;
+    	InputStream ins = null;
     	ArrayList<String> lines = new ArrayList<String>();
     	Log.d(MSG_TAG, "Reading lines from file: " + filename);
     	try {
-    		br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(filename))));
+    		ins = new FileInputStream(new File(filename));
+    		br = new BufferedReader(new InputStreamReader(ins));
     		while((line = br.readLine())!=null) {
     			lines.add(line.trim());
     		}
@@ -187,6 +193,7 @@ public class CoreTask {
     	}
     	finally {
     		try {
+    			ins.close();
     			br.close();
     		} catch (Exception e) {
     			// Nothing.
@@ -270,17 +277,28 @@ public class CoreTask {
 		}
 		return rooted;
     }
+
     
     public boolean runRootCommand(String command) {
         Process process = null;
         DataOutputStream os = null;
+        InputStream inStream = null;
+        InputStream errStream = null;
+
 		try {
+	        Log.d(MSG_TAG, "Execute command: "+command);
 			process = Runtime.getRuntime().exec("su");
 	        os = new DataOutputStream(process.getOutputStream());
-	        Log.d(MSG_TAG, "Execute command: "+command);
+	        inStream = process.getInputStream();
+	        errStream = process.getErrorStream();
+    		BufferedReader errBr = new BufferedReader(new InputStreamReader(errStream));
+    		BufferedReader inBr = new BufferedReader(new InputStreamReader(inStream));
 	        os.writeBytes(command+"\n");
 	        os.writeBytes("exit\n");
+    		while (inBr.readLine() != null);
+    		while (errBr.readLine() != null);
 	        os.flush();
+	        os.close();
 	        process.waitFor();
 		} catch (Exception e) {
 			Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
@@ -288,9 +306,12 @@ public class CoreTask {
 		}
 		finally {
 			try {
-				if (os != null) {
+				if (os != null)
 					os.close();
-				}
+				if (inStream != null)
+					inStream.close();
+				if (errStream != null)
+					errStream.close();
 				process.destroy();
 			} catch (Exception e) {
 				// nothing
