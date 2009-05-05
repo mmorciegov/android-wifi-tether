@@ -255,7 +255,6 @@ public class TetherApplication extends Application {
     	 *    1 = Mobile-Data-Connection not established (not used at the moment)
     	 *    2 = Fatal error 
     	 */
-    	this.acquireWakeLock();
 
         // Updating dnsmasq-Config
         this.coretask.updateDnsmasqConf();
@@ -275,6 +274,7 @@ public class TetherApplication extends Application {
 	    		this.clientConnectThread = new Thread(new ClientConnect());
 	            this.clientConnectThread.start(); 
     		}
+        	this.acquireWakeLock();
     		return 0;
     	}
     	return 2;
