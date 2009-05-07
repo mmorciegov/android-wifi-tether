@@ -40,15 +40,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.tether.data.ClientData;
 import android.tether.system.CoreTask;
@@ -71,6 +68,7 @@ public class TetherApplication extends Application {
 	
 	// WifiManager
 	private WifiManager wifiManager;
+	public String tetherNetworkDevice = "";
 	
 	// PowerManagement
 	private PowerManager powerManager = null;
@@ -266,7 +264,9 @@ public class TetherApplication extends Application {
     		if (enableBluetooth() == false)
     			return 2;
 	        bluetooth = " bluetooth";
-        }
+	        this.tetherNetworkDevice = "bnep0";
+        } else
+        	this.tetherNetworkDevice = "tiwlan0";
 
     	// Starting service
     	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + bluetooth)) {
@@ -787,7 +787,6 @@ public class TetherApplication extends Application {
 
         // @Override
         public void run() {
-        	Looper.prepare();
             while (!Thread.currentThread().isInterrupted()) {
             	Log.d(MSG_TAG, "Checking for new clients ... ");
             	// Notification-Type
@@ -803,6 +802,8 @@ public class TetherApplication extends Application {
                         this.timestampWhitelistfile = currentTimestampWhitelistFile;
                     }
 		        }
+		        // Check data count
+		        TetherApplication.this.coretask.getDataTraffic(TetherApplication.this.tetherNetworkDevice);
                 // Checking leasefile
                 long currentTimestampLeaseFile = TetherApplication.this.coretask.getModifiedDate(TetherApplication.this.coretask.DATA_FILE_PATH + "/var/dnsmasq.leases");
                 if (this.timestampLeasefile != currentTimestampLeaseFile) {
@@ -870,7 +871,7 @@ public class TetherApplication extends Application {
                     Thread.currentThread().interrupt();
                 }
             }
-            Looper.loop();
+            Log.d(MSG_TAG, "Stopping client checker.");
         }
 
         private void notifyActivity(){
