@@ -13,8 +13,6 @@
 package android.tether.system;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,9 +35,15 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "9";
+	private static final String FILESET_VERSION = "10";
 	private static final String defaultDNS1 = "208.67.220.220";
 	private static final String defaultDNS2 = "208.67.222.222";
+	
+	private ExecuteProcess executeProcess;
+	
+	public CoreTask() {
+		this.executeProcess = new ExecuteProcess();
+	}
 	
 	public void setPath(String path){
 		this.DATA_FILE_PATH = path;
@@ -107,7 +111,7 @@ public class CoreTask {
     }
 
     
-    public Hashtable<String,ClientData> getLeases() {
+    public Hashtable<String,ClientData> getLeases() throws Exception {
         Hashtable<String,ClientData> returnHash = new Hashtable<String,ClientData>();
         
         ClientData clientData;
@@ -131,49 +135,19 @@ public class CoreTask {
     	return returnHash;
     }
  
-    public void chmodBin(List<String> filenames) throws Exception {
-        Process process = null;
-		process = Runtime.getRuntime().exec("su");
-        DataOutputStream os = new DataOutputStream(process.getOutputStream());
+    public boolean chmodBin(List<String> filenames) {
     	for (String tmpFilename : filenames) {
-    		os.writeBytes("chmod 0755 "+this.DATA_FILE_PATH+"/bin/"+tmpFilename+"\n");
+    		this.executeProcess.execute("chmod 0755 "+this.DATA_FILE_PATH+"/bin/"+tmpFilename, true, 2000);
+    		if (this.executeProcess.getExitCode() != 0) {
+    			return false;
+    		}
     	}
-    	os.writeBytes("exit\n");
-        os.flush();
-        os.close();
-        process.waitFor();
+    	return true;
     }   
 
     public ArrayList<String> readLinesFromCmd(String command) {
-    	Process process = null;
-    	InputStream stderr = null;
-    	InputStream stdout = null;
-    	String line;
-    	
-    	ArrayList<String> lines = new ArrayList<String>();
-    	Log.d(MSG_TAG, "Reading lines from command: " + command);
-    	try {
-    		process = Runtime.getRuntime().exec(command);
-    		stderr = process.getErrorStream();
-    		stdout = process.getInputStream();
-    		BufferedReader inputBr = new BufferedReader(new InputStreamReader(stdout));
-    		while ((line = inputBr.readLine()) != null) {
-    			lines.add(line.trim());
-    		}
-    		BufferedReader errBr = new BufferedReader(new InputStreamReader(stderr));
-    		while ((line = errBr.readLine()) != null);
-    		process.waitFor();
-    	} catch (Exception e) {
-    		Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
-    	}
-    	finally {
-			try {
-				process.destroy();
-			} catch (Exception e) {
-				// nothing
-			}
-    	}
-    	return lines;
+		this.executeProcess.execute(command, false, 2000);
+		return this.executeProcess.getStdOutLines();
     }
     
     public ArrayList<String> readLinesFromFile(String filename) {
@@ -184,7 +158,7 @@ public class CoreTask {
     	Log.d(MSG_TAG, "Reading lines from file: " + filename);
     	try {
     		ins = new FileInputStream(new File(filename));
-    		br = new BufferedReader(new InputStreamReader(ins));
+    		br = new BufferedReader(new InputStreamReader(ins), 8192);
     		while((line = br.readLine())!=null) {
     			lines.add(line.trim());
     		}
@@ -225,18 +199,17 @@ public class CoreTask {
     }
     
     public boolean isNatEnabled() {
-    	
     	ArrayList<String> lines = readLinesFromFile("/proc/sys/net/ipv4/ip_forward");
     	return lines.contains("1");
     }
     
     public String getKernelVersion() {
-    	ArrayList<String> lines = readLinesFromFile("/proc/version");
-    	String version = lines.get(0).split(" ")[2];
-    	Log.d(MSG_TAG, "Kernel version: " + version);
-    	return version;
+        ArrayList<String> lines = readLinesFromFile("/proc/version");
+        String version = lines.get(0).split(" ")[2];
+        Log.d(MSG_TAG, "Kernel version: " + version);
+        return version;
     }
-    
+
     public boolean isProcessRunning(String processName) throws Exception {
     	
     	ArrayList<String> lines = readLinesFromCmd("ps");
@@ -248,83 +221,47 @@ public class CoreTask {
     }
 
     public boolean hasRootPermission() {
-    	Process process = null;
-    	DataOutputStream os = null;
     	boolean rooted = true;
 		try {
-			process = Runtime.getRuntime().exec("su");
-	        os = new DataOutputStream(process.getOutputStream());
-	        os.writeBytes("exit\n");
-	        os.flush();	        
-	        process.waitFor();
-	        Log.d(MSG_TAG, "Exit-Value ==> "+process.exitValue());
-	        if (process.exitValue() != 0) {
-	        	rooted = false;
-	        }
+			this.executeProcess.execute("", true, 5000);
+			Log.d(MSG_TAG, "Exit-Value ==> "+this.executeProcess.getExitCode());
+			if (this.executeProcess.getExitCode() != 0) {
+				rooted = false;
+			}
 		} catch (Exception e) {
 			Log.d(MSG_TAG, "Can't obtain root - Here is what I know: "+e.getMessage());
 			rooted = false;
 		}
-		finally {
-			if (os != null) {
-				try {
-					os.close();
-					process.destroy();
-				} catch (Exception e) {
-					// nothing
-				}
-			}
-		}
 		return rooted;
     }
-
     
     public boolean runRootCommand(String command) {
-        Process process = null;
-        DataOutputStream os = null;
-        InputStream inStream = null;
-        InputStream errStream = null;
-
-		try {
-	        Log.d(MSG_TAG, "Execute command: "+command);
-			process = Runtime.getRuntime().exec("su");
-	        os = new DataOutputStream(process.getOutputStream());
-	        inStream = process.getInputStream();
-	        errStream = process.getErrorStream();
-    		BufferedReader errBr = new BufferedReader(new InputStreamReader(errStream));
-    		BufferedReader inBr = new BufferedReader(new InputStreamReader(inStream));
-	        os.writeBytes(command+"\n");
-	        os.writeBytes("exit\n");
-    		while (inBr.readLine() != null);
-    		while (errBr.readLine() != null);
-	        os.flush();
-	        os.close();
-	        process.waitFor();
-		} catch (Exception e) {
-			Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
-			return false;
+		this.executeProcess.execute(command, true, 10000);
+		Log.d(MSG_TAG, "Return-Value ==> "+this.executeProcess.getExitCode());
+		if (this.executeProcess.getExitCode() == 0) {
+			return true;
 		}
-		finally {
-			try {
-				if (os != null)
-					os.close();
-				if (inStream != null)
-					inStream.close();
-				if (errStream != null)
-					errStream.close();
-				process.destroy();
-			} catch (Exception e) {
-				// nothing
-			}
-		}
-		return true;
+		return false;
     }
-
+    
     public String getProp(String property) {
     	ArrayList<String> lines = readLinesFromCmd("getprop " + property);
     	if (lines.size() > 0)
     		return lines.get(0);
     	return "";
+    }
+    
+    public int[] getDataTraffic(String device) {
+    	int [] dataCount = new int[2];
+    	for (String line : readLinesFromFile("/proc/net/dev")) {
+    		if (line.startsWith(device) == false)
+    			continue;
+    		String[] values = line.split(" +");
+    		dataCount[0] = Integer.parseInt(values[1]);
+    		dataCount[1] = Integer.parseInt(values[9]);
+    	}
+    	Log.d(MSG_TAG, "Data rx: " + dataCount[0] + ", tx: " + dataCount[1]);
+    	return dataCount;
     }
 
     
