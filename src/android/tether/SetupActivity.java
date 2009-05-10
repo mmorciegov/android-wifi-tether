@@ -22,11 +22,12 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -100,6 +101,10 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 	        	}
 	        }
         });
+		Boolean bluetoothOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
+		Message msg = Message.obtain();
+		msg.what = bluetoothOn ? 0 : 1;
+		SetupActivity.this.setWifiPrefsEnableHandler.sendMessage(msg);
     }
 	
     @Override
@@ -166,7 +171,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private void updateConfiguration(final SharedPreferences sharedPreferences, final String key) {
     	new Thread(new Runnable(){
 			public void run(){
-				Looper.prepare();
 			   	String message = null;
 		    	if (key.equals("ssidpref")) {
 		    		String newSSID = sharedPreferences.getString("ssidpref", "G1Tether");
@@ -398,15 +402,19 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    	else if (key.equals("passphrasepref")) {
 		    		String passphrase = sharedPreferences.getString("passphrasepref", DEFAULT_PASSPHRASE);
 		    		if (passphrase.equals(SetupActivity.this.currentPassphrase) == false) {
-		    			Hashtable<String,String> values = new Hashtable<String,String>();
-		    			values.put("wep_key0", "\""+passphrase+"\"");
-		    			application.coretask.writeWpaSupplicantConf(values);
+		    			if (application.coretask.wpaSupplicantExists()) {
+		    				Hashtable<String,String> values = new Hashtable<String,String>();
+		    				values.put("wep_key0", "\""+passphrase+"\"");
+		    				application.coretask.writeWpaSupplicantConf(values);
+		    			}
 		    			
 		    			message = "Passphrase changed to '"+passphrase+"'.";
 		    			SetupActivity.this.currentPassphrase = passphrase;
 			    		// Restarting
 						try{
-							if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
+							if (application.coretask.isNatEnabled() &&
+								application.coretask.isProcessRunning("bin/dnsmasq") &&
+								application.coretask.wpaSupplicantExists()) {
 				    			// Show RestartDialog
 				    			SetupActivity.this.showRestartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
@@ -431,10 +439,12 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
 		    	}
-//		    	else if (key.equals("bluetoothon")) {
-//		    		Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", false);
-//		    	}
-		    	Looper.loop();
+		    	else if (key.equals("bluetoothon")) {
+		    		Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", false);
+		    		Message msg = Message.obtain();
+		    		msg.what = bluetoothOn ? 0 : 1;
+		    		SetupActivity.this.setWifiPrefsEnableHandler.sendMessage(msg);
+		    	}
 			}
 		}).start();
     }
@@ -474,6 +484,16 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         // Sync-Status
         this.application.preferenceEditor.commit(); 
     }
+    
+    Handler  setWifiPrefsEnableHandler = new Handler() {
+    	public void handleMessage(Message msg) {
+			PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
+			PreferenceGroup securityGroup = (PreferenceGroup)findPreference("securityprefs");
+			wifiGroup.setEnabled(msg.what == 1);
+			securityGroup.setEnabled(msg.what == 1);
+        	super.handleMessage(msg);
+    	}
+    };
     
     private String getTiWlanConfValue(String name) {
     	if (this.tiWlanConf != null && this.tiWlanConf.containsKey(name)) {

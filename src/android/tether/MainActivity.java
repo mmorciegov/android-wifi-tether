@@ -49,6 +49,13 @@ public class MainActivity extends Activity {
 	private ProgressBar progressBar = null;
 	private RelativeLayout downloadUpdateLayout = null;
 	
+	private RelativeLayout trafficRow = null;
+	private TextView downloadText = null;
+	private TextView uploadText = null;
+	private Thread TrafficCounterThread = null;
+	public int totalDownTraffic = 0;
+	public int totalUpTraffic = 0;
+	
 	private TableRow startTblRow = null;
 	private TableRow stopTblRow = null;
 	
@@ -62,6 +69,9 @@ public class MainActivity extends Activity {
 	public static final int MESSAGE_DOWNLOAD_COMPLETE = 5;
 	public static final int MESSAGE_DOWNLOAD_BLUETOOTH_COMPLETE = 6;
 	public static final int MESSAGE_DOWNLOAD_BLUETOOTH_FAILED = 7;
+	public static final int MESSAGE_TRAFFIC_START = 8;
+	public static final int MESSAGE_TRAFFIC_COUNT = 9;
+	public static final int MESSAGE_TRAFFIC_END = 10;
 	
 	public static final String MSG_TAG = "TETHER -> MainActivity";
 	public static MainActivity currentInstance = null;
@@ -89,6 +99,10 @@ public class MainActivity extends Activity {
         this.progressText = (TextView)findViewById(R.id.progressText);
         this.progressTitle = (TextView)findViewById(R.id.progressTitle);
         this.downloadUpdateLayout = (RelativeLayout)findViewById(R.id.layoutDownloadUpdate);
+        
+        this.trafficRow = (RelativeLayout)findViewById(R.id.trafficRow);
+        this.downloadText = (TextView)findViewById(R.id.trafficDown);
+        this.uploadText = (TextView)findViewById(R.id.trafficUp);
 
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
@@ -124,13 +138,11 @@ public class MainActivity extends Activity {
 		    	showDialog(MainActivity.ID_DIALOG_STARTING);
 				new Thread(new Runnable(){
 					public void run(){
-						MainActivity.this.application.disableWifi();
-						if (MainActivity.this.application.isSyncDisabled()){
-							MainActivity.this.application.disableSync();
-						}
 						int started = MainActivity.this.application.startTether();
+						MainActivity.this.totalDownTraffic = 0;
+						MainActivity.this.totalUpTraffic = 0;
 						MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STARTING);
-						Message message = new Message();
+						Message message = Message.obtain();
 						if (started != 0) {
 							message.what = started;
 						}
@@ -157,7 +169,7 @@ public class MainActivity extends Activity {
 		});			
 		this.toggleStartStop();
     }
-    
+	
 	public void onStop() {
     	Log.d(MSG_TAG, "Calling onStop()");
 		super.onStop();
@@ -250,6 +262,23 @@ public class MainActivity extends Activity {
         		MainActivity.this.application.displayToastMessage("Unable to start tethering!");
             	MainActivity.this.toggleStartStop();
             	break;
+        	case MESSAGE_TRAFFIC_START :
+        		MainActivity.this.trafficRow.setVisibility(View.VISIBLE);
+        		break;
+        	case MESSAGE_TRAFFIC_COUNT :
+	        	MainActivity.this.totalUpTraffic = msg.arg1;
+	        	MainActivity.this.totalDownTraffic = msg.arg2;
+
+        		MainActivity.this.uploadText.setText(MainActivity.this.formatCount(
+        				MainActivity.this.totalUpTraffic));
+        		MainActivity.this.downloadText.setText(MainActivity.this.formatCount(
+        				MainActivity.this.totalDownTraffic));
+        		MainActivity.this.downloadText.invalidate();
+        		MainActivity.this.uploadText.invalidate();
+        		break;
+        	case MESSAGE_TRAFFIC_END :
+        		MainActivity.this.trafficRow.setVisibility(View.INVISIBLE);
+        		break;
         	case MESSAGE_DOWNLOAD_STARTING :
         		Log.d(MSG_TAG, "Start progress bar");
         		MainActivity.this.progressBar.setIndeterminate(true);
@@ -303,28 +332,40 @@ public class MainActivity extends Activity {
 			MainActivity.this.application.displayToastMessage("Unable to check if pand is currently running!");
 		}
     	boolean natEnabled = this.application.coretask.isNatEnabled();
-    	boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
+    	boolean usingBluetooth = this.application.settings.getBoolean("bluetoothon", false);
     	if ((dnsmasqRunning == true && natEnabled == true) ||
     			(usingBluetooth == true && pandRunning == true)){
     		this.startTblRow.setVisibility(View.GONE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
+    		trafficCounterEnable(true);
     		// Notification
     		this.application.showStartNotification();
     	}
     	else if (dnsmasqRunning == false && natEnabled == false) {
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.GONE);
-    		
+	    	trafficCounterEnable(false);
     		// Notification
         	this.application.notificationManager.cancelAll();
     	}   	
     	else {
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
+    		trafficCounterEnable(true);
     		MainActivity.this.application.displayToastMessage("Your phone is currently in an unknown state - try to reboot!");
     	}
     	this.showRadioMode();
     }
+   
+	private String formatCount(int count) {
+		// Converts the supplied argument into a string.
+		// Under 2Mb, returns "xxx.xKb"
+		// Over 2Mb, returns "xxx.xxMb"
+		float countFloat = (float)count;
+		if (countFloat < 1e6 * 2)
+			return ((float)((int)(countFloat*10/1024))/10 + "Kb");
+		return ((float)((int)(countFloat*100/1024/1024))/100 + "Mb");
+	}
   
    	private void openNotRootDialog() {
 		LayoutInflater li = LayoutInflater.from(this);
@@ -422,7 +463,7 @@ public class MainActivity extends Activity {
    	}
 
   	private void showRadioMode() {
-  		boolean usingBluetooth = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
+  		boolean usingBluetooth = this.application.settings.getBoolean("bluetoothon", false);
   		if (usingBluetooth) {
   			String bnepLocation = this.application.findBnepModule();
   			if (bnepLocation == "") {
@@ -452,6 +493,48 @@ public class MainActivity extends Activity {
                 }
         })
         .show();
+   	}
+   	
+   	private void trafficCounterEnable(boolean enable) {
+		// Traffic counter
+   		if (enable == true) {
+			if (this.TrafficCounterThread == null || this.TrafficCounterThread.isAlive() == false) {
+				this.TrafficCounterThread = new Thread(new TrafficCounter());
+				this.TrafficCounterThread.start();
+			}
+   		} else {
+			// Traffic counter
+	    	if (this.TrafficCounterThread != null)
+	    		this.TrafficCounterThread.interrupt();
+   		}
+   	}
+   	
+   	class TrafficCounter implements Runnable {  	
+   		//TODO: End the thread when the Activity closes (only run when open)
+   		public void run() {
+			Message message = Message.obtain();
+			message.what = MESSAGE_TRAFFIC_START;
+			MainActivity.this.viewUpdateHandler.sendMessage(message); 
+			
+   			while (!Thread.currentThread().isInterrupted()) {
+		        // Check data count
+		        int [] trafficCount = MainActivity.this.application.coretask.getDataTraffic(
+		        		MainActivity.this.application.tetherNetworkDevice);
+				message = Message.obtain();
+				message.what = MESSAGE_TRAFFIC_COUNT;
+				message.arg1 = trafficCount[0];
+				message.arg2 = trafficCount[1];
+				MainActivity.this.viewUpdateHandler.sendMessage(message); 
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+   			}
+			message = Message.obtain();
+			message.what = MESSAGE_TRAFFIC_END;
+			MainActivity.this.viewUpdateHandler.sendMessage(message); 
+   		}
    	}
 }
 
