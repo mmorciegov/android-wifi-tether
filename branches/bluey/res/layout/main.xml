@@ -42,12 +42,62 @@
 		    android:textStyle="bold"
 			android:textColor="#ffffff"
 		    />
-	</RelativeLayout>
-    
+	
+</RelativeLayout>
+	<RelativeLayout android:id="@+id/trafficRow"
+		android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:visibility="invisible"
+	    android:layout_height="60dp">
+	    <TextView
+	    	android:id="@+id/trafficDownLabel"
+			android:padding="3dip"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:textSize="16sp"
+			android:text="Down"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold" android:typeface="normal"/>
+		<TextView
+			android:id="@+id/trafficUpLabel"
+			android:padding="3dip"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:text="Up"
+			android:textSize="16sp"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+			
+		<TextView
+			android:padding="3dip"
+			android:id="@+id/trafficDown"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_below="@+id/trafficDownLabel"
+			android:textSize="24sp"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+		<TextView
+			android:padding="3dip"
+			android:id="@+id/trafficUp"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/trafficUpLabel"
+			android:textSize="24sp"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+    </RelativeLayout>
 	<ScrollView android:id="@+id/mainview" 
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
 		android:layout_height="fill_parent">
+
 		<TableLayout android:id="@+id/mainLayout"
 			android:layout_gravity="center"
 			android:layout_height="wrap_content" 
@@ -111,6 +161,8 @@
                         </TableRow>
                 </TableLayout>
             </TableRow>
-		</TableLayout>
-	</ScrollView>	    
+		
+</TableLayout>
+	
+</ScrollView>	    
 </LinearLayout>

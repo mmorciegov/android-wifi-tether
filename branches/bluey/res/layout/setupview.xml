@@ -6,9 +6,15 @@
                android:key="bluetoothon"
                android:title="Use Bluetooth"
                android:summary="Bluetooth tether instead of WiFi" />
+       <CheckBoxPreference
+               android:key="bluetoothkeepwifi"
+               android:dependency="bluetoothon"
+               android:title="Dont disable WiFi"
+               android:summary="Leave WiFi state alone" />
     </PreferenceCategory>
     
-	<PreferenceCategory android:title="Security">
+	<PreferenceCategory android:title="Security"
+		android:key="securityprefs">
 	    <CheckBoxPreference  
 			android:key="encpref"  
 			android:title="Enable WiFi-Encryption"  
@@ -28,7 +34,8 @@
 			android:title="Enable Access-Control"  
 			android:summary="Turn on access-control" /> 	
 	</PreferenceCategory>
-	<PreferenceCategory android:title="Wifi">
+	<PreferenceCategory android:title="Wifi"
+		android:key="wifiprefs">
 		<EditTextPreference  
 			android:key="ssidpref"  
 			android:title="Change SSID"  

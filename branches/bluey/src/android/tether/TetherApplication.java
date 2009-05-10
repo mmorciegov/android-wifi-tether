@@ -129,7 +129,7 @@ public class TetherApplication extends Application {
 		
         // Check Homedir, or create it
         this.checkDirs(); 
-		
+        
         // Preferences
 		this.settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
@@ -258,18 +258,24 @@ public class TetherApplication extends Application {
 
         // Updating dnsmasq-Config
         this.coretask.updateDnsmasqConf();
-        
-        String bluetooth = "";
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false)) {
+
+        boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
+        boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
+
+        if (bluetoothPref) {
     		if (enableBluetooth() == false)
     			return 2;
-	        bluetooth = " bluetooth";
 	        this.tetherNetworkDevice = "bnep0";
-        } else
+			if (bluetoothWifi == false)
+				this.disableWifi();
+        } else {
         	this.tetherNetworkDevice = "tiwlan0";
+        	this.disableWifi();
+        }
 
     	// Starting service
-    	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + bluetooth)) {
+    	if (this.coretask.runRootCommand(
+    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + (bluetoothPref ? " bluetooth" : ""))) {
     		// Starting client-Connect-Thread	
     		
     		if (this.clientConnectThread == null || this.clientConnectThread.isAlive() == false) {
@@ -277,6 +283,10 @@ public class TetherApplication extends Application {
 	            this.clientConnectThread.start(); 
     		}
         	this.acquireWakeLock();
+        	
+			if (this.isSyncDisabled())
+				this.disableSync();
+
     		return 0;
     	}
     	return 2;
@@ -287,21 +297,20 @@ public class TetherApplication extends Application {
     	if (this.clientConnectThread != null && this.clientConnectThread.isAlive()) {
     		this.clientConnectThread.interrupt();
     	}
-    	
-        String bluetooth = "";
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false)) {
-        	if (origBluetoothState == false) {
-            	Log.d(MSG_TAG, "Re-disabling bluetooth");
-        		callBluetoothMethod("disable");
-        	}
-        	bluetooth = " bluetooth";
-        }
 
+        boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
+        boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
         
     	boolean stopped = this.coretask.runRootCommand(
-    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + bluetooth);
+    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + (bluetoothPref ? " bluetooth" : ""));
 		this.notificationManager.cancelAll();
-    	this.enableWifi();
+		
+		// Put WiFi and Bluetooth back, if applicable.
+		if (bluetoothPref && origBluetoothState == false)
+			callBluetoothMethod("disable");
+		if (bluetoothPref == false || bluetoothWifi == false) {
+			this.enableWifi();
+		}
 		this.enableSync();
 		return stopped;
     }
@@ -465,12 +474,12 @@ public class TetherApplication extends Application {
 		Log.d(MSG_TAG, "New (" + notificationString + ") client connected ==> "+clientData.getClientName()+" - "+clientData.getMacAddress());
  	   	Notification clientConnectNotification = new Notification(notificationIcon, "Wifi Tether", System.currentTimeMillis());
  	   	clientConnectNotification.tickerText = clientData.getClientName()+" ("+clientData.getMacAddress()+")";
- 	   	if (!PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", "").equals("")){
- 	   		clientConnectNotification.sound = Uri.parse(PreferenceManager.getDefaultSharedPreferences(this).getString("notifyring", ""));
- 	   	}
+ 	   	if (!this.settings.getString("notifyring", "").equals(""))
+ 	   		clientConnectNotification.sound = Uri.parse(this.settings.getString("notifyring", ""));
 
- 	   	if(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("notifyvibrate", true))
+ 	   	if(this.settings.getBoolean("notifyvibrate", true))
  	   		clientConnectNotification.vibrate = new long[] {100, 200, 100, 200};
+
  	   	clientConnectNotification.setLatestEventInfo(this, "Wifi Tether - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
  	   	clientConnectNotification.flags = Notification.FLAG_AUTO_CANCEL;
  	   	this.notificationManager.notify(this.clientNotificationCount, clientConnectNotification);
@@ -514,7 +523,6 @@ public class TetherApplication extends Application {
     public void installBinaries() {
     	new Thread(new Runnable(){
 			public void run(){
-				Looper.prepare();
 				String message = null;
 		    	List<String> filenames = new ArrayList<String>();
 		    	// tether
@@ -571,8 +579,6 @@ public class TetherApplication extends Application {
 				Message msg = new Message();
 				msg.obj = message;
 				TetherApplication.this.displayMessageHandler.sendMessage(msg);
-				
-				Looper.loop();
 			}
 		}).start();
     }
@@ -604,7 +610,6 @@ public class TetherApplication extends Application {
     public void downloadUpdate(final String downloadFileUrl, final String fileName) {
     	new Thread(new Runnable(){
 			public void run(){
-				Looper.prepare();
 				Message msg = Message.obtain();
             	msg.what = MainActivity.MESSAGE_DOWNLOAD_STARTING;
             	msg.obj = "Downloading update...";
@@ -613,7 +618,6 @@ public class TetherApplication extends Application {
 				Intent intent = new Intent(Intent.ACTION_VIEW); 
 			    intent.setDataAndType(android.net.Uri.fromFile(new File(WebserviceTask.DOWNLOAD_FILEPATH+"/"+fileName)),"application/vnd.android.package-archive"); 
 			    MainActivity.currentInstance.startActivity(intent);
-				Looper.loop();
 			}
     	}).start();
     }
@@ -649,7 +653,6 @@ public class TetherApplication extends Application {
     public void downloadBnepModule() {
     	new Thread(new Runnable(){
 			public void run(){
-				Looper.prepare();
 				String moduleFileName = "bnep-" + TetherApplication.this.coretask.getKernelVersion() +
 										".ko.gz";
 				String downloadFileUrl = "http://android-wifi-tether.googlecode.com/svn/download/bluetooth/";
@@ -666,7 +669,6 @@ public class TetherApplication extends Application {
 					msg2.what = MainActivity.MESSAGE_DOWNLOAD_BLUETOOTH_FAILED;
 				}
             	MainActivity.currentInstance.viewUpdateHandler.sendMessage(msg2);
-				Looper.loop();
 			}
     	}).start();
     }	
@@ -802,8 +804,7 @@ public class TetherApplication extends Application {
                         this.timestampWhitelistfile = currentTimestampWhitelistFile;
                     }
 		        }
-		        // Check data count
-		        TetherApplication.this.coretask.getDataTraffic(TetherApplication.this.tetherNetworkDevice);
+
                 // Checking leasefile
                 long currentTimestampLeaseFile = TetherApplication.this.coretask.getModifiedDate(TetherApplication.this.coretask.DATA_FILE_PATH + "/var/dnsmasq.leases");
                 if (this.timestampLeasefile != currentTimestampLeaseFile) {

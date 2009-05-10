@@ -253,6 +253,8 @@ public class CoreTask {
     
     public int[] getDataTraffic(String device) {
     	int [] dataCount = new int[2];
+    	if (device == "")
+    		return new int[] {0, 0};
     	for (String line : readLinesFromFile("/proc/net/dev")) {
     		if (line.startsWith(device) == false)
     			continue;
