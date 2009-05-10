@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -66,6 +67,9 @@ public class TetherApplication extends Application {
 	private static final int CLIENT_CONNECT_AUTHORIZED = 1;
 	private static final int CLIENT_CONNECT_NOTAUTHORIZED = 2;
 	
+	// Data counters
+	private Thread TrafficCounterThread = null;
+
 	// WifiManager
 	private WifiManager wifiManager;
 	public String tetherNetworkDevice = "";
@@ -286,6 +290,7 @@ public class TetherApplication extends Application {
     		this.clientConnectThread = new Thread(new ClientConnect());
             this.clientConnectThread.start(); 
         	this.acquireWakeLock();
+    		this.trafficCounterEnable(true);
         	
 			if (this.isSyncDisabled())
 				this.disableSync();
@@ -318,6 +323,7 @@ public class TetherApplication extends Application {
 			this.enableWifi();
 		}
 		this.enableSync();
+		this.trafficCounterEnable(false);
 		return stopped;
     }
 	
@@ -898,4 +904,72 @@ public class TetherApplication extends Application {
         }
 
     }
+   	
+   	public void trafficCounterEnable(boolean enable) {
+		// Traffic counter
+   		if (enable == true) {
+			if (this.TrafficCounterThread == null || this.TrafficCounterThread.isAlive() == false) {
+				this.TrafficCounterThread = new Thread(new TrafficCounter());
+				this.TrafficCounterThread.start();
+			}
+   		} else {
+			// Traffic counter
+	    	if (this.TrafficCounterThread != null)
+	    		this.TrafficCounterThread.interrupt();
+   		}
+   	}
+   	
+   	class TrafficCounter implements Runnable {
+   		private static final int INTERVAL = 2;  // Sample rate in seconds.
+   		long previousDownload;
+   		long previousUpload;
+   		long lastTimeChecked;
+   		public void run() {
+   			this.previousDownload = this.previousUpload = 0;
+   			this.lastTimeChecked = new Date().getTime();
+   			
+			Message message = Message.obtain();
+//			message.what = MainActivity.MESSAGE_TRAFFIC_START;
+//			MainActivity.currentInstance.viewUpdateHandler.sendMessage(message); 
+			
+   			while (!Thread.currentThread().isInterrupted()) {
+		        // Check data count
+		        long [] trafficCount = TetherApplication.this.coretask.getDataTraffic(
+		        		TetherApplication.this.tetherNetworkDevice);
+		        long currentTime = new Date().getTime();
+		        float elapsedTime = (float) ((currentTime - this.lastTimeChecked) / 1000);
+		        this.lastTimeChecked = currentTime;
+		        DataCount datacount = new DataCount();
+		        datacount.totalUpload = trafficCount[0];
+		        datacount.totalDownload = trafficCount[1];
+		        datacount.uploadRate = (long) ((datacount.totalUpload - this.previousUpload)/elapsedTime);
+		        datacount.downloadRate = (long) ((datacount.totalDownload - this.previousDownload)/elapsedTime);
+				message = Message.obtain();
+				message.what = MainActivity.MESSAGE_TRAFFIC_COUNT;
+				message.obj = datacount;
+				MainActivity.currentInstance.viewUpdateHandler.sendMessage(message); 
+				this.previousUpload = datacount.totalUpload;
+				this.previousDownload = datacount.totalDownload;
+                try {
+                    Thread.sleep(INTERVAL * 1000);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+   			}
+			message = Message.obtain();
+			message.what = MainActivity.MESSAGE_TRAFFIC_END;
+			MainActivity.currentInstance.viewUpdateHandler.sendMessage(message); 
+   		}
+   	}
+   	
+   	public class DataCount {
+   		// Total data uploaded
+   		public long totalUpload;
+   		// Total data downloaded
+   		public long totalDownload;
+   		// Current upload rate
+   		public long uploadRate;
+   		// Current download rate
+   		public long downloadRate;
+   	}
 }

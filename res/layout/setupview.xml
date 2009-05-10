@@ -5,7 +5,7 @@
        <CheckBoxPreference
                android:key="bluetoothon"
                android:title="Use Bluetooth"
-               android:summary="Bluetooth tether instead of WiFi" />
+               android:summary="Bluetooth PAN tether instead of WiFi" />
        <CheckBoxPreference
                android:key="bluetoothkeepwifi"
                android:dependency="bluetoothon"
