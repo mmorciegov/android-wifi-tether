@@ -150,7 +150,9 @@ class CommandHandler extends Thread {
     	this.stdOutLines = new ArrayList<String>();
     	Log.d(MSG_TAG, "Executing command (root:"+this.runAsRoot+"): " + command);
     	try {
+    		// Run GC
     		this.runtime.gc();
+    		// Root chech
     		if (this.runAsRoot) {
     			this.process = this.runtime.exec("su");
     		}
@@ -185,10 +187,14 @@ class CommandHandler extends Thread {
 					stderr.close();
 				if (stdout != null)
 					stdout.close();
+				os = null;
+				stderr = null;
+				stdout = null;
 			} catch (Exception ex) {;}
 			// Destroy process
 			try {
 				this.process.destroy();
+				this.process = null;
 			} catch (Exception e) {;}
     	}
 	}

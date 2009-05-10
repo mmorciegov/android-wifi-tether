@@ -255,7 +255,7 @@ public class TetherApplication extends Application {
     	 *    1 = Mobile-Data-Connection not established (not used at the moment)
     	 *    2 = Fatal error 
     	 */
-
+	this.acquireWakeLock();
         // Updating dnsmasq-Config
         this.coretask.updateDnsmasqConf();
 
@@ -277,11 +277,14 @@ public class TetherApplication extends Application {
     	if (this.coretask.runRootCommand(
     			"cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + (bluetoothPref ? " bluetooth" : ""))) {
     		// Starting client-Connect-Thread	
-    		
-    		if (this.clientConnectThread == null || this.clientConnectThread.isAlive() == false) {
-	    		this.clientConnectThread = new Thread(new ClientConnect());
-	            this.clientConnectThread.start(); 
-    		}
+        	if (this.clientConnectThread != null) {
+        		try {
+        			this.clientConnectThread.interrupt();
+        		} catch (Exception ex) {;}
+        		this.clientConnectThread = null;
+        	}
+    		this.clientConnectThread = new Thread(new ClientConnect());
+            this.clientConnectThread.start(); 
         	this.acquireWakeLock();
         	
 			if (this.isSyncDisabled())
@@ -294,8 +297,11 @@ public class TetherApplication extends Application {
     
     public boolean stopTether() {
     	this.releaseWakeLock();
-    	if (this.clientConnectThread != null && this.clientConnectThread.isAlive()) {
-    		this.clientConnectThread.interrupt();
+    	if (this.clientConnectThread != null) {
+    		try {
+    			this.clientConnectThread.interrupt();
+    		} catch (Exception ex) {;}
+    		this.clientConnectThread = null;
     	}
 
         boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
@@ -323,8 +329,11 @@ public class TetherApplication extends Application {
         
     	boolean stopped = this.coretask.runRootCommand(
     			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + bluetooth);
-    	if (this.clientConnectThread != null && this.clientConnectThread.isAlive()) {
-    		this.clientConnectThread.interrupt();
+    	if (this.clientConnectThread != null) {
+    		try {
+    			this.clientConnectThread.interrupt();
+    		} catch (Exception ex) {;}
+    		this.clientConnectThread = null;
     	}
     	if (stopped != true) {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
@@ -332,10 +341,8 @@ public class TetherApplication extends Application {
     	}
     	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + bluetooth)) {
     		// Starting client-Connect-Thread	
-    		if (this.clientConnectThread == null || this.clientConnectThread.isAlive() == false) {
-	    		this.clientConnectThread = new Thread(new ClientConnect());
-	            this.clientConnectThread.start(); 
-    		}
+    		this.clientConnectThread = new Thread(new ClientConnect());
+            this.clientConnectThread.start(); 
     	}
     	else {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
@@ -573,8 +580,11 @@ public class TetherApplication extends Application {
 		    	// tiwlan.ini
 				if (message == null) {
 					TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/tiwlan.ini", R.raw.tiwlan_ini);
+				}
+				if (message == null) {
 			    	message = "Binaries and config-files installed!";
 				}
+					
 				// Sending message
 				Message msg = new Message();
 				msg.obj = message;
@@ -872,7 +882,6 @@ public class TetherApplication extends Application {
                     Thread.currentThread().interrupt();
                 }
             }
-            Log.d(MSG_TAG, "Stopping client checker.");
         }
 
         private void notifyActivity(){
