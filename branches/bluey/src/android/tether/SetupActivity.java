@@ -403,18 +403,16 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		String passphrase = sharedPreferences.getString("passphrasepref", DEFAULT_PASSPHRASE);
 		    		if (passphrase.equals(SetupActivity.this.currentPassphrase) == false) {
 		    			if (application.coretask.wpaSupplicantExists()) {
-		    				Hashtable<String,String> values = new Hashtable<String,String>();
-		    				values.put("wep_key0", "\""+passphrase+"\"");
-		    				application.coretask.writeWpaSupplicantConf(values);
+			    			Hashtable<String,String> values = new Hashtable<String,String>();
+			    			values.put("wep_key0", "\""+passphrase+"\"");
+			    			application.coretask.writeWpaSupplicantConf(values);
 		    			}
-		    			
 		    			message = "Passphrase changed to '"+passphrase+"'.";
 		    			SetupActivity.this.currentPassphrase = passphrase;
-			    		// Restarting
+			    		
+		    			// Restarting
 						try{
-							if (application.coretask.isNatEnabled() &&
-								application.coretask.isProcessRunning("bin/dnsmasq") &&
-								application.coretask.wpaSupplicantExists()) {
+							if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq") && application.coretask.wpaSupplicantExists()) {
 				    			// Show RestartDialog
 				    			SetupActivity.this.showRestartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
@@ -425,12 +423,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 						}
 						catch (Exception ex) {
 						}
+		    			
 						message = "Passphrase changed to '"+passphrase+"'.";
 						SetupActivity.this.currentPassphrase = passphrase;
 
 		    	    	// Update wpa-config from Files
 						SetupActivity.this.wpaSupplicantConf = application.coretask.getWpaSupplicantConf();   
-		    	    	// Update preferences with real values
+
+						// Update preferences with real values
 						SetupActivity.this.updatePreferences();
 						
 		    			// Send Message
