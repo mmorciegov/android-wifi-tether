@@ -942,8 +942,8 @@ public class TetherApplication extends Application {
 		        DataCount datacount = new DataCount();
 		        datacount.totalUpload = trafficCount[0];
 		        datacount.totalDownload = trafficCount[1];
-		        datacount.uploadRate = (long) ((datacount.totalUpload - this.previousUpload)/elapsedTime);
-		        datacount.downloadRate = (long) ((datacount.totalDownload - this.previousDownload)/elapsedTime);
+		        datacount.uploadRate = (long) ((datacount.totalUpload - this.previousUpload)*8/elapsedTime);
+		        datacount.downloadRate = (long) ((datacount.totalDownload - this.previousDownload)*8/elapsedTime);
 				message = Message.obtain();
 				message.what = MainActivity.MESSAGE_TRAFFIC_COUNT;
 				message.obj = datacount;
