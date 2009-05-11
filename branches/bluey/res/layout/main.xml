@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@drawable/background">
+	<RelativeLayout android:id="@+id/layoutHeaderMain"
+		android:layout_width="fill_parent"
+		android:layout_height="40dp"
+		android:layout_gravity="center_horizontal"
+		android:background="#FF909090">
+		<TextView 
+		    android:layout_width="wrap_content"
+		    android:layout_height="fill_parent"
+			android:text="Mode:"
+			android:layout_marginLeft="10px"
+			android:layout_marginTop="10px"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			android:textStyle="bold"
+			android:textColor="#ffffff" />		
+        <TextView android:id="@+id/radioModeText"
+ 		    android:layout_width="wrap_content"
+		    android:layout_height="fill_parent"           
+            android:text=""
+			android:layout_marginTop="10px"
+			android:layout_marginRight="10px"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:textStyle="bold"
+            android:textColor="#ffffff" />
+	</RelativeLayout>
     <RelativeLayout android:id="@+id/layoutDownloadUpdate"
 		android:layout_width="fill_parent"
-		android:layout_height="60px"
+		android:layout_height="60dp"
 		android:visibility="gone"
+		android:layout_alignParentBottom="true"
 		android:layout_gravity="center_horizontal"
 		android:background="#FF909090">
 		<TextView  
@@ -42,80 +70,8 @@
 		    android:textStyle="bold"
 			android:textColor="#ffffff"
 		    />
-	
-</RelativeLayout>
-	<RelativeLayout android:id="@+id/trafficRow"
-		android:orientation="vertical"
-	    android:layout_width="fill_parent"
-	    android:visibility="invisible"
-	    android:layout_height="90dp">
-	    <TextView
-	    	android:id="@+id/trafficDownLabel"
-			android:background="#FF400000"
-			android:layout_width="150dp"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:textSize="16sp"
-			android:text="Down"
-			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold" android:typeface="normal"/>
-		<TextView
-			android:id="@+id/trafficUpLabel"
-			android:background="#FF004000"
-			android:layout_width="150dp"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:text="Up"
-			android:textSize="16sp"
-			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
-			
-		<TextView
-			android:id="@+id/trafficDown"
-			android:background="#FF400000"
-			android:layout_width="150dp"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_below="@+id/trafficDownLabel"
-			android:textSize="24sp"
-			android:textColor="#ffffff"
-			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
-		<TextView
-			android:id="@+id/trafficUp"
-			android:background="#FF004000"
-			android:layout_width="150dp"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_below="@+id/trafficUpLabel"
-			android:textSize="24sp"
-			android:textColor="#ffffff"
-			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
-		<TextView
-	    	android:id="@+id/trafficDownRate"
-			android:padding="0dp"
-			android:background="#FF400000"
-			android:layout_width="150dp"
-			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
-			android:layout_below="@+id/trafficDown"
-			android:textSize="16sp"
-			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
-		<TextView
-			android:id="@+id/trafficUpRate"
-			android:padding="0dp"
-			android:background="#FF004000"
-			android:layout_width="150dp"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_below="@+id/trafficUp"
-			android:textSize="16sp"
-			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
+	</RelativeLayout>	
 		
-    </RelativeLayout>
 	<ScrollView android:id="@+id/mainview" 
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
@@ -168,22 +124,78 @@
 					</TableRow>
 				</TableLayout>					
 			</TableRow>	
-			<TableRow android:id="@+id/radioRow">
-                <TableLayout
-                    android:layout_gravity="center"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content">
-                    <TableRow>
-                        <TextView android:id="@+id/radioModeText"
-                                  android:text="Mode:"
-                                  android:paddingTop="15px"
-                                  android:layout_gravity="center_vertical"
-                                  android:textStyle="bold"
-                                  android:textColor="#ffffff" />
-                        </TableRow>
-                </TableLayout>
-            </TableRow>
-		
-</TableLayout>
-</ScrollView>
-</LinearLayout>
+		</TableLayout>
+	</ScrollView>
+
+	<RelativeLayout android:id="@+id/trafficRow"
+		android:gravity="bottom"
+	    android:layout_width="fill_parent"
+		android:layout_alignParentBottom="true"
+	    android:visibility="invisible"
+	    android:layout_height="90dp">
+	    <TextView
+	    	android:id="@+id/trafficDownLabel"
+			android:background="#FF400000"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:textSize="16sp"
+			android:text="Down"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold" android:typeface="normal"/>
+		<TextView
+			android:id="@+id/trafficUpLabel"
+			android:background="#FF004000"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:text="Up"
+			android:textSize="16sp"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+		<TextView
+			android:id="@+id/trafficDown"
+			android:background="#FF400000"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_below="@+id/trafficDownLabel"
+			android:textSize="24sp"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+		<TextView
+			android:id="@+id/trafficUp"
+			android:background="#FF004000"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/trafficUpLabel"
+			android:textSize="24sp"
+			android:textColor="#ffffff"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+		<TextView
+	    	android:id="@+id/trafficDownRate"
+			android:padding="0dp"
+			android:background="#FF400000"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_below="@+id/trafficDown"
+			android:textSize="16sp"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+		<TextView
+			android:id="@+id/trafficUpRate"
+			android:padding="0dp"
+			android:background="#FF004000"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_below="@+id/trafficUp"
+			android:textSize="16sp"
+			android:gravity="center_vertical|center_horizontal"
+			android:textStyle="bold"/>
+    </RelativeLayout>
+</RelativeLayout>
