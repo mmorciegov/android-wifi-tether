@@ -345,6 +345,8 @@ public class MainActivity extends Activity {
     		this.startTblRow.setVisibility(View.GONE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
     		// Notification
+    		this.application.tetherNetworkDevice = usingBluetooth ? "bnep" : "tiwlan0";
+    		
     		this.application.trafficCounterEnable(true);
     		this.application.showStartNotification();
     	}

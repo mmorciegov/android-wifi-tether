@@ -269,11 +269,9 @@ public class TetherApplication extends Application {
         if (bluetoothPref) {
     		if (enableBluetooth() == false)
     			return 2;
-	        this.tetherNetworkDevice = "bnep0";
 			if (bluetoothWifi == false)
 				this.disableWifi();
         } else {
-        	this.tetherNetworkDevice = "tiwlan0";
         	this.disableWifi();
         }
 
@@ -927,11 +925,7 @@ public class TetherApplication extends Application {
    		public void run() {
    			this.previousDownload = this.previousUpload = 0;
    			this.lastTimeChecked = new Date().getTime();
-   			
-			Message message = Message.obtain();
-//			message.what = MainActivity.MESSAGE_TRAFFIC_START;
-//			MainActivity.currentInstance.viewUpdateHandler.sendMessage(message); 
-			
+
    			while (!Thread.currentThread().isInterrupted()) {
 		        // Check data count
 		        long [] trafficCount = TetherApplication.this.coretask.getDataTraffic(
@@ -944,7 +938,7 @@ public class TetherApplication extends Application {
 		        datacount.totalDownload = trafficCount[1];
 		        datacount.uploadRate = (long) ((datacount.totalUpload - this.previousUpload)*8/elapsedTime);
 		        datacount.downloadRate = (long) ((datacount.totalDownload - this.previousDownload)*8/elapsedTime);
-				message = Message.obtain();
+				Message message = Message.obtain();
 				message.what = MainActivity.MESSAGE_TRAFFIC_COUNT;
 				message.obj = datacount;
 				MainActivity.currentInstance.viewUpdateHandler.sendMessage(message); 
@@ -956,7 +950,7 @@ public class TetherApplication extends Application {
                     Thread.currentThread().interrupt();
                 }
    			}
-			message = Message.obtain();
+			Message message = Message.obtain();
 			message.what = MainActivity.MESSAGE_TRAFFIC_END;
 			MainActivity.currentInstance.viewUpdateHandler.sendMessage(message); 
    		}
