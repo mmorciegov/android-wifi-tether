@@ -252,16 +252,17 @@ public class CoreTask {
     }
     
     public long[] getDataTraffic(String device) {
-    	long [] dataCount = new long[2];
+    	// Returns traffic usage for all interfaces starting with 'device'.
+    	long [] dataCount = new long[] {0, 0};
     	if (device == "")
-    		return new long[] {0, 0};
+    		return dataCount;
     	for (String line : readLinesFromFile("/proc/net/dev")) {
     		if (line.startsWith(device) == false)
     			continue;
     		line = line.replace(':', ' ');
     		String[] values = line.split(" +");
-    		dataCount[0] = Long.parseLong(values[1]);
-    		dataCount[1] = Long.parseLong(values[9]);
+    		dataCount[0] += Long.parseLong(values[1]);
+    		dataCount[1] += Long.parseLong(values[9]);
     	}
     	Log.d(MSG_TAG, "Data rx: " + dataCount[0] + ", tx: " + dataCount[1]);
     	return dataCount;
