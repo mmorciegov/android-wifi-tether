@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -308,7 +307,7 @@ public class MainActivity extends Activity {
         	case MESSAGE_DOWNLOAD_BLUETOOTH_COMPLETE :
         		Log.d(MSG_TAG, "Finished bluetooth download.");
         		MainActivity.this.startBtn.setClickable(true);
-        		MainActivity.this.radioModeLabel.setText("Mode: Bluetooth");
+        		MainActivity.this.radioModeLabel.setText("Bluetooth");
         		break;
         	case MESSAGE_DOWNLOAD_BLUETOOTH_FAILED :
         		Log.d(MSG_TAG, "FAILED bluetooth download.");
@@ -475,11 +474,11 @@ public class MainActivity extends Activity {
   		if (usingBluetooth) {
   			String bnepLocation = this.application.findBnepModule();
   			if (bnepLocation == "") {
-  	  			this.radioModeLabel.setText("Mode: Bluetooth (downloading)");	
+  	  			this.radioModeLabel.setText("Bluetooth (downloading)");	
   			} else
-  			this.radioModeLabel.setText("Mode: Bluetooth");
+  			this.radioModeLabel.setText("Bluetooth");
   		} else
-  			this.radioModeLabel.setText("Mode: Wifi");
+  			this.radioModeLabel.setText("Wifi");
   	}
 	
    	public void openUpdateDialog(final String downloadFileUrl, final String fileName) {
