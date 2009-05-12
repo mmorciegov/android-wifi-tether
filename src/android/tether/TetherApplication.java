@@ -153,7 +153,7 @@ public class TetherApplication extends Application {
 		
         // init notificationManager
         this.notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-    	this.notification = new Notification(R.drawable.start_notification, "Wifi Tether", System.currentTimeMillis());
+    	this.notification = new Notification(R.drawable.start_notification, "Wireless Tether", System.currentTimeMillis());
     	this.mainIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
     	this.accessControlIntent = PendingIntent.getActivity(this, 1, new Intent(this, AccessControlActivity.class), 0);
 	}
@@ -276,8 +276,7 @@ public class TetherApplication extends Application {
         }
 
     	// Starting service
-    	if (this.coretask.runRootCommand(
-    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + (bluetoothPref ? " bluetooth" : ""))) {
+    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? " bluetooth" : ""))) {
     		// Starting client-Connect-Thread	
         	if (this.clientConnectThread != null) {
         		try {
@@ -310,8 +309,7 @@ public class TetherApplication extends Application {
         boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
         
-    	boolean stopped = this.coretask.runRootCommand(
-    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + (bluetoothPref ? " bluetooth" : ""));
+    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? " bluetooth" : ""));
 		this.notificationManager.cancelAll();
 		
 		// Put WiFi and Bluetooth back, if applicable.
@@ -331,8 +329,7 @@ public class TetherApplication extends Application {
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
         	bluetooth = " bluetooth";
         
-    	boolean stopped = this.coretask.runRootCommand(
-    			"cd "+coretask.DATA_FILE_PATH+";./bin/tether stop" + bluetooth);
+    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + bluetooth);
     	if (this.clientConnectThread != null) {
     		try {
     			this.clientConnectThread.interrupt();
@@ -343,7 +340,7 @@ public class TetherApplication extends Application {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
-    	if (this.coretask.runRootCommand("cd "+coretask.DATA_FILE_PATH+";./bin/tether start" + bluetooth)) {
+    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + bluetooth)) {
     		// Starting client-Connect-Thread	
     		this.clientConnectThread = new Thread(new ClientConnect());
             this.clientConnectThread.start(); 
@@ -455,7 +452,7 @@ public class TetherApplication extends Application {
     // Notification
     public void showStartNotification() {
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
-    	notification.setLatestEventInfo(this, "Wifi Tether", "Tethering is currently running ...", this.mainIntent);
+    	notification.setLatestEventInfo(this, "Wireless Tether", "Tethering is currently running ...", this.mainIntent);
     	this.notificationManager.notify(-1, this.notification);
     }
     
@@ -483,7 +480,7 @@ public class TetherApplication extends Application {
 	    		notificationString = "Unauthorized";
     	}
 		Log.d(MSG_TAG, "New (" + notificationString + ") client connected ==> "+clientData.getClientName()+" - "+clientData.getMacAddress());
- 	   	Notification clientConnectNotification = new Notification(notificationIcon, "Wifi Tether", System.currentTimeMillis());
+ 	   	Notification clientConnectNotification = new Notification(notificationIcon, "Wireless Tether", System.currentTimeMillis());
  	   	clientConnectNotification.tickerText = clientData.getClientName()+" ("+clientData.getMacAddress()+")";
  	   	if (!this.settings.getString("notifyring", "").equals(""))
  	   		clientConnectNotification.sound = Uri.parse(this.settings.getString("notifyring", ""));
@@ -491,7 +488,7 @@ public class TetherApplication extends Application {
  	   	if(this.settings.getBoolean("notifyvibrate", true))
  	   		clientConnectNotification.vibrate = new long[] {100, 200, 100, 200};
 
- 	   	clientConnectNotification.setLatestEventInfo(this, "Wifi Tether - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
+ 	   	clientConnectNotification.setLatestEventInfo(this, "Wireless Tether - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
  	   	clientConnectNotification.flags = Notification.FLAG_AUTO_CANCEL;
  	   	this.notificationManager.notify(this.clientNotificationCount, clientConnectNotification);
  	   	this.clientNotificationCount++;
@@ -728,7 +725,7 @@ public class TetherApplication extends Application {
     	try {
 			if (this.coretask.isNatEnabled() && this.coretask.isProcessRunning("bin/dnsmasq")) {
 		    	Log.d(MSG_TAG, "Restarting iptables for access-control-changes!");
-				if (!this.coretask.runRootCommand("cd "+this.coretask.DATA_FILE_PATH+";./bin/tether restartsecwifi")) {
+				if (!this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether restartsecwifi")) {
 					this.displayToastMessage("Unable to restart secured wifi!");
 					return;
 				}
