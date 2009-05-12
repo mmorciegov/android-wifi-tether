@@ -30,6 +30,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
@@ -43,6 +44,7 @@ public class MainActivity extends Activity {
 	private ImageButton startBtn = null;
 	private ImageButton stopBtn = null;
 	private TextView radioModeLabel = null;
+	private ImageView radioModeImage = null;
 	private TextView progressTitle = null;
 	private TextView progressText = null;
 	private ProgressBar progressBar = null;
@@ -94,6 +96,7 @@ public class MainActivity extends Activity {
         this.startTblRow = (TableRow)findViewById(R.id.startRow);
         this.stopTblRow = (TableRow)findViewById(R.id.stopRow);
         this.radioModeLabel = (TextView)findViewById(R.id.radioModeText);
+        this.radioModeImage = (ImageView)findViewById(R.id.radioModeImage);
         this.progressBar = (ProgressBar)findViewById(R.id.progressBar);
         this.progressText = (TextView)findViewById(R.id.progressText);
         this.progressTitle = (TextView)findViewById(R.id.progressTitle);
@@ -315,7 +318,7 @@ public class MainActivity extends Activity {
         		MainActivity.this.application.preferenceEditor.putBoolean("bluetoothon", false);
         		MainActivity.this.application.preferenceEditor.commit();
         		// TODO: More detailed popup info.
-        		MainActivity.this.application.displayToastMessage("No bluetooth available for your kernel!");
+        		MainActivity.this.application.displayToastMessage("No bluetooth module for your kernel! Please report your kernel version.");
         	default:
         		MainActivity.this.toggleStartStop();
         	}
@@ -476,9 +479,12 @@ public class MainActivity extends Activity {
   			if (bnepLocation == "") {
   	  			this.radioModeLabel.setText("Bluetooth (downloading)");	
   			} else
+  			this.radioModeImage.setImageResource(R.drawable.bluetooth);
   			this.radioModeLabel.setText("Bluetooth");
-  		} else
+  		} else {
+  			this.radioModeImage.setImageResource(R.drawable.wifi);
   			this.radioModeLabel.setText("Wifi");
+  		}
   	}
 	
    	public void openUpdateDialog(final String downloadFileUrl, final String fileName) {
