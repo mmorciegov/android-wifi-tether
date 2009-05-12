@@ -58,7 +58,11 @@
 		android:layout_marginTop="20px"
 		android:layout_marginLeft="10px"
 		android:textStyle="bold"
-		android:textColor="#FF909090" />	
+		android:textColor="#FF909090"
+		android:shadowColor = "#FFFFFFFF"
+    	android:shadowDx="0.8"
+    	android:shadowDy="0.8"
+    	android:shadowRadius="0.1" />	
     <ListView android:id="@id/android:list"
               android:layout_width="fill_parent" 
               android:layout_height="fill_parent"

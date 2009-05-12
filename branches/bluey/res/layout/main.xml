@@ -98,7 +98,11 @@
 							android:paddingTop="15px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"
-							android:textColor="#FF909090" />
+							android:textColor="#FF909090"
+							android:shadowColor = "#FFFFFFFF"
+    						android:shadowDx="0.8"
+    						android:shadowDy="0.8"
+    						android:shadowRadius="0.1" />
 					</TableRow>
 				</TableLayout>
 			</TableRow>
@@ -120,7 +124,11 @@
 							android:paddingTop="15px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"
-							android:textColor="#FF909090" />
+							android:textColor="#FF909090"
+							android:shadowColor = "#FFFFFFFF"
+    						android:shadowDx="0.8"
+    						android:shadowDy="0.8"
+    						android:shadowRadius="0.1" />
 					</TableRow>
 				</TableLayout>					
 			</TableRow>	
@@ -142,7 +150,11 @@
 			android:textSize="16sp"
 			android:text="Down"
 			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold" android:typeface="normal"/>
+			android:textStyle="bold" 			
+			android:shadowColor = "#FFFFFFFF"
+    		android:shadowDx="0.8"
+    		android:shadowDy="0.8"
+    		android:shadowRadius="0.1" />
 		<TextView
 			android:id="@+id/trafficUpLabel"
 			android:textColor="#FF909090"
@@ -152,7 +164,11 @@
 			android:text="Up"
 			android:textSize="16sp"
 			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			android:shadowColor = "#FFFFFFFF"
+    		android:shadowDx="0.8"
+    		android:shadowDy="0.8"
+    		android:shadowRadius="0.1" />
 		<TextView
 			android:id="@+id/trafficDown"
 			android:textColor="#00b627"
@@ -183,7 +199,11 @@
 			android:layout_below="@+id/trafficDown"
 			android:textSize="16sp"
 			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			android:shadowColor = "#FFFFFFFF"
+    		android:shadowDx="0.8"
+    		android:shadowDy="0.8"
+    		android:shadowRadius="0.1" />
 		<TextView
 			android:id="@+id/trafficUpRate"
 			android:padding="0dp"
@@ -194,6 +214,10 @@
 			android:layout_below="@+id/trafficUp"
 			android:textSize="16sp"
 			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			android:shadowColor = "#FFFFFFFF"
+    		android:shadowDx="0.8"
+    		android:shadowDy="0.8"
+    		android:shadowRadius="0.1" />
     </RelativeLayout>
 </RelativeLayout>
