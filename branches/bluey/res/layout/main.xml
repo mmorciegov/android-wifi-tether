@@ -108,7 +108,8 @@
 							android:paddingTop="15px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"
-							android:textColor="#FF909090"
+							android:textSize="16sp"
+							android:textColor="#FF616161"
 							android:shadowColor = "#FFFFFFFF"
     						android:shadowDx="0.8"
     						android:shadowDy="0.8"
@@ -134,7 +135,8 @@
 							android:paddingTop="15px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"
-							android:textColor="#FF909090"
+							android:textSize="16sp"
+							android:textColor="#FF616161"
 							android:shadowColor = "#FFFFFFFF"
     						android:shadowDx="0.8"
     						android:shadowDy="0.8"
@@ -153,7 +155,7 @@
 	    android:layout_height="90dp">
 	    <TextView
 	    	android:id="@+id/trafficDownLabel"
-			android:textColor="#FF909090"
+			android:textColor="#FF616161"
 			android:layout_width="150dp"
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
@@ -167,7 +169,7 @@
     		android:shadowRadius="0.1" />
 		<TextView
 			android:id="@+id/trafficUpLabel"
-			android:textColor="#FF909090"
+			android:textColor="#FF616161"
 			android:layout_width="150dp"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
@@ -181,28 +183,36 @@
     		android:shadowRadius="0.1" />
 		<TextView
 			android:id="@+id/trafficDown"
-			android:textColor="#00b627"
+			android:textColor="#FF00B627"
 			android:layout_width="150dp"
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
 			android:layout_below="@+id/trafficDownLabel"
 			android:textSize="24sp"
 			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			android:shadowColor = "#FFFFFFFF"
+    		android:shadowDx="0.8"
+    		android:shadowDy="0.8"
+    		android:shadowRadius="0.1" />
 		<TextView
 			android:id="@+id/trafficUp"
-			android:textColor="#e50505"
+			android:textColor="#FFE50505"
 			android:layout_width="150dp"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
 			android:layout_below="@+id/trafficUpLabel"
 			android:textSize="24sp"
 			android:gravity="center_vertical|center_horizontal"
-			android:textStyle="bold"/>
+			android:textStyle="bold"
+			android:shadowColor = "#FFFFFFFF"
+    		android:shadowDx="0.8"
+    		android:shadowDy="0.8"
+    		android:shadowRadius="0.1" />
 		<TextView
 	    	android:id="@+id/trafficDownRate"
 			android:padding="0dp"
-			android:textColor="#FF909090"
+			android:textColor="#FF616161"
 			android:layout_width="150dp"
 			android:layout_height="wrap_content"
 			android:layout_alignParentLeft="true"
@@ -217,7 +227,7 @@
 		<TextView
 			android:id="@+id/trafficUpRate"
 			android:padding="0dp"
-			android:textColor="#FF909090"
+			android:textColor="#FF616161"
 			android:layout_width="150dp"
 			android:layout_height="wrap_content"
 			android:layout_alignParentRight="true"
