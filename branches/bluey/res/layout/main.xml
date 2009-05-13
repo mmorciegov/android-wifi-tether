@@ -96,17 +96,17 @@
 					android:layout_height="wrap_content" 
 					android:layout_width="wrap_content">
 					<TableRow>
-						<ImageButton android:id="@+id/startTetherBtn"
+						<ImageView android:id="@+id/startTetherBtn"
 							android:src="@drawable/start" 
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content" 
+ 		    				android:layout_width="120px"
+		    				android:layout_height="120px"
 							android:layout_gravity="center_horizontal" />
 					</TableRow>
 					<TableRow>
 						<TextView android:id="@+id/startText"
 							android:text=" - Press to start tethering. - "
-							android:paddingTop="15px"
 							android:layout_gravity="center_vertical"
+							android:paddingTop="10px"
 							android:textStyle="bold"
 							android:textColor="#FF616161"
 							android:shadowColor = "#FFFFFFFF"
@@ -121,17 +121,17 @@
 					android:layout_gravity="center"
 					android:layout_height="wrap_content" 
 					android:layout_width="wrap_content">
-					<TableRow>			
-						<ImageButton android:id="@+id/stopTetherBtn"
+					<TableRow>
+						<ImageView android:id="@+id/stopTetherBtn"
 							android:src="@drawable/stop" 
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content" 
-							android:layout_gravity="center_horizontal" />
+ 		    				android:layout_width="120px"
+		    				android:layout_height="120px"
+							android:layout_gravity="center_horizontal" />			
 					</TableRow>
 					<TableRow>
 						<TextView android:id="@+id/stopText"
 							android:text=" - Press to stop tethering. - "
-							android:paddingTop="15px"
+							android:paddingTop="10px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"
 							android:textColor="#FF616161"
