@@ -29,7 +29,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -41,8 +42,8 @@ public class MainActivity extends Activity {
 	private TetherApplication application = null;
 	private ProgressDialog progressDialog;
 
-	private ImageButton startBtn = null;
-	private ImageButton stopBtn = null;
+	private ImageView startBtn = null;
+	private ImageView stopBtn = null;
 	private TextView radioModeLabel = null;
 	private ImageView radioModeImage = null;
 	private TextView progressTitle = null;
@@ -58,6 +59,8 @@ public class MainActivity extends Activity {
 	
 	private TableRow startTblRow = null;
 	private TableRow stopTblRow = null;
+	
+	private ScaleAnimation animation = null;
 	
 	private static int ID_DIALOG_STARTING = 0;
 	private static int ID_DIALOG_STOPPING = 1;
@@ -108,6 +111,17 @@ public class MainActivity extends Activity {
         this.downloadRateText = (TextView)findViewById(R.id.trafficDownRate);
         this.uploadRateText = (TextView)findViewById(R.id.trafficUpRate);
 
+        // Define animation
+        animation = new ScaleAnimation(
+                1.2f, 1.6f, 1.2f, 1.6f, // From x, to x, from y, to y
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
+                ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
+        		animation.setDuration(1200);
+        		animation.setFillAfter(true); 
+        animation.setStartOffset(0);
+        animation.setRepeatCount(20);
+        animation.setRepeatMode(Animation.REVERSE);
+        
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
 	        this.application.startupCheckPerformed = true;
@@ -135,7 +149,7 @@ public class MainActivity extends Activity {
         }
         
         // Start Button
-        this.startBtn = (ImageButton) findViewById(R.id.startTetherBtn);
+        this.startBtn = (ImageView) findViewById(R.id.startTetherBtn);
 		this.startBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Log.d(MSG_TAG, "StartBtn pressed ...");
@@ -155,7 +169,7 @@ public class MainActivity extends Activity {
 		});
 
 		// Stop Button
-		this.stopBtn = (ImageButton) findViewById(R.id.stopTetherBtn);
+		this.stopBtn = (ImageView) findViewById(R.id.stopTetherBtn);
 		this.stopBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Log.d(MSG_TAG, "StopBtn pressed ...");
@@ -346,6 +360,9 @@ public class MainActivity extends Activity {
     			(usingBluetooth == true && pandRunning == true)){
     		this.startTblRow.setVisibility(View.GONE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
+    		// Animation
+    		if (this.animation != null)
+    			this.stopBtn.startAnimation(this.animation);
     		// Notification
     		this.application.tetherNetworkDevice = usingBluetooth ? "bnep" : "tiwlan0";
     		
@@ -356,6 +373,9 @@ public class MainActivity extends Activity {
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.GONE);
     		this.application.trafficCounterEnable(false);
+    		// Animation
+    		if (this.animation != null)
+    			this.startBtn.startAnimation(this.animation);
     		// Notification
         	this.application.notificationManager.cancelAll();
     	}   	
