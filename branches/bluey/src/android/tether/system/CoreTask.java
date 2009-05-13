@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -211,11 +212,24 @@ public class CoreTask {
     }
 
     public boolean isProcessRunning(String processName) throws Exception {
-    	
-    	ArrayList<String> lines = readLinesFromCmd("ps");
-    	for (String proc : lines) {
-    		if (proc.contains(processName))
+    	File procDir = new File("/proc");
+    	FilenameFilter filter = new FilenameFilter() {
+            public boolean accept(File dir, String name) {
+                try {
+                    Integer.parseInt(name);
+                } catch (NumberFormatException ex) {
+                    return false;
+                }
+                return true;
+            }
+        };
+    	File[] processes = procDir.listFiles(filter);
+    	for (File process : processes) {
+    		String filename = process.getAbsoluteFile()+"/cmdline";
+    		ArrayList<String> cmdlineContent = this.readLinesFromFile(filename);
+    		if (cmdlineContent != null && cmdlineContent.size() > 0 && cmdlineContent.get(0).contains(processName)) {
     			return true;
+    		}
     	}
     	return false;
     }
