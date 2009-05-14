@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# @Version=10
+# @Version=11
 # Copyright 2008 parrothd
 # Copyright 2009 zodiac (Markus Gutschke)
 
@@ -101,8 +101,6 @@ stoppand() {
         'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) really_kill "$p";; esac; done; rm '"'$pand_pidfile' 2>/dev/null"
 }
 
-
-
 startint() {
     # Configuring network interface
     run '{ echo; lsmod; } | while read m; do case "$m" in wlan*) break;; esac; false; done' \
@@ -184,41 +182,41 @@ startmacwhitelist() {
 case "$1" in
 'start')
     rm "$tetherlog" 2>/dev/null
-    case "$2" in
-    'bluetooth')
-      startbluetooth
-      startpand
-      startipt
-      startipfw
-    ;;
-    *)
-      startwifi
-      startint
-      startipt
-      startipfw
-      startdnsmasq
-      startsecnat
-      startmacwhitelist
-    ;;
-    esac
+  	startwifi
+  	startint
+  	startipt
+  	startipfw
+  	startdnsmasq
+  	startsecnat
+  	startmacwhitelist
 ;;
+'startbt')
+    rm "$tetherlog" 2>/dev/null
+    if eval { "dd if='/sdcard/android.tether/bnep.ko' >/dev/null 2>&1;" } >/dev/null 2>&1; then
+    	startbluetooth
+    fi
+  	startpand
+  	startipt
+  	startipfw    
+    startsecnat
+    startmacwhitelist
+;;    
 'stop')
     rm "$tetherlog" 2>/dev/null
     rm "$dnsmasq_leasefile" 2>/dev/null
-    case "$2" in
-    'bluetooth')
-      stoppand
-      stopbluetooth
-    ;;
-    *)
-      stopdnsmasq
-      stopint
-      stopwifi
-    ;;
-    esac
+    stopdnsmasq
+    stopint
+    stopwifi
     stopipfw
     stopipt
-
+;;
+'stopbt')
+    rm "$tetherlog" 2>/dev/null
+    rm "$dnsmasq_leasefile" 2>/dev/null
+    stoppand
+    stopbluetooth
+    stopipfw
+    stopipt       
 ;;
 'restartsecwifi')
     stopipt
@@ -227,6 +225,6 @@ case "$1" in
     startmacwhitelist
 ;;
 *)
-echo "Usage: $0 [start|stop]"
+echo "Usage: $0 [start|startbt|stop|stopbt]"
 ;;
 esac

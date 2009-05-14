@@ -36,7 +36,7 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "10";
+	private static final String FILESET_VERSION = "11";
 	private static final String defaultDNS1 = "208.67.220.220";
 	private static final String defaultDNS2 = "208.67.222.222";
 	
