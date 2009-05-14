@@ -197,6 +197,7 @@ public class TetherApplication extends Application {
  * Bluetooth API is not exposed publicly, so we need to use reflection
  * to query and set the configuration.
  */
+	@SuppressWarnings("unchecked")
 	public Object callBluetoothMethod(String methodName) {
     	Object manager = getSystemService("bluetooth");
     	Class c = manager.getClass();
@@ -275,7 +276,7 @@ public class TetherApplication extends Application {
         }
 
     	// Starting service
-    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? " bluetooth" : ""))) {
+    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
     		// Starting client-Connect-Thread	
         	if (this.clientConnectThread != null) {
         		try {
@@ -311,7 +312,7 @@ public class TetherApplication extends Application {
         boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
         
-    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? " bluetooth" : ""));
+    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? "bt" : ""));
 		this.notificationManager.cancelAll();
 		
 		// Put WiFi and Bluetooth back, if applicable.
@@ -329,7 +330,7 @@ public class TetherApplication extends Application {
     	
         String bluetooth = "";
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
-        	bluetooth = " bluetooth";
+        	bluetooth = "bt";
         
     	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + bluetooth);
     	if (this.clientConnectThread != null) {
