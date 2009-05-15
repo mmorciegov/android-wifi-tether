@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 
@@ -535,44 +534,36 @@ public class TetherApplication extends Application {
     	new Thread(new Runnable(){
 			public void run(){
 				String message = null;
-		    	List<String> filenames = new ArrayList<String>();
 		    	// tether
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tether", R.raw.tether);
-			    	filenames.add("tether");
 		    	}
 		    	// dnsmasq
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/dnsmasq", R.raw.dnsmasq);
-			    	filenames.add("dnsmasq");
 		    	}
 		    	//pand
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/pand", R.raw.pand);
-			    	filenames.add("pand");
 		    	}
 		    	//rmmod
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/rmmod", R.raw.rmmod);
-			    	filenames.add("rmmod");
 		    	}
 		    	// iptables
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iptables", R.raw.iptables);
-			    	filenames.add("iptables");
 		    	}
 		    	// blue-up.sh
 				if (message == null) {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-up.sh", R.raw.blue_up_sh);
-					filenames.add("blue-up.sh");
 				}
 				// blue-down.sh
 				if (message == null) {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-down.sh", R.raw.blue_down_sh);
-					filenames.add("blue-down.sh");
 				}
 		    	try {
-		    		TetherApplication.this.coretask.chmodBin(filenames);
+		    		TetherApplication.this.coretask.chmodBin();
 				} catch (Exception e) {
 					message = "Unable to change permission on binary files!";
 				}
