@@ -42,6 +42,8 @@ public class CoreTask {
 	
 	private ExecuteProcess executeProcess;
 	
+	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
+	
 	public CoreTask() {
 		this.executeProcess = new ExecuteProcess();
 	}
@@ -212,6 +214,8 @@ public class CoreTask {
     }
 
     public boolean isProcessRunning(String processName) throws Exception {
+    	boolean processIsRunning = false;
+    	Hashtable<String,String> tmpRunningProcesses = new Hashtable<String,String>();
     	File procDir = new File("/proc");
     	FilenameFilter filter = new FilenameFilter() {
             public boolean accept(File dir, String name) {
@@ -225,13 +229,28 @@ public class CoreTask {
         };
     	File[] processes = procDir.listFiles(filter);
     	for (File process : processes) {
-    		String filename = process.getAbsoluteFile()+"/cmdline";
-    		ArrayList<String> cmdlineContent = this.readLinesFromFile(filename);
-    		if (cmdlineContent != null && cmdlineContent.size() > 0 && cmdlineContent.get(0).contains(processName)) {
-    			return true;
+    		String cmdLine = "";
+    		// Checking if this is a already known process
+    		if (this.runningProcesses.containsKey(process.getAbsoluteFile().toString())) {
+    			cmdLine = this.runningProcesses.get(process.getAbsoluteFile().toString());
+    		}
+    		else {
+    			ArrayList<String> cmdlineContent = this.readLinesFromFile(process.getAbsoluteFile()+"/cmdline");
+    			if (cmdlineContent != null && cmdlineContent.size() > 0) {
+    				cmdLine = cmdlineContent.get(0);
+    			}
+    		}
+    		// Adding to tmp-Hashtable
+    		tmpRunningProcesses.put(process.getAbsoluteFile().toString(), cmdLine);
+    		
+    		// Checking if processName matches
+    		if (cmdLine.contains(processName)) {
+    			processIsRunning = true;
     		}
     	}
-    	return false;
+    	// Overwriting runningProcesses
+    	this.runningProcesses = tmpRunningProcesses;
+    	return processIsRunning;
     }
 
     public boolean hasRootPermission() {
