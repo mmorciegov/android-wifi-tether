@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.List;
 
 import android.tether.data.ClientData;
 import android.util.Log;
@@ -138,13 +137,11 @@ public class CoreTask {
     	return returnHash;
     }
  
-    public boolean chmodBin(List<String> filenames) {
-    	for (String tmpFilename : filenames) {
-    		this.executeProcess.execute("chmod 0755 "+this.DATA_FILE_PATH+"/bin/"+tmpFilename, true, 2000);
-    		if (this.executeProcess.getExitCode() != 0) {
-    			return false;
-    		}
-    	}
+    public boolean chmodBin() {
+		this.executeProcess.execute("chmod 0755 "+this.DATA_FILE_PATH+"/bin/*", true, 2000);
+		if (this.executeProcess.getExitCode() != 0) {
+			return false;
+		}
     	return true;
     }   
 
