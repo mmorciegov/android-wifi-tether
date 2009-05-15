@@ -1,7 +1,7 @@
 #!/system/bin/sh
 # blue-down.sh
 
-tetherpath=/data/data/android.tether/
+tetherpath=/data/data/android.tether
 tetherlog="$tetherpath"/var/tether.log
 dnsmasq_pidfile="$tetherpath"/var/dnsmasq.pid
 
@@ -38,5 +38,4 @@ stopdnsmasq() {
 }
 
 stopdnsmasq
-
 ifconfig bnep0 down
