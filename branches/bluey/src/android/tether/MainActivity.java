@@ -113,13 +113,13 @@ public class MainActivity extends Activity {
 
         // Define animation
         animation = new ScaleAnimation(
-                1.2f, 1.6f, 1.2f, 1.6f, // From x, to x, from y, to y
+                0.9f, 1, 0.9f, 1, // From x, to x, from y, to y
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f,
                 ScaleAnimation.RELATIVE_TO_SELF, 0.5f);
-        		animation.setDuration(1200);
-        		animation.setFillAfter(true); 
+        animation.setDuration(600);
+        animation.setFillAfter(true); 
         animation.setStartOffset(0);
-        animation.setRepeatCount(20);
+        animation.setRepeatCount(1);
         animation.setRepeatMode(Animation.REVERSE);
         
         // Startup-Check
