@@ -336,8 +336,8 @@ public class MainActivity extends Activity {
         	default:
         		MainActivity.this.toggleStartStop();
         	}
-
         	super.handleMessage(msg);
+        	System.gc();
         }
    };
 
@@ -385,6 +385,7 @@ public class MainActivity extends Activity {
     		MainActivity.this.application.displayToastMessage("Your phone is currently in an unknown state - try to reboot!");
     	}
     	this.showRadioMode();
+    	System.gc();
     }
    
 	private String formatCount(long count, boolean rate) {
