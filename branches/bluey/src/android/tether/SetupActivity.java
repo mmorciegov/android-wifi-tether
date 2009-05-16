@@ -143,27 +143,24 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     	updateConfiguration(sharedPreferences, key);
     }
     
-    Handler showRestartingDialogHandler = new Handler(){
+    Handler restartingDialogHandler = new Handler(){
         public void handleMessage(Message msg) {
-       		SetupActivity.this.showDialog(SetupActivity.ID_DIALOG_RESTARTING);
-       		super.handleMessage(msg);
-        }
-    };
-    
-    
-    Handler dismissRestartingDialogHandler = new Handler(){
-        public void handleMessage(Message msg) {
-       		SetupActivity.this.dismissDialog(SetupActivity.ID_DIALOG_RESTARTING);
+        	if (msg.what == 0)
+        		SetupActivity.this.showDialog(SetupActivity.ID_DIALOG_RESTARTING);
+        	else
+        		SetupActivity.this.dismissDialog(SetupActivity.ID_DIALOG_RESTARTING);
         	super.handleMessage(msg);
+        	System.gc();
         }
     };
     
-    Handler displayToastMessageHandler = new Handler() {
+   Handler displayToastMessageHandler = new Handler() {
         public void handleMessage(Message msg) {
        		if (msg.obj != null) {
        			SetupActivity.this.application.displayToastMessage((String)msg.obj);
        		}
         	super.handleMessage(msg);
+        	System.gc();
         }
     };
     
@@ -188,11 +185,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 			    				try{
 				    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
 						    			// Show RestartDialog
-						    			SetupActivity.this.showRestartingDialogHandler.sendEmptyMessage(0);
+						    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    					// Restart Tethering
 						    			SetupActivity.this.application.restartTether();
 						    			// Dismiss RestartDialog
-						    			SetupActivity.this.dismissRestartingDialogHandler.sendEmptyMessage(0);
+						    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 				    				}
 			    				}
 			    				catch (Exception ex) {
@@ -223,11 +220,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				try{
 			    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
 					    			// Show RestartDialog
-					    			SetupActivity.this.showRestartingDialogHandler.sendEmptyMessage(0);
+					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 					    			// Restart Tethering
 			    					SetupActivity.this.application.restartTether();
 					    			// Dismiss RestartDialog
-					    			SetupActivity.this.dismissRestartingDialogHandler.sendEmptyMessage(0);
+					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 			    				}
 		    				}
 		    				catch (Exception ex) {
@@ -257,11 +254,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				try{
 			    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
 					    			// Show RestartDialog
-					    			SetupActivity.this.showRestartingDialogHandler.sendEmptyMessage(0);
+					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 					    			// Restart Tethering
 			    					SetupActivity.this.application.restartTether();
 					    			// Dismiss RestartDialog
-					    			SetupActivity.this.dismissRestartingDialogHandler.sendEmptyMessage(0);
+					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 			    				}
 		    				}
 		    				catch (Exception ex) {
@@ -378,11 +375,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 						try{
 							if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
 				    			// Show RestartDialog
-				    			SetupActivity.this.showRestartingDialogHandler.sendEmptyMessage(0);
+								SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
 								SetupActivity.this.application.restartTether();
 				    			// Dismiss RestartDialog
-				    			SetupActivity.this.dismissRestartingDialogHandler.sendEmptyMessage(0);
+								SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
 						}
 						catch (Exception ex) {
@@ -413,11 +410,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 						try{
 							if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq") && application.coretask.wpaSupplicantExists()) {
 				    			// Show RestartDialog
-				    			SetupActivity.this.showRestartingDialogHandler.sendEmptyMessage(0);
+				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
 				    			// Restart Tethering
 								SetupActivity.this.application.restartTether();
 				    			// Dismiss RestartDialog
-				    			SetupActivity.this.dismissRestartingDialogHandler.sendEmptyMessage(0);
+				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
 						}
 						catch (Exception ex) {
