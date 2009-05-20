@@ -275,10 +275,11 @@ public class CoreTask {
     }
     
     public String getProp(String property) {
-    	ArrayList<String> lines = readLinesFromCmd("getprop " + property);
+    	return NativeTask.getProp(property);
+    	/*ArrayList<String> lines = readLinesFromCmd("getprop " + property);
     	if (lines.size() > 0)
     		return lines.get(0);
-    	return "";
+    	return "";*/
     }
     
     public long[] getDataTraffic(String device) {
