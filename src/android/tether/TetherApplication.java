@@ -562,7 +562,11 @@ public class TetherApplication extends Application {
 				if (message == null) {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-down.sh", R.raw.blue_down_sh);
 				}
-		    	try {
+				// libnativeTask.so	
+				if (message == null) {
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/lib/libNativeTask.so", R.raw.libnativetask_so);
+				}
+				try {
 		    		TetherApplication.this.coretask.chmodBin();
 				} catch (Exception e) {
 					message = "Unable to change permission on binary files!";
@@ -579,7 +583,7 @@ public class TetherApplication extends Application {
 				if (message == null) {
 			    	message = "Binaries and config-files installed!";
 				}
-					
+				
 				// Sending message
 				Message msg = new Message();
 				msg.obj = message;
@@ -680,6 +684,7 @@ public class TetherApplication extends Application {
     
     private String copyBinary(String filename, int resource) {
     	File outFile = new File(filename);
+    	Log.d(MSG_TAG, "Copying file '"+filename+"' ...");
     	InputStream is = this.getResources().openRawResource(resource);
     	byte buf[]=new byte[1024];
         int len;
@@ -703,7 +708,7 @@ public class TetherApplication extends Application {
     			this.displayToastMessage("Application data-dir does not exist!");
     	}
     	else {
-    		String[] dirs = { "/bin", "/var", "/conf" };
+    		String[] dirs = { "/bin", "/var", "/conf", "/lib" };
     		for (String dirname : dirs) {
     			dir = new File(this.coretask.DATA_FILE_PATH + dirname);
     	    	if (dir.exists() == false) {
