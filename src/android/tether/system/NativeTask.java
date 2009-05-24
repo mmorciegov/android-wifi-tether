@@ -7,7 +7,7 @@ public class NativeTask {
         try {
             Log.i("JNI", "Trying to load libNativeTask.so");
             //System.loadLibrary("NativeTask");
-            System.load("/data/data/android.tether/lib/libNativeTask.so");
+            System.load("/data/data/android.tether/library/libNativeTask.so");
         }
         catch (UnsatisfiedLinkError ule) {
             Log.e("JNI", "WARNING: Could not load libNativeTask.so");

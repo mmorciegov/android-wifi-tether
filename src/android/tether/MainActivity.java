@@ -132,7 +132,7 @@ public class MainActivity extends Activity {
 	        		if (this.application.coretask.filesetOutdated()) {
 	        			filesetoutdated = true;
 	        		}
-	        		this.application.installBinaries();
+	        		this.application.installFiles();
 	        	}
 	        	else {
 	        		this.openNotRootDialog();
@@ -414,7 +414,7 @@ public class MainActivity extends Activity {
         .setNeutralButton("Override", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Log.d(MSG_TAG, "Override pressed");
-                    MainActivity.this.application.installBinaries();
+                    MainActivity.this.application.installFiles();
                 }
         })
         .show();
