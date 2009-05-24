@@ -145,6 +145,25 @@ public class CoreTask {
     	return true;
     }   
 
+    public boolean setUidTetherExec() {
+    	this.executeProcess.execute("chmod 4755 /system/bin/tetherexec", true, 2000);
+    	if (this.executeProcess.getExitCode() != 0) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public boolean remountSystemFilesystem(boolean write) {
+    	String command = "mount -o remount,ro -t yaffs2 /dev/block/mtdblock3 /system";
+    	if (write)
+    		command = "mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system";
+    	this.executeProcess.execute(command, true, 2000);
+    	if (this.executeProcess.getExitCode() != 0) {
+    		return false;
+    	}
+    	return true;
+    }
+    
     public ArrayList<String> readLinesFromCmd(String command) {
 		this.executeProcess.execute(command, false, 2000);
 		return this.executeProcess.getStdOutLines();

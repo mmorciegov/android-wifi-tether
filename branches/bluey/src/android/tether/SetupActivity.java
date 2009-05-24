@@ -528,7 +528,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     	boolean supRetVal = super.onOptionsItemSelected(menuItem);
     	Log.d(MSG_TAG, "Menuitem:getId  -  "+menuItem.getItemId()+" -- "+menuItem.getTitle()); 
     	if (menuItem.getItemId() == 0) {
-    		this.application.installBinaries();
+    		this.application.installFiles();
     		this.updatePreferences();
     	}
     	return supRetVal;

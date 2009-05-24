@@ -542,10 +542,39 @@ public class TetherApplication extends Application {
         }
     };
     
-    public void installBinaries() {
+    public void installFiles() {
     	new Thread(new Runnable(){
 			public void run(){
 				String message = null;
+				// Install tetherexec
+				if (message == null) {
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tetherexec", R.raw.tetherexec);
+				}
+				if (message == null) {
+					if (!TetherApplication.this.coretask.remountSystemFilesystem(true)) {
+						message = "Unable to remount system-filesystem (read-write)!";
+					}
+				}
+				if (message == null) {
+					if (!TetherApplication.this.coretask.runRootCommand("cat "+TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tetherexec > /system/bin/tetherexec")) {
+						message = "Unable to move tetherexec to /system/bin!";
+					}
+				}
+				if (message == null) {
+					if (!(new File(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tetherexec")).delete()) {
+						message = "Unable to remove temporary tetherexec-file!";
+					}
+				}
+				if (message == null) {
+					if (!TetherApplication.this.coretask.setUidTetherExec()) {
+						message = "Unable to setuid (root) to tetherexec-binary!";
+					}
+				}
+				if (message == null) {
+					if (!TetherApplication.this.coretask.remountSystemFilesystem(false)) {
+						message = "Unable to remount system-filesystem (read-only)!";
+					}
+				}
 		    	// tether
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tether", R.raw.tether);
@@ -576,7 +605,7 @@ public class TetherApplication extends Application {
 				}
 				// libnativeTask.so	
 				if (message == null) {
-					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/lib/libNativeTask.so", R.raw.libnativetask_so);
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/libNativeTask.so", R.raw.libnativetask_so);
 				}
 				try {
 		    		TetherApplication.this.coretask.chmodBin();
@@ -720,13 +749,16 @@ public class TetherApplication extends Application {
     			this.displayToastMessage("Application data-dir does not exist!");
     	}
     	else {
-    		String[] dirs = { "/bin", "/var", "/conf", "/lib" };
+    		String[] dirs = { "/bin", "/var", "/conf", "/library" };
     		for (String dirname : dirs) {
     			dir = new File(this.coretask.DATA_FILE_PATH + dirname);
     	    	if (dir.exists() == false) {
     	    		if (!dir.mkdir()) {
     	    			this.displayToastMessage("Couldn't create " + dirname + " directory!");
     	    		}
+    	    	}
+    	    	else {
+    	    		Log.d(MSG_TAG, "Directory '"+dir.getAbsolutePath()+"' already exists!");
     	    	}
     		}
     	}
