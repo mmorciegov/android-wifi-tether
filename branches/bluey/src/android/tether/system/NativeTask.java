@@ -14,5 +14,6 @@ public class NativeTask {
         }
     }
     public static native String getProp(String name);
-    public static native void runRootCommand(String command);
+    public static native int runCommand(String command);
+    
 }

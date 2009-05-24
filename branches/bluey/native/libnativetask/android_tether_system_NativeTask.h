@@ -17,10 +17,10 @@ JNIEXPORT jstring JNICALL Java_android_tether_system_NativeTask_getProp
 
 /*
  * Class:     android_tether_system_NativeTask
- * Method:    runRootCommand
- * Signature: (Ljava/lang/String;)V
+ * Method:    runCommand
+ * Signature: (Ljava/lang/String;)I
  */
-JNIEXPORT void JNICALL Java_android_tether_system_NativeTask_runRootCommand
+JNIEXPORT jint JNICALL Java_android_tether_system_NativeTask_runCommand
   (JNIEnv *, jclass, jstring);
 
 #ifdef __cplusplus

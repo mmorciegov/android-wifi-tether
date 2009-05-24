@@ -49,6 +49,7 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.tether.data.ClientData;
 import android.tether.system.CoreTask;
+import android.tether.system.NativeTask;
 import android.tether.system.WebserviceTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -275,7 +276,8 @@ public class TetherApplication extends Application {
         }
 
     	// Starting service
-    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
+        if (NativeTask.runCommand("start" + (bluetoothPref ? "bt" : "")) == 0) {
+    	//if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
     		// Starting client-Connect-Thread	
         	if (this.clientConnectThread != null) {
         		try {
@@ -311,7 +313,12 @@ public class TetherApplication extends Application {
         boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
         
-    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? "bt" : ""));
+        boolean stopped = false;
+        if (NativeTask.runCommand("stop" + (bluetoothPref ? "bt" : "")) == 0) {
+        	stopped = true;
+        }
+        
+    	//boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? "bt" : ""));
 		this.notificationManager.cancelAll();
 		
 		// Put WiFi and Bluetooth back, if applicable.
@@ -331,7 +338,11 @@ public class TetherApplication extends Application {
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
         	bluetooth = "bt";
         
-    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + bluetooth);
+        boolean stopped = false;
+        if (NativeTask.runCommand("stop" + bluetooth) == 0) {
+        	stopped = true;
+        }
+    	//boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + bluetooth);
     	if (this.clientConnectThread != null) {
     		try {
     			this.clientConnectThread.interrupt();
@@ -342,7 +353,8 @@ public class TetherApplication extends Application {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
-    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + bluetooth)) {
+    	//if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + bluetooth)) {
+    	if (NativeTask.runCommand("start" + bluetooth) == 0) {
     		// Starting client-Connect-Thread	
     		this.clientConnectThread = new Thread(new ClientConnect());
             this.clientConnectThread.start(); 
@@ -724,7 +736,8 @@ public class TetherApplication extends Application {
     	try {
 			if (this.coretask.isNatEnabled() && this.coretask.isProcessRunning("bin/dnsmasq")) {
 		    	Log.d(MSG_TAG, "Restarting iptables for access-control-changes!");
-				if (!this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether restartsecwifi")) {
+				//if (!this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether restartsecwifi")) {
+		    	if (NativeTask.runCommand("restartsecwifi") != 0) {
 					this.displayToastMessage("Unable to restart secured wifi!");
 					return;
 				}
