@@ -440,6 +440,29 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		Message msg = Message.obtain();
 		    		msg.what = bluetoothOn ? 0 : 1;
 		    		SetupActivity.this.setWifiPrefsEnableHandler.sendMessage(msg);
+					try{
+						if (application.coretask.isNatEnabled() && (application.coretask.isProcessRunning("bin/dnsmasq") || application.coretask.isProcessRunning("bin/pand"))) {
+			    			// Show RestartDialog
+			    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
+			    			// Restart Tethering
+				    		if (bluetoothOn) {
+								SetupActivity.this.application.restartTether(0, 1);
+				    		}
+				    		else {
+				    			SetupActivity.this.application.restartTether(1, 0);
+				    		}
+			    			// Dismiss RestartDialog
+			    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
+						}
+					}
+					catch (Exception ex) {
+					}
+		    	}
+		    	else if (key.equals("bluetoothkeepwifi")) {
+		    		Boolean bluetoothWifi = sharedPreferences.getBoolean("bluetoothkeepwifi", false);
+		    		if (bluetoothWifi) {
+		    			SetupActivity.this.application.enableWifi();
+		    		}
 		    	}
 			}
 		}).start();
@@ -484,9 +507,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     Handler  setWifiPrefsEnableHandler = new Handler() {
     	public void handleMessage(Message msg) {
 			PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
-			PreferenceGroup securityGroup = (PreferenceGroup)findPreference("securityprefs");
 			wifiGroup.setEnabled(msg.what == 1);
-			securityGroup.setEnabled(msg.what == 1);
         	super.handleMessage(msg);
     	}
     };
