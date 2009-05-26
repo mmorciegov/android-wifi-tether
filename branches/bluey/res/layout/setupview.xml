@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen  
     xmlns:android="http://schemas.android.com/apk/res/android">  
-    <PreferenceCategory android:title="Tether Mode">
+    <PreferenceCategory android:title="Bluetooth">
        <CheckBoxPreference
                android:key="bluetoothon"
                android:title="Use Bluetooth"
@@ -9,12 +9,11 @@
        <CheckBoxPreference
                android:key="bluetoothkeepwifi"
                android:dependency="bluetoothon"
-               android:title="Dont disable WiFi"
+               android:title="Don't disable WiFi"
                android:summary="Leave WiFi state alone" />
     </PreferenceCategory>
-    
-	<PreferenceCategory android:title="Security"
-		android:key="securityprefs">
+	<PreferenceCategory android:title="Wifi"
+		android:key="wifiprefs">
 	    <CheckBoxPreference  
 			android:key="encpref"  
 			android:title="Enable WiFi-Encryption"  
@@ -28,14 +27,7 @@
 			android:maxLength="13" 
 			android:defaultValue="abcdefghijklm"
 			android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-		/>  			
-		<CheckBoxPreference  
-			android:key="acpref"  
-			android:title="Enable Access-Control"  
-			android:summary="Turn on access-control" /> 	
-	</PreferenceCategory>
-	<PreferenceCategory android:title="Wifi"
-		android:key="wifiprefs">
+		/>  
 		<EditTextPreference  
 			android:key="ssidpref"  
 			android:title="Change SSID"  
@@ -62,6 +54,13 @@
 			android:entryValues="@array/powermodevalues"  
 			android:dialogTitle="Select Power Mode"
 			android:defaultValue="1" /> 			
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Security"
+		android:key="securityprefs">
+		<CheckBoxPreference  
+			android:key="acpref"  
+			android:title="Enable Access-Control"  
+			android:summary="Turn on access-control" /> 	
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Notifications">
 		<ListPreference  

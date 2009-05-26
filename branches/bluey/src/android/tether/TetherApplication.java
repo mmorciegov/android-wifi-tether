@@ -326,12 +326,21 @@ public class TetherApplication extends Application {
     }
 	
     public boolean restartTether() {
-    	
-        String bluetooth = "";
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
-        	bluetooth = "bt";
-        
-    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + bluetooth);
+    	return this.restartTether(0, 0);
+    }
+    
+    public boolean restartTether(int tetherModeToStop, int tetherModeToStart) {
+    	/* TetherModes:
+    	 * 		0 =  wifi
+    	 * 		1 =  bluetooth
+    	 */
+    	String command;
+    	boolean stopped = false;
+    	command = this.coretask.DATA_FILE_PATH+"/bin/tether stop";
+    	if (tetherModeToStop == 1) {
+    		command += "bt";
+    	}
+		stopped = this.coretask.runRootCommand(command);    	
     	if (this.clientConnectThread != null) {
     		try {
     			this.clientConnectThread.interrupt();
@@ -342,7 +351,11 @@ public class TetherApplication extends Application {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
-    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + bluetooth)) {
+    	command = this.coretask.DATA_FILE_PATH+"/bin/tether start";
+    	if (tetherModeToStart == 1) {
+    		command += "bt";
+    	}
+    	if (this.coretask.runRootCommand(command)) {
     		// Starting client-Connect-Thread	
     		this.clientConnectThread = new Thread(new ClientConnect());
             this.clientConnectThread.start(); 
@@ -351,7 +364,12 @@ public class TetherApplication extends Application {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
-    	
+		// Put WiFi and Bluetooth back, if applicable.
+		if (tetherModeToStop == 1 && tetherModeToStart == 0 && origBluetoothState == false)
+			callBluetoothMethod("disable");
+		if (this.settings.getBoolean("bluetoothkeepwifi", false)) {
+			this.enableWifi();
+		}
     	return true;
     }
     
