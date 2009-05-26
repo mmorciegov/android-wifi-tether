@@ -10,7 +10,6 @@
 JNIEXPORT jstring JNICALL Java_android_tether_system_NativeTask_getProp
   (JNIEnv *env, jclass class, jstring name)
 {
-  //Get the native string from javaString
   const char *nameString;
   nameString = (*env)->GetStringUTFChars(env, name, 0);
 
@@ -29,14 +28,11 @@ JNIEXPORT jstring JNICALL Java_android_tether_system_NativeTask_getProp
 }
 
 JNIEXPORT jint JNICALL Java_android_tether_system_NativeTask_runCommand
-  (JNIEnv *env, jclass class, jstring parameter)
+  (JNIEnv *env, jclass class, jstring command)
 {
-  const char *parameterString;
-  parameterString = (*env)->GetStringUTFChars(env, parameter, 0);
-  
-  char command[500] = "/system/bin/tetherexec ";
-  strcat(command, parameterString);
-  
-  (*env)->ReleaseStringUTFChars(env, parameter, parameterString);  
-  return (jint)system(command);
+  const char *commandString;
+  commandString = (*env)->GetStringUTFChars(env, command, 0);
+  int exitcode = system(commandString); 
+  (*env)->ReleaseStringUTFChars(env, command, commandString);  
+  return (jint)exitcode;
 }
