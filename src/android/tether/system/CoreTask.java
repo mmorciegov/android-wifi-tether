@@ -39,13 +39,7 @@ public class CoreTask {
 	private static final String defaultDNS1 = "208.67.220.220";
 	private static final String defaultDNS2 = "208.67.222.222";
 	
-	private ExecuteProcess executeProcess;
-	
 	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
-	
-	public CoreTask() {
-		this.executeProcess = new ExecuteProcess();
-	}
 	
 	public void setPath(String path){
 		this.DATA_FILE_PATH = path;
@@ -138,36 +132,11 @@ public class CoreTask {
     }
  
     public boolean chmodBin() {
-		this.executeProcess.execute("chmod 0755 "+this.DATA_FILE_PATH+"/bin/*", true, 2000);
-		if (this.executeProcess.getExitCode() != 0) {
-			return false;
-		}
-    	return true;
+    	if (NativeTask.runCommand("chmod 0755 "+this.DATA_FILE_PATH+"/bin/*") == 0) {
+    		return true;
+    	}
+    	return false;
     }   
-
-    public boolean setUidTetherExec() {
-    	this.executeProcess.execute("chmod 4755 /system/bin/tetherexec", true, 2000);
-    	if (this.executeProcess.getExitCode() != 0) {
-    		return false;
-    	}
-    	return true;
-    }
-    
-    public boolean remountSystemFilesystem(boolean write) {
-    	String command = "mount -o remount,ro -t yaffs2 /dev/block/mtdblock3 /system";
-    	if (write)
-    		command = "mount -o remount,rw -t yaffs2 /dev/block/mtdblock3 /system";
-    	this.executeProcess.execute(command, true, 2000);
-    	if (this.executeProcess.getExitCode() != 0) {
-    		return false;
-    	}
-    	return true;
-    }
-    
-    public ArrayList<String> readLinesFromCmd(String command) {
-		this.executeProcess.execute(command, false, 2000);
-		return this.executeProcess.getStdOutLines();
-    }
     
     public ArrayList<String> readLinesFromFile(String filename) {
     	String line = null;
@@ -272,9 +241,9 @@ public class CoreTask {
     public boolean hasRootPermission() {
     	boolean rooted = true;
 		try {
-			this.executeProcess.execute("", true, 5000);
-			Log.d(MSG_TAG, "Exit-Value ==> "+this.executeProcess.getExitCode());
-			if (this.executeProcess.getExitCode() != 0) {
+			// TODO: Better method to deteced if we have a rooted device
+			File su = new File("/system/bin/su");
+			if (su.exists() == false) {
 				rooted = false;
 			}
 		} catch (Exception e) {
@@ -285,9 +254,8 @@ public class CoreTask {
     }
     
     public boolean runRootCommand(String command) {
-		this.executeProcess.execute(command, true, 10000);
-		Log.d(MSG_TAG, "Return-Value ==> "+this.executeProcess.getExitCode());
-		if (this.executeProcess.getExitCode() == 0) {
+		Log.d(MSG_TAG, "Root-Command ==> su -c \""+command+"\"");
+    	if (NativeTask.runCommand("su -c \""+command+"\"") == 0) {
 			return true;
 		}
 		return false;
@@ -295,10 +263,6 @@ public class CoreTask {
     
     public String getProp(String property) {
     	return NativeTask.getProp(property);
-    	/*ArrayList<String> lines = readLinesFromCmd("getprop " + property);
-    	if (lines.size() > 0)
-    		return lines.get(0);
-    	return "";*/
     }
     
     public long[] getDataTraffic(String device) {
