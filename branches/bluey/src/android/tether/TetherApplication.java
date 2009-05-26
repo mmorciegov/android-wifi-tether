@@ -49,7 +49,6 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.tether.data.ClientData;
 import android.tether.system.CoreTask;
-import android.tether.system.NativeTask;
 import android.tether.system.WebserviceTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -276,8 +275,7 @@ public class TetherApplication extends Application {
         }
 
     	// Starting service
-        if (NativeTask.runCommand("start" + (bluetoothPref ? "bt" : "")) == 0) {
-    	//if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
+    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
     		// Starting client-Connect-Thread	
         	if (this.clientConnectThread != null) {
         		try {
@@ -313,12 +311,7 @@ public class TetherApplication extends Application {
         boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
         
-        boolean stopped = false;
-        if (NativeTask.runCommand("stop" + (bluetoothPref ? "bt" : "")) == 0) {
-        	stopped = true;
-        }
-        
-    	//boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? "bt" : ""));
+    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? "bt" : ""));
 		this.notificationManager.cancelAll();
 		
 		// Put WiFi and Bluetooth back, if applicable.
@@ -338,11 +331,7 @@ public class TetherApplication extends Application {
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false))
         	bluetooth = "bt";
         
-        boolean stopped = false;
-        if (NativeTask.runCommand("stop" + bluetooth) == 0) {
-        	stopped = true;
-        }
-    	//boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + bluetooth);
+    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + bluetooth);
     	if (this.clientConnectThread != null) {
     		try {
     			this.clientConnectThread.interrupt();
@@ -353,8 +342,7 @@ public class TetherApplication extends Application {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
-    	//if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + bluetooth)) {
-    	if (NativeTask.runCommand("start" + bluetooth) == 0) {
+    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + bluetooth)) {
     		// Starting client-Connect-Thread	
     		this.clientConnectThread = new Thread(new ClientConnect());
             this.clientConnectThread.start(); 
@@ -546,36 +534,11 @@ public class TetherApplication extends Application {
     	new Thread(new Runnable(){
 			public void run(){
 				String message = null;
-				// Install tetherexec
+				// libnativeTask.so	
 				if (message == null) {
-					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tetherexec", R.raw.tetherexec);
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/libNativeTask.so", R.raw.libnativetask_so);
 				}
-				if (message == null) {
-					if (!TetherApplication.this.coretask.remountSystemFilesystem(true)) {
-						message = "Unable to remount system-filesystem (read-write)!";
-					}
-				}
-				if (message == null) {
-					if (!TetherApplication.this.coretask.runRootCommand("cat "+TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tetherexec > /system/bin/tetherexec")) {
-						message = "Unable to move tetherexec to /system/bin!";
-					}
-				}
-				if (message == null) {
-					if (!(new File(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tetherexec")).delete()) {
-						message = "Unable to remove temporary tetherexec-file!";
-					}
-				}
-				if (message == null) {
-					if (!TetherApplication.this.coretask.setUidTetherExec()) {
-						message = "Unable to setuid (root) to tetherexec-binary!";
-					}
-				}
-				if (message == null) {
-					if (!TetherApplication.this.coretask.remountSystemFilesystem(false)) {
-						message = "Unable to remount system-filesystem (read-only)!";
-					}
-				}
-		    	// tether
+				// tether
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tether", R.raw.tether);
 		    	}
@@ -602,10 +565,6 @@ public class TetherApplication extends Application {
 				// blue-down.sh
 				if (message == null) {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-down.sh", R.raw.blue_down_sh);
-				}
-				// libnativeTask.so	
-				if (message == null) {
-					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/libNativeTask.so", R.raw.libnativetask_so);
 				}
 				try {
 		    		TetherApplication.this.coretask.chmodBin();
@@ -768,8 +727,7 @@ public class TetherApplication extends Application {
     	try {
 			if (this.coretask.isNatEnabled() && this.coretask.isProcessRunning("bin/dnsmasq")) {
 		    	Log.d(MSG_TAG, "Restarting iptables for access-control-changes!");
-				//if (!this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether restartsecwifi")) {
-		    	if (NativeTask.runCommand("restartsecwifi") != 0) {
+				if (!this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether restartsecwifi")) {
 					this.displayToastMessage("Unable to restart secured wifi!");
 					return;
 				}
