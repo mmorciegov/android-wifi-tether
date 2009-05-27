@@ -401,7 +401,7 @@ public class TetherApplication extends Application {
     		Log.d(MSG_TAG, "Wifi disabled!");
         	// Waiting for interface-shutdown
     		try {
-    			Thread.sleep(2000);
+    			Thread.sleep(5000);
     		} catch (InterruptedException e) {
     			// nothing
     		}
@@ -412,7 +412,7 @@ public class TetherApplication extends Application {
     	if (origWifiState) {
         	// Waiting for interface-restart
     		try {
-    			Thread.sleep(2000);
+    			Thread.sleep(5000);
     		} catch (InterruptedException e) {
     			// nothing
     		}
