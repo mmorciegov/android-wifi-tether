@@ -411,12 +411,13 @@ public class TetherApplication extends Application {
     public void enableWifi() {
     	if (origWifiState) {
         	// Waiting for interface-restart
+    		this.wifiManager.setWifiEnabled(true);
     		try {
     			Thread.sleep(5000);
     		} catch (InterruptedException e) {
     			// nothing
     		}
-    		this.wifiManager.setWifiEnabled(true);
+
     		Log.d(MSG_TAG, "Wifi started!");
     	}
     }
