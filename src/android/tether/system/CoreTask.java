@@ -313,10 +313,10 @@ public class CoreTask {
     	String dns[] = new String[2];
     	dns[0] = getProp("net.dns1");
     	dns[1] = getProp("net.dns2");
-    	if (dns[0] == null || dns[0].length() <= 0) {
+    	if (dns[0] == null || dns[0].length() <= 0 || dns[0].equals("undefined")) {
     		dns[0] = defaultDNS1;
     	}
-    	if (dns[1] == null || dns[1].length() <= 0) {
+    	if (dns[1] == null || dns[1].length() <= 0 || dns[1].equals("undefined")) {
     		dns[1] = defaultDNS2;
     	}
     	boolean writeconfig = false;
