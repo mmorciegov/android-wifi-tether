@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# @Version=13
+# @Version=14
 # Copyright 2008 parrothd
 # Copyright 2009 zodiac (Markus Gutschke)
 
@@ -100,9 +100,6 @@ stoppand() {
     run 'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) break;; esac; false; done' \
         "Stopping pand" \
         'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) kill -9 "$p" 2> /dev/null;; esac; done; rm '"'$pand_pidfile' 2>/dev/null"
-    run 'ps | while read u p pp v r w pc s n; do case "$n" in *dnsmasq*) break;; esac; false; done' \
-        "Stopping dnsmasq" \
-        'ps | while read u p pp v r w pc s n; do case "$n" in *dnsmasq*) kill -9 "$p";; esac; done; rm '"'$dnsmasq_pidfile' 2>/dev/null"
 }
 
 startint() {
@@ -217,6 +214,7 @@ case "$1" in
 'stopbt')
     rm "$tetherlog" 2>/dev/null
     rm "$dnsmasq_leasefile" 2>/dev/null
+    stopdnsmasq
     stoppand
     stopbluetooth
     stopipfw
