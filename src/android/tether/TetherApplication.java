@@ -40,6 +40,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
@@ -77,6 +79,9 @@ public class TetherApplication extends Application {
 	private PowerManager powerManager = null;
 	private PowerManager.WakeLock wakeLock = null;
 
+	// ConnectivityManager
+	private ConnectivityManager connectivityManager;	
+	
 	// Preferences
 	public SharedPreferences settings = null;
 	public SharedPreferences.Editor preferenceEditor = null;
@@ -145,6 +150,9 @@ public class TetherApplication extends Application {
         // Powermanagement
         powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "TETHER_WAKE_LOCK");
+
+        // Connectivitymanager
+        connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);        
         
         // Original sync states
 		origTickleState = getBoolean(getContentResolver(), SETTING_LISTEN_FOR_TICKLES, true);
@@ -259,9 +267,6 @@ public class TetherApplication extends Application {
     	 *    1 = Mobile-Data-Connection not established (not used at the moment)
     	 *    2 = Fatal error 
     	 */
-        // Updating dnsmasq-Config
-        this.coretask.updateDnsmasqConf();
-
         boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
 
@@ -272,8 +277,36 @@ public class TetherApplication extends Application {
 				this.disableWifi();
         } else {
         	this.disableWifi();
+        	
+        	boolean connected = false;
+        	int checkcounter = 0;
+        	while (connected == false && checkcounter <= 5) {
+    	    	NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+    	        if (networkInfo != null) {
+    		    	if (networkInfo != null && networkInfo.getState().equals(NetworkInfo.State.CONNECTED) == true) {
+    		    		connected = true;
+    		    	}
+    	        }
+    	        if (connected == false) {
+    		    	checkcounter++;
+    	        	try {
+    					Thread.sleep(1000);
+    				} catch (InterruptedException e) {
+    					// nothing
+    				}
+    	        }
+    	        else {
+    	        	break;
+    	        }
+        	}
+            if (connected == false) {
+            	return 1;
+            }
         }
 
+        // Updating dnsmasq-Config
+        this.coretask.updateDnsmasqConf();        
+        
     	// Starting service
     	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
     		// Starting client-Connect-Thread	
