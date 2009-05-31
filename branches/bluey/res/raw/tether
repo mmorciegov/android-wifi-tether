@@ -16,7 +16,7 @@ wpa_supplicant_conf="$dir"/conf/wpa_supplicant.conf
 pand_pidfile="$dir"/var/pand.pid
 
 really_kill() {
-  kill "$1" || :
+  kill -2 "$1" || :
   kill -0 "$1" && {
     sleep 1
     kill -9 "$1"
@@ -99,7 +99,7 @@ stoppand() {
     "$dir"/bin/pand -K
     run 'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) break;; esac; false; done' \
         "Stopping pand" \
-        'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) kill -9 "$p" 2> /dev/null;; esac; done; rm '"'$pand_pidfile' 2>/dev/null"
+        'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) really_kill "$p";; esac; done; rm '"'$pand_pidfile' 2>/dev/null"
 }
 
 startint() {
