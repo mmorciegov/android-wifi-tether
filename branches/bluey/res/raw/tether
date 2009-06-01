@@ -1,5 +1,5 @@
 #!/system/bin/sh
-# @Version=14
+# @Version=15
 # Copyright 2008 parrothd
 # Copyright 2009 zodiac (Markus Gutschke)
 
@@ -99,7 +99,7 @@ stoppand() {
     "$dir"/bin/pand -K
     run 'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) break;; esac; false; done' \
         "Stopping pand" \
-        'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) really_kill "$p";; esac; done; rm '"'$pand_pidfile' 2>/dev/null"
+        'ps | while read u p pp v r w pc s n; do case "$n" in *pand*) kill -15 "$p" 2>/dev/null;; esac; done; rm '"'$pand_pidfile' 2>/dev/null"
 }
 
 startint() {
