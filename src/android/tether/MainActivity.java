@@ -274,8 +274,8 @@ public class MainActivity extends Activity {
             	MainActivity.this.toggleStartStop();
             	break;
         	case MESSAGE_CANT_START_TETHER :
-        		Log.d(MSG_TAG, "Unable to start tetering!");
-        		MainActivity.this.application.displayToastMessage("Unable to start tethering!");
+        		Log.d(MSG_TAG, "Unable to start tethering!");
+        		MainActivity.this.application.displayToastMessage("Unable to start tethering. Please try again!");
             	MainActivity.this.toggleStartStop();
             	break;
         	case MESSAGE_TRAFFIC_START :

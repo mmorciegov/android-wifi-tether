@@ -271,34 +271,20 @@ public class TetherApplication extends Application {
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
 
         if (bluetoothPref) {
-    		if (enableBluetooth() == false)
+    		if (enableBluetooth() == false){
     			return 2;
-			if (bluetoothWifi == false)
-				this.disableWifi();
-        } else {
+    		}
+			if (bluetoothWifi == false) {
+	        	this.disableWifi();
+	        	boolean connected = this.mobileNetworkActivated();
+	            if (connected == false) {
+	            	return 1;
+	            }
+			}
+        } 
+        else {
         	this.disableWifi();
-        	
-        	boolean connected = false;
-        	int checkcounter = 0;
-        	while (connected == false && checkcounter <= 5) {
-    	    	NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-    	        if (networkInfo != null) {
-    		    	if (networkInfo != null && networkInfo.getState().equals(NetworkInfo.State.CONNECTED) == true) {
-    		    		connected = true;
-    		    	}
-    	        }
-    	        if (connected == false) {
-    		    	checkcounter++;
-    	        	try {
-    					Thread.sleep(1000);
-    				} catch (InterruptedException e) {
-    					// nothing
-    				}
-    	        }
-    	        else {
-    	        	break;
-    	        }
-        	}
+        	boolean connected = this.mobileNetworkActivated();
             if (connected == false) {
             	return 1;
             }
@@ -404,6 +390,33 @@ public class TetherApplication extends Application {
 			this.enableWifi();
 		}
     	return true;
+    }
+    
+    private boolean mobileNetworkActivated() {
+    	boolean connected = false;
+    	int checkcounter = 0;
+    	Log.d(MSG_TAG, "Check for mobile-data-connection!");
+    	while (connected == false && checkcounter <= 5) {
+    		Log.d(MSG_TAG, "Waiting until connection is established ...");
+    		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+	        if (networkInfo != null) {
+		    	if (networkInfo != null && networkInfo.getState().equals(NetworkInfo.State.CONNECTED) == true) {
+		    		connected = true;
+		    	}
+	        }
+	        if (connected == false) {
+		    	checkcounter++;
+	        	try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// nothing
+				}
+	        }
+	        else {
+	        	break;
+	        }
+    	}
+    	return connected;
     }
     
     // gets user preference on whether wakelock should be disabled during tethering
