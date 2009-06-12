@@ -121,10 +121,18 @@ public class MainActivity extends Activity {
         animation.setStartOffset(0);
         animation.setRepeatCount(1);
         animation.setRepeatMode(Animation.REVERSE);
-        
+
         // Startup-Check
         if (this.application.startupCheckPerformed == false) {
 	        this.application.startupCheckPerformed = true;
+	        
+	        // Only check up to '=' to allow for either 'y' or 'm'
+	    	if (!this.application.coretask.hasKernelFeature("CONFIG_NETFILTER=") || 
+	    		!this.application.coretask.hasKernelFeature("CONFIG_IP_NF_IPTABLES="))
+	    		this.openNoNetfilterDialog();
+	    	if (!this.application.coretask.hasRootPermission())
+	    		this.openNotRootDialog();
+	    	
         	// Checking root-permission, files
 	        boolean filesetoutdated = false;
 	        if (this.application.binariesExists() == false || this.application.coretask.filesetOutdated()) {
@@ -133,9 +141,6 @@ public class MainActivity extends Activity {
 	        			filesetoutdated = true;
 	        		}
 	        		this.application.installFiles();
-	        	}
-	        	else {
-	        		this.openNotRootDialog();
 	        	}
 	        }
 	        if (filesetoutdated) {
@@ -398,6 +403,29 @@ public class MainActivity extends Activity {
 		return ((float)((int)(count*100/1024/1024))/100 + (rate ? "mbps" : "MB"));
 	}
   
+   	private void openNoNetfilterDialog() {
+		LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.nonetfilterview, null); 
+		new AlertDialog.Builder(MainActivity.this)
+        .setTitle("No Netfilter!")
+        .setIcon(R.drawable.warning)
+        .setView(view)
+        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                        Log.d(MSG_TAG, "Close pressed");
+                        MainActivity.this.finish();
+                }
+        })
+        .setNeutralButton("Ignore", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Log.d(MSG_TAG, "Override pressed");
+                    MainActivity.this.application.installFiles();
+                    MainActivity.this.application.displayToastMessage("Ignoring, note that tethering will NOT work.");
+                }
+        })
+        .show();
+   	}
+   	
    	private void openNotRootDialog() {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.norootview, null); 

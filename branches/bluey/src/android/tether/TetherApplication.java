@@ -697,24 +697,8 @@ public class TetherApplication extends Application {
     }
     
     public synchronized String findBnepModule() {
-    	try {
-			FileInputStream fis = new FileInputStream("/proc/config.gz");
-			GZIPInputStream gzin = new GZIPInputStream(fis);
-			BufferedReader in = null;
-			String line = "";
-			in = new BufferedReader(new InputStreamReader(gzin));
-			while ((line = in.readLine()) != null) {
-				   if (line.contains("CONFIG_BT_BNEP=y")) {
-					    gzin.close();
-						return "BUILTIN";
-					}
-			}
-			gzin.close();
-			Log.d(MSG_TAG, "No bluetooth in the kernel.");
-    	} catch (IOException e) {
-    		//
-    		Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
-    	}
+    	if (this.coretask.hasKernelFeature("CONFIG_BT_BNEP=y"))
+    		return "BUILTIN";
 		String moduleFileName = "/sdcard/android.tether/bnep.ko";
 		File bnepFile = new File(moduleFileName);
 		if (bnepFile.exists() == false) {

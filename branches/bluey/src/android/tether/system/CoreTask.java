@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.zip.GZIPInputStream;
 
 import android.tether.data.ClientData;
 import android.util.Log;
@@ -196,6 +197,27 @@ public class CoreTask {
         String version = lines.get(0).split(" ")[2];
         Log.d(MSG_TAG, "Kernel version: " + version);
         return version;
+    }
+    
+    public synchronized boolean hasKernelFeature(String feature) {
+    	try {
+			FileInputStream fis = new FileInputStream("/proc/config.gz");
+			GZIPInputStream gzin = new GZIPInputStream(fis);
+			BufferedReader in = null;
+			String line = "";
+			in = new BufferedReader(new InputStreamReader(gzin));
+			while ((line = in.readLine()) != null) {
+				   if (line.startsWith(feature)) {
+					    gzin.close();
+						return true;
+					}
+			}
+			gzin.close();
+    	} catch (IOException e) {
+    		//
+    		Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
+    	}
+    	return false;
     }
 
     public boolean isProcessRunning(String processName) throws Exception {
