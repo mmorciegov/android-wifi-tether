@@ -52,6 +52,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private boolean currentEncryptionEnabled;
     
     private EditTextPreference prefPassphrase;
+    private EditTextPreference prefSSID;
     
     private Hashtable<String,String> tiWlanConf = null;
     private Hashtable<String,String> wpaSupplicantConf = null;
@@ -75,14 +76,35 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.prefPassphrase.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
         	public boolean onPreferenceChange(Preference preference,
 					Object newValue) {
+        	  String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ" +
+        	                      "abcdefghijklmnopqrstuvwxyz" +
+        	                      "0123456789";
         		if(newValue.toString().length() == 13){
+        		  for (int i = 0 ; i < 13 ; i++) {
+        		    if (!validChars.contains(newValue.toString().substring(i, i+1))) {
+        		      SetupActivity.this.application.displayToastMessage("Passphrase contains invalid characters, not saved!");
+        		      return false;
+        		    }
+        		  }
         			return true;
         		}
         		else{
         			SetupActivity.this.application.displayToastMessage("Passphrase too short! New value was not saved.");
         			return false;
         		}
-			}});
+        }});
+        // SSID-Validation
+        this.prefSSID = (EditTextPreference)findPreference("ssidpref");
+        this.prefSSID.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener(){
+          public boolean onPreferenceChange(Preference preference,
+          Object newValue) {
+            String message = validateSSID(newValue.toString());
+            if(!message.equals("")) {
+              SetupActivity.this.application.displayToastMessage(message);
+              return false;
+            }
+            return true;
+        }});
         final int origTextColorPassphrase = SetupActivity.this.prefPassphrase.getEditText().getCurrentTextColor();
         this.prefPassphrase.getEditText().addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -171,34 +193,29 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    	if (key.equals("ssidpref")) {
 		    		String newSSID = sharedPreferences.getString("ssidpref", "G1Tether");
 		    		if (SetupActivity.this.currentSSID.equals(newSSID) == false) {
-		    			if (SetupActivity.this.validateSSID(newSSID)) {
-			    			if (application.coretask.writeTiWlanConf("dot11DesiredSSID", newSSID)) {
-			    				// Rewriting wpa_supplicant if exists
-			    				if (application.coretask.wpaSupplicantExists()) {
-				        			Hashtable<String,String> values = new Hashtable<String,String>();
-				        			values.put("ssid", "\""+sharedPreferences.getString("ssidpref", "G1Tether")+"\"");
-				        			values.put("wep_key0", "\""+sharedPreferences.getString("passphrasepref", DEFAULT_PASSPHRASE)+"\"");
-				        			application.coretask.writeWpaSupplicantConf(values);
+		    			if (application.coretask.writeTiWlanConf("dot11DesiredSSID", newSSID)) {
+		    				// Rewriting wpa_supplicant if exists
+		    				if (application.coretask.wpaSupplicantExists()) {
+			        			Hashtable<String,String> values = new Hashtable<String,String>();
+			        			values.put("ssid", "\""+sharedPreferences.getString("ssidpref", "G1Tether")+"\"");
+			        			values.put("wep_key0", "\""+sharedPreferences.getString("passphrasepref", DEFAULT_PASSPHRASE)+"\"");
+			        			application.coretask.writeWpaSupplicantConf(values);
+		    				}
+		    				SetupActivity.this.currentSSID = newSSID;
+		    				message = "SSID changed to '"+newSSID+"'.";
+		    				try{
+			    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
+					    			// Show RestartDialog
+					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
+			    					// Restart Tethering
+					    			SetupActivity.this.application.restartTether();
+					    			// Dismiss RestartDialog
+					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 			    				}
-			    				SetupActivity.this.currentSSID = newSSID;
-			    				message = "SSID changed to '"+newSSID+"'.";
-			    				try{
-				    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
-						    			// Show RestartDialog
-						    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
-				    					// Restart Tethering
-						    			SetupActivity.this.application.restartTether();
-						    			// Dismiss RestartDialog
-						    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
-				    				}
-			    				}
-			    				catch (Exception ex) {
-			    					message = "Unable to restart tethering!";
-			    				}
-			    			}
-			    			else {
-			    				message = "Couldn't change ssid to '"+newSSID+"'!";
-			    			}
+		    				}
+		    				catch (Exception ex) {
+		    					message = "Unable to restart tethering!";
+		    				}
 		    			}
 		    	    	// Update config from Files
 		    			SetupActivity.this.tiWlanConf = application.coretask.getTiWlanConf();
@@ -528,12 +545,22 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     	return "";   	
     }
     
-    public boolean validateSSID(String newSSID){
-    	if (newSSID.contains("#") || newSSID.contains("`")){
-    		SetupActivity.this.application.displayToastMessage("New SSID cannot contain '#' or '`'!");
-    		return false;
+    public String validateSSID(String newSSID){
+      String message = "";
+      String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ" +
+      "abcdefghijklmnopqrstuvwxyz" +
+      "0123456789_.";
+      for (int i = 0 ; i < newSSID.length() ; i++) {
+        if (!validChars.contains(newSSID.substring(i, i+1))) {
+          message = "SSID contains invalid characters";
+        }
+      }
+      if (newSSID.equals("")) {
+        message = "New SSID cannot be empty";
     	}
-		return true;
+    	if (message.length() > 0)
+    	  message += ", not saved.";
+    	return message;
     }
     
     @Override
