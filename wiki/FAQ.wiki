@@ -14,7 +14,10 @@ Root means more power over your device. This is useful, but can also be a securi
 
 *How do I install the program?*
 
-You can either download it [http://code.google.com/p/android-wifi-tether/downloads/list directly] on your phone or look it up in the Market.
+For Android 1.5 (cupcake) users you can either download it [http://code.google.com/p/android-wifi-tether/downloads/list directly] on your phone or look it up in the Market.
+ 
+For Android 1.1 users make sure you download version 0.97.1 from [http://code.google.com/p/android-wifi-tether/downloads/list here].
+
 
 *Why do I get the message "No Netfilter" on startup?*
 
