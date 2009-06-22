@@ -6,6 +6,9 @@
 
 You might have noticed that "Wifi Tether for Root Users" does not work anymore after updating your *Android DevPhone 1* to [http://www.htc.com/www/support/android/adp.html ADP1.5 (cupcake)] *(official firmware from HTC)*.
 
+{{{<font size="5" color="#990000">This kernel-update won't work correctly on other devices/firmwares. Don't apply this update on a HTC Magic for instance!</font>}}}
+
+
 The new kernel does not support netfilter/iptables! To make our application run you have to *replace the original kernel* with our "netfilter-enabled" kernel.  
 
 == Instruction ==
