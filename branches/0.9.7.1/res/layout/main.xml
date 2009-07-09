@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout android:id="@+id/layoutDownloadUpdate"
+		android:layout_width="fill_parent"
+		android:layout_height="60px"
+		android:visibility="gone"
+		android:layout_gravity="center_horizontal"
+		android:background="#FF909090">
+		<TextView  
+			android:id="@+id/progressTitle"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content" 
+		    android:layout_alignParentTop="true"
+		    android:paddingLeft="5px"
+		    android:paddingRight="5px"
+		    android:text=""
+		    android:textStyle="bold"
+			android:textColor="#ffffff"
+		    />
+		<ProgressBar
+			android:id="@+id/progressBar"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			style="?android:attr/progressBarStyleHorizontal"
+			android:paddingTop="22px"
+			android:paddingLeft="5px"
+			android:paddingRight="5px"
+			android:layout_alignParentTop="true"
+			android:max="100"/>
+		<TextView  
+			android:id="@+id/progressText"
+		    android:layout_width="fill_parent" 
+		    android:layout_height="wrap_content" 
+		    android:paddingTop="40px"
+		    android:paddingLeft="5px"
+		    android:paddingRight="5px"
+		    android:layout_alignParentTop="true"
+		    android:text=""
+		    android:textStyle="bold"
+			android:textColor="#ffffff"
+		    />
+	</RelativeLayout>
+    
+	<ScrollView android:id="@+id/mainview" 
+		android:orientation="vertical"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent">
+		<TableLayout android:id="@+id/mainLayout"
+			android:layout_gravity="center"
+			android:layout_height="wrap_content" 
+			android:layout_width="wrap_content">
+			<TableRow android:id="@+id/startRow">
+				<TableLayout
+					android:layout_gravity="center"
+					android:layout_height="wrap_content" 
+					android:layout_width="wrap_content">
+					<TableRow>
+						<ImageButton android:id="@+id/startTetherBtn"
+							android:src="@drawable/start" 
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content" 
+							android:layout_gravity="center_horizontal" />
+					</TableRow>
+					<TableRow>
+						<TextView android:id="@+id/startText"
+							android:text=" - Press to start tethering. - "
+							android:paddingTop="15px"
+							android:layout_gravity="center_vertical"
+							android:textStyle="bold"
+							android:textColor="#ffffff" />
+					</TableRow>
+				</TableLayout>
+			</TableRow>
+			<TableRow android:id="@+id/stopRow">
+				<TableLayout
+					android:layout_gravity="center"
+					android:layout_height="wrap_content" 
+					android:layout_width="wrap_content">
+					<TableRow>			
+						<ImageButton android:id="@+id/stopTetherBtn"
+							android:src="@drawable/stop" 
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content" 
+							android:layout_gravity="center_horizontal" />
+					</TableRow>
+					<TableRow>
+						<TextView android:id="@+id/stopText"
+							android:text=" - Press to stop tethering. - "
+							android:paddingTop="15px"
+							android:layout_gravity="center_vertical"
+							android:textStyle="bold"
+							android:textColor="#ffffff" />
+					</TableRow>
+				</TableLayout>					
+			</TableRow>	
+		</TableLayout>
+	</ScrollView>	    
+</LinearLayout>
