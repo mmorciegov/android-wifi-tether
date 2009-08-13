@@ -1,5 +1,5 @@
 #summary Frequently Asked Questions
-#labels FAQ,support,help
+#labels FAQ,support,help,Featured
 
 *What does this application do?*
 
