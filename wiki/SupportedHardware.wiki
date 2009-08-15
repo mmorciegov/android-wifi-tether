@@ -1,3 +1,4 @@
+#summary Supported Hardware
 =Supported Hardware=
 
 * ==> Under Construction <== *
