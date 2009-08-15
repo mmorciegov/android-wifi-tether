@@ -1,0 +1,8 @@
+#labels Deprecated
+#Supported Hardware
+
+=*** Under Construction ***=
+
+|| *Device* || *Android Version* || *Firmware* || *Supported* || *Kernel* || *Comment* ||
+|| Android DevPhone 1 || Android 1.5 (Cupcake) || [http://www.htc.com/www/support/android/adp.html Official HTC ADP1.5] || Yes || [http://code.google.com/p/android-wifi-tether/wiki/ADP15KernelUpdate Kernel-Update (netfilter-support)] || || 
+
