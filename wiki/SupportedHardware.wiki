@@ -4,5 +4,9 @@
 =*** Under Construction ***=
 
 || *Device* || *Android Version* || *Firmware* || *Supported* || *Kernel* || *Comment* ||
-|| Android DevPhone 1 || Android 1.5 (Cupcake) || [http://www.htc.com/www/support/android/adp.html Official HTC ADP1.5] || Yes || [http://code.google.com/p/android-wifi-tether/wiki/ADP15KernelUpdate Kernel-Update (netfilter-support)] || || 
-
+|| [http://en.wikipedia.org/wiki/Android_Dev_Phone Android DevPhone 1] || Android 1.5 || [http://www.htc.com/www/support/android/adp.html Official HTC ADP1.5] || Yes || [http://code.google.com/p/android-wifi-tether/wiki/ADP15KernelUpdate Kernel-Update (netfilter-support)] || ||
+|| [http://www.htc.com/www/product/dream/overview.html HTC Dream/T-Mobile G1] || Android 1.5 || Custom Firmware || Yes || Netfilter-support is included in most custom kernels/firmwares || ||
+|| [http://www.htc.com/www/product/magic/overview.html HTC Magic (Vodafone branded / 32B-Boards)] || Android 1.5 (Cupcake) || Custom Firmware || Yes || Netfilter-support is included in most custom kernels/firmwares || ||
+|| [http://www.htc.com/www/product/magic/overview.html HTC Magic (32A-Boards)] || Android 1.5 || ? || No || No netfilter-enabled kernel available || HTC has not published kernel-sources (netfilter support - re-compile of kernel not possible) ||
+|| [http://www.htc.com/www/product/hero/overview.html HTC Hero] || Android 1.5 || ? || No || ? || Ad-Hoc-Mode does not seem to work correctly. Netfilter is enabled in default/stock-kernel. HTC has not published kernel-sources. ||
+|| [http://www.samsung.de/produkte/detail11_main.aspx?guid=36cbb95c-43da-4f42-a578-ae02b63064fd Samsung Galaxy I7500] || Android 1.5 || ? || No || No netfilter-enabled kernel available || HTC has not published kernel-sources (netfilter support - re-compile of kernel not possible) ||
