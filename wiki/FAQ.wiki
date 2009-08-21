@@ -3,8 +3,7 @@
 
 *What does this application do?*
 
-This program enables wifi-tethering for "rooted" handsets.
-Clients (your laptop for example) can connect via wifi (ad-hoc mode) and get access to the internet using the 3G or 2G connection which is established by the handset.
+This program enables tethering (via *wifi* and *bluetooth*) for "rooted" handsets running android (such as the Android DevPhone 1). Clients (your laptop for example) can connect via wifi (ad-hoc mode) or bluetooth and get access to the internet using the 3G, 2G mobile connection or (in case you are using bluetooth) the wifi connection which is established by the handset.
 
 
 *What is this root thing and how do I get it?*
