@@ -1,7 +1,8 @@
 #summary Supported Hardware
+#labels Featured
 =Supported Hardware=
 
-* ==> Under Construction <== *
+Wireless Tether for Root Users needs netfilter-support compiled into the kernel. This means that the Linux kernel on your device needs to have the features (CONFIG_NETFILTER and CONFIG_IP_NF_IPTABLES) enabled. If you have an ADP G1, please read [ADP15KernelUpdate], otherwise you will need to find a firmware/kernel with these features. The developers of Wireless Tether are unable to help with other types of devices (but donations of hardware/etc would help ;).
 
 || *Device* || *Android Version* || *Firmware* || *Supported* || *Kernel* || *Comment* ||
 || [http://en.wikipedia.org/wiki/Android_Dev_Phone Android DevPhone 1] || Android 1.5 || [http://www.htc.com/www/support/android/adp.html Official HTC ADP1.5] || *Yes* || [http://code.google.com/p/android-wifi-tether/wiki/ADP15KernelUpdate Kernel-Update (netfilter-support)] || ||
