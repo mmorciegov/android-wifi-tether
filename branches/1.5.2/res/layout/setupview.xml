@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen  
+    xmlns:android="http://schemas.android.com/apk/res/android">  
+    <PreferenceCategory android:title="Bluetooth">
+       <CheckBoxPreference
+               android:key="bluetoothon"
+               android:title="Use Bluetooth"
+               android:summary="Bluetooth PAN tether instead of WiFi" />
+       <CheckBoxPreference
+               android:key="bluetoothkeepwifi"
+               android:dependency="bluetoothon"
+               android:title="Don't disable WiFi"
+               android:summary="Leave WiFi state alone" />
+    </PreferenceCategory>
+	<PreferenceCategory android:title="Wifi"
+		android:key="wifiprefs">
+	    <CheckBoxPreference  
+			android:key="encpref"  
+			android:title="Enable WiFi-Encryption"  
+			android:summary="Turn on wifi-encrytion (WEP 128-bit)" /> 	
+		<EditTextPreference
+			android:key="passphrasepref"  
+			android:title="Change Passphrase"  
+			android:summary="Change Passphrase for WiFi-Encryption" 
+			android:dialogTitle="Enter Passphrase" 
+			android:dialogMessage="WEP-key must be 13 characters (ASCII) long!"
+			android:maxLength="13" 
+			android:defaultValue="abcdefghijklm"
+		/> 
+		<EditTextPreference  
+			android:key="ssidpref"  
+			android:title="Change SSID"  
+			android:summary="Network name"  
+			android:dialogTitle="Enter SSID" 
+			android:maxLength="15"  
+			android:dialogMessage="Only alpha-numeric characters and '.', '_' allowed!"
+			android:defaultValue="G1Tether"
+		/>      
+		<ListPreference  
+			android:key="channelpref"  
+			android:title="Change Channel"  
+			android:summary="Wireless frequency channel"  
+			android:entries="@array/channelnames"  
+			android:entryValues="@array/channelvalues"  
+			android:dialogTitle="Select Channel"
+			android:defaultValue="6" /> 
+		<ListPreference  
+			android:key="powermodepref"  
+			android:title="Change Power Mode"  
+			android:summary="Wifi power settings"  
+			android:entries="@array/powermodenames"  
+			android:entryValues="@array/powermodevalues"  
+			android:dialogTitle="Select Power Mode"
+			android:defaultValue="1" /> 			
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Security"
+		android:key="securityprefs">
+		<CheckBoxPreference  
+			android:key="acpref"  
+			android:title="Enable Access-Control"  
+			android:summary="Turn on access-control" /> 	
+	</PreferenceCategory>
+	<PreferenceCategory android:title="LAN">
+		<ListPreference  
+			android:key="lannetworkpref"  
+			android:title="Change LAN"  
+			android:summary="LAN network settings"  
+			android:entries="@array/lannetworkvalues"  
+			android:entryValues="@array/lannetworkvalues"  
+			android:dialogTitle="Select LAN-Network"
+			android:defaultValue="192.168.2.0/24" /> 	
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Notifications">
+		<ListPreference  
+			android:key="notificationpref"  
+			android:title="Client Notification Mode"  
+			android:summary="Client Notification Mode settings"  
+			android:entries="@array/notificationmodenames"  
+			android:entryValues="@array/notificationmodevalues"  
+			android:defaultValue="2"
+			android:dialogTitle="Select Client Notification Mode" /> 		
+		 <RingtonePreference  
+			android:key="notifyring"  
+			android:title="Notification Ringtone"  
+			android:showSilent="true"
+			android:showDefault="true"
+			android:ringtoneType="notification"
+			android:summary="Ringtone to use with notifications" /> 		
+		 <CheckBoxPreference  
+			android:key="notifyvibrate"  
+			android:title="Vibrate on connect"  
+			android:defaultValue="true"
+			android:summary="Vibrate when a client connects" /> 	
+	</PreferenceCategory>
+	<PreferenceCategory android:title="Miscellaneous">
+		 <CheckBoxPreference  
+			android:key="updatepref"  
+			android:title="Disable Update-Check"  
+			android:summary="Turn off update-check at startup" /> 	
+		 <CheckBoxPreference  
+			android:key="syncpref"  
+			android:title="Disable Auto-Sync"  
+			android:summary="Turn off auto-sync while tethering" /> 	
+		 <CheckBoxPreference  
+			android:key="wakelockpref"  
+			android:title="Disable Wake-Lock"  
+			android:summary="Turn off wake-lock while tethering" />  			 
+	</PreferenceCategory>
+</PreferenceScreen>  
