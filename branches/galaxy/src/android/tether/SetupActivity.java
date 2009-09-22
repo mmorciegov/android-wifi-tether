@@ -48,7 +48,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 
     private String currentSSID;
     private String currentChannel;
-    private String currentPowermode;
     private String currentPassphrase;
     private String currentLAN;
     private boolean currentEncryptionEnabled;
@@ -56,7 +55,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private EditTextPreference prefPassphrase;
     private EditTextPreference prefSSID;
     
-    private Hashtable<String,String> tiWlanConf = null;
     private Hashtable<String,String> wpaSupplicantConf = null;
     
     private static int ID_DIALOG_RESTARTING = 2;
@@ -146,7 +144,10 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     }
 
     private void updateConfigFromFile() {
-        this.tiWlanConf = application.coretask.getTiWlanConf();
+        /** 
+         * TODO
+    	this.tiWlanConf = application.coretask.getTiWlanConf();
+         */
         this.wpaSupplicantConf = application.coretask.getWpaSupplicantConf();   	
     }
     
@@ -220,7 +221,10 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				}
 		    			}
 		    	    	// Update config from Files
+		    			/**
+		    			 * TODO
 		    			SetupActivity.this.tiWlanConf = application.coretask.getTiWlanConf();
+		    			 */
 		    	    	// Update preferences with real values
 		    			SetupActivity.this.updatePreferences();
 		    			
@@ -254,41 +258,10 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				message = "Couldn't change channel to  '"+newChannel+"'!";
 		    			}
 		    	    	// Update config from Files
+		    			/**
+		    			 * TODO
 		    			SetupActivity.this.tiWlanConf = application.coretask.getTiWlanConf();
-		    	    	// Update preferences with real values
-		    			SetupActivity.this.updatePreferences();
-		    			
-		    			// Send Message
-		    			Message msg = new Message();
-		    			msg.obj = message;
-		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
-		    		}
-		    	}
-		    	else if (key.equals("powermodepref")) {
-		    		String newPowermode = sharedPreferences.getString("powermodepref", "0");
-		    		if (SetupActivity.this.currentPowermode.equals(newPowermode) == false) {
-		    			if (application.coretask.writeTiWlanConf("dot11PowerMode", newPowermode)) {
-		    				SetupActivity.this.currentPowermode = newPowermode;
-		    				message = "Powermode changed to '"+getResources().getStringArray(R.array.powermodenames)[new Integer(newPowermode)]+"'.";
-		    				try{
-			    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
-					    			// Show RestartDialog
-					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(0);
-					    			// Restart Tethering
-			    					SetupActivity.this.application.restartTether();
-					    			// Dismiss RestartDialog
-					    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
-			    				}
-		    				}
-		    				catch (Exception ex) {
-		    					message = "Unable to restart tethering!";
-		    				}
-						}
-		    			else {
-		    				message = "Couldn't change powermode to  '"+newPowermode+"'!";
-		    			}
-		    	    	// Update config from Files
-		    			SetupActivity.this.tiWlanConf = application.coretask.getTiWlanConf();
+		    			 */
 		    	    	// Update preferences with real values
 		    			SetupActivity.this.updatePreferences();
 		    			
@@ -515,15 +488,17 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     		this.application.preferenceEditor.putBoolean("encpref", false);
     		this.currentEncryptionEnabled = false;
     	}
+    	
+    	/**
+    	 * TODO
     	// SSID
         this.currentSSID = this.getTiWlanConfValue("dot11DesiredSSID");
         this.application.preferenceEditor.putString("ssidpref", this.currentSSID);
         // Channel
         this.currentChannel = this.getTiWlanConfValue("dot11DesiredChannel");
         this.application.preferenceEditor.putString("channelpref", this.currentChannel);
-        // Powermode
-        this.currentPowermode = this.getTiWlanConfValue("dot11PowerMode");
-        this.application.preferenceEditor.putString("powermodepref", this.currentPowermode);
+    	 */
+
         // Passphrase
         if (this.wpaSupplicantConf != null) {
         	this.currentPassphrase = this.getWpaSupplicantConfValue("wep_key0");
@@ -546,15 +521,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	super.handleMessage(msg);
     	}
     };
-    
-    private String getTiWlanConfValue(String name) {
-    	if (this.tiWlanConf != null && this.tiWlanConf.containsKey(name)) {
-    		if (this.tiWlanConf.get(name) != null && this.tiWlanConf.get(name).length() > 0) {
-    			return this.tiWlanConf.get(name);
-    		}
-    	}
-    	return "";
-    }
     
     private String getWpaSupplicantConfValue(String name) {
     	if (this.wpaSupplicantConf != null && this.wpaSupplicantConf.containsKey(name)) {
