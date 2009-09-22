@@ -139,8 +139,8 @@ void stopwifi() {
 	// Killing dnsmasq
 	kill_processes_by_name((char *)"dnsmasq");
 	// Loading wlan-kernel-module
-	if (kernel_module_loaded((char *)"wlan") == 0) {
-		writelog(system("rmmod wlan"),(char *)"Unloading wlan.ko module");
+	if (kernel_module_loaded((char *)"bcm4325") == 0) {
+		writelog(system("rmmod bcm4325"),(char *)"Unloading bcm4325.ko module");
 	}
 }
 
@@ -148,15 +148,21 @@ void startwifi() {
 	stopwifi();
 
 	// Loading wlan-kernel-module
-	if (kernel_module_loaded((char *)"wlan") != 0) {
-		writelog(system("insmod /system/lib/modules/wlan.ko"),(char *)"Loading wlan.ko module");
+	if (kernel_module_loaded((char *)"bcm4325") != 0) {
+		writelog(system("insmod /system/lib/modules/bcm4325.ko"),(char *)"Loading bcm4325.ko module");
 	}
-	// Configuring WiFi interface
-	writelog(system("wlan_loader -f /system/etc/wifi/Fw1251r1c.bin -e /proc/calibration -i /data/data/android.tether/conf/tiwlan.ini"),
-			(char *)"Configuring WiFi interface");
+	// Activating ad-hoc mode
+	writelog(system("/data/data/android.tether/bin/iwconfig eth0 mode ad-hoc"),
+			(char *)"Activating ad-hoc mode");
+	// Activating ad-hoc mode
+	writelog(system("/data/data/android.tether/bin/iwconfig eth0 essid GalaxyTether"),
+			(char *)"Configuring SSID");
+	// Changing channel
+	writelog(system("/data/data/android.tether/bin/iwconfig eth0 channel 3"),
+			(char *)"Changing channel");
 	// Activating Wifi-Encryption
 	if (file_exists((char *)"/data/data/android.tether/conf/wpa_supplicant.conf") == 0) {
-		writelog(system("cd /data/local/tmp;wpa_supplicant -B -Dtiwlan0 -itiwlan0 -c/data/data/android.tether/conf/wpa_supplicant.conf"),
+		writelog(system("cd /data/local/tmp;wpa_supplicant -B -Deth0 -ieth0 -c/data/data/android.tether/conf/wpa_supplicant.conf"),
 			(char *)"Activating Wifi encryption");
 	}
 }
@@ -178,19 +184,19 @@ void startpand() {
 
 void stopint() {
 	// Shutting down network interface
-	if (kernel_module_loaded((char *)"wlan") == 0) {
-		writelog(system("ifconfig tiwlan0 down"),(char *)"Shutting down network interface");
+	if (kernel_module_loaded((char *)"bcm4325") == 0) {
+		writelog(system("ifconfig eth0 down"),(char *)"Shutting down network interface");
 	}
 }
 
 void startint() {
     // Configuring network interface
-	if (kernel_module_loaded((char *)"wlan") == 0) {
+	if (kernel_module_loaded((char *)"bcm4325") == 0) {
 		char command[100];
-		sprintf(command, "ifconfig tiwlan0 %s netmask 255.255.255.0", GATEWAY);
+		sprintf(command, "ifconfig eth0 %s netmask 255.255.255.0", GATEWAY);
 		int returncode = system(command);
 		if (returncode == 0) {
-			returncode = system("ifconfig tiwlan0 up");
+			returncode = system("ifconfig eth0 up");
 		}
 		writelog(returncode,(char *)"Configuring network interface");
 	}

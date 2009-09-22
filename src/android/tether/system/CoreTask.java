@@ -426,6 +426,7 @@ public class CoreTask {
     	return writeLinesToFile(filename, fileString);	
     }
     
+    /*
     public Hashtable<String,String> getTiWlanConf() {
     	Hashtable<String,String> tiWlanConf = new Hashtable<String,String>();
     	ArrayList<String> lines = readLinesFromFile(this.DATA_FILE_PATH+"/conf/tiwlan.ini");
@@ -437,7 +438,7 @@ public class CoreTask {
     		}
     	}
     	return tiWlanConf;
-    }
+    }*/
  
     public synchronized boolean writeTiWlanConf(String name, String value) {
     	Hashtable<String, String> table = new Hashtable<String, String>();
