@@ -27,7 +27,6 @@
 			android:maxLength="13" 
 			android:defaultValue="abcdefghijklm"
 		/>
-		<!--  
 		<EditTextPreference  
 			android:key="ssidpref"  
 			android:title="Change SSID"  
@@ -35,8 +34,8 @@
 			android:dialogTitle="Enter SSID" 
 			android:maxLength="15"  
 			android:dialogMessage="Only alpha-numeric characters and '.', '_' allowed!"
-			android:defaultValue="G1Tether"
-		/>      
+			android:defaultValue="GalaxyTether"
+		/>
 		<ListPreference  
 			android:key="channelpref"  
 			android:title="Change Channel"  
@@ -44,7 +43,7 @@
 			android:entries="@array/channelnames"  
 			android:entryValues="@array/channelvalues"  
 			android:dialogTitle="Select Channel"
-			android:defaultValue="6" /> -->
+			android:defaultValue="6" />
 	</PreferenceCategory>
 	<PreferenceCategory android:title="Security"
 		android:key="securityprefs">

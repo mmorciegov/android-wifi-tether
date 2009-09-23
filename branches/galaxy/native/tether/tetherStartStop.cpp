@@ -8,6 +8,8 @@
 
 char NETWORK[20];
 char GATEWAY[20];
+char SSID[20];
+char CHANNEL[2];
 
 const int READ_BUF_SIZE = 50;
 
@@ -119,13 +121,6 @@ void writelog(int status, char* message) {
 	}
 }
 
-char* concat(char* s1, char* s2) {
-	char* result = (char *)malloc((strlen(s1) + strlen(s2) + 1)*sizeof(char));
-	strcpy(result, s1);
-	strcat(result, s2);
-	return result;
-}
-
 char* chomp (char* s) {
   int end = strlen(s) - 1;
   if (end >= 0 && s[end] == '\n')
@@ -140,30 +135,35 @@ void stopwifi() {
 	kill_processes_by_name((char *)"dnsmasq");
 	// Loading wlan-kernel-module
 	if (kernel_module_loaded((char *)"bcm4325") == 0) {
-		writelog(system("rmmod bcm4325"),(char *)"Unloading bcm4325.ko module");
+		writelog(system("/data/data/android.tether/bin/rmmod bcm4325"),(char *)"Unloading bcm4325.ko module");
 	}
 }
 
 void startwifi() {
 	stopwifi();
+	char command[200];
 
 	// Loading wlan-kernel-module
 	if (kernel_module_loaded((char *)"bcm4325") != 0) {
-		writelog(system("insmod /system/lib/modules/bcm4325.ko"),(char *)"Loading bcm4325.ko module");
+		writelog(system("insmod /system/libmodules/bcm4325.ko firmware_path=/etc/rtecdc.bin nvram_path=/etc/nvram.txt"),(char *)"Loading bcm4325.ko module");
 	}
-	// Activating ad-hoc mode
+
+    // Activating ad-hoc mode
 	writelog(system("/data/data/android.tether/bin/iwconfig eth0 mode ad-hoc"),
-			(char *)"Activating ad-hoc mode");
-	// Activating ad-hoc mode
-	writelog(system("/data/data/android.tether/bin/iwconfig eth0 essid GalaxyTether"),
-			(char *)"Configuring SSID");
+                    (char *)"Activating ad-hoc mode");
+
+	// Configuring SSID
+    sprintf(command, "/data/data/android.tether/bin/iwconfig eth0 essid %s", SSID);
+	writelog(system(command), (char *)"Configuring SSID");
+
 	// Changing channel
-	writelog(system("/data/data/android.tether/bin/iwconfig eth0 channel 3"),
-			(char *)"Changing channel");
+    sprintf(command, "/data/data/android.tether/bin/iwconfig eth0 channel %s", CHANNEL);
+    writelog(system(command),(char *)"Changing channel");
+
 	// Activating Wifi-Encryption
 	if (file_exists((char *)"/data/data/android.tether/conf/wpa_supplicant.conf") == 0) {
-		writelog(system("cd /data/local/tmp;wpa_supplicant -B -Deth0 -ieth0 -c/data/data/android.tether/conf/wpa_supplicant.conf"),
-			(char *)"Activating Wifi encryption");
+		writelog(system("cd /data/local/tmp;wpa_supplicant -B -f -Dwext -ieth0 -c/data/data/android.tether/conf/wpa_supplicant.conf"),
+			(char *)"Starting wpa-supplicant");
 	}
 }
 
@@ -192,7 +192,7 @@ void stopint() {
 void startint() {
     // Configuring network interface
 	if (kernel_module_loaded((char *)"bcm4325") == 0) {
-		char command[100];
+		char command[200];
 		sprintf(command, "ifconfig eth0 %s netmask 255.255.255.0", GATEWAY);
 		int returncode = system(command);
 		if (returncode == 0) {
@@ -204,41 +204,41 @@ void startint() {
 
 void stopipt() {
     // Tearing down firewall rules
-	int returncode = system("iptables -F");
+	int returncode = system("/data/data/android.tether/bin/iptables -F");
 	if (returncode == 0) {
-		returncode = system("iptables -t nat -F");
+		returncode = system("/data/data/android.tether/bin/iptables -t nat -F");
 	}
 	if (returncode == 0) {
-		returncode = system("iptables -X");
+		returncode = system("/data/data/android.tether/bin/iptables -X");
 	}
 	if (returncode == 0) {
-		returncode = system("iptables -t nat -X");
+		returncode = system("/data/data/android.tether/bin/iptables -t nat -X");
 	}
 	if (returncode == 0) {
-		returncode = system("iptables -P FORWARD ACCEPT");
+		returncode = system("/data/data/android.tether/bin/iptables -P FORWARD ACCEPT");
 	}
 	writelog(returncode,(char *)"Tearing down firewall rules");
 }
 
 void startipt() {
 	// Setting up firewall rules
-	char command[100];
-	int returncode = system("iptables -F");
+	char command[200];
+	int returncode = system("/data/data/android.tether/bin/iptables -F");
 	if (returncode == 0) {
-		returncode = system("iptables -F -t nat");
+		returncode = system("/data/data/android.tether/bin/iptables -F -t nat");
 	}
 	if (returncode == 0) {
-		returncode = system("iptables -I FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT");
+		returncode = system("/data/data/android.tether/bin/iptables -I FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT");
 	}
 	if (returncode == 0) {
-		sprintf(command, "iptables -I FORWARD -s %s/24 -j ACCEPT", NETWORK);
+		sprintf(command, "/data/data/android.tether/bin/iptables -I FORWARD -s %s/24 -j ACCEPT", NETWORK);
 		returncode = system(command);
 	}
 	if (returncode == 0) {
-		returncode = system("iptables -P FORWARD DROP");
+		returncode = system("/data/data/android.tether/bin/iptables -P FORWARD DROP");
 	}
 	if (returncode == 0) {
-		sprintf(command, "iptables -t nat -I POSTROUTING -s %s/24 -j MASQUERADE", NETWORK);
+		sprintf(command, "/data/data/android.tether/bin/iptables -t nat -I POSTROUTING -s %s/24 -j MASQUERADE", NETWORK);
 		returncode = system(command);
 	}
 	writelog(returncode,(char *)"Setting up firewall rules");
@@ -273,8 +273,8 @@ void startdnsmasq() {
 void startsecnat() {
     // Activating MAC access control
 	if (file_exists((char*)"/data/data/android.tether/conf/whitelist_mac.conf") == 0) {
-		char command[100];
-		sprintf(command, "iptables -t nat -I PREROUTING -s %s/24 -j DROP", NETWORK);
+		char command[200];
+		sprintf(command, "/data/data/android.tether/bin/iptables -t nat -I PREROUTING -s %s/24 -j DROP", NETWORK);
 		writelog(system(command),(char*)"Activating MAC access control");
 	}
 }
@@ -284,7 +284,7 @@ void startmacwhitelist() {
 	if (file_exists((char*)"/data/data/android.tether/conf/whitelist_mac.conf") == 0) {
 		FILE *macs;
 		char buffer[20];
-		char command[100];
+		char command[200];
 		if (! (macs = fopen("/data/data/android.tether/conf/whitelist_mac.conf", "r")) ) {
 			fprintf(stderr, "Can't open /data/data/android.tether/conf/whitelist_mac.conf for read \n");
 			return;
@@ -293,7 +293,7 @@ void startmacwhitelist() {
 		while(fgets(buffer, sizeof(buffer), macs) && returncode == 0) {
 		    /* process the line */
 			sscanf(buffer, "%s", buffer);
-			sprintf(command,"iptables -t nat -I PREROUTING -m mac --mac-source %s -j ACCEPT", buffer);
+			sprintf(command,"/data/data/android.tether/bin/iptables -t nat -I PREROUTING -m mac --mac-source %s -j ACCEPT", buffer);
 			//fprintf(stdout, "Enabling whitelist for: %s \n", command);
 			returncode = system(command);
 
@@ -306,9 +306,9 @@ void startmacwhitelist() {
 void readlanconfig() {
 	if (file_exists((char*)"/data/data/android.tether/conf/lan_network.conf") == 0) {
 		FILE *lanconf;
-		char buffer[100];
-		char name[50];
-		char value[50];
+		char buffer[40];
+		char name[20];
+		char value[20];
 		if (!(lanconf = fopen("/data/data/android.tether/conf/lan_network.conf", "r")) ) {
 			fprintf(stderr, "Can't open /data/data/android.tether/conf/lan_network.conf for read \n");
 			return;
@@ -317,11 +317,9 @@ void readlanconfig() {
 			sprintf(name,chomp(strtok(buffer, "=")));
 			sprintf(value,chomp(strtok(NULL, "=")));
 			if ((strstr(name, "network")) != NULL) {
-				//chomp(value);
 				sprintf(NETWORK,value);
 			}
 			else if ((strstr(name, "gateway")) != NULL) {
-				//chomp(value);
 				sprintf(GATEWAY,value);
 			}
 		}
@@ -332,12 +330,44 @@ void readlanconfig() {
 	}
 }
 
+void readwificonfig() {
+	if (file_exists((char*)"/data/data/android.tether/conf/wifi.conf") == 0) {
+		FILE *wificonf;
+		char buffer[40];
+		char name[20];
+		char value[20];
+		if (!(wificonf = fopen("/data/data/android.tether/conf/wifi.conf", "r")) ) {
+			fprintf(stderr, "Can't open /data/data/android.tether/conf/wifi.conf for read \n");
+			return;
+		}
+		while(fgets(buffer, sizeof(buffer), wificonf)) {
+			sprintf(name,chomp(strtok(buffer, "=")));
+			sprintf(value,chomp(strtok(NULL, "=")));
+			if ((strstr(name, "ssid")) != NULL) {
+				sprintf(SSID,value);
+			}
+			else if ((strstr(name, "channel")) != NULL) {
+				sprintf(CHANNEL,value);
+			}
+		}
+	}
+	else {
+		sprintf(SSID,"GalaxyTether");
+		sprintf(CHANNEL,"6");
+	}
+}
+
 int main(int argc, char *argv[]) {
-	readlanconfig();
-	if (argc != 2) {
+	/*if (argc != 2) {
 		fprintf(stderr, "Usage: tether <start|stop|startbt|stopbt>\n");
 		return -1;
-	}
+	}*/
+
+	// Reading config-files
+	readlanconfig();
+	readwificonfig();
+
+
 	// Remove old Logfile
 	file_unlink((char*)"/data/data/android.tether/var/tether.log");
 

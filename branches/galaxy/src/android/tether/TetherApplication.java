@@ -523,16 +523,14 @@ public class TetherApplication extends Application {
     
     public void recoverConfig() {
 
-    	// Updating tiwlan.conf
+    	// Updating wifi.conf
     	Hashtable<String,String> values = new Hashtable<String,String>();
     	// SSID
-    	values.put("dot11DesiredSSID", this.settings.getString("ssidpref", "G1Tether"));
+    	values.put("ssid", this.settings.getString("ssidpref", "GalaxyTether"));
     	// Channel
-    	values.put("dot11DesiredChannel", this.settings.getString("channelpref", "6"));
-    	// Powermode
-    	values.put("dot11PowerMode", this.settings.getString("powermodepref", "1"));
-    	// writing tiwlan-config
-    	this.coretask.writeTiWlanConf(values);
+    	values.put("channel", this.settings.getString("channelpref", "6"));
+    	// writing wlan-config
+    	this.coretask.writeWlanConf(values);
     	
     	// updating lan-settings
     	String lanconfig = this.settings.getString("lannetworkpref", "192.168.2.0/24");
@@ -571,6 +569,14 @@ public class TetherApplication extends Application {
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tether", R.raw.tether);
 		    	}
+				// iwconfig
+		    	if (message == null) {
+			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iwconfig", R.raw.iwconfig);
+		    	}		    	
+				// iptables
+		    	if (message == null) {
+			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iptables", R.raw.iptables);
+		    	}		    	
 		    	// dnsmasq
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/dnsmasq", R.raw.dnsmasq);
@@ -587,10 +593,6 @@ public class TetherApplication extends Application {
 				if (message == null) {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-down.sh", R.raw.blue_down_sh);
 				}
-		    	// iwconfig
-				if (message == null) {
-					TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iwconfig", R.raw.iwconfig);
-				}
 				try {
 		    		TetherApplication.this.coretask.chmodBin();
 				} catch (Exception e) {
@@ -601,7 +603,16 @@ public class TetherApplication extends Application {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/dnsmasq.conf", R.raw.dnsmasq_conf);
 					TetherApplication.this.coretask.updateDnsmasqFilepath();
 				}
-		    	// version
+		    	/*
+				// wpa_supplicant.conf
+				if (message == null) {
+					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/wpa_supplicant.conf", R.raw.wpa_supplicant_conf);
+				}*/				
+		    	// wifi
+				if (message == null) {
+					TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/wifi.conf", R.raw.wifi_conf);
+				}
+				// version
 				if (message == null) {
 					TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/version", R.raw.version);
 				}				

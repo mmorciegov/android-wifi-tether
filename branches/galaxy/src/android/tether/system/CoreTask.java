@@ -36,7 +36,7 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "19";
+	private static final String FILESET_VERSION = "21";
 	private static final String defaultDNS1 = "208.67.220.220";
 	private static final String defaultDNS2 = "208.67.222.222";
 	
@@ -426,28 +426,26 @@ public class CoreTask {
     	return writeLinesToFile(filename, fileString);	
     }
     
-    /*
-    public Hashtable<String,String> getTiWlanConf() {
-    	Hashtable<String,String> tiWlanConf = new Hashtable<String,String>();
-    	ArrayList<String> lines = readLinesFromFile(this.DATA_FILE_PATH+"/conf/tiwlan.ini");
-
+    public Hashtable<String,String> getWlanConf() {
+    	Hashtable<String,String> wlanConf = new Hashtable<String,String>();
+    	ArrayList<String> lines = readLinesFromFile(this.DATA_FILE_PATH+"/conf/wifi.conf");
     	for (String line : lines) {
     		String[] pair = line.split("=");
     		if (pair[0] != null && pair[1] != null && pair[0].length() > 0 && pair[1].length() > 0) {
-    			tiWlanConf.put(pair[0].trim(), pair[1].trim());
+    			wlanConf.put(pair[0].trim(), pair[1].trim());
     		}
     	}
-    	return tiWlanConf;
-    }*/
+    	return wlanConf;
+    }
  
-    public synchronized boolean writeTiWlanConf(String name, String value) {
+    public synchronized boolean writeWlanConf(String name, String value) {
     	Hashtable<String, String> table = new Hashtable<String, String>();
     	table.put(name, value);
-    	return writeTiWlanConf(table);
+    	return writeWlanConf(table);
     }
     
-    public synchronized boolean writeTiWlanConf(Hashtable<String,String> values) {
-    	String filename = this.DATA_FILE_PATH+"/conf/tiwlan.ini";
+    public synchronized boolean writeWlanConf(Hashtable<String,String> values) {
+    	String filename = this.DATA_FILE_PATH+"/conf/wifi.conf";
     	ArrayList<String> valueNames = Collections.list(values.keys());
 
     	String fileString = "";
@@ -456,7 +454,7 @@ public class CoreTask {
     	for (String line : inputLines) {
     		for (String name : valueNames) {
         		if (line.contains(name)){
-	    			line = name+" = "+values.get(name);
+	    			line = name+"="+values.get(name);
 	    			break;
 	    		}
     		}
@@ -505,24 +503,7 @@ public class CoreTask {
     	filename = this.DATA_FILE_PATH+"/conf/lan_network.conf";
        	fileString = "network="+lanparts[0]+"."+lanparts[1]+"."+lanparts[2]+".0\n";
        	fileString += "gateway="+gateway;
-    	
-    	/*
-    	inputLines = readLinesFromFile(filename);
-    	for (String line : inputLines) {
-    		if (line.contains("\"$iptables\" -I FORWARD -s") && line.endsWith("-j ACCEPT &&")) {
-    			line = reassembleLine(line, " ", "-s", lanconfString);
-    		}
-    		else if (line.contains("\"$iptables\" -t nat -I POSTROUTING -s") && line.endsWith("-j MASQUERADE'")) {
-    			line = reassembleLine(line, " ", "-s", lanconfString);
-    		}
-    		else if (line.contains("\"$iptables\" -t nat -I PREROUTING -s") && line.endsWith("-j DROP'")) {
-    			line = reassembleLine(line, " ", "-s", lanconfString);
-    		}
-    		else if (line.contains("'ifconfig tiwlan0") && line.endsWith("netmask 255.255.255.0 && ifconfig tiwlan0 up'")) {
-    			line = reassembleLine(line, " ", "tiwlan0", gateway);
-    		}    		
-    		fileString += line+"\n";
-    	}*/
+
     	writesuccess = writeLinesToFile(filename, fileString);
     	if (writesuccess == false) {
     		Log.e(MSG_TAG, "Unable to update bin/tether with new lan-configuration.");
