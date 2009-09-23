@@ -55,6 +55,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private EditTextPreference prefPassphrase;
     private EditTextPreference prefSSID;
     
+    private Hashtable<String,String> wlanConf = null;
     private Hashtable<String,String> wpaSupplicantConf = null;
     
     private static int ID_DIALOG_RESTARTING = 2;
@@ -144,10 +145,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     }
 
     private void updateConfigFromFile() {
-        /** 
-         * TODO
-    	this.tiWlanConf = application.coretask.getTiWlanConf();
-         */
+
+    	this.wlanConf = application.coretask.getWlanConf();
         this.wpaSupplicantConf = application.coretask.getWpaSupplicantConf();   	
     }
     
@@ -194,13 +193,13 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 			public void run(){
 			   	String message = null;
 		    	if (key.equals("ssidpref")) {
-		    		String newSSID = sharedPreferences.getString("ssidpref", "G1Tether");
+		    		String newSSID = sharedPreferences.getString("ssidpref", "GalaxyTether");
 		    		if (SetupActivity.this.currentSSID.equals(newSSID) == false) {
-		    			if (application.coretask.writeTiWlanConf("dot11DesiredSSID", newSSID)) {
+		    			if (application.coretask.writeWlanConf("ssid", newSSID)) {
 		    				// Rewriting wpa_supplicant if exists
 		    				if (application.coretask.wpaSupplicantExists()) {
 			        			Hashtable<String,String> values = new Hashtable<String,String>();
-			        			values.put("ssid", "\""+sharedPreferences.getString("ssidpref", "G1Tether")+"\"");
+			        			values.put("ssid", "\""+sharedPreferences.getString("ssidpref", "GalaxyTether")+"\"");
 			        			values.put("wep_key0", "\""+sharedPreferences.getString("passphrasepref", DEFAULT_PASSPHRASE)+"\"");
 			        			application.coretask.writeWpaSupplicantConf(values);
 		    				}
@@ -221,11 +220,9 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				}
 		    			}
 		    	    	// Update config from Files
-		    			/**
-		    			 * TODO
-		    			SetupActivity.this.tiWlanConf = application.coretask.getTiWlanConf();
-		    			 */
-		    	    	// Update preferences with real values
+		    			SetupActivity.this.wlanConf = application.coretask.getWlanConf();
+
+		    			// Update preferences with real values
 		    			SetupActivity.this.updatePreferences();
 		    			
 		    			// Send Message
@@ -237,7 +234,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    	else if (key.equals("channelpref")) {
 		    		String newChannel = sharedPreferences.getString("channelpref", "6");
 		    		if (SetupActivity.this.currentChannel.equals(newChannel) == false) {
-		    			if (application.coretask.writeTiWlanConf("dot11DesiredChannel", newChannel)) {
+		    			if (application.coretask.writeWlanConf("channel", newChannel)) {
 		    				SetupActivity.this.currentChannel = newChannel;
 		    				message = "Channel changed to '"+newChannel+"'.";
 		    				try{
@@ -258,11 +255,9 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				message = "Couldn't change channel to  '"+newChannel+"'!";
 		    			}
 		    	    	// Update config from Files
-		    			/**
-		    			 * TODO
-		    			SetupActivity.this.tiWlanConf = application.coretask.getTiWlanConf();
-		    			 */
-		    	    	// Update preferences with real values
+		    			SetupActivity.this.wlanConf = application.coretask.getWlanConf();
+
+		    			// Update preferences with real values
 		    			SetupActivity.this.updatePreferences();
 		    			
 		    			// Send Message
@@ -334,7 +329,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 			    		else {
 			    			application.installWpaSupplicantConfig();
 			    			Hashtable<String,String> values = new Hashtable<String,String>();
-			    			values.put("ssid", "\""+sharedPreferences.getString("ssidpref", "G1Tether")+"\"");
+			    			values.put("ssid", "\""+sharedPreferences.getString("ssidpref", "GalaxyTether")+"\"");
 			    			values.put("wep_key0", "\""+sharedPreferences.getString("passphrasepref", DEFAULT_PASSPHRASE)+"\"");
 			    			application.coretask.writeWpaSupplicantConf(values);
 			    			message = "WiFi Encryption enabled.";
@@ -489,15 +484,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     		this.currentEncryptionEnabled = false;
     	}
     	
-    	/**
-    	 * TODO
     	// SSID
-        this.currentSSID = this.getTiWlanConfValue("dot11DesiredSSID");
+        this.currentSSID = this.getWlanConfValue("ssid");
         this.application.preferenceEditor.putString("ssidpref", this.currentSSID);
+
         // Channel
-        this.currentChannel = this.getTiWlanConfValue("dot11DesiredChannel");
+        this.currentChannel = this.getWlanConfValue("channel");
         this.application.preferenceEditor.putString("channelpref", this.currentChannel);
-    	 */
+
 
         // Passphrase
         if (this.wpaSupplicantConf != null) {
@@ -521,6 +515,15 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	super.handleMessage(msg);
     	}
     };
+    
+    private String getWlanConfValue(String name) {
+        if (this.wlanConf != null && this.wlanConf.containsKey(name)) {
+                if (this.wlanConf.get(name) != null && this.wlanConf.get(name).length() > 0) {
+                        return this.wlanConf.get(name);
+                }
+        }
+        return "";
+    }
     
     private String getWpaSupplicantConfValue(String name) {
     	if (this.wpaSupplicantConf != null && this.wpaSupplicantConf.containsKey(name)) {
