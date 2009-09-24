@@ -17,8 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+//import java.lang.reflect.InvocationTargetException;
+//import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
@@ -90,9 +90,9 @@ public class TetherApplication extends Application {
     
 	// Original States
 	private static boolean origWifiState = false;
-	private static boolean origBluetoothState = false;
-	public static boolean origTickleState = false;
-	public static boolean origBackState = false;	
+	//private static boolean origBluetoothState = false;
+	//public static boolean origTickleState = false;
+	//public static boolean origBackState = false;	
 	
 	// Client
 	ArrayList<ClientData> clientDataAddList = new ArrayList<ClientData>();
@@ -105,7 +105,7 @@ public class TetherApplication extends Application {
 	public WebserviceTask webserviceTask = null;
 	
 	// Update Url
-	private static final String APPLICATION_PROPERTIES_URL = "http://android-wifi-tether.googlecode.com/svn/download/update/application.properties";
+	private static final String APPLICATION_PROPERTIES_URL = "http://android-wifi-tether.googlecode.com/svn/download/update/samsung/galaxy/application.properties";
 	private static final String APPLICATION_DOWNLOAD_URL = "http://android-wifi-tether.googlecode.com/files/";
 	
 	@Override
@@ -185,7 +185,7 @@ public class TetherApplication extends Application {
 	 * Bluetooth API is not exposed publicly, so we need to use reflection
 	 * to query and set the configuration.
 	 */
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	public Object callBluetoothMethod(String methodName) {
     	Object manager = getSystemService("bluetooth");
     	Class c = manager.getClass();
@@ -206,9 +206,9 @@ public class TetherApplication extends Application {
 		    }
 	    }
     	return returnValue;
-	}
+	}*/
 	
-	public boolean enableBluetooth() {
+	/*public boolean enableBluetooth() {
 		boolean connected = false;
 		int checkcounter = 0;
 		
@@ -237,7 +237,7 @@ public class TetherApplication extends Application {
 			connected = true;
 		}
 		return connected;
-	}
+	}*/
 	
 	// Start/Stop Tethering
     public int startTether() {
@@ -247,7 +247,13 @@ public class TetherApplication extends Application {
     	 *    1 = Mobile-Data-Connection not established (not used at the moment)
     	 *    2 = Fatal error 
     	 */
-        boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
+        
+    	/**
+    	 * TODO
+    	 * Bluetooth
+    	 */
+    	/*
+    	boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
 
         if (bluetoothPref) {
@@ -262,19 +268,20 @@ public class TetherApplication extends Application {
 	            }
 			}
         } 
-        else {
+        else {*/
         	this.disableWifi();
         	boolean connected = this.mobileNetworkActivated();
             if (connected == false) {
             	return 1;
             }
-        }
+        //}
 
         // Updating dnsmasq-Config
         this.coretask.updateDnsmasqConf();        
         
     	// Starting service
-    	if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
+    	//if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start" + (bluetoothPref ? "bt" : ""))) {
+        if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start")) {
     		// Starting client-Connect-Thread	
         	if (this.clientConnectThread != null) {
         		try {
@@ -286,10 +293,6 @@ public class TetherApplication extends Application {
             this.clientConnectThread.start(); 
     		this.trafficCounterEnable(true);
         	
-    		// Disable sync
-			//if (this.isSyncDisabled())
-			//	this.disableSync();
-			
 			// Acquire Wakelock
 			this.acquireWakeLock();
 			
@@ -307,11 +310,13 @@ public class TetherApplication extends Application {
     		this.clientConnectThread = null;
     	}
 
-        boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
+        /**
+         * TODO 
+         * Bluetooth
+    	boolean bluetoothPref = this.settings.getBoolean("bluetoothon", false);
         boolean bluetoothWifi = this.settings.getBoolean("bluetoothkeepwifi", false);
         
     	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop" + (bluetoothPref ? "bt" : ""));
-		this.notificationManager.cancelAll();
 		
 		// Put WiFi and Bluetooth back, if applicable.
 		if (bluetoothPref && origBluetoothState == false) {
@@ -320,6 +325,14 @@ public class TetherApplication extends Application {
 		if (bluetoothPref == false || bluetoothWifi == false) {
 			this.enableWifi();
 		}
+         */
+
+		
+    	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop");
+    	this.enableWifi();
+    	
+		this.notificationManager.cancelAll();
+		
 		//this.enableSync();
 		this.trafficCounterEnable(false);
 		return stopped;
@@ -337,9 +350,9 @@ public class TetherApplication extends Application {
     	String command;
     	boolean stopped = false;
     	command = this.coretask.DATA_FILE_PATH+"/bin/tether stop";
-    	if (tetherModeToStop == 1) {
+    	/*if (tetherModeToStop == 1) {
     		command += "bt";
-    	}
+    	}*/
 		stopped = this.coretask.runRootCommand(command);    	
     	if (this.clientConnectThread != null) {
     		try {
@@ -352,9 +365,9 @@ public class TetherApplication extends Application {
     		return false;
     	}
     	command = this.coretask.DATA_FILE_PATH+"/bin/tether start";
-    	if (tetherModeToStart == 1) {
+    	/*if (tetherModeToStart == 1) {
     		command += "bt";
-    	}
+    	}*/
     	if (this.coretask.runRootCommand(command)) {
     		// Starting client-Connect-Thread	
     		this.clientConnectThread = new Thread(new ClientConnect());
@@ -365,11 +378,12 @@ public class TetherApplication extends Application {
     		return false;
     	}
 		// Put WiFi and Bluetooth back, if applicable.
-		if (tetherModeToStop == 1 && tetherModeToStart == 0 && origBluetoothState == false)
+		/*if (tetherModeToStop == 1 && tetherModeToStart == 0 && origBluetoothState == false)
 			callBluetoothMethod("disable");
 		if (this.settings.getBoolean("bluetoothkeepwifi", false)) {
 			this.enableWifi();
-		}
+		}*/
+    	
     	return true;
     }
     
@@ -573,14 +587,16 @@ public class TetherApplication extends Application {
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iwconfig", R.raw.iwconfig);
 		    	}		    	
-				// iptables
-		    	if (message == null) {
-			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iptables", R.raw.iptables);
-		    	}		    	
+    	
 		    	// dnsmasq
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/dnsmasq", R.raw.dnsmasq);
 		    	}
+		    	/**
+		    	 * TODO
+		    	 * Bluetooth
+		    	 */
+		    	/*
 		    	//pand
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/pand", R.raw.pand);
@@ -593,6 +609,7 @@ public class TetherApplication extends Application {
 				if (message == null) {
 					message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-down.sh", R.raw.blue_down_sh);
 				}
+				*/
 				try {
 		    		TetherApplication.this.coretask.chmodBin();
 				} catch (Exception e) {
@@ -667,7 +684,7 @@ public class TetherApplication extends Application {
     	}).start();
     }
     
-    public synchronized String findBnepModule() {
+    /*public synchronized String findBnepModule() {
     	if (this.coretask.hasKernelFeature("CONFIG_BT_BNEP=y"))
     		return "BUILTIN";
 		String moduleFileName = "/sdcard/android.tether/bnep.ko";
@@ -677,9 +694,9 @@ public class TetherApplication extends Application {
 			return "";
 		}
 		return moduleFileName;
-    }
+    }*/
     
-    public void downloadBnepModule() {
+    /*public void downloadBnepModule() {
     	new Thread(new Runnable(){
 			public void run(){
 				String moduleFileName = "bnep-" + TetherApplication.this.coretask.getKernelVersion() +
@@ -700,7 +717,7 @@ public class TetherApplication extends Application {
             	MainActivity.currentInstance.viewUpdateHandler.sendMessage(msg2);
 			}
     	}).start();
-    }	
+    }*/	
     
     private String copyBinary(String filename, int resource) {
     	File outFile = new File(filename);

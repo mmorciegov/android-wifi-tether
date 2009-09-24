@@ -12,14 +12,14 @@
 
 package android.tether.system;
 
-import java.io.BufferedInputStream;
+//import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
+//import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.zip.GZIPInputStream;
+//import java.util.zip.GZIPInputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -36,7 +36,7 @@ public class WebserviceTask {
 	
 	public static final String MSG_TAG = "TETHER -> WebserviceTask";
 	public static final String DOWNLOAD_FILEPATH = "/sdcard/download";
-	public static final String BLUETOOTH_FILEPATH = "/sdcard/android.tether";
+	//public static final String BLUETOOTH_FILEPATH = "/sdcard/android.tether";
 	
 	public MainActivity mainActivity;
 	
@@ -77,7 +77,7 @@ public class WebserviceTask {
 		return this.downloadFile(downloadFileUrl, DOWNLOAD_FILEPATH, destinationFilename);
 	}
 	
-	public boolean downloadBluetoothModule(String downloadFileUrl, String destinationFilename) {
+	/*public boolean downloadBluetoothModule(String downloadFileUrl, String destinationFilename) {
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) == false) {
 			return false;
 		}
@@ -107,7 +107,7 @@ public class WebserviceTask {
 			return true;
 		} else
 			return false;
-	}
+	}*/
 	
 	public boolean downloadFile(String url, String destinationDirectory, String destinationFilename) {
 		boolean filedownloaded = true;

@@ -26,8 +26,8 @@ import android.os.Message;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceGroup;
-import android.preference.PreferenceManager;
+//import android.preference.PreferenceGroup;
+//import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -123,10 +123,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 	        	}
 	        }
         });
-		Boolean bluetoothOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
+        /**
+         * TODO
+         * Bluetooth
+         */
+		/*Boolean bluetoothOn = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("bluetoothon", false);
 		Message msg = Message.obtain();
 		msg.what = bluetoothOn ? 0 : 1;
-		SetupActivity.this.setWifiPrefsEnableHandler.sendMessage(msg);
+		SetupActivity.this.setWifiPrefsEnableHandler.sendMessage(msg);*/
     }
 	
     @Override
@@ -433,8 +437,12 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			msg.obj = message;
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
-		    	}		    	
-		    	else if (key.equals("bluetoothon")) {
+		    	}
+		    	/**
+		    	 * TODO
+		    	 * Bluetooth
+		    	 */
+		    	/*else if (key.equals("bluetoothon")) {
 		    		Boolean bluetoothOn = sharedPreferences.getBoolean("bluetoothon", false);
 		    		Message msg = Message.obtain();
 		    		msg.what = bluetoothOn ? 0 : 1;
@@ -462,7 +470,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		if (bluetoothWifi) {
 		    			SetupActivity.this.application.enableWifi();
 		    		}
-		    	}
+		    	}*/
 			}
 		}).start();
     }
@@ -508,13 +516,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.application.preferenceEditor.commit(); 
     }
     
+    /*
     Handler  setWifiPrefsEnableHandler = new Handler() {
     	public void handleMessage(Message msg) {
 			PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
 			wifiGroup.setEnabled(msg.what == 1);
         	super.handleMessage(msg);
     	}
-    };
+    };*/
     
     private String getWlanConfValue(String name) {
         if (this.wlanConf != null && this.wlanConf.containsKey(name)) {

@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 	private ImageView startBtn = null;
 	private ImageView stopBtn = null;
 	private TextView radioModeLabel = null;
-	private ImageView radioModeImage = null;
+	//private ImageView radioModeImage = null;
 	private TextView progressTitle = null;
 	private TextView progressText = null;
 	private ProgressBar progressBar = null;
@@ -98,8 +98,8 @@ public class MainActivity extends Activity {
         // Init Table-Rows
         this.startTblRow = (TableRow)findViewById(R.id.startRow);
         this.stopTblRow = (TableRow)findViewById(R.id.stopRow);
-        this.radioModeLabel = (TextView)findViewById(R.id.radioModeText);
-        this.radioModeImage = (ImageView)findViewById(R.id.radioModeImage);
+        //this.radioModeLabel = (TextView)findViewById(R.id.radioModeText);
+        //this.radioModeImage = (ImageView)findViewById(R.id.radioModeImage);
         this.progressBar = (ProgressBar)findViewById(R.id.progressBar);
         this.progressText = (TextView)findViewById(R.id.progressText);
         this.progressTitle = (TextView)findViewById(R.id.progressTitle);
@@ -203,7 +203,7 @@ public class MainActivity extends Activity {
 
 	public void onResume() {
 		Log.d(MSG_TAG, "Calling onResume()");
-		this.showRadioMode();
+		//this.showRadioMode();
 		super.onResume();
 	}
 	
@@ -393,7 +393,7 @@ public class MainActivity extends Activity {
     		this.stopTblRow.setVisibility(View.VISIBLE);
     		MainActivity.this.application.displayToastMessage("Your phone is currently in an unknown state - try to reboot!");
     	}
-    	this.showRadioMode();
+    	//this.showRadioMode();
     	System.gc();
     }
    
@@ -527,7 +527,7 @@ public class MainActivity extends Activity {
         .show();
    	}
 
-  	private void showRadioMode() {
+  	/*private void showRadioMode() {
   		boolean usingBluetooth = this.application.settings.getBoolean("bluetoothon", false);
   		if (usingBluetooth) {
   			String bnepLocation = this.application.findBnepModule();
@@ -540,7 +540,7 @@ public class MainActivity extends Activity {
   			this.radioModeImage.setImageResource(R.drawable.wifi);
   			this.radioModeLabel.setText("Wifi");
   		}
-  	}
+  	}*/
 	
    	public void openUpdateDialog(final String downloadFileUrl, final String fileName) {
 		LayoutInflater li = LayoutInflater.from(this);
