@@ -212,12 +212,15 @@ void stopwifi() {
 
 void startwifi() {
 	stopwifi();
-	char command[200];
+	char command[500];
 
 	// Loading wlan-kernel-module
 	if (kernel_module_loaded((char *)"bcm4325") != 0) {
 		writelog(insmod("/system/libmodules/bcm4325.ko", "firmware_path=/etc/rtecdc.bin nvram_path=/etc/nvram.txt"),(char *)"Loading bcm4325.ko module");
 	}
+
+    // Activating ad-hoc mode
+	writelog(sleep(5000),(char *)"Taking a nap");
 
     // Activating ad-hoc mode
 	writelog(system("/data/data/android.tether/bin/iwconfig eth0 mode ad-hoc"),
@@ -229,6 +232,7 @@ void startwifi() {
 
 	// Changing channel
     sprintf(command, "/data/data/android.tether/bin/iwconfig eth0 channel %s", CHANNEL);
+    fprintf(stdout, command);
     writelog(system(command),(char *)"Changing channel");
 
 	// Committing changes
@@ -241,25 +245,10 @@ void startwifi() {
 	}
 }
 
-void stoppand() {
-	// Stopping pand
-	system("/data/data/android.tether/bin/pand -K");
-	writelog(kill_processes_by_name((char *)"pand"),(char *)"Stopping pand");
-	if (file_exists((char*)"/data/data/android.tether/var/pand.pid") == 0) {
-		file_unlink((char*)"/data/data/android.tether/var/pand.pid");
-	}
-}
-
-void startpand() {
-	// Starting pand
-	writelog(system("/data/data/android.tether/bin/pand --listen --role NAP --devup /data/data/android.tether/bin/blue-up.sh --devdown /data/data/android.tether/bin/blue-down.sh --pidfile /data/data/android.tether/var/pand.pid"),
-			(char *)"Starting pand");
-}
-
 void stopint() {
 	// Shutting down network interface
 	if (kernel_module_loaded((char *)"bcm4325") == 0) {
-		writelog(system("ifconfig eth0 down"),(char *)"Shutting down network interface");
+		writelog(system("/data/data/android.tether/bin/ifconfig eth0 down"),(char *)"Shutting down network interface");
 	}
 }
 
@@ -267,10 +256,10 @@ void startint() {
     // Configuring network interface
 	if (kernel_module_loaded((char *)"bcm4325") == 0) {
 		char command[200];
-		sprintf(command, "ifconfig eth0 %s netmask 255.255.255.0", GATEWAY);
+		sprintf(command, "/data/data/android.tether/bin/ifconfig eth0 %s netmask 255.255.255.0", GATEWAY);
 		int returncode = system(command);
 		if (returncode == 0) {
-			returncode = system("ifconfig eth0 up");
+			returncode = system("/data/data/android.tether/bin/ifconfig eth0 up");
 		}
 		writelog(returncode,(char *)"Configuring network interface");
 	}
@@ -459,19 +448,6 @@ int main(int argc, char *argv[]) {
 	    stopdnsmasq();
 	    stopint();
 	    stopwifi();
-	    stopipfw();
-	    stopipt();
-	}
-	else if (strcmp(argv[1],"startbt") == 0) {
-	  	startpand();
-	  	startipt();
-	  	startipfw();
-	    startsecnat();
-	    startmacwhitelist();
-	}
-	else if (strcmp(argv[1],"stopbt") == 0) {
-	    stopdnsmasq();
-	    stoppand();
 	    stopipfw();
 	    stopipt();
 	}
