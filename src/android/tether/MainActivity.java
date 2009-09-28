@@ -373,7 +373,7 @@ public class MainActivity extends Activity {
     		if (this.animation != null)
     			this.stopBtn.startAnimation(this.animation);
     		// Notification
-    		this.application.tetherNetworkDevice = usingBluetooth ? "bnep" : "tiwlan0";
+    		this.application.tetherNetworkDevice = "eth0";
     		
     		this.application.trafficCounterEnable(true);
     		this.application.showStartNotification();
