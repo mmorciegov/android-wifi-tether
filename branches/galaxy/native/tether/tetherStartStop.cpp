@@ -220,7 +220,7 @@ void startwifi() {
 	}
 
     // Activating ad-hoc mode
-	writelog(sleep(5000),(char *)"Taking a nap");
+	writelog(sleep(5),(char *)"Taking a nap");
 
     // Activating ad-hoc mode
 	writelog(system("/data/data/android.tether/bin/iwconfig eth0 mode ad-hoc"),
