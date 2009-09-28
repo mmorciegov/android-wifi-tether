@@ -5,6 +5,17 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
+#include <limits.h>
+#include <malloc.h>
+#include <errno.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/syscall.h>
+
+# define init_module(mod, len, opts) syscall(__NR_init_module, mod, len, opts)
+# define delete_module(mod, flags) syscall(__NR_delete_module, mod, flags)
 
 char NETWORK[20];
 char GATEWAY[20];
@@ -15,7 +26,7 @@ const int READ_BUF_SIZE = 50;
 
 FILE *log = NULL;
 
-int kill_processes_by_name(int parameter, char* processName) {
+int kill_processes_by_name(int parameter, const char* processName) {
 	int returncode = 0;
 
 	DIR *dir = NULL;
@@ -62,7 +73,7 @@ int kill_processes_by_name(int parameter, char* processName) {
 	return returncode;
 }
 
-int kill_processes_by_name(char* processName) {
+int kill_processes_by_name(const char* processName) {
 	// First try to kill with -2
 	kill_processes_by_name(2, processName);
 	// To make sure process is killed do it with -9
@@ -71,7 +82,7 @@ int kill_processes_by_name(char* processName) {
 }
 
 
-int file_exists(char* fileName) {
+int file_exists(const char* fileName) {
 	FILE *file = NULL;
 	if (! (file = fopen(fileName, "r")) ) {
 		return -1;
@@ -79,7 +90,7 @@ int file_exists(char* fileName) {
 	return 0;
 }
 
-int file_unlink(char* fileName) {
+int file_unlink(const char* fileName) {
 	if (file_exists(fileName) == 0) {
 		if(unlink(fileName) != 0) {
 			return 0;
@@ -87,7 +98,7 @@ int file_unlink(char* fileName) {
 	}
 	return -1;
 }
-int kernel_module_loaded(char* moduleName) {
+int kernel_module_loaded(const char* moduleName) {
 	int module_found = -1;
 	FILE *modules;
 	char buffer[READ_BUF_SIZE];
@@ -109,7 +120,7 @@ int kernel_module_loaded(char* moduleName) {
 	return module_found;
 }
 
-void writelog(int status, char* message) {
+void writelog(int status, const char* message) {
 	time_t time_now;
     time(&time_now);
 	fprintf(log,"<div class=\"date\">%s</div><div class=\"action\">%s...</div><div class=\"output\">",asctime(localtime(&time_now)),message);
@@ -128,6 +139,66 @@ char* chomp (char* s) {
   return s;
 }
 
+static void *read_file(const char *filename, ssize_t *_size) {
+        int ret, fd;
+        struct stat sb;
+        ssize_t size;
+        void *buffer = NULL;
+
+        /* open the file */
+        fd = open(filename, O_RDONLY);
+        if (fd < 0)
+                return NULL;
+
+        /* find out how big it is */
+        if (fstat(fd, &sb) < 0)
+                goto bail;
+        size = sb.st_size;
+
+        /* allocate memory for it to be read into */
+        buffer = malloc(size);
+        if (!buffer)
+                goto bail;
+
+        /* slurp it into our buffer */
+        ret = read(fd, buffer, size);
+        if (ret != size)
+                goto bail;
+
+        /* let the caller know how big it is */
+        *_size = size;
+
+bail:
+        close(fd);
+        return buffer;
+}
+
+int insmod(const char *filename, const char *options) {
+        ssize_t len;
+        void *image;
+        int rc;
+
+        if (!options)
+                options = "";
+
+        len = INT_MAX - 4095;
+        errno = ENOMEM;
+        image = read_file(filename, &len);
+
+        if (!image)
+                return -errno;
+
+        errno = 0;
+        init_module(image, len, options);
+        rc = errno;
+        free(image);
+        return rc;
+}
+
+int rmmod(const char *modname) {
+	return delete_module(modname, O_NONBLOCK | O_EXCL);
+}
+
 void stopwifi() {
 	// Deactivating Wifi-Encryption
 	kill_processes_by_name((char *)"wpa_supplicant");
@@ -135,7 +206,7 @@ void stopwifi() {
 	kill_processes_by_name((char *)"dnsmasq");
 	// Loading wlan-kernel-module
 	if (kernel_module_loaded((char *)"bcm4325") == 0) {
-		writelog(system("rmmod bcm4325"),(char *)"Unloading bcm4325.ko module");
+		writelog(rmmod("bcm4325"),(char *)"Unloading bcm4325.ko module");
 	}
 }
 
@@ -145,7 +216,7 @@ void startwifi() {
 
 	// Loading wlan-kernel-module
 	if (kernel_module_loaded((char *)"bcm4325") != 0) {
-		writelog(system("insmod /system/libmodules/bcm4325.ko firmware_path=/etc/rtecdc.bin nvram_path=/etc/nvram.txt"),(char *)"Loading bcm4325.ko module");
+		writelog(insmod("/system/libmodules/bcm4325.ko", "firmware_path=/etc/rtecdc.bin nvram_path=/etc/nvram.txt"),(char *)"Loading bcm4325.ko module");
 	}
 
     // Activating ad-hoc mode
