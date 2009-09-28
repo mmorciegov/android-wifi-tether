@@ -36,7 +36,7 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "22";
+	private static final String FILESET_VERSION = "23";
 	private static final String defaultDNS1 = "208.67.220.220";
 	private static final String defaultDNS2 = "208.67.222.222";
 	
@@ -511,7 +511,7 @@ public class CoreTask {
     	}
     	
     	// Update bin/blue_up.sh
-    	fileString = "";
+    	/*fileString = "";
     	filename = this.DATA_FILE_PATH+"/bin/blue-up.sh";
     	inputLines = readLinesFromFile(filename);   
     	for (String line : inputLines) {
@@ -524,7 +524,7 @@ public class CoreTask {
     	if (writesuccess == false) {
     		Log.e(MSG_TAG, "Unable to update bin/tether with new lan-configuration.");
     		return writesuccess;
-    	}
+    	}*/
     	
     	// Update conf/dnsmasq.conf
     	fileString = "";
@@ -545,7 +545,7 @@ public class CoreTask {
     	return writesuccess;
     }
     
-    private String reassembleLine(String source, String splitPattern, String prefix, String target) {
+    /*private String reassembleLine(String source, String splitPattern, String prefix, String target) {
     	String returnString = new String();
     	String[] sourceparts = source.split(splitPattern);
     	boolean prefixmatch = false;
@@ -565,6 +565,6 @@ public class CoreTask {
 
     	}
     	return returnString;
-    }
+    }*/
     
 }
