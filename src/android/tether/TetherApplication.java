@@ -583,11 +583,14 @@ public class TetherApplication extends Application {
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tether", R.raw.tether);
 		    	}
+				// ifconfig
+		    	if (message == null) {
+			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/ifconfig", R.raw.ifconfig);
+		    	}			    	
 				// iwconfig
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iwconfig", R.raw.iwconfig);
 		    	}		    	
-    	
 		    	// dnsmasq
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyBinary(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/dnsmasq", R.raw.dnsmasq);
