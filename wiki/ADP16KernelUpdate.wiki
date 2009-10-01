@@ -1,4 +1,5 @@
 #summary ADP 1.6 - Kernel-Update
+#labels support,help
 =ADP 1.6 - Kernel-Update=
 
 <font size="4" color="#990000">For ADP1.6 (Donut) ONLY!</font>
