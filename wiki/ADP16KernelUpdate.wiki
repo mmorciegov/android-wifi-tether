@@ -1,13 +1,18 @@
 #summary ADP 1.6 - Kernel-Update
 #labels support,help
-=~~ADP 1.6 - Kernel-Update~~=
+=ADP 1.6 - Kernel-Update=
 
-<font size="4" color="#990000">HTC signed the official image with wrong keys - so this kernel-update can't be installed.</font>
+<font size="4" color="#990000">HTC has signed the official image with wrong keys. New (correctly signed) packages are available on their website.</font>
+
+See:
 
 [http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/54f7a05cc06c7072/7b7972ec6f1cad72 http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/54f7a05cc06c7072/7b7972ec6f1cad72]
 
+[http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/5b7c52f40d91d2ef http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/5b7c52f40d91d2ef]
 
-~~<font size="4" color="#990000">For ADP1.6 (Donut) ONLY!</font>~~
+If you have upgraded your device with incorrect-signed firmware - this kernel-update can't be verified and won't install.
+
+<font size="4" color="#990000">For ADP1.6 (Donut) ONLY!</font>
 
 *** This kernel-update is for the OFFICIAL ADP1.6 FIRMWARE published by HTC only! ***
 
@@ -25,7 +30,7 @@ The new kernel does not support netfilter/iptables! To make our application run 
 
 *=== MAKE SURE THE NEW FIRMWARE IS INSTALLED CORRECTLY ===*
 
-2) Download the kernel-update from [http://android-wifi-tether.googlecode.com/files/BROKEN-adp-1_6-kernel-update.zip here]
+2) Download the kernel-update from [http://android-wifi-tether.googlecode.com/files/adp-1_6-kernel-update.zip here]
 
 3) Copy adp-1_6-kernel-update.zip to you sd-card and rename it to "update.zip"
 
