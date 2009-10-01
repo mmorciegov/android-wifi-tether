@@ -1,12 +1,15 @@
 #summary ADP 1.6 - Kernel-Update
 #labels support,help
-=ADP 1.6 - Kernel-Update=
+=~~ADP 1.6 - Kernel-Update~~=
 
-<font size="4" color="#990000">HTC signed the official image with the wrong keys - so this kernel-update can't be installed.</font>
+<font size="4" color="#990000">HTC signed the official image with wrong keys - so this kernel-update can't be installed.</font>
+
+[http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/54f7a05cc06c7072/7b7972ec6f1cad72 http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/54f7a05cc06c7072/7b7972ec6f1cad72]
+
 
 ~~<font size="4" color="#990000">For ADP1.6 (Donut) ONLY!</font>~~
 
-~~*** This kernel-update is for the OFFICIAL ADP1.6 FIRMWARE published by HTC only! ***~~
+*** This kernel-update is for the OFFICIAL ADP1.6 FIRMWARE published by HTC only! ***
 
 You might have noticed that "Wifi Tether for Root Users" does not work anymore after updating your *Android DevPhone 1* to [http://developer.htc.com/adp.html ADP1.6 (donut)] *(official firmware from HTC)*.
 
