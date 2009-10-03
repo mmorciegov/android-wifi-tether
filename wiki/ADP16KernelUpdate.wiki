@@ -58,3 +58,10 @@ The new kernel does not support netfilter/iptables! To make our application run 
 
 *7)* Press the HOME-BACK key combination to reboot.
 Enjoy!
+
+---- 
+
+== Security ==
+The kernel-update installs a su binary which is theoretically callable from any other installed application. 
+If you want to *close this "security hole"* I recommend to install an application called *"Superuser Whitelist"* available *[http://www.koushikdutta.com/2008/11/update-to-superuser.html here]*. 
+I'm not sure under which license this app is distributed so I've decided to not include it in the kernel-update-package.
