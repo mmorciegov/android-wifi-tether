@@ -46,7 +46,7 @@ The new kernel does not support netfilter/iptables! To make our application run 
 
 *=== MAKE SURE THE NEW FIRMWARE IS INSTALLED CORRECTLY ===*
 
-*2)* Download the kernel-update from [http://android-wifi-tether.googlecode.com/files/adp-1_6-kernel-update.zip here]
+*2)* Download the kernel-update from [http://android-wifi-tether.googlecode.com/files/adp-1_6-kernel-update_r2.zip here]
 
 *3)* Copy adp-1_6-kernel-update.zip to you sd-card and rename it to "update.zip"
 
