@@ -45,7 +45,6 @@ public class MainActivity extends Activity {
 	private ImageView startBtn = null;
 	private ImageView stopBtn = null;
 	private TextView radioModeLabel = null;
-	//private ImageView radioModeImage = null;
 	private TextView progressTitle = null;
 	private TextView progressText = null;
 	private ProgressBar progressBar = null;
@@ -143,6 +142,11 @@ public class MainActivity extends Activity {
 	        		this.application.installFiles();
 	        	}
 	        }
+	        
+	        // Check if native-library needs to be moved
+	        this.application.renewLibrary();
+	        
+	        // Open config-recovery-dialog
 	        if (filesetoutdated) {
 	        	this.openConfigRecoverDialog();
 	        }
@@ -527,21 +531,6 @@ public class MainActivity extends Activity {
         .show();
    	}
 
-  	/*private void showRadioMode() {
-  		boolean usingBluetooth = this.application.settings.getBoolean("bluetoothon", false);
-  		if (usingBluetooth) {
-  			String bnepLocation = this.application.findBnepModule();
-  			if (bnepLocation == "") {
-  	  			this.radioModeLabel.setText("Bluetooth (downloading)");	
-  			} else
-  			this.radioModeImage.setImageResource(R.drawable.bluetooth);
-  			this.radioModeLabel.setText("Bluetooth");
-  		} else {
-  			this.radioModeImage.setImageResource(R.drawable.wifi);
-  			this.radioModeLabel.setText("Wifi");
-  		}
-  	}*/
-	
    	public void openUpdateDialog(final String downloadFileUrl, final String fileName) {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.updateview, null); 
