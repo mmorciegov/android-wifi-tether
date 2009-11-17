@@ -31,8 +31,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
@@ -60,7 +58,7 @@ public class TetherApplication extends Application {
 	private static final int CLIENT_CONNECT_NOTAUTHORIZED = 2;
 	
 	// Data counters
-	private Thread TrafficCounterThread = null;
+	private Thread trafficCounterThread = null;
 
 	// WifiManager
 	private WifiManager wifiManager;
@@ -69,9 +67,9 @@ public class TetherApplication extends Application {
 	// PowerManagement
 	private PowerManager powerManager = null;
 	private PowerManager.WakeLock wakeLock = null;
-
-	// ConnectivityManager
-	private ConnectivityManager connectivityManager;	
+	
+	// DNS-Server-Update Thread
+	private Thread dnsUpdateThread = null;		
 	
 	// Preferences
 	public SharedPreferences settings = null;
@@ -88,9 +86,6 @@ public class TetherApplication extends Application {
     
 	// Original States
 	private static boolean origWifiState = false;
-	//private static boolean origBluetoothState = false;
-	//public static boolean origTickleState = false;
-	//public static boolean origBackState = false;	
 	
 	// Client
 	ArrayList<ClientData> clientDataAddList = new ArrayList<ClientData>();
@@ -128,14 +123,11 @@ public class TetherApplication extends Application {
         this.preferenceEditor = settings.edit();
 		
         // init wifiManager
-        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE); 
+        this.wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE); 
 		
         // Powermanagement
-        powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "TETHER_WAKE_LOCK");
-
-        // Connectivitymanager
-        connectivityManager = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);        
+        this.powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        this.wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "TETHER_WAKE_LOCK");
 		
         // init notificationManager
         this.notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -184,30 +176,19 @@ public class TetherApplication extends Application {
     	/*
     	 * ReturnCodes:
     	 *    0 = All OK, Service started
-    	 *    1 = Mobile-Data-Connection not established (not used at the moment)
     	 *    2 = Fatal error 
     	 */
     	this.disableWifi();
-    	boolean connected = this.mobileNetworkActivated();
-        if (connected == false) {
-        	return 1;
-        }
 
-        // Updating dnsmasq-Config
-        this.coretask.updateDnsmasqConf();        
+        // Update resolv.conf-file
+        String dns[] = this.coretask.updateResolvConf();     
         
     	// Starting service
         if (this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether start")) {
-    		// Starting client-Connect-Thread	
-        	if (this.clientConnectThread != null) {
-        		try {
-        			this.clientConnectThread.interrupt();
-        		} catch (Exception ex) {;}
-        		this.clientConnectThread = null;
-        	}
-    		this.clientConnectThread = new Thread(new ClientConnect());
-            this.clientConnectThread.start(); 
+
+        	this.clientConnectEnable(true);
     		this.trafficCounterEnable(true);
+    		this.dnsUpdateEnable(dns, true); 
         	
 			// Acquire Wakelock
 			this.acquireWakeLock();
@@ -219,20 +200,15 @@ public class TetherApplication extends Application {
     
     public boolean stopTether() {
     	this.releaseWakeLock();
-    	if (this.clientConnectThread != null) {
-    		try {
-    			this.clientConnectThread.interrupt();
-    		} catch (Exception ex) {;}
-    		this.clientConnectThread = null;
-    	}
-
+    	this.clientConnectEnable(false);
+    	
     	boolean stopped = this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether stop");
     	this.enableWifi();
     	
 		this.notificationManager.cancelAll();
 		
-		//this.enableSync();
 		this.trafficCounterEnable(false);
+		this.dnsUpdateEnable(false);
 		return stopped;
     }
 	
@@ -243,73 +219,25 @@ public class TetherApplication extends Application {
     public boolean restartTether(int tetherModeToStop, int tetherModeToStart) {
     	/* TetherModes:
     	 * 		0 =  wifi
-    	 * 		1 =  bluetooth
     	 */
     	String command;
     	boolean stopped = false;
     	command = this.coretask.DATA_FILE_PATH+"/bin/tether stop";
-    	/*if (tetherModeToStop == 1) {
-    		command += "bt";
-    	}*/
 		stopped = this.coretask.runRootCommand(command);    	
-    	if (this.clientConnectThread != null) {
-    		try {
-    			this.clientConnectThread.interrupt();
-    		} catch (Exception ex) {;}
-    		this.clientConnectThread = null;
-    	}
+		this.clientConnectEnable(false);
     	if (stopped != true) {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
     	command = this.coretask.DATA_FILE_PATH+"/bin/tether start";
-    	/*if (tetherModeToStart == 1) {
-    		command += "bt";
-    	}*/
     	if (this.coretask.runRootCommand(command)) {
-    		// Starting client-Connect-Thread	
-    		this.clientConnectThread = new Thread(new ClientConnect());
-            this.clientConnectThread.start(); 
+    		this.clientConnectEnable(true);
     	}
     	else {
     		Log.d(MSG_TAG, "Couldn't stop tethering.");
     		return false;
     	}
-		// Put WiFi and Bluetooth back, if applicable.
-		/*if (tetherModeToStop == 1 && tetherModeToStart == 0 && origBluetoothState == false)
-			callBluetoothMethod("disable");
-		if (this.settings.getBoolean("bluetoothkeepwifi", false)) {
-			this.enableWifi();
-		}*/
-    	
     	return true;
-    }
-    
-    private boolean mobileNetworkActivated() {
-    	boolean connected = false;
-    	int checkcounter = 0;
-    	Log.d(MSG_TAG, "Check for mobile-data-connection!");
-    	while (connected == false && checkcounter <= 5) {
-    		Log.d(MSG_TAG, "Waiting until connection is established ...");
-    		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-	        if (networkInfo != null) {
-		    	if (networkInfo != null && networkInfo.getState().equals(NetworkInfo.State.CONNECTED) == true) {
-		    		connected = true;
-		    	}
-	        }
-	        if (connected == false) {
-		    	checkcounter++;
-	        	try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// nothing
-				}
-	        }
-	        else {
-	        	break;
-	        }
-    	}
-    	return connected;
     }
     
     // gets user preference on whether wakelock should be disabled during tethering
@@ -660,6 +588,18 @@ public class TetherApplication extends Application {
         }
         return version;
     }
+
+   	public void clientConnectEnable(boolean enable) {
+   		if (enable == true) {
+			if (this.clientConnectThread == null || this.clientConnectThread.isAlive() == false) {
+				this.clientConnectThread = new Thread(new ClientConnect());
+				this.clientConnectThread.start();
+			}
+   		} else {
+	    	if (this.clientConnectThread != null)
+	    		this.clientConnectThread.interrupt();
+   		}
+   	}     
     
     class ClientConnect implements Runnable {
 
@@ -771,17 +711,56 @@ public class TetherApplication extends Application {
 
     }
    	
-   	public void trafficCounterEnable(boolean enable) {
-		// Traffic counter
+    public void dnsUpdateEnable(boolean enable) {
+    	this.dnsUpdateEnable(null, enable);
+    }
+    
+   	public void dnsUpdateEnable(String[] dns, boolean enable) {
    		if (enable == true) {
-			if (this.TrafficCounterThread == null || this.TrafficCounterThread.isAlive() == false) {
-				this.TrafficCounterThread = new Thread(new TrafficCounter());
-				this.TrafficCounterThread.start();
+			if (this.dnsUpdateThread == null || this.dnsUpdateThread.isAlive() == false) {
+				this.dnsUpdateThread = new Thread(new DnsUpdate(dns));
+				this.dnsUpdateThread.start();
 			}
    		} else {
-			// Traffic counter
-	    	if (this.TrafficCounterThread != null)
-	    		this.TrafficCounterThread.interrupt();
+	    	if (this.dnsUpdateThread != null)
+	    		this.dnsUpdateThread.interrupt();
+   		}
+   	}
+       
+    class DnsUpdate implements Runnable {
+
+    	String[] dns;
+    	
+    	public DnsUpdate(String[] dns) {
+    		this.dns = dns;
+    	}
+    	
+		@Override
+		public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+            	String[] currentDns = TetherApplication.this.coretask.getCurrentDns();
+            	if (this.dns == null || this.dns[0].equals(currentDns[0]) == false || this.dns[1].equals(currentDns[1]) == false) {
+            		this.dns = TetherApplication.this.coretask.updateResolvConf();
+            	}
+            }
+            // Taking a nap
+   			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+    } 
+    
+   	public void trafficCounterEnable(boolean enable) {
+   		if (enable == true) {
+			if (this.trafficCounterThread == null || this.trafficCounterThread.isAlive() == false) {
+				this.trafficCounterThread = new Thread(new TrafficCounter());
+				this.trafficCounterThread.start();
+			}
+   		} else {
+	    	if (this.trafficCounterThread != null)
+	    		this.trafficCounterThread.interrupt();
    		}
    	}
    	
