@@ -22,8 +22,6 @@ See:
 *3)* Execute "replace_recovery.bat" - Windows-users only (of course).
    => If you are using a Mac or Linux please follow instructions in "Linux_MAC_Howto.txt".
 
-It's possible that the phone reverts the installed recovery after each reboot. So, don't reboot now but follow the instruction on how to install the kernel-update below.
-
 ---- 
 
 <font size="4" color="#990000">For ADP1.6 (Donut) ONLY!</font>
