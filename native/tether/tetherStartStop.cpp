@@ -211,9 +211,9 @@ void stopwifi() {
 	kill_processes_by_name((char *)"wpa_supplicant");
 	// Killing dnsmasq
 	kill_processes_by_name((char *)"dnsmasq");
-	// Loading wlan-kernel-module
-	if (kernel_module_loaded((char *)"wlan") == 0) {
-		writelog(rmmod("wlan"),(char *)"Unloading wlan.ko module");
+	// Loading tiwlan_drv-kernel-module
+	if (kernel_module_loaded((char *)"tiwlan_drv") == 0) {
+		writelog(rmmod("tiwlan_drv"),(char *)"Unloading tiwlan_drv.ko module");
 	}
 }
 
@@ -221,11 +221,11 @@ void startwifi() {
 	stopwifi();
 
 	// Loading wlan-kernel-module
-	if (kernel_module_loaded((char *)"wlan") != 0) {
-		writelog(insmod("/system/lib/modules/wlan.ko",""),(char *)"Loading wlan.ko module");
+	if (kernel_module_loaded((char *)"tiwlan_drv") != 0) {
+		writelog(insmod("/system/lib/modules/tiwlan_drv.ko",""),(char *)"Loading tiwlan_drv.ko module");
 	}
 	// Configuring WiFi interface
-	writelog(system("wlan_loader -f /system/etc/wifi/Fw1251r1c.bin -e /proc/calibration -i /data/data/android.tether/conf/tiwlan.ini"),
+	writelog(system("wlan_loader -f /system/etc/wifi/fw_wlan1271.bin -e /proc/calibration -i /data/data/android.tether/conf/tiwlan.ini"),
 			(char *)"Configuring WiFi interface");
 	// Activating Wifi-Encryption
 	if (file_exists((char *)"/data/data/android.tether/conf/wpa_supplicant.conf") == 0) {
@@ -251,14 +251,14 @@ void startpand() {
 
 void stopint() {
 	// Shutting down network interface
-	if (kernel_module_loaded((char *)"wlan") == 0) {
+	if (kernel_module_loaded((char *)"tiwlan_drv") == 0) {
 		writelog(system("ifconfig tiwlan0 down"),(char *)"Shutting down network interface");
 	}
 }
 
 void startint() {
     // Configuring network interface
-	if (kernel_module_loaded((char *)"wlan") == 0) {
+	if (kernel_module_loaded((char *)"tiwlan_drv") == 0) {
 		char command[100];
 		sprintf(command, "ifconfig tiwlan0 %s netmask 255.255.255.0", GATEWAY);
 		int returncode = system(command);
@@ -399,16 +399,6 @@ void readlanconfig() {
 	}
 }
 
-void deleteroute() {
-	char value[PROPERTY_VALUE_MAX];
-	property_get((char*)"ro.product.device", value, (char*)"undefined");
-	if (strcmp(value,"hero") == 0 || strcmp(value,"heroc") == 0) {
-		if (file_exists((char*)"/system/bin/ip") == 0) {
-			writelog(system("/system/bin/ip route delete table gprs"),(char *)"Deleting routing-rule");
-		}
-	}
-}
-
 int main(int argc, char *argv[]) {
 	readlanconfig();
 	if (argc != 2) {
@@ -422,7 +412,6 @@ int main(int argc, char *argv[]) {
 	log = fopen ("/data/data/android.tether/var/tether.log","w");
 
 	if (strcmp(argv[1],"start") == 0) {
-		deleteroute();
 		startwifi();
 	 	startint();
 	  	startipt();
@@ -439,7 +428,6 @@ int main(int argc, char *argv[]) {
 	    stopipt();
 	}
 	else if (strcmp(argv[1],"startbt") == 0) {
-		deleteroute();
 	  	startpand();
 	  	startipt();
 	  	startipfw();

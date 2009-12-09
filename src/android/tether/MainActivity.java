@@ -126,10 +126,10 @@ public class MainActivity extends Activity {
         if (this.application.startupCheckPerformed == false) {
 	        this.application.startupCheckPerformed = true;
 	        
-	        // Only check up to '=' to allow for either 'y' or 'm'
+	        /*
 	    	if (!this.application.coretask.hasKernelFeature("CONFIG_NETFILTER=") || 
 	    		!this.application.coretask.hasKernelFeature("CONFIG_IP_NF_IPTABLES="))
-	    		this.openNoNetfilterDialog();
+	    		this.openNoNetfilterDialog();*/
 	    	if (!this.application.coretask.hasRootPermission())
 	    		this.openNotRootDialog();
 	    	
@@ -406,6 +406,7 @@ public class MainActivity extends Activity {
 		return ((float)((int)(count*100/1024/1024))/100 + (rate ? "mbps" : "MB"));
 	}
   
+	/*
    	private void openNoNetfilterDialog() {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.nonetfilterview, null); 
@@ -427,7 +428,7 @@ public class MainActivity extends Activity {
                 }
         })
         .show();
-   	}
+   	}*/
    	
    	private void openNotRootDialog() {
 		LayoutInflater li = LayoutInflater.from(this);

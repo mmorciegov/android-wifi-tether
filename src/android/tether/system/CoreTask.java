@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Hashtable;
-import java.util.zip.GZIPInputStream;
 
 import android.tether.data.ClientData;
 import android.util.Log;
@@ -198,6 +197,7 @@ public class CoreTask {
         return version;
     }
     
+    /*
     public synchronized boolean hasKernelFeature(String feature) {
     	try {
 			FileInputStream fis = new FileInputStream("/proc/config.gz");
@@ -217,7 +217,7 @@ public class CoreTask {
     		Log.d(MSG_TAG, "Unexpected error - Here is what I know: "+e.getMessage());
     	}
     	return false;
-    }
+    }*/
 
     public boolean isProcessRunning(String processName) throws Exception {
     	boolean processIsRunning = false;
