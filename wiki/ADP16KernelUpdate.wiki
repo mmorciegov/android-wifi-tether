@@ -2,7 +2,7 @@
 #labels support,help
 =ADP 1.6 - Kernel-Update=
 
-<font size="4" color="#990000">HTC has signed the official image with wrong keys. New ~~(correctly signed) packages~~ are available on their website.</font>
+<font size="4" color="#990000">HTC has signed the official image with wrong keys.</font>
 
 See:
 
@@ -10,7 +10,7 @@ See:
 
 [http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/5b7c52f40d91d2ef http://groups.google.com/group/Android-DevPhone-Updating/browse_thread/thread/5b7c52f40d91d2ef]
 
-*It still looks like that the new recovery (image/mode) operates with wrong keys.* 
+*It looks like that the new recovery (image/mode) operates with wrong keys.* 
 *The only way* to get this kernel-update installed (if you don't want to use fastboot) is to replace it. I've put a package together which helps to do that. It includes a recovery.img from cupcake (the one which was installed before).
 
 *** === AT YOUR OWN RISK === ***
