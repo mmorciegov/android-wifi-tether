@@ -29,6 +29,7 @@ Instructions for userdebug or eng build:
   # You now have a tether-enabled kernel.
 
 Instructions for user build (with root hack only):
+*All steps before step 12 are safe and wont touch your phone's Rom /flash*
 
   # Get a copy of 'adb' and 'fastboot' (check the SDK or google for them).
   # Grab the Nexus One update zip *and* 'nexusone-zimage' from the downloads page
