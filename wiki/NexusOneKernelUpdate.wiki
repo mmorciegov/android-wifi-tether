@@ -8,14 +8,47 @@ This page describes the procedure for updating your Nexus One phone with a kerne
 
 Download the new kernel update from the Download page.
 
-  # You must be running the userdebug or eng build. This update won't run on the 'user' build.
+*If you are running on a _user_ build (default install), see further below*
+
+Instructions for userdebug or eng build:
+
+  # *You must be running a userdebug or eng build*. This update won't run on the 'user' build, you will get 'verification failed'.
   # Download the update from the 'Downloads' page above.
   # Rename it to 'update.zip' and copy it to the top directory of your phone's SD card.
-  # Power off your phone.
-  # Turn it on *whilst holding the trackball down*
-  # At the boot screen, use the volume keys to select 'bootloader' then press the power button to select.
-  # At the next screen, select 'recovery' and press the power button to select it.
-  # The boot 'cross' will appear, and shortly after a '!' graphic will appear. Hold down the power button, the press 'volume up'.
+  # If you have 'adb':
+    # adb reboot recovery
+  # If you do NOT have adb
+    # Power off your phone.
+    # Turn it on *whilst holding the trackball down*
+    # At the boot screen, use the volume keys to select 'bootloader' then press the power button to select.
+    # At the next screen, select 'recovery' and press the power button to select it.
+  # The boot 'cross' will appear, and shortly after a '!' graphic will appear. Hold down the power button, then press 'volume up'.
   # You will see a menu with blue text. Use the trackball to highlight and select 'apply SD card update'
   # The process should take a few seconds, after which you can reboot your phone.
+  # If you get 'verification failed' you probably have a user build. See below.
   # You now have a tether-enabled kernel.
+
+Instructions for user build (with root hack only):
+
+  # Get a copy of 'adb' and 'fastboot' (check the SDK or google for them).
+  # Grab the Nexus One update zip *and* 'nexusone-zimage' from the downloads page
+  # Plug your phone's USB in.
+  # adb reboot bootloader
+  # When the bootloader screen appears: fastboot boot nexusone-zimage
+  # *Make sure the phone boots, if not, STOP*
+    # Note that Wifi will not work at this stage.
+    # If the phone fails to boot, something is wrong. Pull the battery to reboot.
+  # Unzip the update zipfile, then 'adb push bcm4329.ko /sqlite_stmt_journals/'
+  # adb shell
+  # su
+  # insmod /sqlite_stmt_journals/bcm4329.ko
+    # If an error appears doing this, *STOP*
+  # lsmod
+    # You should see 'bcm4329' listed. If not, *STOP*.
+  # mount -w -o remount /dev/block/mtdblock3 /system
+  # cat /sqlite_stmt_journals/bcm4329.ko > /system/lib/modules/bcm4329.ko
+  # Logout out of the phone.
+  # adb reboot bootloader
+  # When the boot screen appears: adb flash zimage nexusone-zimage
+  # fastboot reboot
+  # Your phone should come up, you are done!!
