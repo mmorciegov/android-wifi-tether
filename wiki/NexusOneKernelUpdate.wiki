@@ -49,6 +49,6 @@ Instructions for user build (with root hack only):
   # cat /sqlite_stmt_journals/bcm4329.ko > /system/lib/modules/bcm4329.ko
   # Logout out of the phone.
   # adb reboot bootloader
-  # When the boot screen appears: adb flash zimage nexusone-zimage
+  # When the boot screen appears: fastboot flash zimage nexusone-zimage
   # fastboot reboot
   # Your phone should come up, you are done!!
