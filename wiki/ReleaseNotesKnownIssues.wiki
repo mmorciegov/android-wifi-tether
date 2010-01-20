@@ -1,4 +1,4 @@
-#Release notes and known issues
+#summary Release notes/known issues
 
 = Experimental versions =
 
