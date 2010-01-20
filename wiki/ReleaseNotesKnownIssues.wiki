@@ -1,0 +1,16 @@
+#Release notes and known issues
+
+= Experimental versions =
+
+----
+== wireless_tether-2_0-pre1 ==
+
+=== - Release notes ===
+`*` Wep-encryption fixed.
+
+
+=== - Known issues ===
+`*` Client *can't obtain ip-address*. Filed in *issue 232*.
+
+-> *Workaround:* change lan-network in settings
+----
