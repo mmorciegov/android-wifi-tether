@@ -17,7 +17,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -166,11 +165,11 @@ public class MainActivity extends Activity {
 		    	showDialog(MainActivity.ID_DIALOG_STARTING);
 				new Thread(new Runnable(){
 					public void run(){
-						boolean started = MainActivity.this.application.startTether();
+						int started = MainActivity.this.application.startTether();
 						MainActivity.this.dismissDialog(MainActivity.ID_DIALOG_STARTING);
 						Message message = Message.obtain();
-						if (started != true) {
-							message.what = MESSAGE_CANT_START_TETHER;
+						if (started != 0) {
+							message.what = started;
 						}
 						MainActivity.this.viewUpdateHandler.sendMessage(message); 
 					}
@@ -373,12 +372,8 @@ public class MainActivity extends Activity {
     		if (this.animation != null)
     			this.stopBtn.startAnimation(this.animation);
     		// Notification
-    		//String device = NativeTask.getProp("ro.product.device");
-    		if (usingBluetooth)
-    			this.application.tetherNetworkDevice = "bnep";
-    		else {
-    			this.application.tetherNetworkDevice = this.application.coretask.getProp("wifi.interface");
-    		}
+    		this.application.tetherNetworkDevice = usingBluetooth ? "bnep" : "tiwlan0";
+    		
     		this.application.trafficCounterEnable(true);
     		this.application.showStartNotification();
     	}
@@ -517,7 +512,7 @@ public class MainActivity extends Activity {
         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                 	Log.d(MSG_TAG, "No pressed");
-                	MainActivity.this.application.wpasupplicant.remove();
+                	MainActivity.this.application.coretask.removeWpaSupplicant();
                 }
         })
         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -538,42 +533,24 @@ public class MainActivity extends Activity {
   		}
   	}
 	
-   	public void openUpdateDialog(final String downloadFileUrl, final String fileName, final String message,
-   	    final String updateTitle) {
+   	public void openUpdateDialog(final String downloadFileUrl, final String fileName) {
 		LayoutInflater li = LayoutInflater.from(this);
-		Builder dialog;
-		View view;
-		view = li.inflate(R.layout.updateview, null);
-        TextView messageView = (TextView) view.findViewById(R.id.updateMessage);
-        TextView updateNowText = (TextView) view.findViewById(R.id.updateNowText);
-        if (fileName.length() == 0)  // No filename, hide 'download now?' string
-          updateNowText.setVisibility(View.GONE);
-        messageView.setText(message);
-        dialog = new AlertDialog.Builder(MainActivity.this)
-        .setTitle(updateTitle)
-        .setView(view);
-        
-        if (fileName.length() > 0) {
-          // Display Yes/No for if a filename is available.
-          dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Log.d(MSG_TAG, "No pressed");
-            }
-          });
-          dialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Log.d(MSG_TAG, "Yes pressed");
-                MainActivity.this.application.downloadUpdate(downloadFileUrl, fileName);
-            }
-          });          
-        } else
-          dialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                Log.d(MSG_TAG, "Ok pressed");
-            }
-          });
-
-        dialog.show();
+        View view = li.inflate(R.layout.updateview, null); 
+		new AlertDialog.Builder(MainActivity.this)
+        .setTitle("Update Application?")
+        .setView(view)
+        .setNeutralButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	Log.d(MSG_TAG, "No pressed");
+                }
+        })
+        .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Log.d(MSG_TAG, "Yes pressed");
+                    MainActivity.this.application.downloadUpdate(downloadFileUrl, fileName);
+                }
+        })
+        .show();
    	}
 
 }
