@@ -4,6 +4,15 @@
 
 ----
 ----
+== wireless_tether-2_0-pre3 ==
+
+=== - Release notes ===
+`*` CPU Loading 99%. Filed in *issue 237*.
+
+
+=== - Known issues ===
+----
+----
 == wireless_tether-2_0-pre2 ==
 
 === - Release notes ===
