@@ -326,6 +326,10 @@ public class TetherApplication extends Application {
     	command = this.coretask.DATA_FILE_PATH+"/bin/tether start";
     	if (tetherModeToStart == 1) {
     		command += "bt";
+    		if (enableBluetooth() == false){
+    			Log.d(MSG_TAG, "Couldn't start bluetooth.");
+    			return false;
+    		}
     	}
     	if (this.coretask.runRootCommand(command)) {
     		this.clientConnectEnable(true);
@@ -851,13 +855,13 @@ public class TetherApplication extends Application {
             	if (this.dns == null || this.dns[0].equals(currentDns[0]) == false || this.dns[1].equals(currentDns[1]) == false) {
             		this.dns = TetherApplication.this.coretask.updateResolvConf();
             	}
+                // Taking a nap
+       			try {
+    				Thread.sleep(2000);
+    			} catch (InterruptedException e) {
+    				Thread.currentThread().interrupt();
+    			}
             }
-            // Taking a nap
-   			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
 		}
     }    
     

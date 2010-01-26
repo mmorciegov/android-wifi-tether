@@ -229,7 +229,7 @@ void startwifi() {
 			(char *)"Configuring WiFi interface");
 	// Activating Wifi-Encryption
 	if (file_exists((char *)"/data/data/android.tether/conf/wpa_supplicant.conf") == 0) {
-		writelog(system("cd /data/local/tmp;wpa_supplicant -B -Dtiwlan0 -itiwlan0 -c/data/data/android.tether/conf/wpa_supplicant.conf"),
+		writelog(system("cd /data/local/tmp; mkdir /data/local/tmp/wpa_supplicant; wpa_supplicant -B -D -itiwlan0 -c/data/data/android.tether/conf/wpa_supplicant.conf"),
 			(char *)"Activating Wifi encryption");
 	}
 }
