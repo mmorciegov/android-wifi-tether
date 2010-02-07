@@ -11,6 +11,7 @@
 
 
 === - Known issues ===
+`*` Log (Show log) does not show failed commands.
 ----
 ----
 == wireless_tether-2_0-pre2 ==
