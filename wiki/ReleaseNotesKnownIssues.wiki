@@ -12,6 +12,7 @@
 
 === - Known issues ===
 `*` Log (Show log) does not show failed commands.
+`*` Access-control does not update iptables-rules correctly.
 ----
 ----
 == wireless_tether-2_0-pre2 ==
