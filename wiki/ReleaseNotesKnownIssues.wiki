@@ -11,7 +11,8 @@
 
 
 === - Known issues ===
-`*` Log (Show log) does not show failed commands.
+`*` Log (Show log) does not show failed commands
+
 `*` Access-control does not update iptables-rules correctly.
 ----
 ----
@@ -19,8 +20,8 @@
 
 === - Release notes ===
 `*` Support for Motorola Droid/Milestone
-`*` Fixed *can't obtain ip-address*. Filed in *issue 232*.
 
+`*` Fixed *can't obtain ip-address*. Filed in *issue 232*.
 
 === - Known issues ===
 `*`   	 CPU Loading 99%. Filed in *issue 237*.
