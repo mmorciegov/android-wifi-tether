@@ -4,6 +4,21 @@
 
 ----
 ----
+== wireless_tether-2_0-pre4 ==
+
+=== - Release notes ===
+`*` *Added* support for older Android-versions (1.5/1.6) - pre4 supports now: HTC Dream/Magic/Hero, Samsung Galaxy, Google NexusOne, Motorola Droid/Milestone.
+
+`*` Log (Show log) does not show failed commands - *FIXED*.
+
+`*` Access-control does not update iptables-rules correctly - *FIXED*.
+
+`*` Shared library not found if the .apk is pushed to /data/app (and not installed) - *FIXED*.
+
+=== - Known issues ===
+?
+----
+----
 == wireless_tether-2_0-pre3 ==
 
 === - Release notes ===
