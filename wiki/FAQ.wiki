@@ -20,7 +20,9 @@ For Android 1.1 users make sure you download version 0.97.1 from [http://code.go
 
 *Why do I get the message "No Netfilter" on startup?*
 
-This means that the Linux kernel on your device does not have the features (CONFIG_NETFILTER and CONFIG_IP_NF_IPTABLES) required for tethering. If you have an ADP G1, please read [ADP15KernelUpdate] (or [ADP16KernelUpdate] if you're using Donut), otherwise you will need to find a firmware/kernel with these features. For the Nexus One phone, see [NexusOneKernelUpdate]. The developers of Wireless Tether are unable to help with other types of devices (but donations of hardware/etc would help ;)
+This means that the Linux kernel on your device does not have the features (CONFIG_NETFILTER, CONFIG_IP_NF_IPTABLES and CONFIG_NETFILTER_XT_MATCH_MAC) required for tethering. If the feature "CONFIG_NETFILTER_XT_MATCH_MAC" is missing the "access control"-feature will not work correctly (you will see a "failed"-status in "Show log" for "Enabling access control").
+
+If you have an ADP G1, please read [ADP15KernelUpdate] (or [ADP16KernelUpdate] if you're using Donut), otherwise you will need to find a firmware/kernel with these features. For the Nexus One phone, see [NexusOneKernelUpdate]. The developers of Wireless Tether are unable to help with other types of devices (but donations of hardware/etc would help ;)
 
 *Why won't tethering start on my phone?*
 
