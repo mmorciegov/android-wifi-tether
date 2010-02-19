@@ -4,6 +4,17 @@
 
 ----
 ----
+== wireless_tether-2_0-pre5 ==
+
+=== - Release notes ===
+`*` *Added* (very experimental) support for Samsung Moment - Problem reported: cellular radio becomes unresponsive after an unpredictable interval.
+
+`*` Failed message in log "Setting ad-hoc mode, channel and ssid.... failed" - Filed in *issue 264* - hopefully *FIXED* (needs to be tested).
+
+=== - Known issues ===
+?
+----
+----
 == wireless_tether-2_0-pre4 ==
 
 === - Release notes ===
@@ -16,7 +27,8 @@
 `*` Shared library not found if the .apk is pushed to /data/app (and not installed) - *FIXED*.
 
 === - Known issues ===
-?
+`*` 
+`*` Failed message in log "Setting ad-hoc mode, channel and ssid.... failed" - Filed in *issue 264*
 ----
 ----
 == wireless_tether-2_0-pre3 ==
