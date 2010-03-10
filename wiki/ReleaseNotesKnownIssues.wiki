@@ -4,6 +4,28 @@
 
 ----
 ----
+== wireless_tether-2_0-pre8 ==
+
+=== - Release notes ===
+
+`*` *Added* support for Motorola Cliq. Needs to be tested!
+
+`*` *Added* the "reduce transmit-power"-feature for NexusOne. 
+
+=== - Known issues ===
+?
+----
+----
+== wireless_tether-2_0-pre7 ==
+
+=== - Release notes ===
+
+`*` *Added* additional check for kernel-compatibility - Workaround added if /proc/config.gz does not exist. 
+
+=== - Known issues ===
+?
+----
+----
 == wireless_tether-2_0-pre6 ==
 
 === - Release notes ===
