@@ -8,7 +8,7 @@
 
 === - Release notes ===
 
-`*` *Added* support for Motorola Cliq. Needs to be tested!
+`*` *Added* support for Motorola Cliq. Needs to be tested! (Thanks to the [http://www.demoshadow.com DemoShadow Dev Team] for helping with this.)
 
 `*` *Added* the "reduce transmit-power"-feature for NexusOne. 
 
