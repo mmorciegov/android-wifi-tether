@@ -4,6 +4,15 @@
 
 ----
 ----
+== wireless_tether-2_0-pre9 ==
+
+=== - Release notes ===
+
+`*` Small bugfixes and cleanups. Maybe the last pre-release.
+=== - Known issues ===
+?
+----
+----
 == wireless_tether-2_0-pre8 ==
 
 === - Release notes ===
