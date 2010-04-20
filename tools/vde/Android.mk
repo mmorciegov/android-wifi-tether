@@ -36,9 +36,7 @@ LOCAL_C_INCLUDES:= external/vde/include\
 		external/vde/src/vde_switch\
 		external/vde/src/common
 
-LOCAL_LDFLAGS:= -lm -lc -lgcc 
 LOCAL_MODULE := vde_switch 
-LOCAL_CFLAGS += -O3 -DUSE_MMAP -Wall
 
 LOCAL_SHARED_LIBRARIES := \
         libcutils \
@@ -80,9 +78,7 @@ LOCAL_C_INCLUDES:= external/vde/include\
 		external/vde/src/lib\
                 external/vde/src/common
 
-LOCAL_LDFLAGS:= -lm -lc -lgcc
 LOCAL_MODULE := slirpvde 
-LOCAL_CFLAGS += -O3 -DUSE_MMAP -Wall
 
 LOCAL_SHARED_LIBRARIES := \
         libcutils \
@@ -108,9 +104,7 @@ LOCAL_C_INCLUDES:= external/vde/include\
 	        external/libpcap 
 
 
-LOCAL_LDFLAGS:= -lm -lc -lgcc 
 LOCAL_MODULE := vde_pcapplug 
-LOCAL_CFLAGS += -O3 -DUSE_MMAP -Wall
 
 LOCAL_STATIC_LIBRARIES+=libpcap
 

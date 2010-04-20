@@ -489,10 +489,10 @@ void client_eth_register(const unsigned char *eth_addr, const unsigned char *ip_
 	if (memcmp(ip_addr, &special_addr, 3) == 0 && host != 0 && host != 0xff)
 	{
 		memcpy(client_ethaddr[host],eth_addr,ETH_ALEN);
-		/*printf("register %02x:%02x:%02x:%02x:%02x:%02x %d.%d.%d.%d\n",
+		printf("register %02x:%02x:%02x:%02x:%02x:%02x %d.%d.%d.%d\n",
 			eth_addr[0], eth_addr[1], eth_addr[2],
 			eth_addr[3], eth_addr[4], eth_addr[5],
-			ip_addr[0], ip_addr[1], ip_addr[2], ip_addr[3]);*/
+			ip_addr[0], ip_addr[1], ip_addr[2], ip_addr[3]);
 	}
 }
 
@@ -502,10 +502,10 @@ static void client_eth_get(unsigned char *eth_addr, const unsigned char *ip_addr
 	if (memcmp(ip_addr, &special_addr, 3) == 0 && host != 0 && host != 0xff)
 	{
 		memcpy(eth_addr,client_ethaddr[host],ETH_ALEN);
-		/*printf("get %02x:%02x:%02x:%02x:%02x:%02x %d.%d.%d.%d\n",
+		printf("get %02x:%02x:%02x:%02x:%02x:%02x %d.%d.%d.%d\n",
 			eth_addr[0], eth_addr[1], eth_addr[2],
 			eth_addr[3], eth_addr[4], eth_addr[5],
-			ip_addr[0], ip_addr[1], ip_addr[2], ip_addr[3]);*/
+			ip_addr[0], ip_addr[1], ip_addr[2], ip_addr[3]);
 	}
 }
 
@@ -590,6 +590,8 @@ void slirp_input(const uint8_t *pkt, int pkt_len)
         }
         m->m_len = pkt_len + 2;
         memcpy(m->m_data + 2, pkt, pkt_len);
+
+	client_eth_register_ip(m->m_data, m->m_len);
 
         m->m_data += 2 + ETH_HLEN;
         m->m_len -= 2 + ETH_HLEN;
