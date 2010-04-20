@@ -574,7 +574,7 @@ void slirp_input(const uint8_t *pkt, int pkt_len)
 
     if (pkt_len < ETH_HLEN)
         return;
-    
+
     proto = ntohs(*(uint16_t *)(pkt + 12));
     switch(proto) {
     case ETH_P_ARP:
@@ -584,12 +584,15 @@ void slirp_input(const uint8_t *pkt, int pkt_len)
         m = m_get();
         if (!m)
             return;
-        m->m_len = pkt_len;
-        memcpy(m->m_data, pkt, pkt_len);
+        /* Note: we add to align the IP header */
+        if (M_FREEROOM(m) < pkt_len + 2) {
+            m_inc(m, pkt_len + 2);
+        }
+        m->m_len = pkt_len + 2;
+        memcpy(m->m_data + 2, pkt, pkt_len);
 
-				client_eth_register_ip(m->m_data, m->m_len);
-        m->m_data += ETH_HLEN;
-        m->m_len -= ETH_HLEN;
+        m->m_data += 2 + ETH_HLEN;
+        m->m_len -= 2 + ETH_HLEN;
 
         ip_input(m);
         break;
