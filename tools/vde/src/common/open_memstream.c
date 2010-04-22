@@ -29,6 +29,7 @@
 
 /* BSD-compatible implementation of open_memstream */
 
+#if HAVE_FUNOPEN
 struct memstream {
   char *buffer;
   size_t size, space;
@@ -83,4 +84,5 @@ FILE *open_memstream(char **ptr, size_t *sizeloc) {
                  0,                     /* seek */
                  0);                    /* close */
 }
+#endif
 
