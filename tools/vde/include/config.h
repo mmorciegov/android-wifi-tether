@@ -36,6 +36,7 @@
 
 /* Define to 1 if you have the `funopen' function. */
 /* #undef HAVE_FUNOPEN */
+#define HAVE_FUNOPEN 1
 
 /* Define to 1 if you have the `gethostbyname' function. */
 #define HAVE_GETHOSTBYNAME 1
