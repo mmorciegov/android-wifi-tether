@@ -32,10 +32,10 @@ src_files :=  	src/common/open_memstream.c\
 		src/vde_switch/vde_switch.c
 
 LOCAL_SRC_FILES := $(src_files)
+LOCAL_CFLAGS+=-DCONFIG_SLIRP -DCONFIG_NEED_OFFSETOF -DDEBUGOPT -DPORTCOUNTERS -DVDEPLUGIN
 LOCAL_C_INCLUDES:= external/vde/include\
 		external/vde/src/vde_switch\
 		external/vde/src/common
-
 LOCAL_MODULE := vde_switch 
 
 LOCAL_SHARED_LIBRARIES := \
@@ -54,8 +54,8 @@ src_files :=    src/common/open_memstream.c\
 		src/lib/libvdeplug.c \
 		src/slirpvde/bootp.c\
 		src/slirpvde/cksum.c\
-		src/slirpvde/debug.c\
 		src/slirpvde/if.c\
+		src/slirpvde/tftp.c\
 		src/slirpvde/ip_icmp.c\
 		src/slirpvde/ip_input.c\
 		src/slirpvde/ip_output.c\
@@ -73,6 +73,7 @@ src_files :=    src/common/open_memstream.c\
 		src/slirpvde/udp.c
 
 LOCAL_SRC_FILES := $(src_files)
+LOCAL_CFLAGS+=-DCONFIG_SLIRP -DCONFIG_NEED_OFFSETOF -DDEBUGOPT -DPORTCOUNTERS -DVDEPLUGIN
 LOCAL_C_INCLUDES:= external/vde/include\
                 external/vde/src/slirpvde\
 		external/vde/src/lib\
@@ -98,6 +99,7 @@ src_files :=  	src/common/open_memstream.c\
 		src/vde_pcapplug.c
 
 LOCAL_SRC_FILES := $(src_files)
+LOCAL_CFLAGS+=-DCONFIG_SLIRP -DCONFIG_NEED_OFFSETOF -DDEBUGOPT -DPORTCOUNTERS -DVDEPLUGIN
 LOCAL_C_INCLUDES:= external/vde/include\
 		external/vde/src\
 		external/vde/src/common\
@@ -105,7 +107,6 @@ LOCAL_C_INCLUDES:= external/vde/include\
 
 
 LOCAL_MODULE := vde_pcapplug 
-
 LOCAL_STATIC_LIBRARIES+=libpcap
 
 LOCAL_SHARED_LIBRARIES := \
