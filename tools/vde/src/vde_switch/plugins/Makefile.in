@@ -55,11 +55,11 @@ am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(moddir)"
 modLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(mod_LTLIBRARIES)
-dump_la_DEPENDENCIES = $(top_srcdir)/src/common/libvdecommon.la
+dump_la_DEPENDENCIES = $(top_builddir)/src/common/libvdecommon.la
 am_dump_la_OBJECTS = dump.lo
 dump_la_OBJECTS = $(am_dump_la_OBJECTS)
 @ENABLE_PCAP_TRUE@pdump_la_DEPENDENCIES =  \
-@ENABLE_PCAP_TRUE@	$(top_srcdir)/src/common/libvdecommon.la
+@ENABLE_PCAP_TRUE@	$(top_builddir)/src/common/libvdecommon.la
 am__pdump_la_SOURCES_DIST = pdump.c
 @ENABLE_PCAP_TRUE@am_pdump_la_OBJECTS = pdump.lo
 pdump_la_OBJECTS = $(am_pdump_la_OBJECTS)
@@ -193,6 +193,7 @@ sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
+top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 moddir = $(pkglibdir)/plugins
@@ -204,9 +205,9 @@ AM_CPPFLAGS = -I$(top_srcdir)/include $(am__append_1)
 #	cd "$(DESTDIR)/$(moddir)" && rm -f $(mod_LTLIBRARIES)
 mod_LTLIBRARIES = dump.la $(am__append_2)
 dump_la_SOURCES = dump.c
-dump_la_LIBADD = $(top_srcdir)/src/common/libvdecommon.la
+dump_la_LIBADD = $(top_builddir)/src/common/libvdecommon.la
 @ENABLE_PCAP_TRUE@pdump_la_SOURCES = pdump.c
-@ENABLE_PCAP_TRUE@pdump_la_LIBADD = $(top_srcdir)/src/common/libvdecommon.la -lpcap
+@ENABLE_PCAP_TRUE@pdump_la_LIBADD = $(top_builddir)/src/common/libvdecommon.la -lpcap
 @ENABLE_PCAP_FALSE@EXTRA_DIST = pdump.c
 all: all-am
 

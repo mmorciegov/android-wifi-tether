@@ -1,7 +1,7 @@
 #ifndef VDECOMMON_H
 #define VDECOMMON_H
 
-//#include <open_memstream.h>
+#include <open_memstream.h>
 #include <poll.h>
 #include <strndup.h>
 

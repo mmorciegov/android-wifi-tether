@@ -30,12 +30,12 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = i686-pc-linux-gnu
-host_triplet = i686-pc-linux-gnu
+build_triplet = i686-suse-linux-gnu
+host_triplet = i686-suse-linux-gnu
 #am__append_1 = -pg --coverage
 bin_PROGRAMS = slirpvde$(EXEEXT)
 subdir = src/slirpvde
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
 	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
@@ -49,16 +49,15 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_slirpvde_OBJECTS = misc.$(OBJEXT) cksum.$(OBJEXT) debug.$(OBJEXT) \
-	if.$(OBJEXT) ip_icmp.$(OBJEXT) ip_input.$(OBJEXT) \
-	ip_output.$(OBJEXT) mbuf.$(OBJEXT) sbuf.$(OBJEXT) \
-	slirp.$(OBJEXT) socket.$(OBJEXT) tcp_input.$(OBJEXT) \
-	tcp_output.$(OBJEXT) tcp_subr.$(OBJEXT) tcp_timer.$(OBJEXT) \
-	udp.$(OBJEXT) bootp.$(OBJEXT) tcp2unix.$(OBJEXT) \
-	slirpvde.$(OBJEXT)
+am_slirpvde_OBJECTS = misc.$(OBJEXT) cksum.$(OBJEXT) if.$(OBJEXT) \
+	ip_icmp.$(OBJEXT) ip_input.$(OBJEXT) ip_output.$(OBJEXT) \
+	mbuf.$(OBJEXT) sbuf.$(OBJEXT) slirp.$(OBJEXT) socket.$(OBJEXT) \
+	tcp_input.$(OBJEXT) tcp_output.$(OBJEXT) tcp_subr.$(OBJEXT) \
+	tcp_timer.$(OBJEXT) udp.$(OBJEXT) bootp.$(OBJEXT) \
+	tcp2unix.$(OBJEXT) tftp.$(OBJEXT) slirpvde.$(OBJEXT)
 slirpvde_OBJECTS = $(am_slirpvde_OBJECTS)
-slirpvde_DEPENDENCIES = $(top_srcdir)/src/common/libvdecommon.la \
-	$(top_srcdir)/src/lib/libvdeplug.la
+slirpvde_DEPENDENCIES = $(top_builddir)/src/common/libvdecommon.la \
+	$(top_builddir)/src/lib/libvdeplug.la
 DEFAULT_INCLUDES = -I. -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -76,12 +75,12 @@ DIST_SOURCES = $(slirpvde_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run aclocal-1.10
-AMTAR = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run tar
+ACLOCAL = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run aclocal-1.10
+AMTAR = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run automake-1.10
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -117,7 +116,7 @@ LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
 NMEDIT = 
@@ -138,10 +137,10 @@ SET_MAKE =
 SHELL = /bin/sh
 STRIP = strip
 VERSION = 2.2.3
-abs_builddir = /home/harry/vde/vde2-2.2.3/src/slirpvde
-abs_srcdir = /home/harry/vde/vde2-2.2.3/src/slirpvde
-abs_top_builddir = /home/harry/vde/vde2-2.2.3
-abs_top_srcdir = /home/harry/vde/vde2-2.2.3
+abs_builddir = /home/harry/vde-svn/vde_svn/src/slirpvde
+abs_srcdir = /home/harry/vde-svn/vde_svn/src/slirpvde
+abs_top_builddir = /home/harry/vde-svn/vde_svn
+abs_top_srcdir = /home/harry/vde-svn/vde_svn
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 ac_ct_DUMPBIN = 
@@ -151,26 +150,26 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = ${exec_prefix}/bin
-build = i686-pc-linux-gnu
+build = i686-suse-linux-gnu
 build_alias = 
 build_cpu = i686
 build_os = linux-gnu
-build_vendor = pc
+build_vendor = suse
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = i686-pc-linux-gnu
+host = i686-suse-linux-gnu
 host_alias = 
 host_cpu = i686
 host_os = linux-gnu
-host_vendor = pc
+host_vendor = suse
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/harry/vde/vde2-2.2.3/install-sh
+install_sh = $(SHELL) /home/harry/vde-svn/vde_svn/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -188,17 +187,16 @@ sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
 target_alias = 
+top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
-AM_CPPFLAGS = -I$(top_srcdir)/include -DVDE
+AM_CPPFLAGS = -I$(top_srcdir)/include -DVDE -DCONFIG_SLIRP -DCONFIG_NEED_OFFSETOF
 AM_CFLAGS = -g -O2 $(am__append_1)
 #AM_LDFLAGS = -pg --coverage
 slirpvde_SOURCES = \
 		   misc.c \
 		   misc.h \
 		   cksum.c \
-		   debug.c \
-		   debug.h \
 		   icmp_var.h \
 		   if.c \
 		   if.h \
@@ -233,9 +231,11 @@ slirpvde_SOURCES = \
 		   bootp.h \
 		   tcp2unix.c \
 		   tcp2unix.h \
+		   tftp.c \
+		   tftp.h \
 		   slirpvde.c
 
-slirpvde_LDADD = $(top_srcdir)/src/common/libvdecommon.la $(top_srcdir)/src/lib/libvdeplug.la
+slirpvde_LDADD = $(top_builddir)/src/common/libvdecommon.la $(top_builddir)/src/lib/libvdeplug.la
 all: all-am
 
 .SUFFIXES:
@@ -309,7 +309,6 @@ distclean-compile:
 
 include ./$(DEPDIR)/bootp.Po
 include ./$(DEPDIR)/cksum.Po
-include ./$(DEPDIR)/debug.Po
 include ./$(DEPDIR)/if.Po
 include ./$(DEPDIR)/ip_icmp.Po
 include ./$(DEPDIR)/ip_input.Po
@@ -325,6 +324,7 @@ include ./$(DEPDIR)/tcp_input.Po
 include ./$(DEPDIR)/tcp_output.Po
 include ./$(DEPDIR)/tcp_subr.Po
 include ./$(DEPDIR)/tcp_timer.Po
+include ./$(DEPDIR)/tftp.Po
 include ./$(DEPDIR)/udp.Po
 
 .c.o:

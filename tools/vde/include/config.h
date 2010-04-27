@@ -1,6 +1,9 @@
 /* include/config.h.  Generated from config.h.in by configure.  */
 /* include/config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Define if building universal (internal helper macro) */
+/* #undef AC_APPLE_UNIVERSAL_BUILD */
+
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 #define HAVE_ARPA_INET_H 1
 
@@ -91,7 +94,8 @@
 #define HAVE_OPENSSL_BLOWFISH_H 1
 
 /* Define to 1 if you have the `open_memstream' function. */
-#define HAVE_OPEN_MEMSTREAM 1
+//#define HAVE_OPEN_MEMSTREAM 1
+#undef HAVE_OPEN_MEMSTREAM
 
 /* Define to 1 if your system has a working poll() function. */
 #define HAVE_POLL 1
@@ -164,7 +168,7 @@
 #define HAVE_SYSLOG_H 1
 
 /* Define to 1 if you have the <sys/bitypes.h> header file. */
-//#define HAVE_SYS_BITYPES_H 0
+//#define HAVE_SYS_BITYPES_H 1
 #undef HAVE_SYS_BITYPES_H
 
 /* Define to 1 if you have the <sys/filio.h> header file. */
@@ -237,9 +241,6 @@
 
 /* Define to 1 if `vfork' works. */
 #define HAVE_WORKING_VFORK 1
-
-/* PREFIX */
-#define INSTALLPATH "/usr/local"
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
@@ -314,9 +315,17 @@
 /* Version number of package */
 #define VERSION "2.2.3"
 
-/* Define to 1 if your processor stores words with the most significant byte
-   first (like Motorola and SPARC, unlike Intel and VAX). */
-/* #undef WORDS_BIGENDIAN */
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+/* #  undef WORDS_BIGENDIAN */
+# endif
+#endif
 
 /* Define like PROTOTYPES; this can be used by system headers. */
 #define __PROTOTYPES 1

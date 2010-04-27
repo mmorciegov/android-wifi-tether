@@ -14,7 +14,7 @@
 #include <syslog.h>
 #include <sys/types.h>
 #include <sys/time.h>
-//#include <sys/signal.h>
+#include <linux/signal.h>
 
 #include <config.h>
 #include <vde.h>

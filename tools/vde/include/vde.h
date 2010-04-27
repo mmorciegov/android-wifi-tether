@@ -7,6 +7,9 @@
 #define GETOPT_LONG getopt_long
 #endif
 
+#define VDE_SOCK_DIR LOCALSTATEDIR"/run"
+#define VDE_RC_DIR SYSCONFDIR"/vde2"
+
 #ifndef VDESTDSOCK
 #define VDESTDSOCK	"/var/run/vde.ctl"
 #define VDETMPSOCK	"/tmp/vde.ctl"

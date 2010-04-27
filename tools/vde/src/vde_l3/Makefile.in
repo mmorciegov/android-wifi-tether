@@ -56,21 +56,21 @@ am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
 am__installdirs = "$(DESTDIR)$(moddir)" "$(DESTDIR)$(bindir)"
 modLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(mod_LTLIBRARIES)
-bfifo_la_DEPENDENCIES = $(top_srcdir)/src/common/libvdecommon.la
+bfifo_la_DEPENDENCIES = $(top_builddir)/src/common/libvdecommon.la
 am_bfifo_la_OBJECTS = bfifo.lo
 bfifo_la_OBJECTS = $(am_bfifo_la_OBJECTS)
-pfifo_la_DEPENDENCIES = $(top_srcdir)/src/common/libvdecommon.la
+pfifo_la_DEPENDENCIES = $(top_builddir)/src/common/libvdecommon.la
 am_pfifo_la_OBJECTS = pfifo.lo
 pfifo_la_OBJECTS = $(am_pfifo_la_OBJECTS)
-tbf_la_DEPENDENCIES = $(top_srcdir)/src/common/libvdecommon.la
+tbf_la_DEPENDENCIES = $(top_builddir)/src/common/libvdecommon.la
 am_tbf_la_OBJECTS = tbf.lo
 tbf_la_OBJECTS = $(am_tbf_la_OBJECTS)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_vde_l3_OBJECTS = vde_l3.$(OBJEXT)
 vde_l3_OBJECTS = $(am_vde_l3_OBJECTS)
-vde_l3_DEPENDENCIES = $(top_srcdir)/src/common/libvdecommon.la \
-	$(top_srcdir)/src/lib/libvdeplug.la
+vde_l3_DEPENDENCIES = $(top_builddir)/src/common/libvdecommon.la \
+	$(top_builddir)/src/lib/libvdeplug.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -202,6 +202,7 @@ sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
+top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 moddir = $(pkglibdir)/vde_l3
@@ -213,11 +214,11 @@ mod_LTLIBRARIES = pfifo.la tbf.la bfifo.la
 pfifo_la_SOURCES = pfifo.c  vde_buff.h
 tbf_la_SOURCES = tbf.c  vde_buff.h
 bfifo_la_SOURCES = bfifo.c  vde_buff.h
-pfifo_la_LIBADD = $(top_srcdir)/src/common/libvdecommon.la
-bfifo_la_LIBADD = $(top_srcdir)/src/common/libvdecommon.la
-tbf_la_LIBADD = $(top_srcdir)/src/common/libvdecommon.la
+pfifo_la_LIBADD = $(top_builddir)/src/common/libvdecommon.la
+bfifo_la_LIBADD = $(top_builddir)/src/common/libvdecommon.la
+tbf_la_LIBADD = $(top_builddir)/src/common/libvdecommon.la
 vde_l3_SOURCES = vde_l3.c vde_buff.h vde_l3.h
-vde_l3_LDADD = $(top_srcdir)/src/common/libvdecommon.la $(top_srcdir)/src/lib/libvdeplug.la
+vde_l3_LDADD = $(top_builddir)/src/common/libvdecommon.la $(top_builddir)/src/lib/libvdeplug.la
 all: all-am
 
 .SUFFIXES:

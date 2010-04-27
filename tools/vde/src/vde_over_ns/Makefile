@@ -30,8 +30,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = i686-pc-linux-gnu
-host_triplet = i686-pc-linux-gnu
+build_triplet = i686-suse-linux-gnu
+host_triplet = i686-suse-linux-gnu
 bin_PROGRAMS = vde_over_ns$(EXEEXT)
 subdir = src/vde_over_ns
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -52,8 +52,8 @@ am_vde_over_ns_OBJECTS = vde_over_ns.$(OBJEXT) dns.$(OBJEXT) \
 	encode.$(OBJEXT) pstack.$(OBJEXT) queue.$(OBJEXT) \
 	util.$(OBJEXT) vde_io.$(OBJEXT)
 vde_over_ns_OBJECTS = $(am_vde_over_ns_OBJECTS)
-vde_over_ns_DEPENDENCIES = $(top_srcdir)/src/common/libvdecommon.la \
-	$(top_srcdir)/src/lib/libvdeplug.la
+vde_over_ns_DEPENDENCIES = $(top_builddir)/src/common/libvdecommon.la \
+	$(top_builddir)/src/lib/libvdeplug.la
 DEFAULT_INCLUDES = -I. -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -71,12 +71,12 @@ DIST_SOURCES = $(vde_over_ns_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run aclocal-1.10
-AMTAR = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run tar
+ACLOCAL = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run aclocal-1.10
+AMTAR = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run tar
 AR = ar
-AUTOCONF = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run automake-1.10
+AUTOCONF = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run automake-1.10
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -112,7 +112,7 @@ LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/harry/vde/vde2-2.2.3/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/harry/vde-svn/vde_svn/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
 NMEDIT = 
@@ -133,10 +133,10 @@ SET_MAKE =
 SHELL = /bin/sh
 STRIP = strip
 VERSION = 2.2.3
-abs_builddir = /home/harry/vde/vde2-2.2.3/src/vde_over_ns
-abs_srcdir = /home/harry/vde/vde2-2.2.3/src/vde_over_ns
-abs_top_builddir = /home/harry/vde/vde2-2.2.3
-abs_top_srcdir = /home/harry/vde/vde2-2.2.3
+abs_builddir = /home/harry/vde-svn/vde_svn/src/vde_over_ns
+abs_srcdir = /home/harry/vde-svn/vde_svn/src/vde_over_ns
+abs_top_builddir = /home/harry/vde-svn/vde_svn
+abs_top_srcdir = /home/harry/vde-svn/vde_svn
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 ac_ct_DUMPBIN = 
@@ -146,26 +146,26 @@ am__quote =
 am__tar = ${AMTAR} chof - "$$tardir"
 am__untar = ${AMTAR} xf -
 bindir = ${exec_prefix}/bin
-build = i686-pc-linux-gnu
+build = i686-suse-linux-gnu
 build_alias = 
 build_cpu = i686
 build_os = linux-gnu
-build_vendor = pc
+build_vendor = suse
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = i686-pc-linux-gnu
+host = i686-suse-linux-gnu
 host_alias = 
 host_cpu = i686
 host_os = linux-gnu
-host_vendor = pc
+host_vendor = suse
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /home/harry/vde/vde2-2.2.3/install-sh
+install_sh = $(SHELL) /home/harry/vde-svn/vde_svn/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -183,6 +183,7 @@ sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
 target_alias = 
+top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
 AM_CPPFLAGS = -I$(top_srcdir)/include
@@ -201,7 +202,7 @@ vde_over_ns_SOURCES = \
 	fun.h \
 	pstack.h
 
-vde_over_ns_LDADD = $(top_srcdir)/src/common/libvdecommon.la $(top_srcdir)/src/lib/libvdeplug.la
+vde_over_ns_LDADD = $(top_builddir)/src/common/libvdecommon.la $(top_builddir)/src/lib/libvdeplug.la
 all: all-am
 
 .SUFFIXES:
