@@ -46,6 +46,9 @@ If you think your OS is not the issue, it may be an issue with either the tether
 
 If that still doesn't resolve your issue, it may be a problem with your allowed clients or security settings. Start tethering and connect your laptop. then from the main tether screen, go Menu->Setup. If "Activate Access-Control" is already checked, either uncheck it or check the entry below containing your laptop's MAC address. If "Activate Access-Control" was unchecked originally, try checking it and checking the entry below containing your laptop's MAC address.
 
+*Windows 7 won't connect. What could be wrong?*
+
+We have some reports [http://code.google.com/p/android-wifi-tether/issues/detail?id=244 issue 244] that some intel-wifi-cards are making troubles joining ad-hoc-networks. I driver-update solved this issue.
 
 *I'm running JF's-Firmware (1.4x) but tethering doesn't start or my phone hangs!*
 
