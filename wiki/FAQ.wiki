@@ -17,6 +17,9 @@ For Android 1.5 (cupcake) users you can either download it [http://code.google.c
  
 For Android 1.1 users make sure you download version 0.97.1 from [http://code.google.com/p/android-wifi-tether/downloads/list here].
 
+*I have an old version installed and get an error-message when trying to update the app. What's wrong?*
+
+Some custom roms come with a pre-installed version of "Wireless Tether". If that version is located on the "system"-partition the update-process will fail. The "system"-partition is read-only and needs to be remounted (with write-premission) before removing the old app manually.
 
 *Why do I get the message "No Netfilter" on startup?*
 
