@@ -1,4 +1,18 @@
 #summary Release notes/known issues
+= Stable versions =
+----
+----
+== wireless_tether-2_0_1 ==
+
+=== - Release notes ===
+
+`*` Added support for CM 5.0.7 DS (HTC Dream/Magic 32B)
+`*` Small bugfix (which didn't harm most platforms) in bluetooth the bluetooth start/stop shell scripts.
+=== - Known issues ===
+?
+----
+----
+
 
 = Experimental versions =
 
