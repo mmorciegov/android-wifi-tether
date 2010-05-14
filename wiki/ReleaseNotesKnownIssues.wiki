@@ -18,6 +18,15 @@
 
 ----
 ----
+== wireless_tether-2_0_2-pre6 ==
+
+=== - Release notes ===
+
+`*` Added support for the HTC Legend.
+=== - Known issues ===
+`*` HTC Legend does not support wep-encryption in adhoc-mode.
+----
+----
 == wireless_tether-2_0-pre9 ==
 
 === - Release notes ===
