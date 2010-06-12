@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Wireless Tether</string>
+    <string name="setuptext">Setup</string>
+    <string name="abouttext">About</string>
+    <string name="logtext">Show Log</string>
+    <string name="reloadclientlisttext">Reload Client-List</string>
+    <string name="applywhitelisttext">Apply Settings</string>
+    <string name="installtext">(Re)-Install binaries/configs</string>
+    <string name="accesscontroltext">Access Control</string>
+    <string name="temperatureunit">°C</string>
+	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
+    <string-array name="notificationmodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+	</string-array>
+    <string-array name="notificationmodenames">  
+		<item>None</item>  
+		<item>Unauthorized Clients</item>  
+		<item>All Clients</item>
+	</string-array>
+    <string-array name="powermodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item> 
+	</string-array>
+    <string-array name="powermodenames">  
+		<item>Auto</item>  
+		<item>Active</item>  
+		<item>Short Doze</item>
+		<item>Long Doze</item>    
+	</string-array>
+    <string-array name="channelvalues">  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item>  
+		<item>4</item>  
+		<item>5</item>  
+		<item>6</item>  
+		<item>7</item>  
+		<item>8</item>  
+		<item>9</item>  
+		<item>10</item>  
+		<item>11</item>  
+		<item>12</item>  
+		<item>13</item>  
+		<item>14</item>  
+	</string-array>
+    <string-array name="channelnames">  
+		<item>Channel 01 (2412 MHz)</item>  
+		<item>Channel 02 (2417 MHz)</item>  
+		<item>Channel 03 (2422 MHz)</item>  
+		<item>Channel 04 (2427 MHz)</item>  
+		<item>Channel 05 (2432 MHz)</item>  
+		<item>Channel 06 (2437 MHz)</item>  
+		<item>Channel 07 (2442 MHz)</item>  
+		<item>Channel 08 (2447 MHz)</item>  
+		<item>Channel 09 (2452 MHz)</item>  
+		<item>Channel 10 (2457 MHz)</item>  
+		<item>Channel 11 (2462 MHz)</item>  
+		<item>Channel 12 (2467 MHz)</item>  
+		<item>Channel 13 (2472 MHz)</item>  
+		<item>Channel 14 (2484 MHz)</item>  
+	</string-array>  	
+    <string-array name="lannetworkvalues">  
+		<item>192.168.1.0/24</item>  
+		<item>192.168.2.0/24</item> 
+		<item>192.168.3.0/24</item> 
+		<item>172.20.21.0/24</item>  
+		<item>172.20.22.0/24</item>
+		<item>172.20.23.0/24</item>   
+		<item>10.10.1.0/24</item>  
+		<item>10.10.2.0/24</item>  
+		<item>10.10.3.0/24</item> 
+	</string-array>
+    <string-array name="powernames">  
+		<item>Disabled</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>  
+	</string-array>	 	
+    <string-array name="powervalues">  
+		<item>disabled</item>  
+		<item>3mW</item>  
+		<item>5mW</item>  
+		<item>10mW</item>  
+		<item>15mW</item>  
+		<item>20mW</item>  
+		<item>25mW</item>  
+		<item>30mW</item>  
+	</string-array>	 
+    <string-array name="encsetupnames">  
+		<item>Auto</item>
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	 	
+    <string-array name="encsetupvalues">  
+		<item>auto</item>  
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>		 	  
+</resources>
