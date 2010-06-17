@@ -25,5 +25,5 @@ The *"HTC Desire"* and *"HTC Droid Incredible"* need some extra setup-steps to m
 
 
 
-Please consult this issue report where this workaround was discussed.
-[http://code.google.com/p/android-wifi-tether/issues/detail?id=330#c66 issue 330]
+Please consult this issue report where this workaround was discussed: 
+*[http://code.google.com/p/android-wifi-tether/issues/detail?id=330#c66 Issue 330]*
