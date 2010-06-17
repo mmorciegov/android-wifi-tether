@@ -1,3 +1,4 @@
+#summary Setup Howto for HTC Desire, HTC Incredible
 #labels support,help,Desire,Incredible
 =Setup Howto for HTC Desire, HTC Incredible=
 
