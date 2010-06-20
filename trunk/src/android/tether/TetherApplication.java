@@ -273,6 +273,14 @@ public class TetherApplication extends Application {
 		this.tethercfg.put("ip.network", lannetwork.split("/")[0]);
 		this.tethercfg.put("ip.gateway", subnet + ".254");    
 		
+		// Checking if rp_filter is active
+		if (this.coretask.isRPFilterEnabled()) {
+			this.tethercfg.put("system.rp_filter", "1");
+		}
+		else {
+			this.tethercfg.put("system.rp_filter", "0");
+		}
+		
 		/**
 		 * TODO: Quick and ugly workaround for nexus
 		 */
@@ -632,30 +640,11 @@ public class TetherApplication extends Application {
         	super.handleMessage(msg);
         }
     };
- 
-    /*
-    public void renewLibrary() {
-    	File libNativeTaskFile = new File(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/.libNativeTask.so");
-    	if (libNativeTaskFile.exists()){
-    		libNativeTaskFile.renameTo(new File(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/libNativeTask.so"));
-    	}
-    }*/    
-    
+
     public void installFiles() {
     	new Thread(new Runnable(){
 			public void run(){
 				String message = null;
-				/*
-				// libnativeTask.so	
-				if (message == null) {
-					File libNativeTaskFile = new File(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/libNativeTask.so");
-					if (libNativeTaskFile.exists()) {
-						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/.libNativeTask.so", R.raw.libnativetask_so);
-					}
-					else {
-						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/library/libNativeTask.so", R.raw.libnativetask_so);
-					}
-				}*/
 				// tether
 		    	if (message == null) {
 			    	message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tether", "0755", R.raw.tether);
@@ -691,7 +680,26 @@ public class TetherApplication extends Application {
 				// blue-down.sh
 				if (message == null) {
 					message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/blue-down.sh", "0755", R.raw.blue_down_sh);
-				}				
+				}		
+				
+				/**
+				 * Installing fix-scripts if needed
+				 */
+				if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_DROID) 
+						|| TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {
+					// fixpersist.sh
+					if (message == null) {
+						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/fixpersist.sh", "0755", R.raw.fixpersist_sh);
+					}				
+				}
+				if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_DREAM) 
+						|| TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {				
+					// fixroute.sh
+					if (message == null) {
+						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/fixroute.sh", "0755", R.raw.fixroute_sh);
+					}
+				}
+				
 		    	// dnsmasq.conf
 				if (message == null) {
 					message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/dnsmasq.conf", "0644", R.raw.dnsmasq_conf);
