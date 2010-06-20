@@ -17,8 +17,6 @@ public class Configuration {
 	public static final String DEVICE_DROID      = "droid";
 	public static final String DEVICE_LEGEND     = "legend";
 	public static final String DEVICE_DREAM      = "dream";
-	public static final String DEVICE_HERO1X     = "hero1x";
-	public static final String DEVICE_HERO2X     = "hero2x";
 	public static final String DEVICE_MOMENT     = "moment";
 	public static final String DEVICE_CLIQ       = "cliq";
 	public static final String DEVICE_LIQUID     = "liquid";
@@ -54,13 +52,6 @@ public class Configuration {
 			return DEVICE_LEGEND;
 		}
 		else if ((new File("/system/lib/modules/wlan.ko")).exists() == true) {
-			if ((NativeTask.getProp("ro.product.device")).contains("hero")) {
-				int sdkVersion = Integer.parseInt(Build.VERSION.SDK);
-	        	if (sdkVersion >= Build.VERSION_CODES.ECLAIR) {
-	        		return DEVICE_HERO2X;
-	        	}
-	        	return DEVICE_HERO1X;
-			}
 			return DEVICE_DREAM;
 		}
 		else if ((new File("/lib/modules/dhd.ko")).exists() == true
@@ -84,7 +75,7 @@ public class Configuration {
 	 * on wpa_supplicant-start 
 	 */
 	public static String getWifiInterfaceDriver(String deviceType) {
-		if (deviceType.equals(DEVICE_DREAM) || deviceType.equals(DEVICE_HERO1X) || deviceType.equals(DEVICE_HERO2X)) {
+		if (deviceType.equals(DEVICE_DREAM)) {
 			return DRIVER_TIWLAN0;
 		}
 		/**

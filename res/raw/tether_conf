@@ -11,3 +11,4 @@ wifi.encryption.key=none
 ip.gateway=192.168.2.254
 ip.netmask=255.255.255.0
 ip.network=192.168.2.0
+system.rp_filter=0

@@ -152,6 +152,29 @@ char* ModuleLoadedFn(const char* name, State* state, int argc, Expr* argv[]) {
     return (module_found == 0 ? strdup("t") : strdup(""));
 }
 
+int kill_processes_by_pidfile(int parameter, const char* pidfile) {
+        FILE *pid = NULL;
+        char buffer[READ_BUF_SIZE];
+
+        if (! (pid = fopen(pidfile, "r")) ) {
+                return -1;
+        }
+        if (fgets(buffer, READ_BUF_SIZE-1, pid) == NULL) {
+                fclose(pid);
+                return -1;
+        }
+        fclose(pid);
+
+
+        // Trying to kill
+        int signal = kill(strtol(buffer, NULL, 0), parameter);
+        if (signal != 0) {
+                fprintf(stderr, "Unable to kill process (%s)\n", buffer);
+                return -1;
+        }
+        return 0;
+}
+
 int kill_processes_by_name(int parameter, const char* processName) {
         int returncode = 0;
 
@@ -210,6 +233,19 @@ char* KillProcessFn(const char* name, State* state, int argc, Expr* argv[]) {
 
     kill_processes_by_name(2, process_name);
     kill_processes_by_name(9, process_name);
+    return strdup("t");
+}
+
+char* KillProcessByPIDFn(const char* name, State* state, int argc, Expr* argv[]) {
+    if (argc != 1)
+        return ErrorAbort(state, "%s() expects 1 arg, got %d", name, argc);
+    char *pidfile;
+    int retval;
+    if (ReadArgs(state, argv, 1, &pidfile) < 0)
+        return NULL;
+
+    kill_processes_by_pidfile(2, pidfile);
+    kill_processes_by_pidfile(9, pidfile);
     return strdup("t");
 }
 
@@ -576,6 +612,7 @@ void RegisterInstallFunctions() {
     RegisterFunction("rmmod", RmModuleFn);
     RegisterFunction("module_loaded", ModuleLoadedFn);
     RegisterFunction("kill_process", KillProcessFn);
+    RegisterFunction("kill_pidfile", KillProcessByPIDFn);
     RegisterFunction("file_exists", FileExistsFn);
     RegisterFunction("file_write", WriteFileFn);
     RegisterFunction("file_unlink", UnlinkFileFn);

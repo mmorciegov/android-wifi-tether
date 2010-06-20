@@ -36,7 +36,7 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "67";
+	private static final String FILESET_VERSION = "71";
 	private static final String defaultDNS1 = "208.67.220.220";
 	
 	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
@@ -381,6 +381,11 @@ public class CoreTask {
     	return lines.contains("1");
     }
     
+    public boolean isRPFilterEnabled() {
+    	ArrayList<String> lines = readLinesFromFile("/proc/sys/net/ipv4/conf/all/rp_filter");
+    	return lines.contains("1");
+    }
+    
     public String getKernelVersion() {
         ArrayList<String> lines = readLinesFromFile("/proc/version");
         String version = lines.get(0).split(" ")[2];
@@ -419,6 +424,7 @@ public class CoreTask {
     }
     
     public boolean isProcessRunning(String processName) throws Exception {
+   	
     	boolean processIsRunning = false;
     	Hashtable<String,String> tmpRunningProcesses = new Hashtable<String,String>();
     	File procDir = new File("/proc");
