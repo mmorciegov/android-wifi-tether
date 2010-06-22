@@ -1,5 +1,5 @@
 #summary Setup Howto for HTC Desire, HTC Incredible
-#labels support,help,Desire,Incredible
+#labels support,help,Desire,Incredible,Featured
 =Setup Howto for HTC Desire, HTC Incredible=
 
 The *"HTC Desire"* and *"HTC Droid Incredible"* need some extra setup-steps to make "Wireless Tether for Root Users" work. 
