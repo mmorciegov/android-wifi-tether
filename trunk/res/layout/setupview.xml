@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen  
     xmlns:android="http://schemas.android.com/apk/res/android">  
-    <PreferenceCategory android:title="Bluetooth"
+    <PreferenceCategory android:title="@string/setup_layout_category_bluetooth"
        android:key="btprefs">
        <CheckBoxPreference
                android:key="bluetoothon"
-               android:title="Use Bluetooth"
-               android:summary="Bluetooth PAN tether instead of WiFi" />
+               android:title="@string/setup_layout_usebluetooth"
+               android:summary="@string/setup_layout_usebluetooth_summary" />
        <CheckBoxPreference
                android:key="bluetoothkeepwifi"
                android:dependency="bluetoothon"
-               android:title="Don't disable WiFi"
-               android:summary="Leave WiFi state alone" />
+               android:title="@string/setup_layout_dontdisablewifi"
+               android:summary="@string/setup_layout_dontdisablewifi_summary" />
        <CheckBoxPreference
                android:key="bluetoothdiscoverable"
                android:dependency="bluetoothon"
-               android:title="Discoverable"
-               android:summary="Make device discoverable for 120 seconds on start-up." />               
+               android:title="@string/setup_layout_discoverable"
+               android:summary="@string/setup_layout_discoverable_summary" />               
     </PreferenceCategory>
-	<PreferenceCategory android:title="Wifi"
+	<PreferenceCategory android:title="@string/setup_layout_category_wifi"
 		android:key="wifiprefs">
 	    <CheckBoxPreference  
 			android:key="encpref"  
-			android:title="Enable WiFi-Encryption"  
-			android:summary="Turn on wifi-encrytion" /> 	
+			android:title="@string/setup_layout_wifiencryption"  
+			android:summary="@string/setup_layout_wifiencryption_summary" /> 	
 		<ListPreference  
 			android:key="encsetuppref"  
-			android:title="Encryption setup method"  
-			android:summary="Change WiFi-Ecryption setup method"  
+			android:title="@string/setup_layout_encryptionsetup"  
+			android:summary="@string/setup_layout_encryptionsetup_summary"  
 			android:entries="@array/encsetupnames"  
 			android:entryValues="@array/encsetupvalues"  
 			android:dialogTitle="Setup Method"
@@ -35,90 +35,90 @@
 			android:dependency="encpref" /> 			
 		<EditTextPreference
 			android:key="passphrasepref"  
-			android:title="Change Passphrase"  
-			android:summary="Change Passphrase for WiFi-Encryption" 
-			android:dialogTitle="Enter Passphrase" 
+			android:title="@string/setup_layout_passphrase"  
+			android:summary="@string/setup_layout_passphrase_summary" 
+			android:dialogTitle="@string/setup_layout_passphrase_dialog_title" 
 			android:defaultValue="abcdefghijklm"
 			android:dependency="encpref"
 		/> 
 		<EditTextPreference  
 			android:key="ssidpref"  
-			android:title="Change SSID"  
-			android:summary="Network name"  
-			android:dialogTitle="Enter SSID" 
+			android:title="@string/setup_layout_ssid"  
+			android:summary="@string/setup_layout_ssid_summary"  
+			android:dialogTitle="@string/setup_layout_ssid_dialog_title" 
 			android:maxLength="15"  
-			android:dialogMessage="Only alpha-numeric characters and '.', '_' allowed!"
+			android:dialogMessage="@string/setup_layout_ssid_dialog_message"
 			android:defaultValue="AndroidTether"
 		/>      
 		<ListPreference  
 			android:key="channelpref"  
-			android:title="Change Channel"  
-			android:summary="Wireless frequency channel"  
+			android:title="@string/setup_layout_channel"  
+			android:summary="@string/setup_layout_channel_summary"  
 			android:entries="@array/channelnames"  
 			android:entryValues="@array/channelvalues"  
-			android:dialogTitle="Select Channel"
+			android:dialogTitle="@string/setup_layout_channel_dialog_title"
 			android:defaultValue="6" /> 
 		<ListPreference  
 			android:key="txpowerpref"  
-			android:title="Transmit Power"  
-			android:summary="Reduce transmit power"  
+			android:title="@string/setup_layout_txpower"  
+			android:summary="@string/setup_layout_txpower_summary"  
 			android:entries="@array/powernames"  
 			android:entryValues="@array/powervalues"  
-			android:dialogTitle="Reduce Power"
+			android:dialogTitle="@string/setup_layout_txpower_dialog_title"
 			android:defaultValue="disabled" /> 
 	</PreferenceCategory>
-	<PreferenceCategory android:title="Security"
+	<PreferenceCategory android:title="@string/setup_layout_category_security"
 		android:key="securityprefs">
 		<CheckBoxPreference  
 			android:key="acpref"  
-			android:title="Enable Access-Control"  
-			android:summary="Turn on access-control" /> 	
+			android:title="@string/setup_layout_accesscontrol"  
+			android:summary="@string/setup_layout_accesscontrol_summary" /> 	
 	</PreferenceCategory>
-	<PreferenceCategory android:title="LAN">
+	<PreferenceCategory android:title="@string/setup_layout_category_lan">
 		<ListPreference  
 			android:key="lannetworkpref"  
-			android:title="Change LAN"  
-			android:summary="LAN network settings"  
+			android:title="@string/setup_layout_lan"  
+			android:summary="@string/setup_layout_lan_summary"  
 			android:entries="@array/lannetworkvalues"  
 			android:entryValues="@array/lannetworkvalues"  
-			android:dialogTitle="Select LAN-Network"
+			android:dialogTitle="@string/setup_layout_lan_dialog_title"
 			android:defaultValue="192.168.2.0/24" /> 	
 	</PreferenceCategory>
-	<PreferenceCategory android:title="Notifications">
+	<PreferenceCategory android:title="@string/setup_layout_category_notifications">
 		<ListPreference  
 			android:key="notificationpref"  
-			android:title="Client Notification Mode"  
-			android:summary="Client Notification Mode settings"  
+			android:title="@string/setup_layout_notification"  
+			android:summary="@string/setup_layout_notification_summary"  
 			android:entries="@array/notificationmodenames"  
 			android:entryValues="@array/notificationmodevalues"  
 			android:defaultValue="2"
-			android:dialogTitle="Select Client Notification Mode" /> 		
+			android:dialogTitle="@string/setup_layout_notification_dialog_title" /> 		
 		 <RingtonePreference  
 			android:key="notifyring"  
-			android:title="Notification Ringtone"  
+			android:title="@string/setup_layout_ringtone"  
 			android:showSilent="true"
 			android:showDefault="true"
 			android:ringtoneType="notification"
-			android:summary="Ringtone to use with notifications" /> 		
+			android:summary="@string/setup_layout_ringtone_summary" /> 		
 		 <CheckBoxPreference  
 			android:key="notifyvibrate"  
-			android:title="Vibrate on connect"  
+			android:title="@string/setup_layout_vibrate"  
 			android:defaultValue="true"
-			android:summary="Vibrate when a client connects" /> 	
+			android:summary="@string/setup_layout_vibrate_summary" /> 	
 	</PreferenceCategory>
-	<PreferenceCategory android:title="Miscellaneous">
+	<PreferenceCategory android:title="@string/setup_layout_category_misc">
 		 <CheckBoxPreference  
 			android:key="updatepref"  
-			android:title="Disable Update-Check"  
-			android:summary="Turn off update-check at startup" /> 	
+			android:title="@string/setup_layout_updatecheck"  
+			android:summary="@string/setup_layout_updatecheck_summary" /> 	
 		 <CheckBoxPreference  
 			android:key="wakelockpref"  
-			android:title="Disable Wake-Lock"
+			android:title="@string/setup_layout_wakelock"
 			android:defaultValue="true"  
-			android:summary="Turn off wake-lock while tethering" />  		
+			android:summary="@string/setup_layout_wakelock_summary" />  		
 		 <CheckBoxPreference  
 			android:key="batterytemppref"  
-			android:title="Disable Battery-Temperature"
-			android:summary="Hide battery-temperatur info" />  					 
+			android:title="@string/setup_layout_battery"
+			android:summary="@string/setup_layout_battery_summary" />  					 
 	</PreferenceCategory>
 </PreferenceScreen>  

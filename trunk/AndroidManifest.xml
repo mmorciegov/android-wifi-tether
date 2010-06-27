@@ -3,9 +3,9 @@
       package="android.tether"
       android:versionCode="23" android:versionName="2.0.5-pre3-test3">
     <uses-sdk android:minSdkVersion="3" />
-    <application android:name="TetherApplication" android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:name="TetherApplication" android:icon="@drawable/icon" android:label="@string/global_application_name">
         <activity android:name=".MainActivity"
-                  android:label="@string/app_name"
+                  android:label="@string/global_application_name"
                   android:configChanges="orientation|keyboardHidden"
                   android:screenOrientation="portrait" 
                   android:launchMode="singleTask">

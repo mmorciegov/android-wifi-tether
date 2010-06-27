@@ -535,7 +535,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
-    	SubMenu installBinaries = menu.addSubMenu(0, 0, 0, getString(R.string.installtext));
+    	SubMenu installBinaries = menu.addSubMenu(0, 0, 0, getString(R.string.setup_activity_reinstall));
     	installBinaries.setIcon(drawable.ic_menu_set_as);
     	return supRetVal;
     }    

@@ -11,7 +11,7 @@
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent">
-			<TextView android:text="There is an update available!"
+			<TextView android:text="@string/update_layout_line1"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
@@ -31,7 +31,7 @@
 				android:textStyle="bold"
 				android:autoLink="web"
 				android:textColor="#ffffaa" />	
-			<TextView android:text="Do you want to install this update now?"
+			<TextView android:text="@string/update_layout_line2"
 				android:id="@+id/updateNowText"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"

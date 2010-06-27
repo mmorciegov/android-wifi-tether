@@ -11,7 +11,7 @@
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent">
-			<TextView android:text="Sorry, but root privileges are needed to run this application."
+			<TextView android:text="@string/noroot_layout_line1"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:paddingTop="15px"
