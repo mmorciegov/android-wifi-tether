@@ -11,7 +11,7 @@
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent">
-			<TextView android:text="Version: "
+			<TextView android:text="@string/about_layout_version"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:paddingTop="15px"
@@ -27,7 +27,7 @@
 				android:paddingRight="15px"	
 				android:layout_gravity="center_vertical"
 				android:textColor="#ffffff" />	
-			<TextView android:text="Project-Home: "
+			<TextView android:text="@string/about_layout_projecthome"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"		
 				android:paddingTop="15px"
@@ -44,7 +44,7 @@
 				android:paddingRight="15px"
 				android:textSize="12sp"					
 				android:textColor="#ffffff" />
-			<TextView android:text="License: "
+			<TextView android:text="@string/about_layout_license"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:paddingTop="15px"
@@ -67,7 +67,7 @@
 				android:paddingRight="15px"
 				android:textSize="12sp"					
 				android:textColor="#ffffff" />				
-			<TextView android:text="Authors: "
+			<TextView android:text="@string/about_layout_authors"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"		
 				android:paddingTop="15px"
@@ -81,7 +81,7 @@
 				android:paddingLeft="15px"
 				android:paddingRight="15px"								
 				android:textColor="#ffffff" />
-			<TextView android:text="Contributors: "
+			<TextView android:text="@string/about_layout_contributors"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"		
 				android:paddingTop="15px"
@@ -95,7 +95,7 @@
 				android:paddingLeft="15px"
 				android:paddingRight="15px"								
 				android:textColor="#ffffff" />
-			<TextView android:text="3rd-Party-Software: "
+			<TextView android:text="@string/about_layout_software"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"		
 				android:paddingTop="15px"

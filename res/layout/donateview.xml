@@ -11,7 +11,7 @@
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent">
-			<TextView android:text="If you like this application, then please consider a donation to help with this project."
+			<TextView android:text="@string/donate_layout_line1"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
@@ -19,7 +19,7 @@
 				android:paddingLeft="15px"
 				android:textStyle="bold"
 				android:textColor="#ffffff" />
-			<TextView android:text="By donating you provide support to an open source project."
+			<TextView android:text="@string/donate_layout_line2"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
@@ -27,7 +27,7 @@
 				android:paddingLeft="15px"
 				android:textStyle="bold"
 				android:textColor="#ffffff" />		
-			<TextView android:text="If you want to donate later, you can do so from the 'About' dialog."
+			<TextView android:text="@string/donate_layout_line3"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
@@ -35,7 +35,7 @@
 				android:paddingLeft="15px"
 				android:textStyle="bold"
 				android:textColor="#ffffff" />			
-			<TextView android:text="Thank you!"
+			<TextView android:text="@string/donate_layout_line4"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"

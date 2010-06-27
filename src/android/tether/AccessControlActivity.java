@@ -265,9 +265,9 @@ public class AccessControlActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
-    	SubMenu refreshClientList = menu.addSubMenu(0, MENU_RELOAD_CLIENTS, 0, getString(R.string.reloadclientlisttext));
+    	SubMenu refreshClientList = menu.addSubMenu(0, MENU_RELOAD_CLIENTS, 0, getString(R.string.accesscontrol_activity_reloadclientlist));
     	refreshClientList.setIcon(drawable.ic_menu_revert);
-    	SubMenu saveWhitelist = menu.addSubMenu(0, MENU_APPLY, 0, getString(R.string.applywhitelisttext));
+    	SubMenu saveWhitelist = menu.addSubMenu(0, MENU_APPLY, 0, getString(R.string.accesscontrol_activity_applysettings));
     	saveWhitelist.setIcon(drawable.ic_menu_save);
     	return supRetVal;
     }    

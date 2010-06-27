@@ -75,7 +75,7 @@ public class LogActivity extends Activity {
                  data = new String(buff);
          }
          catch (Exception e) {      
-        	 this.application.displayToastMessage("Unable to open log-File!");
+        	 this.application.displayToastMessage(getString(R.string.log_activity_nologfile));
          }
          finally {
         	 try {

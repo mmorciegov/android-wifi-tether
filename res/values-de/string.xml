@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="global_application_name">Wireless Tether</string>
+    <string name="main_activity_settings">Einstellungen</string>
+    <string name="main_activity_about">Über</string>
+    <string name="main_activity_showlog">Zeige Log</string>
+    <string name="main_activity_temperatureunit">°C</string>
+    <string name="main_activity_accesscontrol">Zugangskontrolle</string>
+    <string name="log_activity_nologfile">Kann Log-Datei nicht öffnen. Datei existiert nicht!</string>
+    <string name="main_layout_presstostart">- Drücken um Tethering zu starten. -</string> 
+    <string name="main_layout_presstostop">- Drücken um Tethering zu stoppen. -</string> 
+    <string name="accesscontrol_activity_reloadclientlist">Klienten-Liste neu laden</string>
+    <string name="accesscontrol_activity_applysettings">Einstellungen übernehmen</string>
+    <string name="accesscontrol_layout_connectedclients">Verbundene/Authorisierte Klienten:</string>
+	<string name="accesscontrol_layout_apply">Übernehmen</string>
+    <string name="setup_activity_reinstall">Binär- und Konfigurationsdateien neu installieren</string>
+	<string name="setup_layout_category_bluetooth">Bluetooth</string>
+	<string name="setup_layout_category_wifi">Wifi</string>
+	<string name="setup_layout_category_security">Security</string>
+	<string name="setup_layout_category_lan">LAN</string>
+	<string name="setup_layout_category_notifications">Benachrichtigungen</string>
+	<string name="setup_layout_category_misc">Verschiedenes</string>
+	<string name="setup_layout_usebluetooth">Verwende Bluetooth</string>
+	<string name="setup_layout_usebluetooth_summary">Bluetooth PAN Tethering anstatt WiFi</string>
+	<string name="setup_layout_dontdisablewifi">WiFi nicht deaktivieren</string>
+	<string name="setup_layout_dontdisablewifi_summary">WiFi-Status beibehalten</string>
+	<string name="setup_layout_discoverable">Sichtbar</string>
+	<string name="setup_layout_discoverable_summary">Gerät sichtbar machen für 120 Sekunden nach Start</string>
+	<string name="setup_layout_wifiencryption">Aktiviere WiFi-Verschlüsselung</string>
+	<string name="setup_layout_wifiencryption_summary">WiFi-Verschlüsselung aktivieren</string>
+	<string name="setup_layout_encryptionsetup">Method zur WiFi-Verschlüsselung</string>
+	<string name="setup_layout_encryptionsetup_summary">Ändere Verschlüsselungs-Methode</string>
+	<string name="setup_layout_passphrase">Ändere Passwort</string>
+	<string name="setup_layout_passphrase_summary">Ändere Passwort für WiFi-Verschlüsselung</string>
+	<string name="setup_layout_passphrase_dialog_title">Ändere Passwort</string>
+	<string name="setup_layout_ssid">Ändere SSID</string>
+	<string name="setup_layout_ssid_summary">Ändere SSID</string>
+	<string name="setup_layout_ssid_dialog_title">Ändere SSID</string>
+	<string name="setup_layout_ssid_dialog_message">Es sind nur alphanumerische Zeichen inklusive \'.\', \'_\' erlaubt!</string>
+	<string name="setup_layout_channel">Ändere Kanal</string>
+	<string name="setup_layout_channel_summary">WiFi Frequenz ändern</string>
+	<string name="setup_layout_channel_dialog_title">Auswahl Kanal</string>
+	<string name="setup_layout_txpower">Ändere Sende-Leistung</string>
+	<string name="setup_layout_txpower_summary">Ändere Sende-Leistung</string>
+	<string name="setup_layout_txpower_dialog_title">Ändere Sende-Leistung</string>
+	<string name="setup_layout_accesscontrol">Aktiviere Zugangskontrolle</string>
+	<string name="setup_layout_accesscontrol_summary">Zugangskontrolle aktivieren</string>	
+	<string name="setup_layout_lan">Ändere LAN</string>
+	<string name="setup_layout_lan_summary">Ändere LAN-Netzwerk Einstellungen</string>
+	<string name="setup_layout_lan_dialog_title">Auswahl LAN-Network</string>
+	<string name="setup_layout_notification">Benarichtigungs-Modus</string>
+	<string name="setup_layout_notification_summary">Benachrichtigungs-Modus bei Klienten-Verbindungen</string>
+	<string name="setup_layout_notification_dialog_title">Select Client Notification Mode</string>	
+	<string name="setup_layout_vibrate">Vibriere bei Verbindung</string>
+	<string name="setup_layout_vibrate_summary">Vibriere wenn ein Klient sich verbindet</string>
+	<string name="setup_layout_ringtone">Notifizierungs-Klingelton</string>
+	<string name="setup_layout_ringtone_summary">Klingelton bei Klient-Verbindung</string>
+	<string name="setup_layout_updatecheck">Deaktiviere Aktualisierungs-Prüfung</string>
+	<string name="setup_layout_updatecheck_summary">Deaktiviere Aktualisierungs-Prüfung</string>
+	<string name="setup_layout_wakelock">Deaktiviere Wake-Lock</string>
+	<string name="setup_layout_wakelock_summary">Deaktiviere Wake-Lock</string>
+	<string name="setup_layout_battery">Deaktiviere Akku-Temperature</string>
+	<string name="setup_layout_battery_summary">Verstecke Akku-Temperatur Anzeige</string>
+	<string name="about_layout_version">Version:</string>
+	<string name="about_layout_projecthome">Projekt-Homepate:</string>
+	<string name="about_layout_license">Lizenz:</string>
+	<string name="about_layout_authors">Autoren:</string>
+	<string name="about_layout_contributors">Beitragende:</string>
+	<string name="about_layout_software">3rd-Party-Software:</string>
+	<string name="clientrow_layout_macaddress">MAC-Adresse:</string>
+	<string name="clientrow_layout_name">Name</string>
+	<string name="clientrow_layout_ipaddress">IP-Adresse</string>
+	<string name="donate_layout_line1">Wenn Sie diese Applikation mögen, dann ziehen Sie bitte eine Spende in Betracht.</string>
+	<string name="donate_layout_line2">Sie unterstützen damit ein Opensource-Projekt.</string>
+	<string name="donate_layout_line3">Sollten Sie zu einem späteren Zeitpunkt spenden wollen, dann können Sie das über den \'Über\'-Menüpunkt nachholen.</string>
+	<string name="donate_layout_line4">Vielen Dank!</string>
+	<string name="noaccesscontrol_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen für die \'Zugangskontrolle\' nicht. Die \'Zugangskontrolle\' wird deaktiviert.</string>
+	<string name="noaccesscontrol_layout_line2">FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen.</string>
+	<string name="nonetfilter_layout_line2">FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="noroot_layout_line1">Entschuldigen Sie bitte, aber sie haben keine Root-Rechte.</string>
+	<string name="update_layout_line1">Eine Aktualisiserung steht zur Verfügung!</string>
+	<string name="update_layout_line2">Wollen Sie diese Aktualisierung nun durchführen?</string>
+
+    <string-array name="notificationmodenames">  
+		<item>Keine</item>  
+		<item>Nicht-Authorisierte Klienten</item>  
+		<item>Alle Klienten</item>
+	</string-array>
+    <string-array name="encsetupnames">  
+		<item>Auto</item>
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	 	
+	
+	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
+    <string-array name="notificationmodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+	</string-array>
+    <string-array name="powermodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item> 
+	</string-array>
+    <string-array name="channelvalues">  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item>  
+		<item>4</item>  
+		<item>5</item>  
+		<item>6</item>  
+		<item>7</item>  
+		<item>8</item>  
+		<item>9</item>  
+		<item>10</item>  
+		<item>11</item>  
+		<item>12</item>  
+		<item>13</item>  
+		<item>14</item>  
+	</string-array>
+    <string-array name="channelnames">  
+		<item>Channel 01 (2412 MHz)</item>  
+		<item>Channel 02 (2417 MHz)</item>  
+		<item>Channel 03 (2422 MHz)</item>  
+		<item>Channel 04 (2427 MHz)</item>  
+		<item>Channel 05 (2432 MHz)</item>  
+		<item>Channel 06 (2437 MHz)</item>  
+		<item>Channel 07 (2442 MHz)</item>  
+		<item>Channel 08 (2447 MHz)</item>  
+		<item>Channel 09 (2452 MHz)</item>  
+		<item>Channel 10 (2457 MHz)</item>  
+		<item>Channel 11 (2462 MHz)</item>  
+		<item>Channel 12 (2467 MHz)</item>  
+		<item>Channel 13 (2472 MHz)</item>  
+		<item>Channel 14 (2484 MHz)</item>  
+	</string-array>  	
+    <string-array name="lannetworkvalues">  
+		<item>192.168.1.0/24</item>  
+		<item>192.168.2.0/24</item> 
+		<item>192.168.3.0/24</item> 
+		<item>172.20.21.0/24</item>  
+		<item>172.20.22.0/24</item>
+		<item>172.20.23.0/24</item>   
+		<item>10.10.1.0/24</item>  
+		<item>10.10.2.0/24</item>  
+		<item>10.10.3.0/24</item> 
+	</string-array>
+    <string-array name="powernames">  
+		<item>Disabled</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>  
+	</string-array>	 	
+    <string-array name="powervalues">  
+		<item>disabled</item>  
+		<item>3mW</item>  
+		<item>5mW</item>  
+		<item>10mW</item>  
+		<item>15mW</item>  
+		<item>20mW</item>  
+		<item>25mW</item>  
+		<item>30mW</item>  
+	</string-array>	 
+    <string-array name="encsetupvalues">  
+		<item>auto</item>  
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>		 	  
+</resources>

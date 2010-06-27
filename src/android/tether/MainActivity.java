@@ -314,15 +314,15 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
-    	SubMenu setup = menu.addSubMenu(0, MENU_SETUP, 0, getString(R.string.setuptext));
+    	SubMenu setup = menu.addSubMenu(0, MENU_SETUP, 0, getString(R.string.main_activity_settings));
     	setup.setIcon(drawable.ic_menu_preferences);
     	if (this.application.accessControlSupported) { 
-    		SubMenu accessctr = menu.addSubMenu(0, MENU_ACCESS, 0, getString(R.string.accesscontroltext));
+    		SubMenu accessctr = menu.addSubMenu(0, MENU_ACCESS, 0, getString(R.string.main_activity_accesscontrol));
     		accessctr.setIcon(drawable.ic_menu_manage);   
     	}
-    	SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.logtext));
+    	SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	log.setIcon(drawable.ic_menu_agenda);
-    	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.abouttext));
+    	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
     	about.setIcon(drawable.ic_menu_info_details);    	
     	return supRetVal;
     }
@@ -382,7 +382,7 @@ public class MainActivity extends Activity {
              String action = intent.getAction();
              if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
             	 int temp = (intent.getIntExtra("temperature", 0))+5;
-            	 batteryTemperature.setText("" + (temp/10) + getString(R.string.temperatureunit));
+            	 batteryTemperature.setText("" + (temp/10) + getString(R.string.main_activity_temperatureunit));
              }
          }
      };

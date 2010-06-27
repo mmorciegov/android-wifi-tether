@@ -25,7 +25,7 @@
 				android:paddingLeft="10px">
 				<TableRow android:layout_width="fill_parent">
 					<TextView
-						android:text="MAC-Address: "
+						android:text="@string/clientrow_layout_macaddress"
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF"/>
 				    <TextView android:id="@+id/macaddress"
@@ -36,7 +36,7 @@
 				</TableRow>
 				<TableRow android:layout_width="fill_parent">
 					<TextView
-						android:text="Name: "
+						android:text="@string/clientrow_layout_name"
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF" />
       				<TextView android:id="@+id/clientname"
@@ -48,7 +48,7 @@
 				</TableRow>
 				<TableRow android:layout_width="fill_parent">
 					<TextView
-						android:text="IP-Address: "
+						android:text="@string/clientrow_layout_ipaddress"
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF" />
       				<TextView android:id="@+id/ipaddress"

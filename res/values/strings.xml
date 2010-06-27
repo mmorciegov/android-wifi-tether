@@ -1,14 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">Wireless Tether</string>
-    <string name="setuptext">Setup</string>
-    <string name="abouttext">About</string>
-    <string name="logtext">Show Log</string>
-    <string name="reloadclientlisttext">Reload Client-List</string>
-    <string name="applywhitelisttext">Apply Settings</string>
-    <string name="installtext">(Re)-Install binaries/configs</string>
-    <string name="accesscontroltext">Access Control</string>
-    <string name="temperatureunit">°C</string>
+	<string name="global_application_name">Wireless Tether</string>
+    <string name="main_activity_settings">Settings</string>
+    <string name="main_activity_about">About</string>
+    <string name="main_activity_showlog">Show Log</string>
+    <string name="main_activity_temperatureunit">°C</string>
+    <string name="main_activity_accesscontrol">Access Control</string>
+    <string name="log_activity_nologfile">Unable to open log-File. File does not exist!</string>
+    <string name="main_layout_presstostart">- Press to start tethering. -</string> 
+    <string name="main_layout_presstostop">- Press to stop tethering. -</string> 
+    <string name="accesscontrol_activity_reloadclientlist">Reload Client-List</string>
+    <string name="accesscontrol_activity_applysettings">Apply Settings</string>
+    <string name="accesscontrol_layout_connectedclients">Connected/Authorized Clients:</string>
+	<string name="accesscontrol_layout_apply">Apply</string>
+    <string name="setup_activity_reinstall">(Re)-Install binaries/configs</string>
+	<string name="setup_layout_category_bluetooth">Bluetooth</string>
+	<string name="setup_layout_category_wifi">Wifi</string>
+	<string name="setup_layout_category_security">Security</string>
+	<string name="setup_layout_category_lan">LAN</string>
+	<string name="setup_layout_category_notifications">Notifications</string>
+	<string name="setup_layout_category_misc">Miscellaneous</string>
+	<string name="setup_layout_usebluetooth">Use Bluetooth</string>
+	<string name="setup_layout_usebluetooth_summary">Bluetooth PAN tether instead of WiFi</string>
+	<string name="setup_layout_dontdisablewifi">Don\'t disable WiFi</string>
+	<string name="setup_layout_dontdisablewifi_summary">Leave WiFi state alone</string>
+	<string name="setup_layout_discoverable">Discoverable</string>
+	<string name="setup_layout_discoverable_summary">Make device discoverable for 120 seconds on start-up</string>
+	<string name="setup_layout_wifiencryption">Enable WiFi-Encryption</string>
+	<string name="setup_layout_wifiencryption_summary">Turn on wifi-encrytion</string>
+	<string name="setup_layout_encryptionsetup">Encryption setup method</string>
+	<string name="setup_layout_encryptionsetup_summary">Change WiFi-Ecryption setup method</string>
+	<string name="setup_layout_passphrase">Change Passphrase</string>
+	<string name="setup_layout_passphrase_summary">Change Passphrase for WiFi-Encryption</string>
+	<string name="setup_layout_passphrase_dialog_title">Enter Passphrase</string>
+	<string name="setup_layout_ssid">Change SSID</string>
+	<string name="setup_layout_ssid_summary">Change SSID</string>
+	<string name="setup_layout_ssid_dialog_title">Enter SSID</string>
+	<string name="setup_layout_ssid_dialog_message">Only alpha-numeric characters and \'.\', \'_\' allowed!</string>
+	<string name="setup_layout_channel">Change Channel</string>
+	<string name="setup_layout_channel_summary">Wireless frequency channel</string>
+	<string name="setup_layout_channel_dialog_title">Select Channel</string>
+	<string name="setup_layout_txpower">Transmit Power</string>
+	<string name="setup_layout_txpower_summary">Reduce transmit power</string>
+	<string name="setup_layout_txpower_dialog_title">Reduce Power</string>
+	<string name="setup_layout_accesscontrol">Enable Access-Control</string>
+	<string name="setup_layout_accesscontrol_summary">Turn on access-control</string>	
+	<string name="setup_layout_lan">Change LAN</string>
+	<string name="setup_layout_lan_summary">LAN network settings</string>
+	<string name="setup_layout_lan_dialog_title">Select LAN-Network</string>
+	<string name="setup_layout_notification">Client Notification Mode</string>
+	<string name="setup_layout_notification_summary">Client Notification Mode settings</string>
+	<string name="setup_layout_notification_dialog_title">Select Client Notification Mode</string>	
+	<string name="setup_layout_vibrate">Vibrate on connect</string>
+	<string name="setup_layout_vibrate_summary">Vibrate when a client connects</string>
+	<string name="setup_layout_ringtone">Notification Ringtone</string>
+	<string name="setup_layout_ringtone_summary">Ringtone to use with notifications</string>
+	<string name="setup_layout_updatecheck">Disable Update-Check</string>
+	<string name="setup_layout_updatecheck_summary">Turn off update-check at startup</string>
+	<string name="setup_layout_wakelock">Disable Wake-Lock</string>
+	<string name="setup_layout_wakelock_summary">Turn off wake-lock while tethering</string>
+	<string name="setup_layout_battery">Disable Battery-Temperature</string>
+	<string name="setup_layout_battery_summary">Hide battery-temperatur info</string>
+	<string name="about_layout_version">Version:</string>
+	<string name="about_layout_projecthome">Project-Home:</string>
+	<string name="about_layout_license">License:</string>
+	<string name="about_layout_authors">Authors:</string>
+	<string name="about_layout_contributors">Contributors:</string>
+	<string name="about_layout_software">3rd-Party-Software:</string>
+	<string name="clientrow_layout_macaddress">MAC-Address:</string>
+	<string name="clientrow_layout_name">Name</string>
+	<string name="clientrow_layout_ipaddress">IP-Address</string>
+	<string name="donate_layout_line1">If you like this application, then please consider a donation to help with this project.</string>
+	<string name="donate_layout_line2">By donating you provide support to an open source project.</string>
+	<string name="donate_layout_line3">If you want to donate later, you can do so from the \'About\' dialog.</string>
+	<string name="donate_layout_line4">Thank you!</string>
+	<string name="noaccesscontrol_layout_line1">Sorry, but your kernel does not have all necessary features for the Access Control feature of this application. Access Control will be disabled.</string>
+	<string name="noaccesscontrol_layout_line2">Please see our FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
+	<string name="nonetfilter_layout_line2">Please see our FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="noroot_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
+	<string name="update_layout_line1">There is an update available!</string>
+	<string name="update_layout_line2">Do you want to install this update now?</string>
+	
 	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
     <string-array name="notificationmodevalues">  
 		<item>0</item>  
@@ -25,12 +98,6 @@
 		<item>1</item>  
 		<item>2</item>  
 		<item>3</item> 
-	</string-array>
-    <string-array name="powermodenames">  
-		<item>Auto</item>  
-		<item>Active</item>  
-		<item>Short Doze</item>
-		<item>Long Doze</item>    
 	</string-array>
     <string-array name="channelvalues">  
 		<item>1</item>  

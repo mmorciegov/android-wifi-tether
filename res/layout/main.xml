@@ -104,7 +104,7 @@
 					</TableRow>
 					<TableRow>
 						<TextView android:id="@+id/startText"
-							android:text=" - Press to start tethering. - "
+							android:text="@string/main_layout_presstostart"
 							android:layout_gravity="center_vertical"
 							android:paddingTop="10px"
 							android:textStyle="bold"
@@ -126,7 +126,7 @@
 					</TableRow>
 					<TableRow>
 						<TextView android:id="@+id/stopText"
-							android:text=" - Press to stop tethering. - "
+							android:text="@string/main_layout_presstostop"
 							android:paddingTop="10px"
 							android:layout_gravity="center_vertical"
 							android:textStyle="bold"
