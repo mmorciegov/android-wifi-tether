@@ -354,16 +354,16 @@ public class MainActivity extends Activity {
     protected Dialog onCreateDialog(int id) {
     	if (id == ID_DIALOG_STARTING) {
 	    	progressDialog = new ProgressDialog(this);
-	    	progressDialog.setTitle("Start Tethering");
-	    	progressDialog.setMessage("Please wait while starting...");
+	    	progressDialog.setTitle(getString(R.string.main_activity_start));
+	    	progressDialog.setMessage(getString(R.string.main_activity_start_summary));
 	    	progressDialog.setIndeterminate(false);
 	    	progressDialog.setCancelable(true);
 	        return progressDialog;
     	}
     	else if (id == ID_DIALOG_STOPPING) {
 	    	progressDialog = new ProgressDialog(this);
-	    	progressDialog.setTitle("Stop Tethering");
-	    	progressDialog.setMessage("Please wait while stopping...");
+	    	progressDialog.setTitle(getString(R.string.main_activity_stop));
+	    	progressDialog.setMessage(getString(R.string.main_activity_stop_summary));
 	    	progressDialog.setIndeterminate(false);
 	    	progressDialog.setCancelable(true);
 	        return progressDialog;  		
