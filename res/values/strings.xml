@@ -6,6 +6,12 @@
     <string name="main_activity_showlog">Show Log</string>
     <string name="main_activity_temperatureunit">°C</string>
     <string name="main_activity_accesscontrol">Access Control</string>
+    
+    <string name="main_activity_start">Start Tethering</string>
+    <string name="main_activity_start_summary">Please wait while starting...</string>
+    <string name="main_activity_stop">Stop Tethering</string>
+    <string name="main_activity_stop_summary">Please wait while stopping...</string> 
+    
     <string name="log_activity_nologfile">Unable to open log-File. File does not exist!</string>
     <string name="main_layout_presstostart">- Press to start tethering. -</string> 
     <string name="main_layout_presstostop">- Press to stop tethering. -</string> 
