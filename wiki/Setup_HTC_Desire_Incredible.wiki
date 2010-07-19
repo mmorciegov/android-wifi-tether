@@ -23,7 +23,16 @@ The *"HTC Desire"* and *"HTC Droid Incredible"* need some extra setup-steps to m
 *7)* *Install* the latest versions of *"wireless tether"*
 ----
 
+===Update===
+Depending on which device you have and firmware-version you need the latest *expermental* or *testing* release of the app:
 
+*[http://code.google.com/p/android-wifi-tether/downloads/list?can=2&q=Experimental Experimental]* | 
+*[http://code.google.com/p/android-wifi-tether/downloads/list?can=4&q=Testing Testing]*
+----
 
+===Additional Information===
 Please consult this issue report where this workaround was discussed: 
-*[http://code.google.com/p/android-wifi-tether/issues/detail?id=330#c66 Issue 330]*
+
+*[http://code.google.com/p/android-wifi-tether/issues/detail?id=330#c66 Issue 330]*, 
+*Issue 410*
+----
