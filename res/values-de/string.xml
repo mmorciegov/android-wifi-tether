@@ -3,6 +3,14 @@
 	<string name="global_application_name">Wireless Tether</string>
     <string name="main_activity_settings">Einstellungen</string>
     <string name="main_activity_about">Über</string>
+    <string name="main_activity_donate">Spende</string>
+    <string name="main_activity_close">Schließen</string>
+    <string name="main_activity_notroot">Nicht Root!</string>
+    <string name="main_activity_exit">Beenden</string>
+    <string name="main_activity_ignore">Ignorieren</string>
+    <string name="main_activity_yes">Ja</string>
+    <string name="main_activity_no">Nein</string>
+    <string name="main_activity_ok">OK</string>    
     <string name="main_activity_showlog">Zeige Log</string>
     <string name="main_activity_temperatureunit">°C</string>
     <string name="main_activity_accesscontrol">Zugangskontrolle</string>

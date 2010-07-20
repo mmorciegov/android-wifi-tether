@@ -552,13 +552,13 @@ public class MainActivity extends Activity {
 		new AlertDialog.Builder(MainActivity.this)
         .setTitle("No Netfilter!")
         .setView(view)
-        .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+        .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(MSG_TAG, "Close pressed");
                         MainActivity.this.finish();
                 }
         })
-        .setNeutralButton("Ignore", new DialogInterface.OnClickListener() {
+        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Log.d(MSG_TAG, "Override pressed");
                     MainActivity.this.application.installFiles();
@@ -594,17 +594,17 @@ public class MainActivity extends Activity {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.norootview, null); 
 		new AlertDialog.Builder(MainActivity.this)
-        .setTitle("Not Root!")
+        .setTitle(getString(R.string.main_activity_notroot))
         .setView(view)
-        .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+        .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                        Log.d(MSG_TAG, "Close pressed");
+                        Log.d(MSG_TAG, "Exit pressed");
                         MainActivity.this.finish();
                 }
         })
-        .setNeutralButton("Ignore", new DialogInterface.OnClickListener() {
+        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    Log.d(MSG_TAG, "Override pressed");
+                    Log.d(MSG_TAG, "Ignore pressed");
                     MainActivity.this.application.installFiles();
                     MainActivity.this.application.displayToastMessage("Ignoring, note that this application will NOT work correctly.");
                 }
@@ -618,16 +618,16 @@ public class MainActivity extends Activity {
         TextView versionName = (TextView)view.findViewById(R.id.versionName);
         versionName.setText(this.application.getVersionName());        
 		new AlertDialog.Builder(MainActivity.this)
-        .setTitle("About")
+        .setTitle(getString(R.string.main_activity_about))
         .setView(view)
-        .setNeutralButton("Donate", new DialogInterface.OnClickListener() {
+        .setNeutralButton(getString(R.string.main_activity_donate), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(MSG_TAG, "Donate pressed");
     					Uri uri = Uri.parse(getString(R.string.paypalUrl));
     					startActivity(new Intent(Intent.ACTION_VIEW, uri));
                 }
         })
-        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+        .setNegativeButton(getString(R.string.main_activity_close), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(MSG_TAG, "Close pressed");
                 }
@@ -644,14 +644,14 @@ public class MainActivity extends Activity {
 			LayoutInflater li = LayoutInflater.from(this);
 	        View view = li.inflate(R.layout.donateview, null); 
 	        new AlertDialog.Builder(MainActivity.this)
-	        .setTitle("Donate")
+	        .setTitle(getString(R.string.main_activity_donate))
 	        .setView(view)
-	        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+	        .setNeutralButton(getString(R.string.main_activity_close), new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                        Log.d(MSG_TAG, "Close pressed");
 	                }
 	        })
-	        .setNegativeButton("Donate", new DialogInterface.OnClickListener() {
+	        .setNegativeButton(getString(R.string.main_activity_donate), new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                        Log.d(MSG_TAG, "Donate pressed");
 	    					Uri uri = Uri.parse(getString(R.string.paypalUrl));
@@ -688,19 +688,19 @@ public class MainActivity extends Activity {
         
         if (fileName.length() > 0) {
           // Display Yes/No for if a filename is available.
-          dialog.setNeutralButton("No", new DialogInterface.OnClickListener() {
+          dialog.setNeutralButton(getString(R.string.main_activity_no), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Log.d(MSG_TAG, "No pressed");
             }
           });
-          dialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+          dialog.setNegativeButton(getString(R.string.main_activity_yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Log.d(MSG_TAG, "Yes pressed");
                 MainActivity.this.application.downloadUpdate(downloadFileUrl, fileName);
             }
           });          
         } else
-          dialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+          dialog.setNeutralButton(getString(R.string.main_activity_ok), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Log.d(MSG_TAG, "Ok pressed");
             }
