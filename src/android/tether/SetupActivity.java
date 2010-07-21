@@ -122,7 +122,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 
         if (Configuration.getWifiInterfaceDriver(this.application.deviceType).startsWith("softap")) {
         	Log.d(MSG_TAG, "Adding validators for WPA-Encryption.");
-        	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WPA-PSK)");
+        	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WPA2-PSK)");
         	this.prefPassphrase.setDialogMessage("Passphrase must be between 8 and 30 characters long!");
 	        // Passphrase Change-Listener for WPA-encryption
         	this.prefPassphrase.getEditText().addTextChangedListener(new TextWatcher() {

@@ -20,6 +20,7 @@ public class Configuration {
 	public static final String DEVICE_MOMENT     = "moment";
 	public static final String DEVICE_CLIQ       = "cliq";
 	public static final String DEVICE_LIQUID     = "liquid";
+	public static final String DEVICE_VIBRANT    = "vibrant";
 	public static final String DEVICE_UNKOWN     = "unknown";
 	
 	public static final String DRIVER_TIWLAN0    = "tiwlan0";
@@ -66,6 +67,10 @@ public class Configuration {
 				&& (new File("/etc/wifi/BCM4325.bin")).exists() == true){
 			return DEVICE_LIQUID;
 		}		
+		else if ((new File("/lib/modules/dhd.ko")).exists() == true
+				&& (new File("/system/etc/wifi/bcm4329_mfg.bin")).exists() == true) {
+			return DEVICE_VIBRANT;
+		}
 		return DEVICE_UNKOWN;
 	}
 	
@@ -86,6 +91,9 @@ public class Configuration {
 		}
 		//else if (deviceType.equals(DEVICE_NEXUSONE) && (Integer.parseInt(Build.VERSION.SDK)) > 7 && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
 		else if (deviceType.equals(DEVICE_NEXUSONE) && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
+			return DRIVER_SOFTAP_GOG;
+		}
+		else if (deviceType.equals(DEVICE_VIBRANT) && (new File("/system/etc/wifi/bcm4329_aps.bin")).exists()) {
 			return DRIVER_SOFTAP_GOG;
 		}
 		return DRIVER_WEXT;
