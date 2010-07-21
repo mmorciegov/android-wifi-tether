@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=71
+# @Version=72
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -14,6 +14,14 @@ action() == "start" && (
   # Set "status"-Property
   #
   setprop("tether.status","running");
+
+  #
+  # Make sure to kill old processes
+  #
+  kill_pidfile("/data/data/android.tether/var/fixpersist.pid");
+  kill_pidfile("/data/data/android.tether/var/fixroute.pid");
+  file_unlink("/data/data/android.tether/var/fixpersist.pid");
+  file_unlink("/data/data/android.tether/var/fixroute.pid");
 
   #
   # Wifi mode, do some wifi things...
@@ -252,6 +260,56 @@ action() == "start" && (
 		run_program("/data/data/android.tether/bin/fixpersist.sh "+ getcfg("wifi.interface") +" "+ getcfg("wifi.essid") +" "+ getcfg("wifi.channel") +" & echo $! > /data/data/android.tether/var/fixpersist.pid");
       );	
     );
+ 
+ 
+    getcfg("device.type") == "vibrant" && (
+      #
+      # Samsung Vibrant.
+      #
+      !is_substring("softap", getcfg("wifi.driver")) && (
+		  #
+		  # Loading firmware
+		  #
+		  file_exists("/sdcard/android.tether/bcm4329.bin") && (
+	      	module_loaded("dhd") || log(insmod("/lib/modules/dhd.ko", "firmware_path=/sdcard/android.tether/bcm4329.bin nvram_path=/sdcard/android.tether/nvram.txt"), "Loading dhd.ko module<br>(bcm4329.bin from /sdcard/android.tether)");
+	      );   
+	      
+		  !file_exists("/sdcard/android.tether/bcm4329.bin") && (
+	      	module_loaded("dhd") || log(insmod("/lib/modules/dhd.ko", "firmware_path=/system/etc/wifi/bcm4329_mfg.bin nvram_path=/system/etc/wifi/nvram_mfg.txt"), "Loading dhd.ko module<br>(bcm4329_mfg.bin from /system/etc/wifi/)");
+	      );  	      
+	         
+	      sleep("3");
+	      #
+	      # Bring up wifi interface
+	      #
+	      log(run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+	                  run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+	      log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+	      log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+	      log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+	   );
+	   getcfg("wifi.driver") == "softap_gog" && (
+		  #
+		  # Loading firmware
+		  #	   
+		  file_exists("/sdcard/android.tether/bcm4329.bin") && (
+	      	module_loaded("dhd") || log(insmod("/lib/modules/dhd.ko", "firmware_path=/sdcard/android.tether/bcm4329.bin nvram_path=/sdcard/android.tether/nvram.txt"), "Loading dhd.ko module<br>(bcm4329.bin from /sdcard/android.tether)");
+	      );   
+	      !file_exists("/sdcard/android.tether/bcm4329.bin") && (
+	        file_exists("/etc/firmware/fw_bcm4329_ap.bin") && (
+	      		module_loaded("dhd") || log(insmod("/lib/modules/dhd.ko", "firmware_path=/system/etc/wifi/bcm4329_aps.bin nvram_path=/system/etc/wifi/nvram_net.txt dhd_watchdog_ms=200 dhd_poll=1"), "Loading dhd.ko module<br>(bcm4329_aps.bin from /system/etc/wifi/)");
+	        );
+	      );	
+	      sleep("3");
+          log(run_program("/data/data/android.tether/bin/ultra_bcm_config "+getcfg("wifi.interface")+" "+getcfg("wifi.driver")+" "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");	      
+          run_program("/data/data/android.tether/bin/ifconfig "+getcfg("wifi.interface")+" down");
+	      #
+	      # Bring up wifi interface
+	      #
+	      log(run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+	                  run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+	   );
+    ); 
     
     getcfg("device.type") == "unknown" && (
       #
@@ -309,8 +367,6 @@ action() == "start" && (
   	  );
     );
   );	
-
-
 
   #
   # Remove old rules

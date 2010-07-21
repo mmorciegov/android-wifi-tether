@@ -284,7 +284,8 @@ public class TetherApplication extends Application {
 		/**
 		 * TODO: Quick and ugly workaround for nexus
 		 */
-		if (Configuration.getWifiInterfaceDriver(this.deviceType).equals(Configuration.DRIVER_SOFTAP_GOG)) {
+		if (Configuration.getDeviceType().equals(Configuration.DEVICE_NEXUSONE) &&
+				Configuration.getWifiInterfaceDriver(this.deviceType).equals(Configuration.DRIVER_SOFTAP_GOG)) {			
 			this.tethercfg.put("wifi.interface", "wl0.1");
 		}
 		else {
@@ -490,7 +491,8 @@ public class TetherApplication extends Application {
 			/**
 			 * TODO: Quick and ugly workaround for nexus
 			 */
-			if (Configuration.getWifiInterfaceDriver(this.deviceType).equals(Configuration.DRIVER_SOFTAP_GOG)) {
+			if (Configuration.getDeviceType().equals(Configuration.DEVICE_NEXUSONE) &&
+					Configuration.getWifiInterfaceDriver(this.deviceType).equals(Configuration.DRIVER_SOFTAP_GOG)) {
 				return "wl0.1";
 			}
 			else {
@@ -692,8 +694,7 @@ public class TetherApplication extends Application {
 						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/fixpersist.sh", "0755", R.raw.fixpersist_sh);
 					}				
 				}
-				if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_DREAM) 
-						|| TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {				
+				if ((new File("/system/etc/iproute2/rt_tables")).exists()) {
 					// fixroute.sh
 					if (message == null) {
 						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/fixroute.sh", "0755", R.raw.fixroute_sh);
