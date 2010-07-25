@@ -24,10 +24,9 @@ The *"HTC Desire"* and *"HTC Droid Incredible"* need some extra setup-steps to m
 ----
 
 ===Update===
-Depending on which device you have and firmware-version you need the latest *expermental* or *testing* release of the app:
+Depending on which device you have and firmware-version you need the latest *expermental* release of the app:
 
-*[http://code.google.com/p/android-wifi-tether/downloads/list?can=2&q=Experimental Experimental]* | 
-*[http://code.google.com/p/android-wifi-tether/downloads/list?can=4&q=Testing Testing]*
+*[http://code.google.com/p/android-wifi-tether/downloads/list?can=2&q=Experimental Experimental]*
 ----
 
 ===Additional Information===
