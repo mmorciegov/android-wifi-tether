@@ -687,8 +687,9 @@ public class TetherApplication extends Application {
 				/**
 				 * Installing fix-scripts if needed
 				 */
-				if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_DROID) 
-						|| TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {
+				//if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_DROID) 
+				//		|| TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {
+				if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {	
 					// fixpersist.sh
 					if (message == null) {
 						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/fixpersist.sh", "0755", R.raw.fixpersist_sh);

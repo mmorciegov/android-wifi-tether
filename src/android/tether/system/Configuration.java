@@ -14,14 +14,10 @@ public class Configuration {
 	public static final String DEVICE_NEXUSONE   = "nexusone";
 	public static final String DEVICE_GALAXY1X   = "galaxy1x";
 	public static final String DEVICE_GALAXY2X   = "galaxy2x";
-	public static final String DEVICE_DROID      = "droid";
 	public static final String DEVICE_LEGEND     = "legend";
 	public static final String DEVICE_DREAM      = "dream";
 	public static final String DEVICE_MOMENT     = "moment";
-	public static final String DEVICE_CLIQ       = "cliq";
-	public static final String DEVICE_LIQUID     = "liquid";
-	public static final String DEVICE_VIBRANT    = "vibrant";
-	public static final String DEVICE_UNKOWN     = "unknown";
+	public static final String DEVICE_GENERIC    = "generic";
 	
 	public static final String DRIVER_TIWLAN0    = "tiwlan0";
 	public static final String DRIVER_WEXT       = "wext";
@@ -45,10 +41,6 @@ public class Configuration {
 			return DEVICE_GALAXY1X;
 		}
 		else if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true 
-				&& (new File("/system/etc/wifi/fw_wlan1271.bin")).exists() == true){
-			return DEVICE_DROID;
-		}
-		else if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true 
 				&& (new File("/system/etc/wifi/Fw1273_CHIP.bin")).exists() == true) {
 			return DEVICE_LEGEND;
 		}
@@ -59,19 +51,7 @@ public class Configuration {
 				&& (new File("/etc/rtecdc.bin")).exists() == true){
 			return DEVICE_MOMENT;
 		}
-		else if ((new File("/system/lib/dhd.ko")).exists() == true
-				&& (new File("/etc/wifi/sdio-g-cdc-reclaim-wme.bin")).exists() == true){
-			return DEVICE_CLIQ;
-		}	
-		else if ((new File("/system/etc/wifi/dhd.ko")).exists() == true
-				&& (new File("/etc/wifi/BCM4325.bin")).exists() == true){
-			return DEVICE_LIQUID;
-		}		
-		else if ((new File("/lib/modules/dhd.ko")).exists() == true
-				&& (new File("/system/etc/wifi/bcm4329_mfg.bin")).exists() == true) {
-			return DEVICE_VIBRANT;
-		}
-		return DEVICE_UNKOWN;
+		return DEVICE_GENERIC;
 	}
 	
 	
@@ -89,11 +69,7 @@ public class Configuration {
 		else if (deviceType.equals(DEVICE_NEXUSONE) && hasKernelFeature("CONFIG_BCM4329_SOFTAP")) {
 			return DRIVER_SOFTAP_HTC;
 		}
-		//else if (deviceType.equals(DEVICE_NEXUSONE) && (Integer.parseInt(Build.VERSION.SDK)) > 7 && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
 		else if (deviceType.equals(DEVICE_NEXUSONE) && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
-			return DRIVER_SOFTAP_GOG;
-		}
-		else if (deviceType.equals(DEVICE_VIBRANT) && (new File("/system/etc/wifi/bcm4329_aps.bin")).exists()) {
 			return DRIVER_SOFTAP_GOG;
 		}
 		return DRIVER_WEXT;
