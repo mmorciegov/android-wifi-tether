@@ -286,6 +286,7 @@ action() == "start" && (
   log(
     run_program("/data/data/android.tether/bin/iptables -A wireless-tether -m state --state ESTABLISHED,RELATED -j ACCEPT") &&
     run_program("/data/data/android.tether/bin/iptables -A wireless-tether -s " + getcfg("ip.network") + "/24 -j ACCEPT") &&
+    run_program("/data/data/android.tether/bin/iptables -A wireless-tether -p 47 -j ACCEPT") &&
     run_program("/data/data/android.tether/bin/iptables -A wireless-tether -j DROP") &&
     run_program("/data/data/android.tether/bin/iptables -A FORWARD -j wireless-tether") &&
     run_program("/data/data/android.tether/bin/iptables -t nat -I POSTROUTING -s " +
