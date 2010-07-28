@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=73
+# @Version=77
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -329,6 +329,23 @@ action() == "stop" && (
   setprop("tether.status","stopped");
 
   #
+  # Disable forwarding and remove NAT rules.
+  #
+  log(file_write("/proc/sys/net/ipv4/ip_forward", "0"), "Disabling forwarding");
+  getcfg("system.rp_filter") == "1" && (
+  	file_write("/proc/sys/net/ipv4/conf/all/rp_filter", "1");
+  );
+  
+  log(
+    run_program("/data/data/android.tether/bin/iptables -D FORWARD -j wireless-tether") &&
+    run_program("/data/data/android.tether/bin/iptables -F wireless-tether") &&  
+    run_program("/data/data/android.tether/bin/iptables -X wireless-tether") && 
+    run_program("/data/data/android.tether/bin/iptables -t nat -F PREROUTING") &&
+    run_program("/data/data/android.tether/bin/iptables -t nat -F POSTROUTING") &&
+    run_program("/data/data/android.tether/bin/iptables -t nat -F"),
+  "Disabling NAT rules");
+
+  #
   # Bluetooth, kill pand and and dnsmasq processes
   #
   getcfg("tether.mode") == "bt" && (
@@ -348,14 +365,15 @@ action() == "stop" && (
     run_program("/data/data/android.tether/bin/ifconfig " +  getcfg("wifi.interface") + " down");
     kill_process("wpa_supplicant");
     kill_process("dnsmasq");
-	kill_process("iwconfig");
 	kill_pidfile("/data/data/android.tether/var/fixpersist.pid");
 	kill_pidfile("/data/data/android.tether/var/fixroute.pid");
 	file_unlink("/data/data/android.tether/var/fixpersist.pid");
 	file_unlink("/data/data/android.tether/var/fixroute.pid");
+    
     getcfg("device.type") == "generic" && (
       log(unload_wifi(), "Unloading WiFi driver");
     );
+
     module_loaded("bcm4329") && rmmod("bcm4329");
     module_loaded("bcm4325") && rmmod("bcm4325");
     module_loaded("wlan") && rmmod("wlan");
@@ -376,26 +394,7 @@ action() == "stop" && (
   file_exists("/data/data/android.tether/var/setssid.pid") && (
     file_unlink("/data/data/android.tether/var/setssid.pid");
   );
-
-  #
-  # Disable forwarding and remove NAT rules.
-  #
-  log(file_write("/proc/sys/net/ipv4/ip_forward", "0"), "Disabling forwarding");
-  getcfg("system.rp_filter") == "1" && (
-  	file_write("/proc/sys/net/ipv4/conf/all/rp_filter", "1");
-  );
-  
-  log(
-    run_program("/data/data/android.tether/bin/iptables -D FORWARD -j wireless-tether") &&
-    run_program("/data/data/android.tether/bin/iptables -F wireless-tether") &&  
-    run_program("/data/data/android.tether/bin/iptables -X wireless-tether") && 
-    run_program("/data/data/android.tether/bin/iptables -t nat -F PREROUTING") &&
-    run_program("/data/data/android.tether/bin/iptables -t nat -F POSTROUTING") &&
-    run_program("/data/data/android.tether/bin/iptables -t nat -F"),
-  "Disabling NAT rules");
-
   log("Tethering now stopped");
-  
 );
 
 #
