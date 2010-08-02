@@ -89,11 +89,18 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	wifiGroup.removePreference(txpowerPreference);
         }
         
-        // Disable "Bluetooth discoverable" if not supported
-        if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.ECLAIR) {
+        // Diable Bluetooth-tethering if not supported by the kernel
+        if (Configuration.hasKernelFeature("CONFIG_BT_BNEP=") == false) {
         	PreferenceGroup btGroup = (PreferenceGroup)findPreference("btprefs");
-        	CheckBoxPreference btdiscoverablePreference = (CheckBoxPreference)findPreference("bluetoothdiscoverable");
-        	btGroup.removePreference(btdiscoverablePreference);
+        	btGroup.setEnabled(false);
+        }
+        else {
+            // Disable "Bluetooth discoverable" if not supported
+            if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.ECLAIR) {
+            	PreferenceGroup btGroup = (PreferenceGroup)findPreference("btprefs");
+            	CheckBoxPreference btdiscoverablePreference = (CheckBoxPreference)findPreference("bluetoothdiscoverable");
+            	btGroup.removePreference(btdiscoverablePreference);
+            }        	
         }
         
         // Disable "encryption-setup-method"

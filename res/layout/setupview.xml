@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen  
     xmlns:android="http://schemas.android.com/apk/res/android">  
-    <PreferenceCategory android:title="@string/setup_layout_category_bluetooth"
-       android:key="btprefs">
-       <CheckBoxPreference
-               android:key="bluetoothon"
-               android:title="@string/setup_layout_usebluetooth"
-               android:summary="@string/setup_layout_usebluetooth_summary" />
-       <CheckBoxPreference
-               android:key="bluetoothkeepwifi"
-               android:dependency="bluetoothon"
-               android:title="@string/setup_layout_dontdisablewifi"
-               android:summary="@string/setup_layout_dontdisablewifi_summary" />
-       <CheckBoxPreference
-               android:key="bluetoothdiscoverable"
-               android:dependency="bluetoothon"
-               android:title="@string/setup_layout_discoverable"
-               android:summary="@string/setup_layout_discoverable_summary" />               
-    </PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_wifi"
 		android:key="wifiprefs">
 	    <CheckBoxPreference  
@@ -67,6 +50,23 @@
 			android:dialogTitle="@string/setup_layout_txpower_dialog_title"
 			android:defaultValue="disabled" /> 
 	</PreferenceCategory>
+    <PreferenceCategory android:title="@string/setup_layout_category_bluetooth"
+       android:key="btprefs">
+       <CheckBoxPreference
+               android:key="bluetoothon"
+               android:title="@string/setup_layout_usebluetooth"
+               android:summary="@string/setup_layout_usebluetooth_summary" />
+       <CheckBoxPreference
+               android:key="bluetoothkeepwifi"
+               android:dependency="bluetoothon"
+               android:title="@string/setup_layout_dontdisablewifi"
+               android:summary="@string/setup_layout_dontdisablewifi_summary" />
+       <CheckBoxPreference
+               android:key="bluetoothdiscoverable"
+               android:dependency="bluetoothon"
+               android:title="@string/setup_layout_discoverable"
+               android:summary="@string/setup_layout_discoverable_summary" />               
+    </PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_security"
 		android:key="securityprefs">
 		<CheckBoxPreference  

@@ -724,7 +724,7 @@ public class TetherApplication extends Application {
 				TetherApplication.this.coretask.chmod(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/", "0755");
 
 				if (message == null) {
-			    	message = "Binaries and config-files installed!";
+			    	message = getString(R.string.global_application_installed);
 				}
 				
 				// Sending message
@@ -849,7 +849,7 @@ public class TetherApplication extends Application {
 			if (this.coretask.isNatEnabled() && this.coretask.isProcessRunning("bin/dnsmasq")) {
 		    	Log.d(MSG_TAG, "Restarting iptables for access-control-changes!");
 				if (!this.coretask.runRootCommand(this.coretask.DATA_FILE_PATH+"/bin/tether restartsecwifi 1")) {
-					this.displayToastMessage("Unable to restart secured wifi!");
+					this.displayToastMessage(getString(R.string.global_application_error_restartsecwifi));
 					return;
 				}
 			}
