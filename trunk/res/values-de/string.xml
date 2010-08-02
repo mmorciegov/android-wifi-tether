@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="global_application_name">Wireless Tether</string>
+	<string name="global_application_installed">Programm- und Konfigurationsdateien installiert!</string>
+	<string name="global_application_error_restartsecwifi">"Fehler beim Neustart (Sicherheitseinstellungen)!"</string>
     <string name="main_activity_settings">Einstellungen</string>
     <string name="main_activity_about">Über</string>
     <string name="main_activity_donate">Spende</string>
@@ -21,6 +23,8 @@
     <string name="log_activity_nologfile">Kann Log-Datei nicht öffnen. Datei existiert nicht!</string>
     <string name="main_layout_presstostart">- Drücken um Tethering zu starten. -</string> 
     <string name="main_layout_presstostop">- Drücken um Tethering zu stoppen. -</string> 
+    <string name="main_layout_download">Download</string> 
+    <string name="main_layout_upload">Upload</string>     
     <string name="accesscontrol_activity_reloadclientlist">Klienten-Liste neu laden</string>
     <string name="accesscontrol_activity_applysettings">Einstellungen übernehmen</string>
     <string name="accesscontrol_layout_connectedclients">Verbundene/Authorisierte Klienten:</string>
@@ -28,7 +32,7 @@
     <string name="setup_activity_reinstall">Binär- und Konfigurationsdateien neu installieren</string>
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>
-	<string name="setup_layout_category_security">Security</string>
+	<string name="setup_layout_category_security">Sicherheit</string>
 	<string name="setup_layout_category_lan">LAN</string>
 	<string name="setup_layout_category_notifications">Benachrichtigungen</string>
 	<string name="setup_layout_category_misc">Verschiedenes</string>

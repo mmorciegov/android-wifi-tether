@@ -66,7 +66,7 @@ public class Configuration {
 		/**
 		 * Extemely ugly stuff here - we really need a better method to detect such stuff
 		 */
-		else if (deviceType.equals(DEVICE_NEXUSONE) && hasKernelFeature("CONFIG_BCM4329_SOFTAP")) {
+		else if (deviceType.equals(DEVICE_NEXUSONE) && hasKernelFeature("CONFIG_BCM4329_SOFTAP=")) {
 			return DRIVER_SOFTAP_HTC;
 		}
 		else if (deviceType.equals(DEVICE_NEXUSONE) && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
@@ -80,7 +80,7 @@ public class Configuration {
 	 * on wpa_supplicant-start 
 	 */
 	public static String getEncryptionAutoMethod(String deviceType) {
-		if (deviceType.equals("legend") || deviceType.equals("nexusone")) {
+		if (deviceType.equals(DEVICE_LEGEND) || deviceType.equals(DEVICE_NEXUSONE)) {
 			return "iwconfig";
 		}
 		return "wpa_supplicant";

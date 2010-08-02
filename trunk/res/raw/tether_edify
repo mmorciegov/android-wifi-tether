@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=77
+# @Version=78
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -371,7 +371,7 @@ action() == "stop" && (
 	file_unlink("/data/data/android.tether/var/fixroute.pid");
     
     getcfg("device.type") == "generic" && (
-      log(unload_wifi(), "Unloading WiFi driver");
+      unload_wifi();
     );
 
     module_loaded("bcm4329") && rmmod("bcm4329");
