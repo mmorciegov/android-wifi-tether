@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=78
+# @Version=79
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -80,9 +80,12 @@ action() == "start" && (
 	      	);
 	      );	
 	      sleep("3");
-	      getcfg("wifi.driver") == "softap_htc" && (
-	        log(run_program("/data/data/android.tether/bin/ultra_bcm_config "+getcfg("wifi.interface")+" "+getcfg("wifi.driver")+" "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");	      
+	      getcfg("wifi.driver") == "softap_htc1" && (
+	        log(run_program("/data/data/android.tether/bin/ultra_bcm_config "+getcfg("wifi.interface")+" softap_htc "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");	      
 	      );
+	      getcfg("wifi.driver") == "softap_htc2" && (
+	        log(run_program("/data/data/android.tether/bin/ultra_bcm_config "+getcfg("wifi.interface")+" softap_gog "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");	      
+	      );	      
 	      getcfg("wifi.driver") == "softap_gog" && (
 	        log(run_program("/data/data/android.tether/bin/ultra_bcm_config eth0 "+getcfg("wifi.driver")+" "+ getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")), "Starting access-point");	      
 	        run_program("/data/data/android.tether/bin/ifconfig eth0 down");
