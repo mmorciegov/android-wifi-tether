@@ -21,7 +21,8 @@ public class Configuration {
 	
 	public static final String DRIVER_TIWLAN0    = "tiwlan0";
 	public static final String DRIVER_WEXT       = "wext";
-	public static final String DRIVER_SOFTAP_HTC = "softap_htc";
+	public static final String DRIVER_SOFTAP_HTC1 = "softap_htc1";
+	public static final String DRIVER_SOFTAP_HTC2 = "softap_htc2";
 	public static final String DRIVER_SOFTAP_GOG = "softap_gog";
 	
 	/**
@@ -67,7 +68,10 @@ public class Configuration {
 		 * Extemely ugly stuff here - we really need a better method to detect such stuff
 		 */
 		else if (deviceType.equals(DEVICE_NEXUSONE) && hasKernelFeature("CONFIG_BCM4329_SOFTAP=")) {
-			return DRIVER_SOFTAP_HTC;
+			if (Integer.parseInt(Build.VERSION.SDK) >= Build.VERSION_CODES.FROYO) {
+				return DRIVER_SOFTAP_HTC2;
+			}
+			return DRIVER_SOFTAP_HTC1;
 		}
 		else if (deviceType.equals(DEVICE_NEXUSONE) && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
 			return DRIVER_SOFTAP_GOG;
