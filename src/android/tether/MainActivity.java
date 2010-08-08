@@ -392,12 +392,12 @@ public class MainActivity extends Activity {
         	switch(msg.what) {
         	case MESSAGE_CHECK_LOG :
         		Log.d(MSG_TAG, "Error detected. Check log.");
-        		MainActivity.this.application.displayToastMessage("Tethering started with errors! Please check 'Show log'.");
+        		MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_errors));
             	MainActivity.this.toggleStartStop();
             	break;
         	case MESSAGE_CANT_START_TETHER :
         		Log.d(MSG_TAG, "Unable to start tethering!");
-        		MainActivity.this.application.displayToastMessage("Unable to start tethering. Please try again!");
+        		MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_unable));
             	MainActivity.this.toggleStartStop();
             	break;
         	case MESSAGE_TRAFFIC_START :
@@ -501,14 +501,14 @@ public class MainActivity extends Activity {
             String tetherStatus = this.application.coretask.getProp("tether.status");
             if (tetherStatus.equals("running")) {
             	if (!(tetherMode.equals("wifi") == true || tetherMode.equals("bt") == true)) {
-            		MainActivity.this.application.displayToastMessage("Wired-tethering seems to be running at the moment. Please disable it first!");
+            		MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_wiredtethering_running));
             	}
             }
             
             // Checking, if cyanogens usb-tether is currently running
             tetherStatus = this.application.coretask.getProp("tethering.enabled");
             if  (tetherStatus.equals("1")) {
-            	MainActivity.this.application.displayToastMessage("USB-tethering seems to be running at the moment. Please disable it first: Settings -> Wireless & network setting -> Internet tethering.");
+            	MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_usbtethering_running));
             }
             
             this.application.trafficCounterEnable(true);
@@ -530,7 +530,7 @@ public class MainActivity extends Activity {
     	else {
     		this.startTblRow.setVisibility(View.VISIBLE);
     		this.stopTblRow.setVisibility(View.VISIBLE);
-    		MainActivity.this.application.displayToastMessage("Your phone is currently in an unknown state - try to reboot!");
+    		MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_start_unknownstate));
     	}
     	this.showRadioMode();
     	System.gc();
@@ -550,7 +550,7 @@ public class MainActivity extends Activity {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.nonetfilterview, null); 
 		new AlertDialog.Builder(MainActivity.this)
-        .setTitle("No Netfilter!")
+        .setTitle(getString(R.string.main_activity_nonetfilter))
         .setView(view)
         .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
@@ -572,19 +572,19 @@ public class MainActivity extends Activity {
 		LayoutInflater li = LayoutInflater.from(this);
         View view = li.inflate(R.layout.noaccesscontrolview, null); 
 		new AlertDialog.Builder(MainActivity.this)
-        .setTitle("No Access Control!")
+        .setTitle(getString(R.string.main_activity_noaccesscontrol))
         .setView(view)
-        .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+        .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(MSG_TAG, "Close pressed");
                         MainActivity.this.finish();
                 }
         })
-        .setNeutralButton("Ignore", new DialogInterface.OnClickListener() {
+        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Log.d(MSG_TAG, "Override pressed");
                     MainActivity.this.application.installFiles();
-                    MainActivity.this.application.displayToastMessage("Access Control disabled.");
+                    MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_accesscontrol_disabled));
                 }
         })
         .show();
