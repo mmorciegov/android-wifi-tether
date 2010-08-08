@@ -579,7 +579,9 @@ public class TetherApplication extends Application {
     // Notification
     public void showStartNotification() {
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
-    	notification.setLatestEventInfo(this, "Wireless Tether", "Tethering is currently running ...", this.mainIntent);
+		
+		
+    	notification.setLatestEventInfo(this, getString(R.string.global_application_name), getString(R.string.global_application_tethering_running), this.mainIntent);
     	this.notificationManager.notify(-1, this.notification);
     }
     
@@ -596,18 +598,18 @@ public class TetherApplication extends Application {
     	switch (authType) {
 	    	case CLIENT_CONNECT_ACDISABLED :
 	    		notificationIcon = R.drawable.secmedium;
-	    		notificationString = "AC disabled";
+	    		notificationString = getString(R.string.global_application_accesscontrol_disabled);
 	    		break;
 	    	case CLIENT_CONNECT_AUTHORIZED :
 	    		notificationIcon = R.drawable.sechigh;
-	    		notificationString = "Authorized";
+	    		notificationString = getString(R.string.global_application_accesscontrol_authorized);
 	    		break;
 	    	case CLIENT_CONNECT_NOTAUTHORIZED :
 	    		notificationIcon = R.drawable.seclow;
-	    		notificationString = "Unauthorized";
+	    		notificationString = getString(R.string.global_application_accesscontrol_authorized);
     	}
 		Log.d(MSG_TAG, "New (" + notificationString + ") client connected ==> "+clientData.getClientName()+" - "+clientData.getMacAddress());
- 	   	Notification clientConnectNotification = new Notification(notificationIcon, "Wireless Tether", System.currentTimeMillis());
+ 	   	Notification clientConnectNotification = new Notification(notificationIcon, getString(R.string.global_application_name), System.currentTimeMillis());
  	   	clientConnectNotification.tickerText = clientData.getClientName()+" ("+clientData.getMacAddress()+")";
  	   	if (!this.settings.getString("notifyring", "").equals(""))
  	   		clientConnectNotification.sound = Uri.parse(this.settings.getString("notifyring", ""));
@@ -616,9 +618,9 @@ public class TetherApplication extends Application {
  	   		clientConnectNotification.vibrate = new long[] {100, 200, 100, 200};
 
  	   	if (this.accessControlSupported) 
- 	   		clientConnectNotification.setLatestEventInfo(this, "Wireless Tether - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.accessControlIntent);
+ 	   		clientConnectNotification.setLatestEventInfo(this, getString(R.string.global_application_name)+" - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") "+getString(R.string.global_application_connected)+" ...", this.accessControlIntent);
  	   	else 
- 	   		clientConnectNotification.setLatestEventInfo(this, "Wireless Tether - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") connected ...", this.mainIntent);
+ 	   		clientConnectNotification.setLatestEventInfo(this, getString(R.string.global_application_name)+" - " + notificationString, clientData.getClientName()+" ("+clientData.getMacAddress()+") "+getString(R.string.global_application_connected)+" ...", this.mainIntent);
  	   	
  	   	clientConnectNotification.flags = Notification.FLAG_AUTO_CANCEL;
  	   	this.notificationManager.notify(this.clientNotificationCount, clientConnectNotification);
