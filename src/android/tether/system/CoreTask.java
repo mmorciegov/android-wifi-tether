@@ -381,11 +381,6 @@ public class CoreTask {
     	return lines.contains("1");
     }
     
-    public boolean isRPFilterEnabled() {
-    	ArrayList<String> lines = readLinesFromFile("/proc/sys/net/ipv4/conf/all/rp_filter");
-    	return lines.contains("1");
-    }
-    
     public String getKernelVersion() {
         ArrayList<String> lines = readLinesFromFile("/proc/version");
         String version = lines.get(0).split(" ")[2];

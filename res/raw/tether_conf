@@ -1,5 +1,7 @@
 device.type=nexusone
 tether.mode=wifi
+tether.fix.persist=false
+tether.fix.route=false
 wifi.interface=eth0
 wifi.essid=AndroidTether
 wifi.channel=6
@@ -11,4 +13,4 @@ wifi.encryption.key=none
 ip.gateway=192.168.2.254
 ip.netmask=255.255.255.0
 ip.network=192.168.2.0
-system.rp_filter=0
+

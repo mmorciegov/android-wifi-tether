@@ -201,10 +201,6 @@ action() == "start" && (
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
       
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
-
-      file_exists("/data/data/android.tether/bin/fixpersist.sh") && (
-		run_program("/data/data/android.tether/bin/fixpersist.sh "+ getcfg("wifi.interface") +" "+ getcfg("wifi.essid") +" "+ getcfg("wifi.channel") +" & echo $! > /data/data/android.tether/var/fixpersist.pid");
-      );	
     );
     
     getcfg("device.type") == "generic" && (
@@ -241,6 +237,15 @@ action() == "start" && (
 	  " -c/data/data/android.tether/conf/wpa_supplicant.conf"), "Activating encryption<br/>(wpa_supplicant)");
       );
     );
+
+    #
+    # Starting persist-fixer in background
+    #    
+    getcfg("tether.fix.persist") == "true" && (
+      file_exists("/data/data/android.tether/bin/fixpersist.sh") && (
+		run_program("/data/data/android.tether/bin/fixpersist.sh "+ getcfg("wifi.interface") +" "+ getcfg("wifi.essid") +" "+ getcfg("wifi.channel") +" & echo $! > /data/data/android.tether/var/fixpersist.pid");
+      );
+    );
   );
 
   getcfg("tether.mode") == "bt" && (
@@ -261,8 +266,8 @@ action() == "start" && (
   #
   # Starting route-fixer in background
   #
-  file_exists("/data/data/android.tether/bin/fixroute.sh") && (
-    file_exists("/system/etc/iproute2/rt_tables") && (
+  getcfg("tether.fix.route") == "true" && (
+    file_exists("/data/data/android.tether/bin/fixroute.sh") && (
   	  file_exists("/system/bin/ip") && (
   		getcfg("tether.mode") == "wifi" && (
   			run_program("/data/data/android.tether/bin/fixroute.sh "+ getcfg("wifi.interface") +" "+ getcfg("ip.network") +"/24 "+ getcfg("ip.gateway") +" & echo $! > /data/data/android.tether/var/fixroute.pid");
@@ -300,7 +305,6 @@ action() == "start" && (
   # IP forwarding
   #
   log(file_write("/proc/sys/net/ipv4/ip_forward", "1"), "Enabling IP forwarding");
-  file_write("/proc/sys/net/ipv4/conf/all/rp_filter", "0");
 
   #
   # dnsmasq for wifi tether (bluetooth has pand start it)
@@ -335,9 +339,6 @@ action() == "stop" && (
   # Disable forwarding and remove NAT rules.
   #
   log(file_write("/proc/sys/net/ipv4/ip_forward", "0"), "Disabling forwarding");
-  getcfg("system.rp_filter") == "1" && (
-  	file_write("/proc/sys/net/ipv4/conf/all/rp_filter", "1");
-  );
   
   log(
     run_program("/data/data/android.tether/bin/iptables -D FORWARD -j wireless-tether") &&

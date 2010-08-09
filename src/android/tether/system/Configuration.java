@@ -90,6 +90,34 @@ public class Configuration {
 		return "wpa_supplicant";
 	}
 	
+	/**
+	 * Returns a boolean if fix_persist.sh is required
+	 * @param feature
+	 * @return
+	 */
+	public static boolean enableFixPersist() {
+		if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true 
+				&& (new File("/system/etc/wifi/fw_wlan1271.bin")).exists() == true){
+			return true;
+		}
+		if (getDeviceType().equals(DEVICE_LEGEND) == true) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns a boolean if fix_persist.sh is required
+	 * @param feature
+	 * @return
+	 */
+	public static boolean enableFixRoute() {
+		if (getWifiInterfaceDriver(getDeviceType()).startsWith("softap_") == false &&
+				(new File("/system/etc/iproute2/rt_tables")).exists() == true) {
+			return true;
+		}
+		return false;
+	}	
 	
     public static boolean hasKernelFeature(String feature) {
     	try {
