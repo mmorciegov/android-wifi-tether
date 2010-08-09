@@ -7,10 +7,7 @@
 	<string name="global_application_accesscontrol_disabled">AC disabled</string>
 	<string name="global_application_accesscontrol_authorized">Authorized</string>
 	<string name="global_application_accesscontrol_unauthorized">Unauthorized</string>
-	
 	<string name="global_application_connected">connected</string>
-	
-	
     <string name="main_activity_settings">Settings</string>
     <string name="main_activity_about">About</string>
     <string name="main_activity_donate">Donate</string>
@@ -36,6 +33,10 @@
     <string name="main_activity_start_unknownstate">Your phone is currently in an unknown state - try to reboot!</string>
     <string name="main_activity_stop">Stop Tethering</string>
     <string name="main_activity_stop_summary">Please wait while stopping...</string> 
+    <string name="main_activity_confirm">Confirm</string>
+    <string name="main_activity_cancel">Cancel</string>
+    <string name="main_activity_trackball_pressed_start">Trackball pressed. Confirm tether start.</string>
+    <string name="main_activity_trackball_pressed_stop">Trackball pressed. Confirm tether stop.</string>
     <string name="log_activity_nologfile">Unable to open log-File. File does not exist!</string>
     <string name="main_layout_presstostart">- Press to start tethering. -</string> 
     <string name="main_layout_presstostop">- Press to stop tethering. -</string> 
@@ -43,8 +44,19 @@
     <string name="main_layout_upload">Upload</string> 
     <string name="accesscontrol_activity_reloadclientlist">Reload Client-List</string>
     <string name="accesscontrol_activity_applysettings">Apply Settings</string>
+    <string name="accesscontrol_activity_enabled">Access-Control enabled.</string>
+    <string name="accesscontrol_activity_disabled">Access-Control disabled.</string>
+    <string name="accesscontrol_activity_is_enabled">Access-Control is enabled.</string>
+    <string name="accesscontrol_activity_is_disabled">Access-Control is disabled.</string>
+    <string name="accesscontrol_activity_error_save_whitelistfile">Unable to save whitelist-file!</string>
+    <string name="accesscontrol_activity_error_remove_whitelistfile">Unable to remove whitelist-file!</string>
+    <string name="accesscontrol_activity_error_read_leasefile">Unable to read leases-file!</string>
+    <string name="accesscontrol_activity_config_saved">Access-Control Configuration saved!</string>
+    <string name="accesscontrol_activity_not_connected">- Not connected -</string>
     <string name="accesscontrol_layout_connectedclients">Connected/Authorized Clients:</string>
 	<string name="accesscontrol_layout_apply">Apply</string>
+	<string name="accesscontrol_layout_enable">Enable</string>
+	<string name="accesscontrol_layout_disable">Disable</string>
     <string name="setup_activity_reinstall">(Re)-Install binaries/configs</string>
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>

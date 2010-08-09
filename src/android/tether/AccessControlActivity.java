@@ -80,7 +80,7 @@ public class AccessControlActivity extends ListActivity {
 				if (buttonAC.isChecked() == false) {
 					Log.d(MSG_TAG, "Disable pressed ...");
 					if (whitelist.remove()) {
-						AccessControlActivity.this.application.displayToastMessage("Access-Control disabled.");
+						AccessControlActivity.this.application.displayToastMessage(getString(R.string.accesscontrol_activity_disabled));
 						AccessControlActivity.this.clientAdapter.refreshData(AccessControlActivity.this.getCurrentClientData());
 						application.restartSecuredWifi();
 						AccessControlActivity.this.application.preferenceEditor.putBoolean("acpref", false);
@@ -92,7 +92,7 @@ public class AccessControlActivity extends ListActivity {
 					Log.d(MSG_TAG, "Enable pressed ...");
 					try {
 						whitelist.touch();
-						AccessControlActivity.this.application.displayToastMessage("Access-Control enabled.");
+						AccessControlActivity.this.application.displayToastMessage(getString(R.string.accesscontrol_activity_enabled));
 						AccessControlActivity.this.clientAdapter.refreshData(AccessControlActivity.this.getCurrentClientData());
 						application.restartSecuredWifi();
 						AccessControlActivity.this.application.preferenceEditor.putBoolean("acpref", true);
@@ -153,11 +153,11 @@ public class AccessControlActivity extends ListActivity {
     
     private void toggleACHeader() {
     	if (whitelist.exists()) {
-    		this.statusAC.setText("Access-Control is enabled.");
+    		this.statusAC.setText(getString(R.string.accesscontrol_activity_is_enabled));
     		this.buttonAC.setChecked(true);
     	}
     	else {
-    		this.statusAC.setText("Access-Control is disabled.");
+    		this.statusAC.setText(getString(R.string.accesscontrol_activity_is_disabled));
     		this.buttonAC.setChecked(false);
     	}
     }
@@ -195,17 +195,17 @@ public class AccessControlActivity extends ListActivity {
 						}
 					}
 					catch (Exception ex) {
-						application.displayToastMessage("Unable to save whitelist-file!");
+						application.displayToastMessage(getString(R.string.accesscontrol_activity_error_save_whitelistfile));
 					}
 				}
 				else {
 					if (whitelist.exists()) {
 						if (!whitelist.remove()) {
-							application.displayToastMessage("Unable to remove whitelist-file!");
+							application.displayToastMessage(getString(R.string.accesscontrol_activity_error_remove_whitelistfile));
 						}
 					}
 				}
-				application.displayToastMessage("Access-Control Configuration saved!");
+				application.displayToastMessage(getString(R.string.accesscontrol_activity_config_saved));
 				Looper.loop();
 			}
 		}).start();
@@ -228,13 +228,13 @@ public class AccessControlActivity extends ListActivity {
         try {
 			leases = application.coretask.getLeases();
 		} catch (Exception e) {
-			AccessControlActivity.this.application.displayToastMessage("Unable to read leases-file!");
+			AccessControlActivity.this.application.displayToastMessage(getString(R.string.accesscontrol_activity_error_read_leasefile));
 		}
         if (whitelist != null) {
 	        for (String macAddress : whitelist.get()) {
 	        	ClientData clientData = new ClientData();
 	        	clientData.setConnected(false);
-	        	clientData.setIpAddress("- Not connected -");
+	        	clientData.setIpAddress(getString(R.string.accesscontrol_activity_not_connected));
 	        	if (leases.containsKey(macAddress)) {
 	        		clientData = leases.get(macAddress);
 	            	Log.d(MSG_TAG, clientData.isConnected()+" - "+clientData.getIpAddress());
