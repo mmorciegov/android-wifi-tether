@@ -272,13 +272,17 @@ public class TetherApplication extends Application {
         this.tethercfg.put("wifi.essid", ssid);
 		this.tethercfg.put("ip.network", lannetwork.split("/")[0]);
 		this.tethercfg.put("ip.gateway", subnet + ".254");    
-		
-		// Checking if rp_filter is active
-		if (this.coretask.isRPFilterEnabled()) {
-			this.tethercfg.put("system.rp_filter", "1");
+		if (Configuration.enableFixPersist()) {
+			this.tethercfg.put("tether.fix.persist", "true");
 		}
 		else {
-			this.tethercfg.put("system.rp_filter", "0");
+			this.tethercfg.put("tether.fix.persist", "false");
+		}
+		if (Configuration.enableFixRoute()) {
+			this.tethercfg.put("tether.fix.route", "true");
+		}
+		else {
+			this.tethercfg.put("tether.fix.route", "false");
 		}
 		
 		/**
@@ -689,15 +693,13 @@ public class TetherApplication extends Application {
 				/**
 				 * Installing fix-scripts if needed
 				 */
-				//if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_DROID) 
-				//		|| TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {
-				if (TetherApplication.this.deviceType.equals(Configuration.DEVICE_LEGEND)) {	
+				if (Configuration.enableFixPersist()) {	
 					// fixpersist.sh
 					if (message == null) {
 						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/fixpersist.sh", "0755", R.raw.fixpersist_sh);
 					}				
 				}
-				if ((new File("/system/etc/iproute2/rt_tables")).exists()) {
+				if (Configuration.enableFixRoute()) {
 					// fixroute.sh
 					if (message == null) {
 						message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/fixroute.sh", "0755", R.raw.fixroute_sh);
