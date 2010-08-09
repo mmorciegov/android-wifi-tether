@@ -1,5 +1,15 @@
 #summary Release notes/known issues
 = Stable versions =
+
+----
+----
+== wireless_tether-2_0_2 ==
+
+=== - Release notes ===
+
+`*` Added EVO support (ad-hoc mode only)
+=== - Known issues ===
+?
 ----
 ----
 == wireless_tether-2_0_1 ==
@@ -16,6 +26,33 @@
 
 = Experimental versions =
 
+----
+----
+== wireless_tether-2_0_5-pre7 ==
+
+=== - Release notes ===
+
+`*` Adds support for HTC Evo (Android 2.2 - FroYo) - master/infrastructure mode.
+=== - Known issues ===
+`*` Changing channel does not work.
+----
+----
+== wireless_tether-2_0_5-pre5 ==
+
+=== - Release notes ===
+
+`*` Support for more devices (generic wifi-setup type). Works with Samsung Galaxy S.
+=== - Known issues ===
+?
+----
+----
+== wireless_tether-2_0_5-pre3 ==
+
+=== - Release notes ===
+
+`*` Added master/infastructure-mode support for Broadcom bcm4329 (using a driver from HTC)
+=== - Known issues ===
+?
 ----
 ----
 == wireless_tether-2_0_2-pre6 ==
