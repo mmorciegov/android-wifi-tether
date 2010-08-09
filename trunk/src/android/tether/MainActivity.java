@@ -245,26 +245,26 @@ public class MainActivity extends Activity {
 			String tetherStatus = this.application.coretask.getProp("tether.status");
             if (!tetherStatus.equals("running")){
 				new AlertDialog.Builder(this)
-				.setMessage("Trackball pressed. Confirm tether start.")  
-			    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+				.setMessage(getString(R.string.main_activity_trackball_pressed_start))  
+			    .setPositiveButton(getString(R.string.main_activity_confirm), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						Log.d(MSG_TAG, "Trackball press confirmed ...");
 						MainActivity.currentInstance.startBtnListener.onClick(MainActivity.currentInstance.startBtn);
 					}
 				}) 
-			    .setNegativeButton("Cancel", null)  
+			    .setNegativeButton(getString(R.string.main_activity_cancel), null)  
 			    .show();
 			}
             else{
 				new AlertDialog.Builder(this)
-				.setMessage("Trackball pressed. Confirm tether stop.")  
-			    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+				.setMessage(getString(R.string.main_activity_trackball_pressed_stop))  
+			    .setPositiveButton(getString(R.string.main_activity_confirm), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						Log.d(MSG_TAG, "Trackball press confirmed ...");
 						MainActivity.currentInstance.stopBtnListener.onClick(MainActivity.currentInstance.startBtn);
 					}
 				})
-			    .setNegativeButton("Cancel", null)  
+			    .setNegativeButton(getString(R.string.main_activity_cancel), null)  
 			    .show();
             }
 		}

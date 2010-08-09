@@ -28,8 +28,8 @@
 			android:layout_alignParentTop="true"
 			android:layout_alignParentRight="true"
 			android:textSize="10sp"
-			android:textOn="Disable" 
-			android:textOff="Enable" />			    
+			android:textOn="@string/accesscontrol_layout_disable" 
+			android:textOff="@string/accesscontrol_layout_enable" />			    
 	</RelativeLayout>
 	<TextView android:id="@+id/connectedClientsText"
         android:layout_width="fill_parent" 
