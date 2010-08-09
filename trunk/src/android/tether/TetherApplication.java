@@ -263,6 +263,7 @@ public class TetherApplication extends Application {
         String lannetwork = this.settings.getString("lannetworkpref", DEFAULT_LANNETWORK);
         String wepkey = this.settings.getString("passphrasepref", DEFAULT_PASSPHRASE);
         String wepsetupMethod = this.settings.getString("encsetuppref", DEFAULT_ENCSETUP);
+        String channel = this.settings.getString("channelpref", "6");
         
 		// tether.conf
         String subnet = lannetwork.substring(0, lannetwork.lastIndexOf("."));
@@ -270,6 +271,7 @@ public class TetherApplication extends Application {
 		this.tethercfg.put("device.type", deviceType);
         this.tethercfg.put("tether.mode", bluetoothPref ? "bt" : "wifi");
         this.tethercfg.put("wifi.essid", ssid);
+        this.tethercfg.put("wifi.channel", channel);
 		this.tethercfg.put("ip.network", lannetwork.split("/")[0]);
 		this.tethercfg.put("ip.gateway", subnet + ".254");    
 		if (Configuration.enableFixPersist()) {
