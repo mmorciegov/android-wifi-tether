@@ -58,6 +58,14 @@
 	<string name="accesscontrol_layout_enable">Enable</string>
 	<string name="accesscontrol_layout_disable">Disable</string>
     <string name="setup_activity_reinstall">(Re)-Install binaries/configs</string>
+
+    <string name="setup_activity_restart_tethering_title">Restart Tethering</string>
+    <string name="setup_activity_restart_tethering_message">Please wait while restarting...</string>
+    <string name="setup_activity_error_passphrase_invalidchars">Passphrase contains invalid characters, not saved!</string>
+    <string name="setup_activity_error_passphrase_tooshort">Passphrase too short! New value was not saved.</string>
+    <string name="setup_activity_error_restart_tethering">Unable to restart tethering!</string>
+    
+    
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>
 	<string name="setup_layout_category_security">Security</string>

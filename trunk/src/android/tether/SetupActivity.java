@@ -204,14 +204,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 	        		if(newValue.toString().length() == 13){
 	        		  for (int i = 0 ; i < 13 ; i++) {
 	        		    if (!validChars.contains(newValue.toString().substring(i, i+1))) {
-	        		      SetupActivity.this.application.displayToastMessage("Passphrase contains invalid characters, not saved!");
+	        		      SetupActivity.this.application.displayToastMessage(getString(R.string.setup_activity_error_passphrase_invalidchars));
 	        		      return false;
 	        		    }
 	        		  }
 	        			return true;
 	        		}
 	        		else{
-	        			SetupActivity.this.application.displayToastMessage("Passphrase too short! New value was not saved.");
+	        			SetupActivity.this.application.displayToastMessage(getString(R.string.setup_activity_error_passphrase_tooshort));
 	        			return false;
 	        		}
 	        }});
@@ -240,8 +240,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     protected Dialog onCreateDialog(int id) {
     	if (id == ID_DIALOG_RESTARTING) {
 	    	progressDialog = new ProgressDialog(this);
-	    	progressDialog.setTitle("Restart Tethering");
-	    	progressDialog.setMessage("Please wait while restarting...");
+	    	progressDialog.setTitle(getString(R.string.setup_activity_restart_tethering_title));
+	    	progressDialog.setMessage(getString(R.string.setup_activity_restart_tethering_message));
 	    	progressDialog.setIndeterminate(false);
 	    	progressDialog.setCancelable(true);
 	        return progressDialog;
@@ -296,7 +296,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				}
 	    				}
 	    				catch (Exception ex) {
-	    					message = "Unable to restart tethering!";
+	    					message = getString(R.string.setup_activity_error_restart_tethering);
 	    				}
 		    			// Send Message
 		    			Message msg = new Message();
@@ -320,7 +320,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				}
 	    				}
 	    				catch (Exception ex) {
-	    					message = "Unable to restart tethering!";
+	    					message = getString(R.string.setup_activity_error_restart_tethering);
 	    				}
 		    			// Send Message
 		    			Message msg = new Message();
@@ -469,14 +469,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
+							message = "LAN-network changed to '"+lannetwork+"'.";
+							SetupActivity.this.currentLAN = lannetwork;
 						}
 						catch (Exception ex) {
+							message = getString(R.string.setup_activity_error_restart_tethering);
 							Log.e(MSG_TAG, "Exception happend while restarting service - Here is what I know: "+ex);
 						}
 
-						message = "LAN-network changed to '"+lannetwork+"'.";
-						SetupActivity.this.currentLAN = lannetwork;
-						
 		    			// Send Message
 		    			Message msg = new Message();
 		    			msg.obj = message;
@@ -501,6 +501,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 						}
 					}
 					catch (Exception ex) {
+						message = getString(R.string.setup_activity_error_restart_tethering);
 					}
 		    	}
 		    	else if (key.equals("bluetoothkeepwifi")) {
