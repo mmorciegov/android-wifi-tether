@@ -58,6 +58,26 @@
 	<string name="accesscontrol_layout_enable">Aktivieren</string>
 	<string name="accesscontrol_layout_disable">Deaktivieren</string>	
     <string name="setup_activity_reinstall">Binär- und Konfigurationsdateien neu installieren</string>
+    <string name="setup_activity_restart_tethering_title">Neustart Tethering</string>
+    <string name="setup_activity_restart_tethering_message">Bitte warten während neu gestartet wird...</string>
+    <string name="setup_activity_error_passphrase_invalidchars">Passwort enthält ungültige Zeichen. Änderungen wurden nicht gespeichert!</string>
+    <string name="setup_activity_error_passphrase_tooshort">Passwort zu kurz! Änderung wurde nicht gespeichert.</string>
+    <string name="setup_activity_error_passphrase_toolong">Passphrase zu lange! Änderung wurde nicht gespeichert.</string>
+    <string name="setup_activity_error_restart_tethering">Neustart nicht möglich!</string>
+    <string name="setup_activity_error_passphrase_info">Passwort muss zwischen 8 und 30 Zeichen lang sein!</string>
+	<string name="setup_activity_error_passphrase_13chars">Passwort muss 13 Zeichen (ASCII) lang sein!</string>
+	<string name="setup_activity_error_ssid_invalidchars">SSID enthält ungültige Zeichen</string>
+	<string name="setup_activity_error_ssid_empty">Neue SSID kann nicht leer sein</string>
+	<string name="setup_activity_error_ssid_notsaved">. Änderungen wurden nicht gespeichert.</string>
+	<string name="setup_activity_info_ssid_changedto">SSID geändert auf </string>
+	<string name="setup_activity_info_channel_changedto">Kanal geändert auf </string>
+	<string name="setup_activity_info_passphrase_changedto">Passwort geändert auf </string>
+	<string name="setup_activity_info_txpower_changedto">Sende-Leistung geändert auf </string>
+	<string name="setup_activity_info_lan_changedto">LAN-Netzwerk geändert auf </string>
+	<string name="setup_activity_info_wakelock_disabled">Wake-Lock wurde deaktiviert.</string>
+	<string name="setup_activity_info_wakelock_enabled">Wake-Lock wurde aktiviert.</string>
+	<string name="setup_activity_info_accesscontrol_disabled">Zugangskontrolle deaktiviert.</string>
+	<string name="setup_activity_info_accesscontrol_enabled">Zugangskontrolle aktiviert.</string>    
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>
 	<string name="setup_layout_category_security">Sicherheit</string>
@@ -137,6 +157,7 @@
 		<item>wpa_supplicant</item>  
 	</string-array>	 	
 	
+	<!-- Below values don't need to be translated -->
 	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
     <string-array name="notificationmodevalues">  
 		<item>0</item>  
