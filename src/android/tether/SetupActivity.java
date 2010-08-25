@@ -130,7 +130,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         if (Configuration.getWifiInterfaceDriver(this.application.deviceType).startsWith("softap")) {
         	Log.d(MSG_TAG, "Adding validators for WPA-Encryption.");
         	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WPA2-PSK)");
-        	this.prefPassphrase.setDialogMessage("Passphrase must be between 8 and 30 characters long!");
+        	this.prefPassphrase.setDialogMessage(getString(R.string.setup_activity_error_passphrase_info));
 	        // Passphrase Change-Listener for WPA-encryption
         	this.prefPassphrase.getEditText().addTextChangedListener(new TextWatcher() {
 	            public void afterTextChanged(Editable s) {
@@ -156,16 +156,16 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
                       "abcdefghijklmnopqrstuvwxyz" +
                       "0123456789";
 	        		if (newValue.toString().length() < 8) {
-	        			SetupActivity.this.application.displayToastMessage("Passphrase too short! New value was not saved.");
+	        			SetupActivity.this.application.displayToastMessage(getString(R.string.setup_activity_error_passphrase_tooshort));
 	        			return false;
 	        		}
 	        		else if (newValue.toString().length() > 30) {
-	        			SetupActivity.this.application.displayToastMessage("Passphrase too long! New value was not saved.");
+	        			SetupActivity.this.application.displayToastMessage(getString(R.string.setup_activity_error_passphrase_toolong));
 	        			return false;	        			
 	        		}
 	        		for (int i = 0 ; i < newValue.toString().length() ; i++) {
 	        		    if (!validChars.contains(newValue.toString().substring(i, i+1))) {
-	        		      SetupActivity.this.application.displayToastMessage("Passphrase contains invalid characters, not saved!");
+	        		      SetupActivity.this.application.displayToastMessage(getString(R.string.setup_activity_error_passphrase_invalidchars));
 	        		      return false;
 	        		    }
 	        		  }
@@ -176,7 +176,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         else {
         	Log.d(MSG_TAG, "Adding validators for WEP-Encryption.");
         	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WEP 128-bit)");
-        	this.prefPassphrase.setDialogMessage("Passphrase must be 13 characters (ASCII) long!");
+        	this.prefPassphrase.setDialogMessage(getString(R.string.setup_activity_error_passphrase_13chars));
         	// Passphrase Change-Listener for WEP-encryption
 	        this.prefPassphrase.getEditText().addTextChangedListener(new TextWatcher() {
 	            public void afterTextChanged(Editable s) {
@@ -284,7 +284,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		String newSSID = sharedPreferences.getString("ssidpref", "AndroidTether");
 		    		if (SetupActivity.this.currentSSID.equals(newSSID) == false) {
 	    				SetupActivity.this.currentSSID = newSSID;
-	    				message = "SSID changed to '"+newSSID+"'.";
+	    				message = getString(R.string.setup_activity_info_ssid_changedto)+" '"+newSSID+"'.";
 	    				try{
 		    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
 				    			// Show RestartDialog
@@ -308,7 +308,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		String newChannel = sharedPreferences.getString("channelpref", "6");
 		    		if (SetupActivity.this.currentChannel.equals(newChannel) == false) {
 	    				SetupActivity.this.currentChannel = newChannel;
-	    				message = "Channel changed to '"+newChannel+"'.";
+	    				message = getString(R.string.setup_activity_info_channel_changedto)+" '"+newChannel+"'.";
 	    				try{
 		    				if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
 				    			// Show RestartDialog
@@ -334,16 +334,16 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 						if (application.coretask.isNatEnabled() && application.coretask.isProcessRunning("bin/dnsmasq")) {
 							if (disableWakeLock){
 								SetupActivity.this.application.releaseWakeLock();
-								message = "Wake-Lock is now disabled.";
+								message = getString(R.string.setup_activity_info_wakelock_disabled);
 							}
 							else{
 								SetupActivity.this.application.acquireWakeLock();
-								message = "Wake-Lock is now enabled.";
+								message = getString(R.string.setup_activity_info_wakelock_enabled);
 							}
 						}
 					}
 					catch (Exception ex) {
-						message = "Unable to save Auto-Sync settings!";
+						Log.e(MSG_TAG, "Can't enable/disable Wake-Lock!");
 					}
 					
 					// Send Message
@@ -358,7 +358,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    				try {
 								application.whitelist.touch();
 								application.restartSecuredWifi();
-								message = "Access Control enabled.";
+								message = getString(R.string.setup_activity_info_accesscontrol_enabled);
 		    				} catch (IOException e) {
 		    					message = "Unable to touch 'whitelist_mac.conf'.";
 							}
@@ -368,7 +368,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			if (SetupActivity.this.application.whitelist.exists() == true) {
 		    				application.whitelist.remove();
 		    				application.restartSecuredWifi();
-		    				message = "Access Control disabled.";
+		    				message = getString(R.string.setup_activity_info_accesscontrol_disabled);
 		    			}
 		    		}
 		    		
@@ -420,7 +420,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 							Log.e(MSG_TAG, "Exception happend while restarting service - Here is what I know: "+ex);
 						}
 		    			
-						message = "Passphrase changed to '"+passphrase+"'.";
+						message = getString(R.string.setup_activity_info_passphrase_changedto)+" '"+passphrase+"'.";
 						SetupActivity.this.currentPassphrase = passphrase;
 						
 		    			// Send Message
@@ -447,7 +447,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 							Log.e(MSG_TAG, "Exception happend while restarting service - Here is what I know: "+ex);
 						}
 		    			
-						message = "Transmit power changed to '"+transmitPower+"'.";
+						message = getString(R.string.setup_activity_info_txpower_changedto)+" '"+transmitPower+"'.";
 						SetupActivity.this.currentTransmitPower = transmitPower;
 						
 		    			// Send Message
@@ -469,7 +469,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				    			// Dismiss RestartDialog
 				    			SetupActivity.this.restartingDialogHandler.sendEmptyMessage(1);
 							}
-							message = "LAN-network changed to '"+lannetwork+"'.";
+							message = getString(R.string.setup_activity_info_lan_changedto)+" '"+lannetwork+"'.";
 							SetupActivity.this.currentLAN = lannetwork;
 						}
 						catch (Exception ex) {
@@ -522,24 +522,23 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     	}
     };
  
-    public String validateSSID(String newSSID){
-      String message = "";
-      String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ" +
-      "abcdefghijklmnopqrstuvwxyz" +
-      "0123456789_.";
-      for (int i = 0 ; i < newSSID.length() ; i++) {
-        if (!validChars.contains(newSSID.substring(i, i+1))) {
-          message = "SSID contains invalid characters";
-        }
-      }
-      if (newSSID.equals("")) {
-        message = "New SSID cannot be empty";
-    	}
-    	if (message.length() > 0)
-    	  message += ", not saved.";
-    	return message;
-    }
-    
+	public String validateSSID(String newSSID) {
+		String message = "";
+		String validChars = "ABCDEFGHIJKLMONPQRSTUVWXYZ"
+				+ "abcdefghijklmnopqrstuvwxyz" + "0123456789_.";
+		for (int i = 0; i < newSSID.length(); i++) {
+			if (!validChars.contains(newSSID.substring(i, i + 1))) {
+				message = getString(R.string.setup_activity_error_ssid_invalidchars);
+			}
+		}
+		if (newSSID.equals("")) {
+			message = getString(R.string.setup_activity_error_ssid_empty);
+		}
+		if (message.length() > 0)
+			message += getString(R.string.setup_activity_error_ssid_notsaved);
+		return message;
+	}
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
