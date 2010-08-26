@@ -123,8 +123,8 @@
 	<string name="setup_layout_updatecheck_summary">Turn off update-check at startup</string>
 	<string name="setup_layout_wakelock">Disable Wake-Lock</string>
 	<string name="setup_layout_wakelock_summary">Turn off wake-lock while tethering</string>
-	<string name="setup_layout_battery">Disable Battery-Temperature</string>
-	<string name="setup_layout_battery_summary">Hide battery-temperatur info</string>
+	<string name="setup_layout_battery">Disable Battery Temperature</string>
+	<string name="setup_layout_battery_summary">Hide battery temperatur info</string>
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_projecthome">Project-Home:</string>
 	<string name="about_layout_license">License:</string>
@@ -145,20 +145,38 @@
 	<string name="noroot_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
 	<string name="update_layout_line1">There is an update available!</string>
 	<string name="update_layout_line2">Do you want to install this update now?</string>
+
+    <string-array name="notificationmodenames">  
+		<item>None</item>  
+		<item>Unauthorized Clients</item>  
+		<item>All Clients</item>
+	</string-array>
+
+    <string-array name="powernames">  
+		<item>Disabled</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>  
+	</string-array>
 	
+	<string-array name="encsetupnames">  
+		<item>Auto</item>
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	 
+	
+	<!-- Below values don't need to be translated -->
 	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
     <string-array name="notificationmodevalues">  
 		<item>0</item>  
 		<item>1</item>  
 		<item>2</item>  
 	</string-array>
-    <string-array name="notificationmodenames">  
-		<item>None</item>  
-		<item>Unauthorized Clients</item>  
-		<item>All Clients</item>
-	</string-array>
 	
-	<!-- Below values don't need to be translated -->
     <string-array name="powermodevalues">  
 		<item>0</item>  
 		<item>1</item>  
@@ -208,16 +226,6 @@
 		<item>10.10.2.0/24</item>  
 		<item>10.10.3.0/24</item> 
 	</string-array>
-    <string-array name="powernames">  
-		<item>Disabled</item>
-		<item>3 mW (5 dBm)</item>  
-		<item>5 mW (7 dBm)</item>  
-		<item>10 mW (10 dBm)</item>  
-		<item>15 mW (12 dBm)</item>  
-		<item>20 mW (13 dBm)</item>  
-		<item>25 mW (14 dBm)</item>  
-		<item>30 mW (15 dBm)</item>  
-	</string-array>	 	
     <string-array name="powervalues">  
 		<item>disabled</item>  
 		<item>3mW</item>  
@@ -228,11 +236,6 @@
 		<item>25mW</item>  
 		<item>30mW</item>  
 	</string-array>	 
-    <string-array name="encsetupnames">  
-		<item>Auto</item>
-		<item>iwconfig</item>  
-		<item>wpa_supplicant</item>  
-	</string-array>	 	
     <string-array name="encsetupvalues">  
 		<item>auto</item>  
 		<item>iwconfig</item>  
