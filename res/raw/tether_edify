@@ -136,16 +136,16 @@ action() == "start" && (
 	  module_loaded("wlan") || log(insmod("/system/lib/modules/wlan.ko", ""), "Loading wlan.ko module");
       file_exists("/sdcard/android.tether/Fw1251r1c.bin") && (
  	      log(run_program("/system/bin/wlan_loader -f /sdcard/android.tether/Fw1251r1c.bin -e " +
-	                  "/proc/calibration -i /data/data/android.tether/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /sdcard/android.tether)");
+	                  getcfg("wifi.tiwlan.calibration") + " -i /data/data/android.tether/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /sdcard/android.tether)");
       );
       !file_exists("/sdcard/android.tether/Fw1251r1c.bin") && (
 	      file_exists("/system/etc/wifi/Fw1251r1c.bin") && (
 		      log(run_program("/system/bin/wlan_loader -f /system/etc/wifi/Fw1251r1c.bin -e " +
-		                  "/proc/calibration -i /data/data/android.tether/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/wifi)");
+		                  getcfg("wifi.tiwlan.calibration") + " -i /data/data/android.tether/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/wifi)");
 	      );
 	      file_exists("/system/etc/firmware/Fw1251r1c.bin") && (
 		      log(run_program("/system/bin/wlan_loader -f /system/etc/firmware/Fw1251r1c.bin -e " +
-		                  "/proc/calibration -i /data/data/android.tether/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/firmware)");
+		                  getcfg("wifi.tiwlan.calibration") + " -i /data/data/android.tether/conf/tiwlan.ini"), "Configuring WiFi interface<br>(Fw1251r1c.bin from /system/etc/firmware)");
 	      );      
       );
       #
@@ -189,7 +189,7 @@ action() == "start" && (
       module_loaded("sdio") || log(insmod("/system/lib/modules/sdio.ko",""), "Loading sdio.ko module");
       module_loaded("tiwlan_drv") || log(insmod("/system/lib/modules/tiwlan_drv.ko", ""), "Loading tiwlan_drv.ko module");
       run_program("/system/bin/tiwlan_loader -f /system/etc/wifi/Fw1273_CHIP.bin -e " +
-                  "/proc/calibration -i /system/etc/wifi/tiwlan.ini");
+                  getcfg("wifi.tiwlan.calibration") + " -i /system/etc/wifi/tiwlan.ini");
       sleep("3");
       #
       # Bring up wifi interface
