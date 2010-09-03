@@ -124,7 +124,7 @@
 	<string name="setup_layout_wakelock">Disable Wake-Lock</string>
 	<string name="setup_layout_wakelock_summary">Turn off wake-lock while tethering</string>
 	<string name="setup_layout_battery">Disable Battery Temperature</string>
-	<string name="setup_layout_battery_summary">Hide battery temperatur info</string>
+	<string name="setup_layout_battery_summary">Hide battery temperature info</string>
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_projecthome">Project-Home:</string>
 	<string name="about_layout_license">License:</string>
@@ -135,7 +135,7 @@
 	<string name="clientrow_layout_name">Name</string>
 	<string name="clientrow_layout_ipaddress">IP-Address</string>
 	<string name="donate_layout_line1">If you like this application, then please consider a donation to help with this project.</string>
-	<string name="donate_layout_line2">By donating you provide support to an open source project.</string>
+	<string name="donate_layout_line2">By donating you provide support to an open-source project.</string>
 	<string name="donate_layout_line3">If you want to donate later, you can do so from the \'About\' dialog.</string>
 	<string name="donate_layout_line4">Thank you!</string>
 	<string name="noaccesscontrol_layout_line1">Sorry, but your kernel does not have all necessary features for the Access Control feature of this application. Access Control will be disabled.</string>
