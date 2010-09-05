@@ -286,8 +286,6 @@ public class TetherApplication extends Application {
 		else {
 			this.tethercfg.put("tether.fix.route", "false");
 		}
-		// adding proc-calibration-location
-		this.tethercfg.put("wifi.tiwlan.calibration", Configuration.getTiwlanCalibrationPath());
 		
 		/**
 		 * TODO: Quick and ugly workaround for nexus

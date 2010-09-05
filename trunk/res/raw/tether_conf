@@ -10,7 +10,6 @@ wifi.encryption=open
 wifi.driver=wext
 wifi.setup=wpa_supplicant
 wifi.encryption.key=none
-wifi.tiwlan.calibration=/proc/calibration
 ip.gateway=192.168.2.254
 ip.netmask=255.255.255.0
 ip.network=192.168.2.0
