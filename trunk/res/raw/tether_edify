@@ -227,6 +227,23 @@ action() == "start" && (
       
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
+
+    getcfg("device.type") == "ally" && (
+      #
+      # LG Ally
+      #
+  	  module_loaded("wireless") || log(insmod("/system/lib/modules/wireless.ko", "firmware_path=/system/etc/wl/rtecdc.bin nvram_path=/system/etc/wl/nvram.txt"), "Loading wireless.ko module");
+      sleep("3");
+      #
+      # Bring up wifi interface
+      #
+      log(run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
+      log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
+      log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
+    );
     
     getcfg("device.type") == "generic" && (
       #

@@ -17,6 +17,7 @@ public class Configuration {
 	public static final String DEVICE_LEGEND     = "legend";
 	public static final String DEVICE_DREAM      = "dream";
 	public static final String DEVICE_MOMENT     = "moment";
+	public static final String DEVICE_ALLY     = "ally";
 	public static final String DEVICE_GENERIC    = "generic";
 	
 	public static final String DRIVER_TIWLAN0    = "tiwlan0";
@@ -51,6 +52,11 @@ public class Configuration {
 		else if ((new File("/lib/modules/dhd.ko")).exists() == true
 				&& (new File("/etc/rtecdc.bin")).exists() == true){
 			return DEVICE_MOMENT;
+		}
+		else if ((new File("/system/lib/modules/wireless.ko")).exists() == true
+				&& (new File("/system/etc/wl/rtecdc.bin")).exists() == true
+				&& (new File("/system/etc/wl/nvram.txt")).exists() == true){
+			return DEVICE_ALLY;
 		}
 		return DEVICE_GENERIC;
 	}
