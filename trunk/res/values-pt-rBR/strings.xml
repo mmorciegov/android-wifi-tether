@@ -132,8 +132,8 @@
 	<string name="about_layout_contributors">Contribuidores:</string>
 	<string name="about_layout_software">Software de Terceiros:</string>
 	<string name="clientrow_layout_macaddress">Endereço MAC:</string>
-	<string name="clientrow_layout_name">Nome</string>
-	<string name="clientrow_layout_ipaddress">Endereço IP</string>
+	<string name="clientrow_layout_name">Nome:</string>
+	<string name="clientrow_layout_ipaddress">Endereço IP:</string>
 	<string name="donate_layout_line1">Se voçê gosta desta aplicação, favor considerar uma doação para ajudar o projeto.</string>
 	<string name="donate_layout_line2">Doando voçê proverá suporte a um projeto open-source.</string>
 	<string name="donate_layout_line3">Se voçê preferir doar depois, abra o menu \'Sobre\'.</string>

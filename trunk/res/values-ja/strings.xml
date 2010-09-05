@@ -130,8 +130,8 @@
     <string name="about_layout_contributors">貢献者:</string>
     <string name="about_layout_software">サードパーティソフトウェア:</string>
     <string name="clientrow_layout_macaddress">MACアドレス:</string>
-    <string name="clientrow_layout_name">名前</string>
-    <string name="clientrow_layout_ipaddress">IPアドレス</string>
+    <string name="clientrow_layout_name">名前:</string>
+    <string name="clientrow_layout_ipaddress">IPアドレス:</string>
     <string name="donate_layout_line1">もしこのアプリケーションが気に入りましたら、プロジェクト支援のために寄付をお考えください。</string>
     <string name="donate_layout_line2">あなたの寄付によってオープンソースプロジェクトは支援されています。</string>
     <string name="donate_layout_line3">あとで寄付したくなったら、\'情報\'ダイアログから行えます。</string>
