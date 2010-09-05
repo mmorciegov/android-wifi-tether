@@ -132,8 +132,8 @@
 	<string name="about_layout_contributors">Beitragende:</string>
 	<string name="about_layout_software">Sonstige Software:</string>
 	<string name="clientrow_layout_macaddress">MAC-Adresse:</string>
-	<string name="clientrow_layout_name">Name</string>
-	<string name="clientrow_layout_ipaddress">IP-Adresse</string>
+	<string name="clientrow_layout_name">Name:</string>
+	<string name="clientrow_layout_ipaddress">IP-Adresse:</string>
 	<string name="donate_layout_line1">Wenn Sie diese Applikation mögen, dann ziehen Sie bitte eine Spende in Betracht.</string>
 	<string name="donate_layout_line2">Sie unterstützen damit ein Opensource-Projekt.</string>
 	<string name="donate_layout_line3">Sollten Sie zu einem späteren Zeitpunkt spenden wollen, dann können Sie das über den \'Über\'-Menüpunkt nachholen.</string>
