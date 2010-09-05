@@ -143,14 +143,4 @@ public class Configuration {
     	}
     	return false;
     }
-    
-    public static String getTiwlanCalibrationPath() {
-    	if ((new File("/proc/calibration")).exists()) {
-    		return "/proc/calibration";
-    	}
-    	else if ((new File("/data/calibration")).exists()) {
-    		return "/data/calibration";
-    	}
-    	return "none";
-    }
 }
