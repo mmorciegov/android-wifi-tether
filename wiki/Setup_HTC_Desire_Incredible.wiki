@@ -1,8 +1,8 @@
-#summary Setup Howto for HTC Desire, HTC Incredible
+#summary Setup Howto for HTC Desire, HTC Incredible, HTC Aria, HTC Wildfire
 #labels support,help,Desire,Incredible,Featured
-=Setup Howto for HTC Desire, HTC Incredible, HTC Aria=
+=Setup Howto for HTC Desire, HTC Incredible, HTC Aria, HTC Wildfire=
 
-*These extra setup-steps are not required if you have Android 2.2 (FroYo) installed. A rooted handset is mandatory.*
+* (These extra setup-steps are not required if you have Android 2.2 (FroYo) installed.) A rooted handset is mandatory.*
 
 The *"HTC Desire"*, *"HTC Droid Incredible"* and *"HTC Aria"* need some extra setup-steps to make "Wireless Tether for Root Users" work. 
 
