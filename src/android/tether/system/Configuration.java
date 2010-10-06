@@ -118,9 +118,9 @@ public class Configuration {
 	 * @return
 	 */
 	public static boolean enableFixRoute() {
-		//if (getWifiInterfaceDriver(getDeviceType()).startsWith("softap_") == false &&
-		//		(new File("/system/etc/iproute2/rt_tables")).exists() == true) {
-		if ((new File("/system/etc/iproute2/rt_tables")).exists() == true) {
+		if (getWifiInterfaceDriver(getDeviceType()).equals(DRIVER_SOFTAP_HTC2) == false &&
+				(new File("/system/etc/iproute2/rt_tables")).exists() == true) {
+		//if ((new File("/system/etc/iproute2/rt_tables")).exists() == true) {
 			return true;
 		}
 		return false;
