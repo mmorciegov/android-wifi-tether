@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="android.tether"
-      android:versionCode="23" android:versionName="2.0.5-pre9">
+      android:versionCode="23" android:versionName="2.0.5-pre10">
     <uses-sdk android:minSdkVersion="3" />
     <application android:name="TetherApplication" android:icon="@drawable/icon" android:label="@string/global_application_name">
         <activity android:name=".MainActivity"
@@ -25,4 +25,5 @@
 	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
 </manifest> 
