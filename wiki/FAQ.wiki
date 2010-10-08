@@ -27,6 +27,11 @@ This means that the Linux kernel on your device does not have the features (CONF
 
 If you have an ADP G1, please read [ADP15KernelUpdate] (or [ADP16KernelUpdate] if you're using Donut), otherwise you will need to find a firmware/kernel with these features. For the Nexus One phone, see [NexusOneKernelUpdate]. The developers of Wireless Tether are unable to help with other types of devices (but donations of hardware/etc would help ;)
 
+*Constantly Disconnecting?*
+
+Check: [http://www.androidpolice.com/2010/10/05/android-wifi-tether-app-for-rooted-users-constantly-disconnecting-try-these-solutions-to-fix-it/ http://www.androidpolice.com/2010/10/05/android-wifi-tether-app-for-rooted-users-constantly-disconnecting-try-these-solutions-to-fix-it/]
+
+
 *Why does WEP-encryption not work on my phone?*
 
 Wireless interfaces of almost all HTC-devices which are sold by HTC (these devices are coming with the so called "Sense" user interface) don't seem to support WEP-encryption in ad-hoc mode. We developers don't have such devices available for testing. So, if you have found any solution regarding this problem - please let us know.
