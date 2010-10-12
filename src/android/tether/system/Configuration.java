@@ -118,9 +118,8 @@ public class Configuration {
 	 * @return
 	 */
 	public static boolean enableFixRoute() {
-		if (getWifiInterfaceDriver(getDeviceType()).equals(DRIVER_SOFTAP_HTC2) == false &&
-				(new File("/system/etc/iproute2/rt_tables")).exists() == true) {
-		//if ((new File("/system/etc/iproute2/rt_tables")).exists() == true) {
+		if ((new File("/system/etc/iproute2/rt_tables")).exists() == true 
+				&& NativeTask.getProp("ro.product.manufacturer").equalsIgnoreCase("HTC")) {
 			return true;
 		}
 		return false;
