@@ -75,7 +75,7 @@
 				android:paddingRight="15px"
 				android:textStyle="bold"
 				android:textColor="#ffffff" />	
-			<TextView android:text="Harald Müller, Seth Lemons, Ben Buxton, Andrew Robinson"
+			<TextView android:text="Harald Müller, Sofia Lemons, Ben Buxton, Andrew Robinson"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:paddingLeft="15px"

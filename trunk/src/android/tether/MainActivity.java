@@ -7,7 +7,7 @@
  *  this program; if not, see <http://www.gnu.org/licenses/>. 
  *  Use this application at your own risk.
  *
- *  Copyright (c) 2009 by Harald Mueller and Seth Lemons.
+ *  Copyright (c) 2009 by Harald Mueller and Sofia Lemons.
  */
 
 package android.tether;
@@ -39,6 +39,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -54,6 +56,8 @@ public class MainActivity extends Activity {
 	private OnClickListener startBtnListener = null;
 	private ImageView stopBtn = null;
 	private OnClickListener stopBtnListener = null;
+	private CompoundButton lockBtn = null;
+	private OnCheckedChangeListener lockBtnListener = null;
 	private TextView radioModeLabel = null;
 	private ImageView radioModeImage = null;
 	private TextView progressTitle = null;
@@ -213,6 +217,7 @@ public class MainActivity extends Activity {
 						MainActivity.this.viewUpdateHandler.sendMessage(message); 
 					}
 				}).start();
+				MainActivity.this.lockBtn.setVisibility(View.VISIBLE);
 			}
 		};
 		this.startBtn.setOnClickListener(this.startBtnListener);
@@ -222,6 +227,11 @@ public class MainActivity extends Activity {
 		this.stopBtnListener = new OnClickListener() {
 			public void onClick(View v) {
 				Log.d(MSG_TAG, "StopBtn pressed ...");
+				if (MainActivity.this.lockBtn.isChecked()){
+					Log.d(MSG_TAG, "Tether was locked ...");
+					MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_locked));
+					return;
+				}
 		    	showDialog(MainActivity.ID_DIALOG_STOPPING);
 				new Thread(new Runnable(){
 					public void run(){
@@ -230,9 +240,20 @@ public class MainActivity extends Activity {
 						MainActivity.this.viewUpdateHandler.sendMessage(new Message());
 					}
 				}).start();
+				MainActivity.this.lockBtn.setVisibility(View.INVISIBLE);
 			}
 		};
 		this.stopBtn.setOnClickListener(this.stopBtnListener);
+		
+
+		this.lockBtn = (CompoundButton) findViewById(R.id.lockButton);
+		this.lockBtnListener = new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				Log.d(MSG_TAG, "LockBtn pressed ...");
+			}
+		};
+		this.lockBtn.setOnCheckedChangeListener(this.lockBtnListener);
+		this.lockBtn.setVisibility(View.INVISIBLE);
 
 		// Toggles between start and stop screen
 		this.toggleStartStop();
@@ -256,6 +277,11 @@ public class MainActivity extends Activity {
 			    .show();
 			}
             else{
+    			if (MainActivity.this.lockBtn.isChecked()){
+    				Log.d(MSG_TAG, "Tether was locked ...");
+    				MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_locked));
+    				return false;
+    			}
 				new AlertDialog.Builder(this)
 				.setMessage(getString(R.string.main_activity_trackball_pressed_stop))  
 			    .setPositiveButton(getString(R.string.main_activity_confirm), new DialogInterface.OnClickListener() {

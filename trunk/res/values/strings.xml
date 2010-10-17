@@ -21,6 +21,7 @@
     <string name="main_activity_yes">Yes</string>
     <string name="main_activity_no">No</string>
     <string name="main_activity_ok">OK</string>
+    <string name="main_activity_locked">Tether is locked!</string>
     <string name="main_activity_showlog">Show Log</string>
     <string name="main_activity_temperatureunit">°C</string>
     <string name="main_activity_accesscontrol">Access Control</string>
@@ -42,6 +43,7 @@
     <string name="main_layout_presstostop">- Press to stop tethering. -</string> 
     <string name="main_layout_download">Download</string> 
     <string name="main_layout_upload">Upload</string> 
+    <string name="main_layout_lock">Lock</string> 
     <string name="accesscontrol_activity_reloadclientlist">Reload Client-List</string>
     <string name="accesscontrol_activity_applysettings">Apply Settings</string>
     <string name="accesscontrol_activity_enabled">Access-Control enabled.</string>

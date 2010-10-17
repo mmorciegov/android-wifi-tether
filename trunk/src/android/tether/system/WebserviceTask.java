@@ -7,7 +7,7 @@
  *  this program; if not, see <http://www.gnu.org/licenses/>. 
  *  Use this application at your own risk.
  *
- *  Copyright (c) 2009 by Harald Mueller, Seth Lemons and Ben Buxton.
+ *  Copyright (c) 2009 by Harald Mueller, Sofia Lemons and Ben Buxton.
  */
 
 package android.tether.system;
