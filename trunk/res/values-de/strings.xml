@@ -20,7 +20,8 @@
     <string name="main_activity_ignore">Ignorieren</string>
     <string name="main_activity_yes">Ja</string>
     <string name="main_activity_no">Nein</string>
-    <string name="main_activity_ok">OK</string>    
+    <string name="main_activity_ok">OK</string> 
+    <string name="main_activity_locked">Bedienfläche gesperrt!</string>       
     <string name="main_activity_showlog">Zeige Log</string>
     <string name="main_activity_temperatureunit">°C</string>
     <string name="main_activity_accesscontrol">Zugangskontrolle</string>
