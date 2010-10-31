@@ -186,6 +186,7 @@
 		<item>3</item> 
 	</string-array>
     <string-array name="channelvalues">  
+		<item>0</item> 
 		<item>1</item>  
 		<item>2</item>  
 		<item>3</item>  
@@ -202,6 +203,7 @@
 		<item>14</item>  
 	</string-array>
     <string-array name="channelnames">  
+		<item>Auto</item> 
 		<item>Channel 01 (2412 MHz)</item>  
 		<item>Channel 02 (2417 MHz)</item>  
 		<item>Channel 03 (2422 MHz)</item>  

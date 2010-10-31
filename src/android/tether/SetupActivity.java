@@ -19,6 +19,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,6 +109,23 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
         	ListPreference encsetupPreference = (ListPreference)findPreference("encsetuppref");
         	wifiGroup.removePreference(encsetupPreference);
+        }
+        
+        // Remove Auto-Channel option if not supported by device
+        if (this.application.interfaceDriver.startsWith("softap") == false) {
+        	ListPreference channelpref = (ListPreference)findPreference("channelpref");
+        	CharSequence[] entries = channelpref.getEntries();
+        	CharSequence[] targetentries = new CharSequence[entries.length-1];
+        	for (int i=1;i<entries.length;i++) {
+        		targetentries[i-1] = entries[i];
+        	}
+        	CharSequence[] entryvalues = channelpref.getEntryValues();
+        	CharSequence[] targetentryvalues = new CharSequence[entries.length-1];
+        	for (int i=1;i<entryvalues.length;i++) {
+        		targetentryvalues[i-1] = entryvalues[i];
+        	}
+        	channelpref.setEntries(targetentries);
+        	channelpref.setEntryValues(targetentryvalues);
         }
         
         // SSID-Validation
