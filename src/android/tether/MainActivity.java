@@ -46,6 +46,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 	
@@ -56,7 +57,7 @@ public class MainActivity extends Activity {
 	private OnClickListener startBtnListener = null;
 	private ImageView stopBtn = null;
 	private OnClickListener stopBtnListener = null;
-	private CompoundButton lockBtn = null;
+	private ToggleButton lockBtn = null;
 	private OnCheckedChangeListener lockBtnListener = null;
 	private TextView radioModeLabel = null;
 	private ImageView radioModeImage = null;
@@ -246,7 +247,7 @@ public class MainActivity extends Activity {
 		this.stopBtn.setOnClickListener(this.stopBtnListener);
 		
 
-		this.lockBtn = (CompoundButton) findViewById(R.id.lockButton);
+		this.lockBtn = (ToggleButton) findViewById(R.id.lockButton);
 		this.lockBtnListener = new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				Log.d(MSG_TAG, "LockBtn pressed ...");

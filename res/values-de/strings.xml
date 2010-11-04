@@ -78,7 +78,9 @@
 	<string name="setup_activity_info_wakelock_disabled">Wake-Lock wurde deaktiviert.</string>
 	<string name="setup_activity_info_wakelock_enabled">Wake-Lock wurde aktiviert.</string>
 	<string name="setup_activity_info_accesscontrol_disabled">Zugangskontrolle deaktiviert.</string>
-	<string name="setup_activity_info_accesscontrol_enabled">Zugangskontrolle aktiviert.</string>    
+	<string name="setup_activity_info_accesscontrol_enabled">Zugangskontrolle aktiviert.</string>   
+	<string name="setup_activity_bt_warning_title">Warnung: Bluetooth</string>
+	<string name="setup_activity_bt_warning_ok">OK</string>
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>
 	<string name="setup_layout_category_security">Sicherheit</string>
@@ -146,6 +148,8 @@
 	<string name="noroot_layout_line1">Entschuldigen Sie bitte, aber sie haben keine Root-Rechte.</string>
 	<string name="update_layout_line1">Eine Aktualisiserung steht zur Verfügung!</string>
 	<string name="update_layout_line2">Wollen Sie diese Aktualisierung nun durchführen?</string>
+	<string name="bt_warning_line1">Es ist bekannt, daß diese Methode des Bluetooth-Tetherings nicht auf allen Geräten/Android-Versionen funktioniert.</string>
+	<string name="bt_warning_line2">Diese Funktionalität steht möglicherweise auf ihrem Gerät nicht zur Verfügung!</string>
 
     <string-array name="notificationmodenames">  
 		<item>Keine</item>  

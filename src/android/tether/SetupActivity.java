@@ -15,15 +15,17 @@ package android.tether;
 import java.io.IOException;
 
 import android.R.drawable;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -36,9 +38,11 @@ import android.tether.system.Configuration;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
 
 public class SetupActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	
@@ -297,6 +301,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private void updateConfiguration(final SharedPreferences sharedPreferences, final String key) {
     	new Thread(new Runnable(){
 			public void run(){
+				Looper.prepare();
 			   	String message = null;
 		    	if (key.equals("ssidpref")) {
 		    		String newSSID = sharedPreferences.getString("ssidpref", "AndroidTether");
@@ -521,6 +526,24 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 					catch (Exception ex) {
 						message = getString(R.string.setup_activity_error_restart_tethering);
 					}
+
+		   			// Display Bluetooth-Warning
+					boolean showBtWarning = SetupActivity.this.application.settings.getBoolean("btwarningpref", false);
+		   			if (showBtWarning == false) {
+						LayoutInflater li = LayoutInflater.from(SetupActivity.this);
+				        View view = li.inflate(R.layout.btwarningview, null); 
+				        new AlertDialog.Builder(SetupActivity.this)
+				        .setTitle(getString(R.string.setup_activity_bt_warning_title))
+				        .setView(view)
+				        .setNeutralButton(getString(R.string.setup_activity_bt_warning_ok), new DialogInterface.OnClickListener() {
+				                public void onClick(DialogInterface dialog, int whichButton) {
+				                        Log.d(MSG_TAG, "Close pressed");
+				    		   			SetupActivity.this.application.preferenceEditor.putBoolean("btwarningpref", true);
+				    		   			SetupActivity.this.application.preferenceEditor.commit();
+				                }
+				        })
+				        .show();
+		   			}
 		    	}
 		    	else if (key.equals("bluetoothkeepwifi")) {
 		    		Boolean bluetoothWifi = sharedPreferences.getBoolean("bluetoothkeepwifi", false);
@@ -528,6 +551,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			SetupActivity.this.application.enableWifi();
 		    		}
 		    	}
+		    	Looper.loop();
 			}
 		}).start();
     }
