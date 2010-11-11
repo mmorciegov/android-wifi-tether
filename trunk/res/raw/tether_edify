@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=82
+# @Version=83
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -207,14 +207,26 @@ action() == "start" && (
       module_loaded("sdio") || log(insmod("/system/lib/modules/sdio.ko",""), "Loading sdio.ko module");
       module_loaded("tiwlan_drv") || log(insmod("/system/lib/modules/tiwlan_drv.ko", ""), "Loading tiwlan_drv.ko module");
       
-      file_exists("/proc/calibration") && (
-      	run_program("/system/bin/tiwlan_loader -f /system/etc/wifi/Fw1273_CHIP.bin -e " +
-                  	"/proc/calibration -i /system/etc/wifi/tiwlan.ini");
+      file_exists("/system/bin/tiwlan_loader") && (
+	      file_exists("/proc/calibration") && (
+	      	run_program("/system/bin/tiwlan_loader -f /system/etc/wifi/Fw1273_CHIP.bin -e " +
+	                  	"/proc/calibration -i /system/etc/wifi/tiwlan.ini");
+	      );
+	      file_exists("/data/calibration") && (
+	      	run_program("/system/bin/tiwlan_loader -f /system/etc/wifi/Fw1273_CHIP.bin -e " +
+	                  	"/data/calibration -i /system/etc/wifi/tiwlan.ini");
+	      );     
       );
-      file_exists("/data/calibration") && (
-      	run_program("/system/bin/tiwlan_loader -f /system/etc/wifi/Fw1273_CHIP.bin -e " +
-                  	"/data/calibration -i /system/etc/wifi/tiwlan.ini");
-      );     
+      file_exists("/system/bin/wlan_loader") && (
+	      file_exists("/proc/calibration") && (
+	      	run_program("/system/bin/wlan_loader -f /system/etc/wifi/Fw1273_CHIP.bin -e " +
+	                  	"/proc/calibration -i /system/etc/wifi/tiwlan.ini");
+	      );
+	      file_exists("/data/calibration") && (
+	      	run_program("/system/bin/wlan_loader -f /system/etc/wifi/Fw1273_CHIP.bin -e " +
+	                  	"/data/calibration -i /system/etc/wifi/tiwlan.ini");
+	      );     
+      );
       sleep("3");
       #
       # Bring up wifi interface
