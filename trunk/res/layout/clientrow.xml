@@ -4,8 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FF000000"
-    android:paddingTop="10px"
-    android:paddingBottom="10px">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 	<TableLayout
 		android:layout_height="wrap_content" 
 		android:layout_width="fill_parent"
@@ -16,20 +16,20 @@
        			android:layout_height="wrap_content"
        			android:gravity="left"
 				android:layout_gravity="left"
-				android:layout_marginLeft="10px">
+				android:layout_marginLeft="10dp">
    			</CheckBox>
 			<TableLayout
 				android:layout_height="wrap_content" 
 				android:layout_width="fill_parent"
 				android:gravity="fill"
-				android:paddingLeft="10px">
+				android:paddingLeft="10dp">
 				<TableRow android:layout_width="fill_parent">
 					<TextView
 						android:text="@string/clientrow_layout_macaddress"
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF"/>
 				    <TextView android:id="@+id/macaddress"
-				    	android:layout_width="140px"
+				    	android:layout_width="140dp"
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF"
 						android:paddingLeft="5px" />
@@ -40,11 +40,11 @@
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF" />
       				<TextView android:id="@+id/clientname"
-      					android:layout_width="140px"
+      					android:layout_width="140dp"
 						android:text="- Unknown -" 
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF" 
-						android:paddingLeft="5px" />
+						android:paddingLeft="5dp" />
 				</TableRow>
 				<TableRow android:layout_width="fill_parent">
 					<TextView
@@ -52,11 +52,11 @@
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF" />
       				<TextView android:id="@+id/ipaddress"
-      					android:layout_width="140px"
+      					android:layout_width="140dp"
 						android:text="- Not connected -" 
 				    	android:textStyle="bold"
 						android:textColor="#FFFFFFFF"
-       					android:paddingLeft="5px" />	
+       					android:paddingLeft="5dp" />	
 				</TableRow>
 			</TableLayout>
 		</TableRow>

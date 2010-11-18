@@ -48,7 +48,7 @@
         android:drawSelectorOnTop="false"/>	
 	<RelativeLayout android:id="@+id/layoutFooterAC"
 		android:layout_width="fill_parent"
-		android:layout_height="45px"
+		android:layout_height="45dp"
 		android:layout_gravity="center_horizontal"
 		android:background="#A0909090">
 		<Button android:id="@+id/buttonApplyAC"
