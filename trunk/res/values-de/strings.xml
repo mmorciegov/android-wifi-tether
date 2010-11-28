@@ -128,6 +128,8 @@
 	<string name="setup_layout_wakelock_summary">Deaktiviere Wake-Lock</string>
 	<string name="setup_layout_battery">Deaktiviere Akku-Temperature</string>
 	<string name="setup_layout_battery_summary">Verstecke Akku-Temperatur Anzeige</string>
+	<string name="setup_layout_lockscreen">Deaktiviere Anzeige-Sperre</string>
+	<string name="setup_layout_lockscreen_summary">Verstecke Schaltfläche für Anzeige-Sperre</string>		
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_projecthome">Projekt-Homepage:</string>
 	<string name="about_layout_license">Lizenz:</string>

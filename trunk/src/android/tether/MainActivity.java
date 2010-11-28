@@ -42,6 +42,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
@@ -66,6 +67,7 @@ public class MainActivity extends Activity {
 	private ProgressBar progressBar = null;
 	private RelativeLayout downloadUpdateLayout = null;
 	private RelativeLayout batteryTemperatureLayout = null;
+	private LinearLayout lockButtonLayout = null;
 	
 	private RelativeLayout trafficRow = null;
 	private TextView downloadText = null;
@@ -121,6 +123,7 @@ public class MainActivity extends Activity {
         this.progressTitle = (TextView)findViewById(R.id.progressTitle);
         this.downloadUpdateLayout = (RelativeLayout)findViewById(R.id.layoutDownloadUpdate);
         this.batteryTemperatureLayout = (RelativeLayout)findViewById(R.id.layoutBatteryTemp);
+        this.lockButtonLayout = (LinearLayout)findViewById(R.id.layoutLockButton);
         
         this.trafficRow = (RelativeLayout)findViewById(R.id.trafficRow);
         this.downloadText = (TextView)findViewById(R.id.trafficDown);
@@ -330,6 +333,11 @@ public class MainActivity extends Activity {
 				unregisterReceiver(this.intentReceiver);
 			} catch (Exception ex) {;}
 			this.batteryTemperatureLayout.setVisibility(View.INVISIBLE);
+		}
+		
+		// Check, if the lockbutton should be displayed
+		if (this.application.settings.getBoolean("lockscreenpref", true) == true) {
+			this.lockButtonLayout.setVisibility(View.GONE);
 		}
 	}
 	
