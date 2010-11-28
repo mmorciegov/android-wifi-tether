@@ -320,7 +320,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 		
 		// Check, if the battery-temperatur should be displayed
-		if(this.application.settings.getBoolean("batterytemppref", false) == false) {
+		if(this.application.settings.getString("batterytemppref", "celsius").equals("disabled") == false) {
 	        // create the IntentFilter that will be used to listen
 	        // to battery status broadcasts
 	        this.intentFilter = new IntentFilter();
@@ -416,8 +416,16 @@ public class MainActivity extends Activity {
          public void onReceive(Context context, Intent intent) {
              String action = intent.getAction();
              if (action.equals(Intent.ACTION_BATTERY_CHANGED)) {
-            	 int temp = (intent.getIntExtra("temperature", 0))+5;
-            	 batteryTemperature.setText("" + (temp/10) + getString(R.string.main_activity_temperatureunit));
+            	 int temp = (intent.getIntExtra("temperature", 0));
+            	 int celsius = (int)((temp+5)/10);
+            	 int fahrenheit = (int)(((temp/10)/0.555)+32+0.5);
+            	 Log.d(MSG_TAG, "Temp ==> "+temp+" -- Celsius ==> "+celsius+" -- Fahrenheit ==> "+fahrenheit);
+            	 if (MainActivity.this.application.settings.getString("batterytemppref", "celsius").equals("celsius")) {
+            		 batteryTemperature.setText("" + celsius + getString(R.string.main_activity_temperatureunit_celsius));
+            	 }
+            	 else {
+            		 batteryTemperature.setText("" + fahrenheit + getString(R.string.main_activity_temperatureunit_fahrenheit));
+            	 }
              }
          }
      };

@@ -23,7 +23,6 @@
     <string name="main_activity_ok">OK</string> 
     <string name="main_activity_locked">Bedienfläche gesperrt!</string>       
     <string name="main_activity_showlog">Zeige Log</string>
-    <string name="main_activity_temperatureunit">°C</string>
     <string name="main_activity_accesscontrol">Zugangskontrolle</string>
     <string name="main_activity_start">Starte Tethering</string>
     <string name="main_activity_start_summary">Bitte warten während gestartet wird...</string>
@@ -126,8 +125,8 @@
 	<string name="setup_layout_updatecheck_summary">Deaktiviere Aktualisierungs-Prüfung</string>
 	<string name="setup_layout_wakelock">Deaktiviere Wake-Lock</string>
 	<string name="setup_layout_wakelock_summary">Deaktiviere Wake-Lock</string>
-	<string name="setup_layout_battery">Deaktiviere Akku-Temperature</string>
-	<string name="setup_layout_battery_summary">Verstecke Akku-Temperatur Anzeige</string>
+	<string name="setup_layout_battery">Akku-Temperature</string>
+	<string name="setup_layout_battery_summary">Konfiguriere Akku-Temperatur Anzeige</string>
 	<string name="setup_layout_lockscreen">Deaktiviere Anzeige-Sperre</string>
 	<string name="setup_layout_lockscreen_summary">Verstecke Schaltfläche für Anzeige-Sperre</string>		
 	<string name="about_layout_version">Version:</string>

@@ -23,7 +23,6 @@
     <string name="main_activity_ok">OK</string>
     <string name="main_activity_locked">Tether is locked!</string>
     <string name="main_activity_showlog">Show Log</string>
-    <string name="main_activity_temperatureunit">°C</string>
     <string name="main_activity_accesscontrol">Access Control</string>
     <string name="main_activity_start">Start Tethering</string>
     <string name="main_activity_start_summary">Please wait while starting...</string>
@@ -127,8 +126,8 @@
 	<string name="setup_layout_updatecheck_summary">Turn off update-check at startup</string>
 	<string name="setup_layout_wakelock">Disable Wake-Lock</string>
 	<string name="setup_layout_wakelock_summary">Turn off wake-lock while tethering</string>
-	<string name="setup_layout_battery">Disable Battery Temperature</string>
-	<string name="setup_layout_battery_summary">Hide battery temperature info</string>
+	<string name="setup_layout_battery">Battery Temperature</string>
+	<string name="setup_layout_battery_summary">Configure battery temperature info</string>
 	<string name="setup_layout_lockscreen">Disable Screen-Lock</string>
 	<string name="setup_layout_lockscreen_summary">Hide the Lockscreen-button</string>	
 	<string name="about_layout_version">Version:</string>
@@ -177,7 +176,15 @@
 		<item>wpa_supplicant</item>  
 	</string-array>	 
 	
+    <string-array name="batterytempnames">  
+		<item>Disabled</item>  
+		<item>Celsius</item>  
+		<item>Fahrenheit</item>  
+	</string-array>		
+	
 	<!-- Below values don't need to be translated -->
+	<string name="main_activity_temperatureunit_celsius">°C</string>
+	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
 	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
     <string-array name="notificationmodevalues">  
 		<item>0</item>  
@@ -250,5 +257,10 @@
 		<item>auto</item>  
 		<item>iwconfig</item>  
 		<item>wpa_supplicant</item>  
-	</string-array>		 	  
+	</string-array>	
+    <string-array name="batterytempvalues">  
+		<item>disabled</item>  
+		<item>celsius</item>  
+		<item>fahrenheit</item>  
+	</string-array>		
 </resources>
