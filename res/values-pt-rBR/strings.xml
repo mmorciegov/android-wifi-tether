@@ -22,7 +22,6 @@
     <string name="main_activity_no">Não</string>
     <string name="main_activity_ok">OK</string>
     <string name="main_activity_showlog">Mostrar Log</string>
-    <string name="main_activity_temperatureunit">°C</string>
     <string name="main_activity_accesscontrol">Controle de Acesso</string>
     <string name="main_activity_start">Iniciar Tethering</string>
     <string name="main_activity_start_summary">Favor esperar inicialização ...</string>
@@ -123,8 +122,8 @@
 	<string name="setup_layout_updatecheck_summary">Desligar verificação de atualizações ao iniciar</string>
 	<string name="setup_layout_wakelock">Desabilitar Wake-Lock</string>
 	<string name="setup_layout_wakelock_summary">Desabilitar wake-lock enquanto tethering</string>
-	<string name="setup_layout_battery">Desabilitar Temperatura de Bateria</string>
-	<string name="setup_layout_battery_summary">Esconder informação de temperatura da bateria</string>
+	<string name="setup_layout_battery">Temperatura de Bateria</string>
+	<string name="setup_layout_battery_summary">Informação de temperatura da bateria</string>
 	<string name="about_layout_version">Versão:</string>
 	<string name="about_layout_projecthome">Projeto:</string>
 	<string name="about_layout_license">Licença:</string>

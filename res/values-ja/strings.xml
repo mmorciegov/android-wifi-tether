@@ -121,8 +121,8 @@
     <string name="setup_layout_updatecheck_summary">起動時に更新チェックを行わない</string>
     <string name="setup_layout_wakelock">ウェイクロックしない</string>
     <string name="setup_layout_wakelock_summary">テザリング中のウェイクロックを無効にする</string>
-    <string name="setup_layout_battery">バッテリ温度を表示しない</string>
-    <string name="setup_layout_battery_summary">バッテリ温度の情報を隠す</string>
+    <string name="setup_layout_battery">Battery Temperature</string>
+    <string name="setup_layout_battery_summary">Configure battery temperature info</string>
     <string name="about_layout_version">バージョン:</string>
     <string name="about_layout_projecthome">プロジェクトホーム:</string>
     <string name="about_layout_license">ライセンス:</string>
