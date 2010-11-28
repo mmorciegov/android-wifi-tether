@@ -119,6 +119,11 @@
 		 <CheckBoxPreference  
 			android:key="batterytemppref"  
 			android:title="@string/setup_layout_battery"
-			android:summary="@string/setup_layout_battery_summary" />  					 
+			android:summary="@string/setup_layout_battery_summary" />
+		 <CheckBoxPreference  
+			android:key="lockscreenpref"  
+			android:title="@string/setup_layout_lockscreen"
+			android:defaultValue="true"  
+			android:summary="@string/setup_layout_lockscreen_summary" />			  					 
 	</PreferenceCategory>
 </PreferenceScreen>  

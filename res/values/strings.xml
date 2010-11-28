@@ -129,6 +129,8 @@
 	<string name="setup_layout_wakelock_summary">Turn off wake-lock while tethering</string>
 	<string name="setup_layout_battery">Disable Battery Temperature</string>
 	<string name="setup_layout_battery_summary">Hide battery temperature info</string>
+	<string name="setup_layout_lockscreen">Disable Screen-Lock</string>
+	<string name="setup_layout_lockscreen_summary">Hide the Lockscreen-button</string>	
 	<string name="about_layout_version">Version:</string>
 	<string name="about_layout_projecthome">Project-Home:</string>
 	<string name="about_layout_license">License:</string>
