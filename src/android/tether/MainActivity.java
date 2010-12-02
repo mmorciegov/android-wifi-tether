@@ -339,6 +339,9 @@ public class MainActivity extends Activity {
 		if (this.application.settings.getBoolean("lockscreenpref", true) == true) {
 			this.lockButtonLayout.setVisibility(View.GONE);
 		}
+		else {
+			this.lockButtonLayout.setVisibility(View.VISIBLE);
+		}
 	}
 	
 	private static final int MENU_SETUP = 0;
