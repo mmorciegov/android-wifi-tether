@@ -134,26 +134,22 @@
 					</TableRow>
 				</TableLayout>					
 			</TableRow>	
-			
 			<TableRow>
-				<LinearLayout android:id="@+id/layoutLockButton"
-				    android:orientation="vertical"
+				<TableLayout android:id="@+id/layoutLockButton"
+					android:layout_gravity="center"
 				    android:layout_width="fill_parent"
-				    android:layout_height="fill_parent">
-					<ToggleButton android:id="@+id/lockButton"
-		    			android:layout_width="80dp"
-		    			android:layout_height="fill_parent"
-						android:layout_marginRight="2dp"
-						android:layout_marginTop="15dp"
-						android:layout_alignParentTop="true"
-						android:layout_gravity="center"
-						android:textSize="8sp"
-						android:textOn="Unlock" 
-						android:textOff="Lock" />			
-				</LinearLayout>
-			</TableRow>
+				    android:layout_height="fill_parent">						
+					<CheckBox android:id="@+id/lockButton"
+							android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+							android:layout_marginRight="2dp"
+							android:layout_marginTop="15dp"
+							android:button="@drawable/lockcheckbox"
+							android:layout_alignParentTop="true"
+							android:layout_gravity="center" />
+				</TableLayout>
+			</TableRow> 
 		</TableLayout>
-
 	</ScrollView>
 
 	<RelativeLayout android:id="@+id/trafficRow"

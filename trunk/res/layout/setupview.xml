@@ -40,7 +40,7 @@
 			android:entries="@array/channelnames"  
 			android:entryValues="@array/channelvalues"  
 			android:dialogTitle="@string/setup_layout_channel_dialog_title"
-			android:defaultValue="6" /> 
+			android:defaultValue="1" /> 
 		<ListPreference  
 			android:key="txpowerpref"  
 			android:title="@string/setup_layout_txpower"  
