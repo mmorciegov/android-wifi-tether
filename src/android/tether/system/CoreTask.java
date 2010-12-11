@@ -400,7 +400,8 @@ public class CoreTask {
     	}
     	else {
             if (!Configuration.hasKernelFeature("CONFIG_NETFILTER=") || 
-                !Configuration.hasKernelFeature("CONFIG_IP_NF_IPTABLES="))
+                !Configuration.hasKernelFeature("CONFIG_IP_NF_IPTABLES=") ||
+                !Configuration.hasKernelFeature("CONFIG_NF_NAT"))
             return false;
     	}
     	return true;

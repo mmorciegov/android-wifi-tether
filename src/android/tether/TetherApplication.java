@@ -263,7 +263,7 @@ public class TetherApplication extends Application {
         String lannetwork = this.settings.getString("lannetworkpref", DEFAULT_LANNETWORK);
         String wepkey = this.settings.getString("passphrasepref", DEFAULT_PASSPHRASE);
         String wepsetupMethod = this.settings.getString("encsetuppref", DEFAULT_ENCSETUP);
-        String channel = this.settings.getString("channelpref", "6");
+        String channel = this.settings.getString("channelpref", "1");
         
 		// tether.conf
         String subnet = lannetwork.substring(0, lannetwork.lastIndexOf("."));
@@ -383,7 +383,7 @@ public class TetherApplication extends Application {
 		if (deviceType.equals(Configuration.DEVICE_DREAM)) {
 			Hashtable<String,String> values = new Hashtable<String,String>();
 			values.put("dot11DesiredSSID", this.settings.getString("ssidpref", "AndroidTether"));
-			values.put("dot11DesiredChannel", this.settings.getString("channelpref", "6"));
+			values.put("dot11DesiredChannel", this.settings.getString("channelpref", "1"));
 			this.tiwlan.write(values);
 		}
 		

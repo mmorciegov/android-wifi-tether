@@ -73,7 +73,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         
         // Init CurrentSettings
         this.currentSSID = this.application.settings.getString("ssidpref", "AndroidTether"); 
-        this.currentChannel = this.application.settings.getString("channelpref", "6");
+        this.currentChannel = this.application.settings.getString("channelpref", "1");
         this.currentPassphrase = this.application.settings.getString("passphrasepref", this.application.DEFAULT_PASSPHRASE);
         this.currentLAN = this.application.settings.getString("lannetworkpref", this.application.DEFAULT_LANNETWORK);
         this.currentEncryptionEnabled = this.application.settings.getBoolean("encpref", false);
@@ -328,7 +328,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    		}
 		    	}
 		    	else if (key.equals("channelpref")) {
-		    		String newChannel = sharedPreferences.getString("channelpref", "6");
+		    		String newChannel = sharedPreferences.getString("channelpref", "1");
 		    		if (SetupActivity.this.currentChannel.equals(newChannel) == false) {
 	    				SetupActivity.this.currentChannel = newChannel;
 	    				message = getString(R.string.setup_activity_info_channel_changedto)+" '"+newChannel+"'.";

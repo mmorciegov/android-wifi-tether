@@ -41,13 +41,12 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 	
@@ -58,7 +57,7 @@ public class MainActivity extends Activity {
 	private OnClickListener startBtnListener = null;
 	private ImageView stopBtn = null;
 	private OnClickListener stopBtnListener = null;
-	private ToggleButton lockBtn = null;
+	private CompoundButton lockBtn = null;
 	private OnCheckedChangeListener lockBtnListener = null;
 	private TextView radioModeLabel = null;
 	private ImageView radioModeImage = null;
@@ -67,7 +66,7 @@ public class MainActivity extends Activity {
 	private ProgressBar progressBar = null;
 	private RelativeLayout downloadUpdateLayout = null;
 	private RelativeLayout batteryTemperatureLayout = null;
-	private LinearLayout lockButtonLayout = null;
+	private CheckBox lockButtonCheckbox = null;
 	
 	private RelativeLayout trafficRow = null;
 	private TextView downloadText = null;
@@ -123,7 +122,7 @@ public class MainActivity extends Activity {
         this.progressTitle = (TextView)findViewById(R.id.progressTitle);
         this.downloadUpdateLayout = (RelativeLayout)findViewById(R.id.layoutDownloadUpdate);
         this.batteryTemperatureLayout = (RelativeLayout)findViewById(R.id.layoutBatteryTemp);
-        this.lockButtonLayout = (LinearLayout)findViewById(R.id.layoutLockButton);
+        this.lockButtonCheckbox = (CheckBox)findViewById(R.id.lockButton);
         
         this.trafficRow = (RelativeLayout)findViewById(R.id.trafficRow);
         this.downloadText = (TextView)findViewById(R.id.trafficDown);
@@ -221,7 +220,6 @@ public class MainActivity extends Activity {
 						MainActivity.this.viewUpdateHandler.sendMessage(message); 
 					}
 				}).start();
-				MainActivity.this.lockBtn.setVisibility(View.VISIBLE);
 			}
 		};
 		this.startBtn.setOnClickListener(this.startBtnListener);
@@ -244,20 +242,17 @@ public class MainActivity extends Activity {
 						MainActivity.this.viewUpdateHandler.sendMessage(new Message());
 					}
 				}).start();
-				MainActivity.this.lockBtn.setVisibility(View.INVISIBLE);
 			}
 		};
 		this.stopBtn.setOnClickListener(this.stopBtnListener);
 		
-
-		this.lockBtn = (ToggleButton) findViewById(R.id.lockButton);
+		this.lockBtn = (CompoundButton) findViewById(R.id.lockButton);
 		this.lockBtnListener = new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				Log.d(MSG_TAG, "LockBtn pressed ...");
 			}
 		};
 		this.lockBtn.setOnCheckedChangeListener(this.lockBtnListener);
-		this.lockBtn.setVisibility(View.INVISIBLE);
 
 		// Toggles between start and stop screen
 		this.toggleStartStop();
@@ -336,11 +331,12 @@ public class MainActivity extends Activity {
 		}
 		
 		// Check, if the lockbutton should be displayed
-		if (this.application.settings.getBoolean("lockscreenpref", true) == true) {
-			this.lockButtonLayout.setVisibility(View.GONE);
+		if (this.stopTblRow.getVisibility() == View.VISIBLE &&
+				this.application.settings.getBoolean("lockscreenpref", true) == false) {
+			this.lockButtonCheckbox.setVisibility(View.VISIBLE);
 		}
 		else {
-			this.lockButtonLayout.setVisibility(View.VISIBLE);
+			this.lockButtonCheckbox.setVisibility(View.GONE);
 		}
 	}
 	
@@ -562,6 +558,11 @@ public class MainActivity extends Activity {
             this.application.dnsUpdateEnable(true);
             
     		this.application.showStartNotification();
+    		
+			// Check, if the lockbutton should be displayed
+			if (MainActivity.this.application.settings.getBoolean("lockscreenpref", true) == false) {
+				MainActivity.this.lockButtonCheckbox.setVisibility(View.VISIBLE);
+			}
     	}
     	else if (dnsmasqRunning == false && natEnabled == false) {
     		this.startTblRow.setVisibility(View.VISIBLE);
@@ -572,6 +573,9 @@ public class MainActivity extends Activity {
     			this.startBtn.startAnimation(this.animation);
     		// Notification
         	this.application.notificationManager.cancelAll();
+        	
+			// Check, if the lockbutton should be displayed
+			MainActivity.this.lockButtonCheckbox.setVisibility(View.GONE);
     	}   	
     	else {
     		this.startTblRow.setVisibility(View.VISIBLE);
