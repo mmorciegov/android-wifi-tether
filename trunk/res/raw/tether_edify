@@ -244,7 +244,7 @@ action() == "start" && (
       #
       # LG Ally
       #
-  	  module_loaded("wireless") || log(insmod("/system/lib/modules/wireless.ko", "firmware_path=/system/etc/wl/rtecdc.bin nvram_path=/system/etc/wl/nvram.txt"), "Loading wireless.ko module");
+  	  module_loaded("wireless") || log(insmod("/system/lib/modules/wireless.ko", "firmware_path=/system/etc/wl/rtecdc.bin nvram_path=/system/etc/wl/nvram.txt config_path=/data/misc/wifi/config"), "Loading wireless.ko module");
       sleep("3");
       #
       # Bring up wifi interface
