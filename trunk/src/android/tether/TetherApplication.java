@@ -904,8 +904,7 @@ public class TetherApplication extends Application {
      */
     public boolean isTransmitPowerSupported() {
     	// Only supported for the nexusone 
-    	if (this.deviceType.equals(Configuration.DEVICE_NEXUSONE) 
-    			&& this.interfaceDriver.startsWith("softap") == false) {
+    	if (Configuration.getWifiInterfaceDriver(deviceType).equals(Configuration.DRIVER_WEXT)) {
     		return true;
     	}
     	return false;
