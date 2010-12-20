@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=83
+# @Version=85
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -124,6 +124,9 @@ action() == "start" && (
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+      getcfg("wifi.txpower") != "disabled" && (
+	      	log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");     	
+	  );
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
       log(run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
                   run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");                  
@@ -197,6 +200,9 @@ action() == "start" && (
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+	  getcfg("wifi.txpower") != "disabled" && (
+	      	log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");     	
+	  );      
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
 
@@ -236,7 +242,9 @@ action() == "start" && (
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
-      
+	  getcfg("wifi.txpower") != "disabled" && (
+	      	log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");     	
+	  );      
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
 
@@ -254,6 +262,9 @@ action() == "start" && (
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+	  getcfg("wifi.txpower") != "disabled" && (
+	      	log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");     	
+	  );
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
     
@@ -271,6 +282,9 @@ action() == "start" && (
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " mode ad-hoc"), "Setting ad-hoc mode");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " essid " + getcfg("wifi.essid")), "Setting essid");
       log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " channel " + getcfg("wifi.channel")), "Setting channel");
+	  getcfg("wifi.txpower") != "disabled" && (
+	      	log(run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " txpower " + getcfg("wifi.txpower")), "Setting transmit power");     	
+	  );      
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
     
