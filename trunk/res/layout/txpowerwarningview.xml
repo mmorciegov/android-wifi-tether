@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-	<ScrollView android:id="@+id/scrollViewDonate" 
+	<ScrollView android:id="@+id/scrollViewTxPower" 
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
 		android:layout_height="fill_parent">    
@@ -11,7 +11,7 @@
 		    android:orientation="vertical"
 		    android:layout_width="fill_parent"
 		    android:layout_height="fill_parent">
-			<TextView android:text="@string/bt_warning_line1"
+			<TextView android:text="@string/txpower_warning_line1"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
@@ -20,13 +20,13 @@
 				android:paddingRight="15sp"
 				android:textStyle="bold"
 				android:textColor="#ffffff" />
-			<TextView android:text="@string/bt_warning_line2"
+			<TextView android:text="@string/txpower_warning_line2"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:paddingTop="15dp"
 				android:paddingLeft="15dp"
-				android:paddingRight="15dp"
+				android:paddingRight="15sp"
 				android:textStyle="bold"
 				android:textColor="#ffffff" />							
 			</LinearLayout>

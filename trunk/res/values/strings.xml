@@ -81,6 +81,8 @@
 	<string name="setup_activity_info_accesscontrol_enabled">Access Control enabled.</string>
 	<string name="setup_activity_bt_warning_title">Warning: Bluetooth</string>
 	<string name="setup_activity_bt_warning_ok">OK</string>
+	<string name="setup_activity_txpower_warning_title">Warning: Transmit Power</string>
+	<string name="setup_activity_txpower_warning_ok">OK</string>	
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>
 	<string name="setup_layout_category_security">Security</string>
@@ -152,6 +154,8 @@
 	<string name="update_layout_line2">Do you want to install this update now?</string>
 	<string name="bt_warning_line1">Our method of bluetooth-tethering (PAN) is known to not work on every device/android-platform.</string>
 	<string name="bt_warning_line2">This functionality might not work on your device!</string>
+	<string name="txpower_warning_line1">The ability reducing the wifi-transmit power depends on the wifi-chip.</string>
+	<string name="txpower_warning_line2">This functionality might not work on your device!</string>
 
     <string-array name="notificationmodenames">  
 		<item>None</item>  
