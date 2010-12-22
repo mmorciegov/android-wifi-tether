@@ -477,6 +477,24 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			Message msg = new Message();
 		    			msg.obj = message;
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
+		    			
+			   			// Display Bluetooth-Warning
+						boolean shoTxPowerWarning = SetupActivity.this.application.settings.getBoolean("txpowerwarningpref", false);
+			   			if (shoTxPowerWarning == false && transmitPower.equals("disabled") == false) {
+							LayoutInflater li = LayoutInflater.from(SetupActivity.this);
+					        View view = li.inflate(R.layout.txpowerwarningview, null); 
+					        new AlertDialog.Builder(SetupActivity.this)
+					        .setTitle(getString(R.string.setup_activity_txpower_warning_title))
+					        .setView(view)
+					        .setNeutralButton(getString(R.string.setup_activity_txpower_warning_ok), new DialogInterface.OnClickListener() {
+					                public void onClick(DialogInterface dialog, int whichButton) {
+					                        Log.d(MSG_TAG, "Close pressed");
+					    		   			SetupActivity.this.application.preferenceEditor.putBoolean("txpowerwarningpref", true);
+					    		   			SetupActivity.this.application.preferenceEditor.commit();
+					                }
+					        })
+					        .show();
+			   			}
 		    		}
 		    	}		    	
 		    	else if (key.equals("lannetworkpref")) {
@@ -529,7 +547,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 
 		   			// Display Bluetooth-Warning
 					boolean showBtWarning = SetupActivity.this.application.settings.getBoolean("btwarningpref", false);
-		   			if (showBtWarning == false) {
+		   			if (showBtWarning == false && bluetoothOn == true) {
 						LayoutInflater li = LayoutInflater.from(SetupActivity.this);
 				        View view = li.inflate(R.layout.btwarningview, null); 
 				        new AlertDialog.Builder(SetupActivity.this)

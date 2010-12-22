@@ -80,6 +80,8 @@
 	<string name="setup_activity_info_accesscontrol_enabled">Zugangskontrolle aktiviert.</string>   
 	<string name="setup_activity_bt_warning_title">Warnung: Bluetooth</string>
 	<string name="setup_activity_bt_warning_ok">OK</string>
+	<string name="setup_activity_txpower_warning_title">Warnung: Sendeleistung</string>
+	<string name="setup_activity_txpower_warning_ok">OK</string>	
 	<string name="setup_layout_category_bluetooth">Bluetooth</string>
 	<string name="setup_layout_category_wifi">Wifi</string>
 	<string name="setup_layout_category_security">Sicherheit</string>
@@ -151,6 +153,8 @@
 	<string name="update_layout_line2">Wollen Sie diese Aktualisierung nun durchführen?</string>
 	<string name="bt_warning_line1">Es ist bekannt, daß diese Methode des Bluetooth-Tetherings nicht auf allen Geräten/Android-Versionen funktioniert.</string>
 	<string name="bt_warning_line2">Diese Funktionalität steht möglicherweise auf ihrem Gerät nicht zur Verfügung!</string>
+	<string name="txpower_warning_line1">Die Möglichkeit die Sende-Leistung zu ändern, hängt von dem eingebauten WiFi-Chip ab.</string>
+	<string name="txpower_warning_line2">Diese Funktionalität steht möglicherweise auf ihrem Gerät nicht zur Verfügung!</string>
 
     <string-array name="notificationmodenames">  
 		<item>Keine</item>  
@@ -159,7 +163,7 @@
 	</string-array>
 	
     <string-array name="powernames">  
-		<item>Disabled</item>
+		<item>Deaktiviert</item>
 		<item>3 mW (5 dBm)</item>  
 		<item>5 mW (7 dBm)</item>  
 		<item>10 mW (10 dBm)</item>  
