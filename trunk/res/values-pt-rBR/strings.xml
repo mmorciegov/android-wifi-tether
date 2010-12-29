@@ -135,8 +135,9 @@
 	<string name="clientrow_layout_ipaddress">Endereço IP:</string>
 	<string name="donate_layout_line1">Se voçê gosta desta aplicação, favor considerar uma doação para ajudar o projeto.</string>
 	<string name="donate_layout_line2">Doando voçê proverá suporte a um projeto open-source.</string>
-	<string name="donate_layout_line3">Se voçê preferir doar depois, abra o menu \'Sobre\'.</string>
-	<string name="donate_layout_line4">Obrigado!</string>
+	<string name="donate_layout_line3"></string>
+	<string name="donate_layout_line4">Se voçê preferir doar depois, abra o menu \'Sobre\'.</string>
+	<string name="donate_layout_line5">Obrigado!</string>
 	<string name="noaccesscontrol_layout_line1">Descupe, mas seu kernel não tem todas as propriedades necessarias para o Controle de Acesso desta aplicação. O Controle de Acesso será desabilitado.</string>
 	<string name="noaccesscontrol_layout_line2">Favor ver nosso FAQ (Em Inglês): http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
 	<string name="nonetfilter_layout_line1">Descupe, mas seu kernel não tem todas as propriedades necessárias para rodar esta aplicação.</string>

@@ -18,32 +18,35 @@
 				android:paddingTop="15px"
 				android:paddingLeft="15px"
 				android:textStyle="bold"
-				android:textColor="#ffffff" />
-			<TextView android:text="@string/donate_layout_line2"
-				android:layout_width="fill_parent" 
+				android:textColor="#ffffff" /><TextView android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:paddingTop="15px"
 				android:paddingLeft="15px"
 				android:textStyle="bold"
-				android:textColor="#ffffff" />		
-			<TextView android:text="@string/donate_layout_line3"
-				android:layout_width="fill_parent" 
+				android:textColor="#ffffff" android:text="@string/donate_layout_line2"/>
+			<TextView android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:paddingTop="15px"
 				android:paddingLeft="15px"
 				android:textStyle="bold"
-				android:textColor="#ffffff" />			
-			<TextView android:text="@string/donate_layout_line4"
-				android:layout_width="fill_parent" 
+				android:textColor="#ffffff" android:text="@string/donate_layout_line3"/>		
+			<TextView android:layout_width="fill_parent" 
+				android:layout_height="wrap_content"
+				android:layout_centerVertical="true"
+				android:paddingTop="15px"
+				android:paddingLeft="15px"
+				android:textStyle="bold"
+				android:textColor="#ffffff" android:text="@string/donate_layout_line4"/>			
+			<TextView android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:textSize="18sp"	
 				android:paddingTop="15px"
 				android:paddingLeft="15px"
 				android:textStyle="bold"
-				android:textColor="#ffffff" />						
+				android:textColor="#ffffff" android:text="@string/donate_layout_line5"/>						
 			</LinearLayout>
 		</ScrollView>	
 </LinearLayout>
