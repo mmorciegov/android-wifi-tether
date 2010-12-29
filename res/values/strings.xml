@@ -143,8 +143,9 @@
 	<string name="clientrow_layout_ipaddress">IP-Address:</string>
 	<string name="donate_layout_line1">If you like this application, then please consider a donation to help with this project.</string>
 	<string name="donate_layout_line2">By donating you provide support to an open-source project.</string>
-	<string name="donate_layout_line3">If you want to donate later, you can do so from the \'About\' dialog.</string>
-	<string name="donate_layout_line4">Thank you!</string>
+	<string name="donate_layout_line3">Donations do NOT purchase a new application, but simply help us to continue our work.</string>
+	<string name="donate_layout_line4">If you want to donate later, you can do so from the \'About\' dialog.</string>
+	<string name="donate_layout_line5">Thank you!</string>
 	<string name="noaccesscontrol_layout_line1">Sorry, but your kernel does not have all necessary features for the Access Control feature of this application. Access Control will be disabled.</string>
 	<string name="noaccesscontrol_layout_line2">Please see our FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
 	<string name="nonetfilter_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
