@@ -127,7 +127,7 @@
 	<string name="setup_layout_updatecheck_summary">Deaktiviere Aktualisierungs-Prüfung</string>
 	<string name="setup_layout_wakelock">Deaktiviere Wake-Lock</string>
 	<string name="setup_layout_wakelock_summary">Deaktiviere Wake-Lock</string>
-	<string name="setup_layout_battery">Akku-Temperature</string>
+	<string name="setup_layout_battery">Akku-Temperatur</string>
 	<string name="setup_layout_battery_summary">Konfiguriere Akku-Temperatur Anzeige</string>
 	<string name="setup_layout_lockscreen">Deaktiviere Anzeige-Sperre</string>
 	<string name="setup_layout_lockscreen_summary">Verstecke Schaltfläche für Anzeige-Sperre</string>		
