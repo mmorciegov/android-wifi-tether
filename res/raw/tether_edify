@@ -452,6 +452,7 @@ action() == "stop" && (
     module_loaded("tiwlan_drv") && rmmod("tiwlan_drv");
     module_loaded("sdio") && rmmod("sdio");
     module_loaded("dhd") && rmmod("dhd");
+    module_loaded("wireless") && rmmod("wireless");
   );
 
   #
