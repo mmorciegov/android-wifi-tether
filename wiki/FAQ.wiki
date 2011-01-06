@@ -23,7 +23,12 @@ Some custom roms come with a pre-installed version of "Wireless Tether". If that
 
 *Why do I get the message "No Netfilter" on startup?*
 
-This means that the Linux kernel on your device does not have the features (CONFIG_NETFILTER, CONFIG_IP_NF_IPTABLES and CONFIG_NETFILTER_XT_MATCH_MAC) required for tethering. If the feature "CONFIG_NETFILTER_XT_MATCH_MAC" is missing the "access control"-feature will not work correctly (you will see a "failed"-status in "Show log" for "Enabling access control").
+This means that the Linux kernel on your device does not have the features (CONFIG_NETFILTER, CONFIG_IP_NF_IPTABLES and CONFIG_NETFILTER_XT_MATCH_MAC) required for tethering. 
+
+*Why does the "access-control"-feature not work or is disabled.*
+
+If the feature "CONFIG_NETFILTER_XT_MATCH_MAC" is missing the "access control"-feature will not work correctly (you will see a "failed"-status in "Show log" for "Enabling access control"). To detect if all kernel-option were enabled in your current kernel the following kernel-options should be enabled: CONFIG_PROC_FS, CONFIG_IKCONFIG, and CONFIG_IKCONFIG_PRO. This dumps the current kernel-config to /proc/config.gz.
+
 
 If you have an ADP G1, please read [ADP15KernelUpdate] (or [ADP16KernelUpdate] if you're using Donut), otherwise you will need to find a firmware/kernel with these features. For the Nexus One phone, see [NexusOneKernelUpdate]. The developers of Wireless Tether are unable to help with other types of devices (but donations of hardware/etc would help ;)
 
