@@ -27,7 +27,7 @@
     <string name="main_activity_start">Starte Tethering</string>
     <string name="main_activity_start_summary">Bitte warten während gestartet wird...</string>
     <string name="main_activity_start_errors">Beim Start wurden Fehler erkannt! Bitte überprüfe \'Zeige Log\'.</string>
-    <string name="main_activity_start_unable">Es kann nicht gestartet werden. Möglicherweise könnten keine Root-Rechte angefordert werden.</string>
+    <string name="main_activity_start_unable">Es kann nicht gestartet werden. Möglicherweise konnten keine Root-Rechte angefordert werden.</string>
     <string name="main_activity_start_wiredtethering_running">\'Wired-tethering\' scheint im Moment aktiviert zu sein. Bitte zuvor deaktivieren.</string>
     <string name="main_activity_start_usbtethering_running"><![CDATA[USB-tethering scheint im Moment aktiviert zu sein. Bitte unter: Settings -> Wireless & network setting -> Internet tethering deaktivieren.]]></string>
     <string name="main_activity_start_unknownstate">Das Telefon befindet sich in einem unbekannten Status. Ein Neustart des Gerätes sollte dieses Problem beheben!</string>

@@ -36,7 +36,7 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "86";
+	private static final String FILESET_VERSION = "91";
 	private static final String defaultDNS1 = "208.67.220.220";
 	
 	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
@@ -231,7 +231,39 @@ public class CoreTask {
 			return writeLinesToFile(DATA_FILE_PATH + "/conf/tether.conf", lines);
 		}
 	}
-    
+	
+	public class HostapdConfig extends HashMap<String, String> {
+
+		private static final long serialVersionUID = 1L;
+		
+		public HashMap<String, String> read() {
+			String filename = DATA_FILE_PATH + "/conf/hostapd.conf";
+			this.clear();
+			for (String line : readLinesFromFile(filename)) {
+				if (line.startsWith("#"))
+					continue;
+				if (!line.contains("="))
+					continue;
+				String[] data = line.split("=");
+				if (data.length > 1) {
+					this.put(data[0], data[1]);
+				} 
+				else {
+					this.put(data[0], "");
+				}
+			}
+			return this;
+		}
+		
+		public boolean write() {
+			String lines = new String();
+			for (String key : this.keySet()) {
+				lines += key + "=" + this.get(key) + "\n";
+			}
+			return writeLinesToFile(DATA_FILE_PATH + "/conf/hostapd.conf", lines);
+		}
+	}
+	
 	public class DnsmasqConfig {
 		
 		private static final long serialVersionUID = 1L;
@@ -409,13 +441,18 @@ public class CoreTask {
     
     public boolean isAccessControlSupported() {
     	if ((new File("/proc/config.gz")).exists() == false) {
-	    	if ((new File("/proc/net/ip_tables_matches")).exists() == false)
-	    		return false;    		
+	    	if ((new File("/proc/net/ip_tables_matches")).exists() == false) {
+	    		return false;
+	    	}
+	    	if (Configuration.getDeviceType().equals(Configuration.DEVICE_DROIDX)) {
+	    		return false;
+	    	}
     	}
     	else {
     		if (!Configuration.hasKernelFeature("CONFIG_NETFILTER_XT_MATCH_MAC="))
     		return false;
     	}
+    	
     	return true;
     }
     

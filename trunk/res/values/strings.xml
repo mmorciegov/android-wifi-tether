@@ -27,7 +27,7 @@
     <string name="main_activity_start">Start Tethering</string>
     <string name="main_activity_start_summary">Please wait while starting...</string>
     <string name="main_activity_start_errors">Tethering started with errors! Please check \'Show log\'.</string>
-    <string name="main_activity_start_unable">Unable to start tethering. Please try again!</string>
+    <string name="main_activity_start_unable">Unable to start tethering. Is your device \'rooted\'?</string>
     <string name="main_activity_start_wiredtethering_running">Wired-tethering seems to be running at the moment. Please disable first!</string>
     <string name="main_activity_start_usbtethering_running"><![CDATA[USB-tethering seems to be running at the moment. Please disable it first: Settings -> Wireless & network setting -> Internet tethering.]]></string>
     <string name="main_activity_start_unknownstate">Your phone is currently in an unknown state - try to reboot!</string>
@@ -216,9 +216,6 @@
 		<item>9</item>  
 		<item>10</item>  
 		<item>11</item>  
-		<item>12</item>  
-		<item>13</item>  
-		<item>14</item>  
 	</string-array>
     <string-array name="channelnames">  
 		<item>Auto</item> 
@@ -233,9 +230,6 @@
 		<item>Channel 09 (2452 MHz)</item>  
 		<item>Channel 10 (2457 MHz)</item>  
 		<item>Channel 11 (2462 MHz)</item>  
-		<item>Channel 12 (2467 MHz)</item>  
-		<item>Channel 13 (2472 MHz)</item>  
-		<item>Channel 14 (2484 MHz)</item>  
 	</string-array>  	
     <string-array name="lannetworkvalues">  
 		<item>192.168.1.0/24</item>  

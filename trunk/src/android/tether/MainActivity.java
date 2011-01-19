@@ -155,7 +155,11 @@ public class MainActivity extends Activity {
 	    	else {
 	    		// Check if access-control-feature is supported by kernel
 	    		if (!this.application.coretask.isAccessControlSupported()) {
-	    			this.openNoAccessControlDialog();
+	    			if (this.application.settings.getBoolean("warning_noaccesscontrol_displayed", false) == false) {
+	    				this.openNoAccessControlDialog();
+	    				this.application.preferenceEditor.putBoolean("warning_noaccesscontrol_displayed", true);
+	    				this.application.preferenceEditor.commit();
+	    			}
 	    			this.application.accessControlSupported = false;
 	    			this.application.whitelist.remove();
 	    		}
@@ -171,9 +175,6 @@ public class MainActivity extends Activity {
 	        		this.application.installFiles();
 	        	}
 	        }
-
-	        // Check if native-library needs to be moved
-	        //this.application.renewLibrary();	    	
 	    	
 	        // Open donate-dialog
 			this.openDonateDialog();
@@ -611,7 +612,6 @@ public class MainActivity extends Activity {
         .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     Log.d(MSG_TAG, "Override pressed");
-                    MainActivity.this.application.installFiles();
                     MainActivity.this.application.displayToastMessage("Ignoring, note that this application will NOT work correctly.");
                 }
         })
@@ -624,16 +624,9 @@ public class MainActivity extends Activity {
 		new AlertDialog.Builder(MainActivity.this)
         .setTitle(getString(R.string.main_activity_noaccesscontrol))
         .setView(view)
-        .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
+        .setNeutralButton(getString(R.string.main_activity_ok), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                        Log.d(MSG_TAG, "Close pressed");
-                        MainActivity.this.finish();
-                }
-        })
-        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    Log.d(MSG_TAG, "Override pressed");
-                    MainActivity.this.application.installFiles();
+                    Log.d(MSG_TAG, "OK pressed");
                     MainActivity.this.application.displayToastMessage(getString(R.string.main_activity_accesscontrol_disabled));
                 }
         })

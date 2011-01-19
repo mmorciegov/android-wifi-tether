@@ -44,10 +44,6 @@ import android.tether.system.Configuration;
 import android.tether.system.CoreTask;
 import android.tether.system.WebserviceTask;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class TetherApplication extends Application {
@@ -59,8 +55,8 @@ public class TetherApplication extends Application {
 	public final String DEFAULT_ENCSETUP   = "wpa_supplicant";
 	
 	// Devices-Information
-	public String deviceType = "unknown"; 
-	public String interfaceDriver = "wext"; 
+	public String deviceType = Configuration.DEVICE_GENERIC; 
+	public String interfaceDriver = Configuration.DRIVER_WEXT; 
 	
 	// StartUp-Check perfomed
 	public boolean startupCheckPerformed = false;
@@ -122,6 +118,8 @@ public class TetherApplication extends Application {
 	public CoreTask.TetherConfig tethercfg = null;
 	// dnsmasq.conf
 	public CoreTask.DnsmasqConfig dnsmasqcfg = null;
+	// hostapd
+	public CoreTask.HostapdConfig hostapdcfg = null;
 	// blue-up.sh
 	public CoreTask.BluetoothConfig btcfg = null;
 	
@@ -179,6 +177,9 @@ public class TetherApplication extends Application {
 
     	// dnsmasq.conf
     	this.dnsmasqcfg = this.coretask.new DnsmasqConfig();
+    	
+    	// hostapd
+    	this.hostapdcfg = this.coretask.new HostapdConfig();
     	
     	// blue-up.sh
     	this.btcfg = this.coretask.new BluetoothConfig();        
@@ -305,6 +306,9 @@ public class TetherApplication extends Application {
 			if (this.interfaceDriver.startsWith("softap")) {
 				this.tethercfg.put("wifi.encryption", "wpa2-psk");
 			}
+			else if (this.interfaceDriver.equals(Configuration.DRIVER_HOSTAP)) {
+				this.tethercfg.put("wifi.encryption", "unused");
+			}
 			else {
 				this.tethercfg.put("wifi.encryption", "wep");
 			}
@@ -319,13 +323,25 @@ public class TetherApplication extends Application {
 			this.tethercfg.put("wifi.setup", wepsetupMethod);
 			// Prepare wpa_supplicant-config if wpa_supplicant selected
 			if (wepsetupMethod.equals("wpa_supplicant")) {
+				// Install wpa_supplicant.conf-template
 				if (this.wpasupplicant.exists() == false) {
 					this.installWpaSupplicantConfig();
 				}
+				
+				// Update wpa_supplicant.conf
 				Hashtable<String,String> values = new Hashtable<String,String>();
 				values.put("ssid", "\""+this.settings.getString("ssidpref", "AndroidTether")+"\"");
 				values.put("wep_key0", "\""+this.settings.getString("passphrasepref", DEFAULT_PASSPHRASE)+"\"");
-				this.wpasupplicant.write(values);				
+				this.wpasupplicant.write(values);
+				
+				/*
+				// Make sure the ctrl_interface (directory) exists
+				File ctrlInterfaceDir = new File("/data/data/android.tether/var/wpa_supplicant");
+				if (ctrlInterfaceDir.exists() == false) {
+					if (ctrlInterfaceDir.mkdirs() == false) {
+						Log.e(MSG_TAG, "Unable to create ctrl-interface (directory) for wpa_supplicant!");
+					}
+				}*/
 			}
         }
 		else {
@@ -350,6 +366,48 @@ public class TetherApplication extends Application {
 		this.dnsmasqcfg.set(lannetwork);
 		if (this.dnsmasqcfg.write() == false) {
 			Log.e(MSG_TAG, "Unable to update dnsmasq.conf!");
+		}
+		
+		// hostapd.conf
+		if (this.interfaceDriver.equals(Configuration.DRIVER_HOSTAP)) {
+			this.installHostapdConfig();
+			this.hostapdcfg.read();
+			
+			// Update the hostapd-configuration in case we have Motorola Droid X
+			if (this.deviceType.equals(Configuration.DEVICE_DROIDX)) {
+				this.hostapdcfg.put("ssid", ssid);
+				this.hostapdcfg.put("channel", channel);
+				if (encEnabled) {
+					this.hostapdcfg.put("wpa", ""+2);
+					this.hostapdcfg.put("wpa_pairwise", "CCMP");
+					this.hostapdcfg.put("rsn_pairwise", "CCMP");
+					this.hostapdcfg.put("wpa_passphrase", wepkey);
+				}
+			}
+			// Update the hostapd-configuration in case we have ZTE Blade
+			else if (this.deviceType.equals(Configuration.DEVICE_BLADE)) {
+				this.hostapdcfg.put("ssid", ssid);
+				this.hostapdcfg.put("channel_num", channel);
+				if (encEnabled) {
+					this.hostapdcfg.put("wpa", ""+2);
+					this.hostapdcfg.put("wpa_key_mgmt", "WPA-PSK");
+					this.hostapdcfg.put("wpa_pairwise", "CCMP");
+					this.hostapdcfg.put("wpa_passphrase", wepkey);
+				}				
+			}
+			
+			if (this.hostapdcfg.write() == false) {
+				Log.e(MSG_TAG, "Unable to update hostapd.conf!");
+			}
+			
+			/*
+			// Make sure the ctrl_interface (directory) exists
+			File ctrlInterfaceDir = new File("/data/data/android.tether/var/hostapd");
+			if (ctrlInterfaceDir.exists() == false) {
+				if (ctrlInterfaceDir.mkdirs() == false) {
+					Log.e(MSG_TAG, "Unable to create ctrl-interface (directory) for hostapd!");
+				}
+			}*/
 		}
 		
 		// blue-up.sh
@@ -642,6 +700,15 @@ public class TetherApplication extends Application {
     	this.copyFile(this.coretask.DATA_FILE_PATH+"/conf/wpa_supplicant.conf", "0644", R.raw.wpa_supplicant_conf);
     }
     
+    public void installHostapdConfig() {
+    	if (this.deviceType.equals(Configuration.DEVICE_DROIDX)) {
+    		this.copyFile(this.coretask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_droidx);
+    	}
+    	else if (this.deviceType.equals(Configuration.DEVICE_BLADE)) {
+    		this.copyFile(this.coretask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_blade);
+    	}
+    }
+    
     Handler displayMessageHandler = new Handler(){
         public void handleMessage(Message msg) {
        		if (msg.obj != null) {
@@ -866,15 +933,7 @@ public class TetherApplication extends Application {
     
     // Display Toast-Message
 	public void displayToastMessage(String message) {
-		LayoutInflater li = LayoutInflater.from(this);
-		View layout = li.inflate(R.layout.toastview, null);
-		TextView text = (TextView) layout.findViewById(R.id.toastText);
-		text.setText(message);
-		Toast toast = new Toast(getApplicationContext());
-		toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_LONG);
-		toast.setView(layout);
-		toast.show();
+		Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
 	}
     
     public int getVersionNumber() {
