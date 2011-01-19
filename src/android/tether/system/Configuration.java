@@ -17,14 +17,17 @@ public class Configuration {
 	public static final String DEVICE_LEGEND     = "legend";
 	public static final String DEVICE_DREAM      = "dream";
 	public static final String DEVICE_MOMENT     = "moment";
-	public static final String DEVICE_ALLY     = "ally";
+	public static final String DEVICE_ALLY       = "ally";
+	public static final String DEVICE_DROIDX     = "droidx";
+	public static final String DEVICE_BLADE      = "blade";
 	public static final String DEVICE_GENERIC    = "generic";
 	
-	public static final String DRIVER_TIWLAN0    = "tiwlan0";
-	public static final String DRIVER_WEXT       = "wext";
+	public static final String DRIVER_TIWLAN0     = "tiwlan0";
+	public static final String DRIVER_WEXT        = "wext";
 	public static final String DRIVER_SOFTAP_HTC1 = "softap_htc1";
 	public static final String DRIVER_SOFTAP_HTC2 = "softap_htc2";
-	public static final String DRIVER_SOFTAP_GOG = "softap_gog";
+	public static final String DRIVER_SOFTAP_GOG  = "softap_gog";
+	public static final String DRIVER_HOSTAP      = "hostap";
 	
 	/**
 	 * Returns the device-type as string.
@@ -42,6 +45,12 @@ public class Configuration {
         	}
 			return DEVICE_GALAXY1X;
 		}
+		else if ((new File("/system/lib/modules/tiap_drv.ko")).exists() == true
+				&& (new File("/system/bin/Hostapd")).exists() == true
+				&& (new File("/system/etc/wifi/fw_tiwlan_ap.bin")).exists() == true
+				&& (new File("/system/etc/wifi/tiwlan_ap.ini")).exists() == true) {
+			return DEVICE_DROIDX;
+		}
 		else if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true 
 				&& (new File("/system/etc/wifi/Fw1273_CHIP.bin")).exists() == true) {
 			return DEVICE_LEGEND;
@@ -57,6 +66,10 @@ public class Configuration {
 				&& (new File("/system/etc/wl/rtecdc.bin")).exists() == true
 				&& (new File("/system/etc/wl/nvram.txt")).exists() == true){
 			return DEVICE_ALLY;
+		}
+		else if ((new File("/system/wifi/ar6000.ko")).exists() == true
+				&& (new File("/system/bin/hostapd")).exists() == true) {
+			return DEVICE_BLADE;
 		}
 		return DEVICE_GENERIC;
 	}
@@ -82,6 +95,9 @@ public class Configuration {
 		else if (deviceType.equals(DEVICE_NEXUSONE) && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
 			return DRIVER_SOFTAP_GOG;
 		}
+		else if (deviceType.equals(DEVICE_DROIDX) || deviceType.equals(DEVICE_BLADE)) {
+			return DRIVER_HOSTAP;
+		}
 		return DRIVER_WEXT;
 	}
 
@@ -103,7 +119,8 @@ public class Configuration {
 	 */
 	public static boolean enableFixPersist() {
 		if ((new File("/system/lib/modules/tiwlan_drv.ko")).exists() == true 
-				&& (new File("/system/etc/wifi/fw_wlan1271.bin")).exists() == true){
+				&& (new File("/system/etc/wifi/fw_wlan1271.bin")).exists() == true
+				&& getWifiInterfaceDriver(getDeviceType()).equals(DRIVER_WEXT) == true){
 			return true;
 		}
 		if (getDeviceType().equals(DEVICE_LEGEND) == true) {

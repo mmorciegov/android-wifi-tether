@@ -109,14 +109,16 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         }
         
         // Disable "encryption-setup-method"
-        if (this.application.interfaceDriver.startsWith("softap")) {
+        if (this.application.interfaceDriver.startsWith("softap") 
+        		|| this.application.interfaceDriver.equals(Configuration.DRIVER_HOSTAP)) {
         	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
         	ListPreference encsetupPreference = (ListPreference)findPreference("encsetuppref");
         	wifiGroup.removePreference(encsetupPreference);
         }
         
         // Remove Auto-Channel option if not supported by device
-        if (this.application.interfaceDriver.startsWith("softap") == false) {
+        if (this.application.interfaceDriver.startsWith("softap") == false
+        		|| this.application.interfaceDriver.equals(Configuration.DRIVER_HOSTAP) == false) {
         	ListPreference channelpref = (ListPreference)findPreference("channelpref");
         	CharSequence[] entries = channelpref.getEntries();
         	CharSequence[] targetentries = new CharSequence[entries.length-1];
@@ -149,9 +151,10 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.prefPassphrase = (EditTextPreference)findPreference("passphrasepref");
         final int origTextColorPassphrase = SetupActivity.this.prefPassphrase.getEditText().getCurrentTextColor();
 
-        if (Configuration.getWifiInterfaceDriver(this.application.deviceType).startsWith("softap")) {
+        if (Configuration.getWifiInterfaceDriver(this.application.deviceType).startsWith("softap")
+        		|| Configuration.getWifiInterfaceDriver(this.application.deviceType).equals(Configuration.DRIVER_HOSTAP)) {
         	Log.d(MSG_TAG, "Adding validators for WPA-Encryption.");
-        	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WPA2-PSK)");
+        	this.prefPassphrase.setSummary(this.prefPassphrase.getSummary()+" (WPA/WPA2-PSK)");
         	this.prefPassphrase.setDialogMessage(getString(R.string.setup_activity_error_passphrase_info));
 	        // Passphrase Change-Listener for WPA-encryption
         	this.prefPassphrase.getEditText().addTextChangedListener(new TextWatcher() {

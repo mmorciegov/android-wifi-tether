@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=86
+# @Version=91
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -268,6 +268,46 @@ action() == "start" && (
       run_program("/data/data/android.tether/bin/iwconfig " + getcfg("wifi.interface") + " commit");
     );
     
+    
+    getcfg("device.type") == "droidx" && (
+  	  #
+  	  # DroidX
+  	  #
+   	  module_loaded("tiap_drv") || log(insmod("/system/lib/modules/tiap_drv.ko", ""), "Loading tiap_drv.ko module");
+      run_program("/system/bin/wlan_loader -f /system/etc/wifi/fw_tiwlan_ap.bin -i /system/etc/wifi/tiwlan_ap.ini -e /pds/wifi/nvs_map.bin");
+      sleep("3");      
+
+      #
+      # Bring up wifi interface
+      #
+      log(run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      sleep("3");
+	  #
+	  # Start hostapd
+      #
+      log(run_program("/system/bin/Hostapd -P /data/data/android.tether/var/hostapd.pid -B /data/data/android.tether/conf/hostapd.conf"), "Starting hostapd");
+    );
+
+    getcfg("device.type") == "blade" && (
+  	  #
+  	  # ZTE Blade
+  	  #
+   	  module_loaded("ar6000") || log(insmod("/system/wifi/ar6000.ko", ""), "Loading ar6000.ko module");
+      sleep("3");      
+
+      #
+      # Bring up wifi interface
+      #
+      log(run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+                  run_program("/data/data/android.tether/bin/ifconfig " + getcfg("wifi.interface") + " up"),  "Activating WiFi interface");
+      sleep("3");
+	  #
+	  # Start hostapd
+      #
+      log(run_program("/system/bin/hostapd -P /data/data/android.tether/var/hostapd.pid -B /data/data/android.tether/conf/hostapd.conf"), "Starting hostapd");
+    );
+    
     getcfg("device.type") == "generic" && (
       #
       # Generic device
@@ -434,13 +474,14 @@ action() == "stop" && (
   # Wifi mode, bring interface down, kill dnsmasq/wpa_supplicant, remove module.
   #
   getcfg("tether.mode") == "wifi" && (
-    run_program("/data/data/android.tether/bin/ifconfig " +  getcfg("wifi.interface") + " down");
     kill_process("wpa_supplicant");
     kill_process("dnsmasq");
+    kill_pidfile("/data/data/android.tether/var/hostapd.pid");
 	kill_pidfile("/data/data/android.tether/var/fixpersist.pid");
 	kill_pidfile("/data/data/android.tether/var/fixroute.pid");
 	file_unlink("/data/data/android.tether/var/fixpersist.pid");
 	file_unlink("/data/data/android.tether/var/fixroute.pid");
+    run_program("/data/data/android.tether/bin/ifconfig " +  getcfg("wifi.interface") + " down");
     
     getcfg("device.type") == "generic" && (
       unload_wifi();
@@ -450,9 +491,11 @@ action() == "stop" && (
     module_loaded("bcm4325") && rmmod("bcm4325");
     module_loaded("wlan") && rmmod("wlan");
     module_loaded("tiwlan_drv") && rmmod("tiwlan_drv");
+    module_loaded("tiap_drv") && rmmod("tiap_drv");
     module_loaded("sdio") && rmmod("sdio");
     module_loaded("dhd") && rmmod("dhd");
     module_loaded("wireless") && rmmod("wireless");
+    module_loaded("ar6000") && rmmod("ar6000");
   );
 
   #
