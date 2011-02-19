@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=91
+# @Version=92
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -404,6 +404,7 @@ action() == "start" && (
     run_program("/data/data/android.tether/bin/iptables -A wireless-tether -s " + getcfg("ip.network") + "/24 -j ACCEPT") &&
     run_program("/data/data/android.tether/bin/iptables -A wireless-tether -p 47 -j ACCEPT") &&
     run_program("/data/data/android.tether/bin/iptables -A wireless-tether -j DROP") &&
+    run_program("/data/data/android.tether/bin/iptables -A FORWARD -m state --state INVALID -j DROP") &&
     run_program("/data/data/android.tether/bin/iptables -A FORWARD -j wireless-tether") &&
     run_program("/data/data/android.tether/bin/iptables -t nat -I POSTROUTING -s " +
                getcfg("ip.network") + "/24 -j MASQUERADE"),
@@ -450,6 +451,7 @@ action() == "stop" && (
   
   log(
     run_program("/data/data/android.tether/bin/iptables -D FORWARD -j wireless-tether") &&
+    run_program("/data/data/android.tether/bin/iptables -D FORWARD -m state --state INVALID -j DROP") &&
     run_program("/data/data/android.tether/bin/iptables -F wireless-tether") &&  
     run_program("/data/data/android.tether/bin/iptables -X wireless-tether") && 
     run_program("/data/data/android.tether/bin/iptables -t nat -F PREROUTING") &&
