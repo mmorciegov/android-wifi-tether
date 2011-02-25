@@ -36,7 +36,7 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "92";
+	private static final String FILESET_VERSION = "93";
 	private static final String defaultDNS1 = "208.67.220.220";
 	
 	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
