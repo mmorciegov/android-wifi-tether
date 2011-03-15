@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=93
+# @Version=94
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -77,6 +77,9 @@ action() == "start" && (
 	        );
 	        file_exists("/etc/firmware/fw_bcm4329_apsta.bin") && (
 	      		module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/etc/firmware/fw_bcm4329_apsta.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329_apsta.bin from /etc/firmware)");
+	      	);
+	      	file_exists("/vendor/firmware/fw_bcm4329_apsta.bin") && (
+	      		module_loaded("bcm4329") || log(insmod("/system/lib/modules/bcm4329.ko", "firmware_path=/vendor/firmware/fw_bcm4329_apsta.bin"), "Loading bcm4329.ko module<br>(fw_bcm4329_apsta.bin from /vendor/firmware)");
 	      	);
 	      );	
 	      sleep("3");
@@ -361,7 +364,7 @@ action() == "start" && (
     # Set "mode"-Property
     #
     setprop("tether.mode","bt");
-
+    sleep("3");
     #
     # Bluetooth - start pand
     #

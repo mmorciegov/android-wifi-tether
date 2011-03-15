@@ -92,7 +92,9 @@ public class Configuration {
 			}
 			return DRIVER_SOFTAP_HTC1;
 		}
-		else if (deviceType.equals(DEVICE_NEXUSONE) && (new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists()) {
+		else if (deviceType.equals(DEVICE_NEXUSONE) && (
+				(new File("/etc/firmware/fw_bcm4329_apsta.bin")).exists() || (new File("/vendor/firmware/fw_bcm4329_apsta.bin")).exists())
+			) {
 			return DRIVER_SOFTAP_GOG;
 		}
 		else if (deviceType.equals(DEVICE_DROIDX) || deviceType.equals(DEVICE_BLADE)) {
