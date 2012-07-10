@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="global_application_name">WiFi Tether</string>
+	<string name="global_application_installed">Binaries and config-files installed!</string>
+	<string name="global_application_error_restartsecwifi">Unable to restart secured wifi!</string>
+	<string name="global_application_tethering_running">Tethering is currently running ...</string>
+	<string name="global_application_accesscontrol_disabled">AC disabled</string>
+	<string name="global_application_accesscontrol_authorized">Authorized</string>
+	<string name="global_application_accesscontrol_unauthorized">Unauthorized</string>
+	<string name="global_application_connected">connected</string>
+	<string name="main_activity_settings">Settings</string>
+	<string name="main_activity_about">About</string>
+	<string name="main_activity_donation_headline">Voluntary donate</string>
+	<string name="main_activity_donate">Donate</string>
+	<string name="main_activity_close">Close</string>
+	<string name="main_activity_notroot">Not Root!</string>
+	<string name="main_activity_nonetfilter">No Netfilter!</string>
+	<string name="main_activity_noaccesscontrol">No Access Control!</string>
+	<string name="main_activity_accesscontrol_disabled">Access-Control disabled.</string>
+	<string name="main_activity_exit">Exit</string>
+	<string name="main_activity_ignore">Ignore</string>
+	<string name="main_activity_yes">Yes</string>
+	<string name="main_activity_no">No</string>
+	<string name="main_activity_ok">OK</string>
+	<string name="main_activity_locked">Tether is locked!</string>
+	<string name="main_activity_showlog">Show Log</string>
+	<string name="main_activity_accesscontrol">Access Control</string>
+	<string name="main_activity_start">Start Tethering</string>
+	<string name="main_activity_start_summary"><![CDATA[Please wait while starting...]]></string>
+	<string name="main_activity_start_errors">Tethering started with errors! Please check \'Show log\'.</string>
+	<string name="main_activity_start_unable">Unable to start tethering. Is your device \'rooted\'?</string>
+	<string name="main_activity_start_wiredtethering_running">Wired-tethering seems to be running at the moment. Please disable first!</string>
+	<string name="main_activity_start_usbtethering_running"><![CDATA[USB-tethering seems to be running at the moment. Please disable it first: Settings -> Wireless & network setting -> Internet tethering.]]></string>
+	<string name="main_activity_start_unknownstate">Your phone is currently in an unknown state - try to reboot!</string>
+	<string name="main_activity_stop">Stop Tethering</string>
+	<string name="main_activity_stop_summary"><![CDATA[Please wait while stopping...]]></string> 
+	<string name="main_activity_confirm">Confirm</string>
+	<string name="main_activity_cancel">Cancel</string>
+	<string name="main_activity_trackball_pressed_start">Trackball pressed. Confirm tether start.</string>
+	<string name="main_activity_trackball_pressed_stop">Trackball pressed. Confirm tether stop.</string>
+	<string name="main_activity_keepalive_headline">Keepalive</string>
+	<string name="main_activity_idle_headline">Idle</string>
+	<string name="main_activity_timer_headline">Timer</string>
+	
+	<string name="log_activity_nologfile">Unable to open log-File. File does not exist!</string>
+	<string name="main_layout_presstostart">- Press to start tethering. -</string> 
+	<string name="main_layout_presstostop">- Press to stop tethering. -</string> 
+	<string name="main_layout_download">Download</string> 
+	<string name="main_layout_quota">Quota</string> 
+	<string name="main_layout_upload">Upload</string> 
+	<string name="main_layout_lock">Lock</string> 
+	<string name="accesscontrol_activity_reloadclientlist">Reload Client-List</string>
+	<string name="accesscontrol_activity_applysettings">Apply Settings</string>
+	<string name="accesscontrol_activity_enabled">Access-Control enabled.</string>
+	<string name="accesscontrol_activity_disabled">Access-Control disabled.</string>
+	<string name="accesscontrol_activity_is_enabled">Access-Control is enabled.</string>
+	<string name="accesscontrol_activity_is_disabled">Access-Control is disabled.</string>
+	<string name="accesscontrol_activity_error_save_whitelistfile">Unable to save whitelist-file!</string>
+	<string name="accesscontrol_activity_error_remove_whitelistfile">Unable to remove whitelist-file!</string>
+	<string name="accesscontrol_activity_error_read_leasefile">Unable to read leases-file!</string>
+	<string name="accesscontrol_activity_config_saved">Access-Control Configuration saved!</string>
+	<string name="accesscontrol_activity_not_connected">- Not connected -</string>
+	<string name="accesscontrol_layout_connectedclients">Connected/Authorized Clients:</string>
+	<string name="accesscontrol_layout_apply">Apply</string>
+	<string name="accesscontrol_layout_enable">Enable</string>
+	<string name="accesscontrol_layout_disable">Disable</string>
+	<string name="setup_activity_reinstall">(Re)-Install binaries/configs</string>
+	<string name="setup_activity_restart_tethering_title">Restart Tethering</string>
+	<string name="setup_activity_restart_tethering_message">Please wait while restarting...</string>
+	<string name="setup_activity_error_passphrase_invalidchars">Passphrase contains invalid characters, not saved!</string>
+	<string name="setup_activity_error_passphrase_tooshort">Passphrase too short! New value was not saved.</string>
+	<string name="setup_activity_error_passphrase_toolong">Passphrase too long! New value was not saved.</string>
+	<string name="setup_activity_error_restart_tethering">Unable to restart tethering!</string>
+	<string name="setup_activity_error_passphrase_info">Passphrase must be between 8 and 30 characters long!</string>
+	<string name="setup_activity_error_passphrase_13chars">Passphrase must be 13 characters (ASCII) long!</string>
+	<string name="setup_activity_error_ssid_invalidchars">SSID contains invalid characters</string>
+	<string name="setup_activity_error_ssid_empty">New SSID cannot be empty</string>
+	<string name="setup_activity_error_ssid_notsaved">, not saved.</string>
+	<string name="setup_activity_error_ipaddress_invalid">Ip-address is not valid, not saved.</string>
+	<string name="setup_activity_info_device_changedto">Device changed to </string>
+	<string name="setup_activity_info_setup_changedto">Setup-method changed to </string>
+	<string name="setup_activity_info_ssid_changedto">SSID changed to </string>
+	<string name="setup_activity_info_channel_changedto">Channel changed to </string>
+	<string name="setup_activity_info_passphrase_changedto">Passphrase changed to </string>
+	<string name="setup_activity_info_txpower_changedto">Transmit power changed to </string>
+	<string name="setup_activity_info_lan_changedto">LAN-network changed to </string>
+	<string name="setup_activity_info_wakelock_disabled">Wake-lock is now disabled.</string>
+	<string name="setup_activity_info_wakelock_enabled">Wake-lock is now enabled.</string>
+	<string name="setup_activity_info_accesscontrol_disabled">Access Control disabled.</string>
+	<string name="setup_activity_info_accesscontrol_enabled">Access Control enabled.</string>
+	<string name="setup_activity_txpower_warning_title">Warning: Transmit Power</string>
+	<string name="setup_activity_txpower_warning_ok">OK</string>	
+	<string name="setup_activity_hidessid_warning_title">Warning: Hide SSID</string>
+	<string name="setup_activity_hidessid_warning_ok">OK</string>
+	<string name="setup_layout_category_wifi">Wifi</string>
+	<string name="setup_layout_category_security">Security</string>
+
+	<string name="setup_layout_category_shutdown">Automatic Shutdown Options</string>    
+	<string name="setup_layout_shutdown_timer">Shutdown Timer</string>  
+	<string name="setup_layout_shutdown_timer_summary">Stop tethering-service after a specified length of time.</string>    
+	<string name="setup_layout_shutdown_timer_unit_minutes">minutes</string> 
+	<string name="setup_layout_shutdown_timer_dialog_elapsed">Shutdown after ... minutes have elapsed.</string>
+	<string name="setup_layout_shutdown_timer_limit">Set timer</string>
+	<string name="setup_layout_shutdown_timer_limit_summary">Configure the length of time before shutdown.</string>
+	<string name="global_application_tethering_shutdown_timer">Tethering shutdown due timer expiration.</string>
+	
+	<string name="setup_layout_shutdown_inactive">Idle Shutdown</string>  
+	<string name="setup_layout_shutdown_inactive_summary">Stop tethering-service after a specified time of inactivity</string>    
+	<string name="setup_layout_shutdown_inactive_unit_minutes">minutes</string> 
+	<string name="setup_layout_shutdown_inactive_dialog_idletime">Shutdown after ... of inactivity.</string>
+	<string name="setup_layout_shutdown_inactive_idle_time">Set idle limit</string>
+	<string name="setup_layout_shutdown_inactive_idle_summary">Configure the idle-time.</string>
+	<string name="global_application_tethering_shutdown_inactive">Tethering shutdown due to inactivity.</string>
+	
+	<string name="setup_layout_category_keepalive">Keep Alive - Connection Checker</string>    
+	<string name="setup_layout_keepalive_title">Keep Alive - Connection Checking</string>    
+	<string name="setup_layout_keepalive_summary">This option will regularly connect to a webserver and download a small amount of data at a user specified interval to verify your connection, if it fails you will be notified.</string>    
+	<string name="setup_layout_keepalive_websites_manual">Websites to check for keep-alive</string>  
+	<string name="setup_layout_keepalive_websites_default">www.google.com;www.yahoo.com;www.bing.com</string>  
+	<string name="setup_layout_keepalive_websites_manualsummary">Enter a list of valid HTTP servers seperated by semi-colons. Leave blank to restore default values.</string>  
+	<string name="setup_layout_keepalive_interval_manual">Keep-Alive check interval</string>
+	<string name="setup_layout_keepalive_interval_manualsummary">Configure delay in minutes between keep-alive request if last attempt was successful.</string>
+	<string name="setup_layout_keepalive_intervalshutdown_manual">Keep-Alive failed retry period</string>
+	<string name="setup_layout_keepalive_intervalshutdown_manualsummary">Configure delay in minutes between keep-alive\'s first failed request and tether shutdown.</string>
+	<string name="setup_layout_keepalive_option">Keep-Alive Failure Options</string>
+	<string name="setup_layout_keepalive_optionsummary">Configure keep-alive failure options. Retry with no limit or retry until set time limit is reached then shutdown tether connection.</string>
+	<string name="setup_activity_info_keepaliveshutdowntimer">Keep-Alive shutdown timer changed...Changes will take effect for next tethering session.</string>
+	<string name="global_application_tethering_shutdown_keepalive">Tethering shutdown due to keepalive giving up trying to establish a connection.</string>
+						
+	<string name="setup_layout_quotashutdown_title">Quota Shutdown Limit</string>  
+	<string name="setup_layout_quotashutdown_summary">Stop tethering-service after a specified data usage quota.</string>    
+	<string name="setup_layout_quotashutdown_limit_manual">Set quota limit (in MB)</string>
+	<string name="setup_layout_quotashutdown_limit_manualsummary">Manually set the quota. Value is in MB between 1MB and 999,999,999MB.</string>
+	<string name="global_application_tethering_quotashutdown_limit">Tethering shutdown due to usage quota exhausted.</string>    
+	
+	<string name="setup_layout_category_lan">LAN</string>
+	<string name="setup_layout_category_notifications">Notifications</string>
+	<string name="setup_layout_category_misc">Miscellaneous</string>
+	<string name="setup_layout_wifiencryption">Enable WiFi-Encryption</string>
+	<string name="setup_layout_wifiencryption_summary">Turn on wifi-encrytion</string>
+	<string name="setup_layout_encryptionsetup">Encryption setup method</string>
+	<string name="setup_layout_encryptionsetup_summary">Change WiFi-Ecryption setup method</string>
+	<string name="setup_layout_devicetype">Change Device-Profile</string>
+	<string name="setup_layout_devicetype_summary">Change Device-Profile</string>
+	<string name="setup_layout_devicetype_dialog_title">Device-Profile</string>
+	<string name="setup_layout_setupmethod">Change Setup-Method</string>
+	<string name="setup_layout_setupmethod_summary">Change Setup-Method</string>
+	<string name="setup_layout_setupmethod_dialog_title">Setup-Method</string>
+	<string name="setup_layout_passphrase">Change Passphrase</string>
+	<string name="setup_layout_passphrase_summary">Change Passphrase for WiFi-Encryption</string>
+	<string name="setup_layout_passphrase_dialog_title">Enter Passphrase</string>
+	<string name="setup_layout_ssid">Change SSID</string>
+	<string name="setup_layout_ssid_summary">Change SSID</string>
+	<string name="setup_layout_ssid_dialog_title">Enter SSID</string>
+	<string name="setup_layout_ssid_dialog_message">Only alpha-numeric characters and \'.\', \'_\' allowed!</string>
+	<string name="setup_layout_hidessid">Hide SSID</string>
+	<string name="setup_layout_hidessid_summary">Don\'t broadcast the SSID</string>
+	<string name="setup_layout_channel">Change Channel</string>
+	<string name="setup_layout_channel_summary">Wireless frequency channel</string>
+	<string name="setup_layout_channel_dialog_title">Select Channel</string>
+	<string name="setup_layout_txpower">Transmit Power</string>
+	<string name="setup_layout_txpower_summary">Reduce transmit power</string>
+	<string name="setup_layout_txpower_dialog_title">Reduce Power</string>
+	<string name="setup_layout_dontdisablebt">Don\'t disable Bluetooth</string>
+	<string name="setup_layout_dontdisablebt_summary">Don\'t disable Bluetooth on tether-start</string>	    
+	<string name="setup_layout_driverreload">WiFi-driver reload</string>
+	<string name="setup_layout_driverreload_summary">Force WiFi-driver reloading</string>
+	<string name="setup_layout_accesscontrol">Enable Access-Control</string>
+	<string name="setup_layout_accesscontrol_summary">Turn on access-control</string>	
+	<string name="setup_layout_lan">Change LAN</string>
+	<string name="setup_layout_lan_summary">LAN network settings</string>
+	<string name="setup_layout_lan_dialog_title">Select LAN-Network</string>
+	<string name="setup_layout_category_dns">Domain-Nameserver</string>
+	<string name="setup_layout_dnsprimary">Change preferred DNS</string>
+	<string name="setup_layout_dnsprimary_summary">Change preferred DNS</string>
+	<string name="setup_layout_dnsprimary_dialog_title">Preferred Domain-Nameserver</string>
+	<string name="setup_layout_dnsprimary_dialog_message">Use the following DNS server address:</string>
+	<string name="setup_layout_dnssecondary">Change alternate DNS</string>
+	<string name="setup_layout_dnssecondary_summary">Change alternate DNS</string>
+	<string name="setup_layout_dnssecondary_dialog_title">Alternate Domain-Nameserver</string>
+	<string name="setup_layout_dnssecondary_dialog_message">Use the following DNS server address:</string>
+	<string name="setup_layout_mssclamping">MSS clamping</string>
+	<string name="setup_layout_mssclamping_summary">Enable MSS clamping</string>
+	<string name="setup_layout_routingfix">Routing fix</string>
+	<string name="setup_layout_routingfix_summary">Enable Routing-fix</string>	
+	<string name="setup_layout_notification">Client Notification Mode</string>
+	<string name="setup_layout_notification_summary">Client Notification Mode settings</string>
+	<string name="setup_layout_notification_dialog_title">Select Client Notification Mode</string>	
+	<string name="setup_layout_vibrate">Vibrate on connect</string>
+	<string name="setup_layout_vibrate_summary">Vibrate when a client connects</string>
+	<string name="setup_layout_ringtone">Notification Ringtone</string>
+	<string name="setup_layout_ringtone_summary">Ringtone to use with notifications</string>
+	<string name="setup_layout_updatecheck">Disable Update-Check</string>
+	<string name="setup_layout_updatecheck_summary">Turn off update-check at startup</string>
+	<string name="setup_layout_enable4gpref">Enable 4G Mobile network</string>
+	<string name="setup_layout_enable4gpref_summary">Enable 4G network after tethering-start</string>
+	<string name="setup_layout_wakelock">Disable Wake-Lock</string>
+	<string name="setup_layout_wakelock_summary">Turn off wake-lock while tethering</string>
+	<string name="setup_layout_battery">Battery Temperature</string>
+	<string name="setup_layout_battery_summary">Configure battery temperature info</string>
+	<string name="about_layout_version">Version:</string>
+	<string name="about_layout_projecthome">Project-Home:</string>
+	<string name="about_layout_license">License:</string>
+	<string name="about_layout_authors">Authors:</string>
+	<string name="about_layout_contributors">Contributors:</string>
+	<string name="about_layout_software">3rd-Party-Software:</string>
+	<string name="about_changelog_software">Changelog:</string>
+	<string name="about_changelog_detail">\n
+		v3.2-pre1 - 06/14/2012:\n\t\t1. Added HTC Rezound (Vigor) infrastructure support. 2. Added countdown timer for existing automatic idle shutdown. 3. Added session quota (1MB - 999,999,999MB) and automatic quota shutdown support. 4. Added changelog to bottom of about box. 5. Increased maximum idle time for auto shutdown to 120 minutes. 6. Added keep-alive option to keep connection alive and notify user of network issues, included options to continue retrying or shutdown tether if keep-alive servers continue to not respond. 7. Added new credit for aforementioned work to Joshua Briefman. 8. Added standard countdown timer, will shutdown tether after a user selected amount of time has passed. 9. German translations for above changes by Harald Müller.\n\n
+		v3.1-beta14 - 04/22/2012:\n\t\tBugfix: Stopping tether using trackball didn\'t work.\n\n
+		v3.1-beta13 - 04/20/2012:\n\t\t1. Start/stop-image is now a image-button. 2. Start/stop-image is now a image-button.\n\n
+		v3.1-beta12 - 04/09/2012:\n\t\t1. Added support for Galaxy S2 (ICS). 2. Added an generic ics-profile which might work on different devices. (You have to select this profile - called Generic ICS - manually in app-stettings under Device profile.).\n\n
+		</string>
+	<string name="clientrow_layout_macaddress">MAC-Address:</string>
+	<string name="clientrow_layout_name">Name:</string>
+	<string name="clientrow_layout_ipaddress">IP-Address:</string>
+	<string name="donate_layout_line1">If you like this application, then please consider a donation to help with this project.</string>
+	<string name="donate_layout_line2">By donating you provide support to an open-source project.</string>
+	<string name="donate_layout_line3">Donations do NOT purchase a new application, but simply help us to continue our work.</string>
+	<string name="donate_layout_line4">If you want to donate later, you can do so from the \'About\' dialog.</string>
+	<string name="donate_layout_line5">Thank you!</string>
+	<string name="noaccesscontrol_layout_line1">Sorry, but your kernel does not have all necessary features for the Access Control feature of this application. Access Control will be disabled.</string>
+	<string name="noaccesscontrol_layout_line2">Please see our FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
+	<string name="nonetfilter_layout_line2">Please see our FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="noroot_layout_line1">Sorry, but your kernel does not have all necessary features for running this application.</string>
+	<string name="update_layout_line1">There is an update available!</string>
+	<string name="update_layout_line2">Do you want to install this update now?</string>
+	<string name="bt_warning_line1">Our method of bluetooth-tethering (PAN) is known to not work on every device/android-platform.</string>
+	<string name="bt_warning_line2">This functionality might not work on your device!</string>
+	<string name="txpower_warning_line1">The ability of reducing the wifi-transmit power depends on the wifi-chip.</string>
+	<string name="txpower_warning_line2">This functionality might not work on your device!</string>
+	<string name="hidessid_warning_line1">The ability of hiding the ssid-id depends on the wifi-driver on our phone.</string>
+	<string name="hidessid_warning_line2">This functionality might not work on your device!</string>
+
+	<string-array name="keepaliveoption">  
+		<item>Keep Trying</item>  
+		<item>Shutdown Tether (timer)</item>  
+	</string-array>		
+
+	<string-array name="keepaliveoptionvalues">  
+		<item>karetry</item> 
+		<item>kashutdown</item> 
+	</string-array>		
+				
+	<string-array name="notificationmodenames">  
+		<item>None</item>  
+		<item>Unauthorized Clients</item>  
+		<item>All Clients</item>
+	</string-array>
+
+	<string-array name="powernames">  
+		<item>Disabled</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>  
+	</string-array>
+	
+	<string-array name="encsetupnames">  
+		<item>Auto</item>
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	 
+	
+	<string-array name="batterytempnames">  
+		<item>Disabled</item>  
+		<item>Celsius</item>  
+		<item>Fahrenheit</item>  
+	</string-array>		
+	
+	<string-array name="devicenames">  
+		<item>Auto</item>
+		<item>Generic</item>
+		<item>Generic ICS</item>
+		<item>Google NexusOne</item>
+		<item>HTC Amaze</item>
+		<item>HTC Dream</item>
+		<item>HTC Desire (GSM)</item>
+		<item>HTC Desire (CDMA)</item>
+		<item>HTC Evo 4G</item>
+		<item>HTC Evo 3D</item>
+		<item>HTC Thunderbolt (LTE/CDMA)</item>
+		<item>HTC Hero (GSM)</item>
+		<item>HTC Hero (CDMA)</item>
+		<item>HTC Magic</item>
+		<item>HTC Rezound (LTE/CDMA/GSM)</item>
+		<item>LG Optimus S</item>
+		<item>LG Marquee</item>
+		<item>LG Optimus Mach</item>
+		<item>LG Optimus Black</item>
+		<item>LG Optimus Black (G)</item>
+		<item>LG Optimus 3D</item> 
+		<item>LG Thrill</item>
+		<item>LG Thrill (G)</item> 
+		<item>Motorola Atrix 2</item>
+		<item>Motorola Droid2 Global (CDMA)</item>
+		<item>Motorola Defy (GSM)</item>    
+		<item>Motorola Droid (CDMA)</item>  
+		<item>Motorola Milestone (GSM)</item> 
+		<item>Motorola DroidX (CDMA)</item>
+		<item>Motorola MilestoneX (GSM)</item>
+		<item>Motorola Droid2 (CDMA)</item>
+		<item>Motorola Milestone2 (GSM)</item> 
+		<item>Motorola Droid Pro (CDMA)</item>     
+		<item>Motorola Milestone Plus (GSM)</item>
+		<item>Motorola Droid Bionic</item>
+		<item>Motorola Droid 3</item>
+		<item>Motorola Milestone 3 (GSM)</item>
+		<item>Motorola Droid RAZR (CDMA/LTE)</item>
+		<item>Motorola Droid RAZR (GSM)</item>  
+		<item>Samsung Captivate</item>
+		<item>Samsung Droid Charge</item>  
+		<item>Samsung Epic 4G</item>
+		<item>Samsung Epic Touch 4G</item>
+		<item>Samsung Fascinate</item> 
+		<item>Samsung Galaxy Indulge</item>
+		<item>Samsung Galaxy Nexus (GSM)</item> 
+		<item>Samsung Galaxy Nexus (CDMA/LTE)</item> 
+		<item>Samsung Galaxy S</item>
+		<item>Samsung Galaxy S2</item>
+		<item>Samsung Galaxy SL</item> 
+		<item>ZTE Blade</item>  
+	</string-array>
+	
+	<string-array name="setupnames">  
+		<item>Auto</item> 
+		<item>WEXT (ad-hoc)</item>  
+		<item>Netd (master)</item> 
+		<item>Hostapd (master)</item>
+		<item>Softap (master)</item>
+		<item>Softap for Samsung (master)</item>      
+	</string-array>
+	
+	<!-- Below values don't need to be translated -->
+	<string name="main_activity_temperatureunit_celsius">°C</string>
+	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
+	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
+	<string-array name="notificationmodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+	</string-array>
+	
+	<string-array name="powermodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item> 
+	</string-array>
+	<string-array name="channelvalues">  
+		<item>0</item> 
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item>  
+		<item>4</item>  
+		<item>5</item>  
+		<item>6</item>  
+		<item>7</item>  
+		<item>8</item>  
+		<item>9</item>  
+		<item>10</item>  
+		<item>11</item>  
+	</string-array>
+	<string-array name="channelnames">  
+		<item>Auto</item> 
+		<item>Channel 01 (2412 MHz)</item>  
+		<item>Channel 02 (2417 MHz)</item>  
+		<item>Channel 03 (2422 MHz)</item>  
+		<item>Channel 04 (2427 MHz)</item>  
+		<item>Channel 05 (2432 MHz)</item>  
+		<item>Channel 06 (2437 MHz)</item>  
+		<item>Channel 07 (2442 MHz)</item>  
+		<item>Channel 08 (2447 MHz)</item>  
+		<item>Channel 09 (2452 MHz)</item>  
+		<item>Channel 10 (2457 MHz)</item>  
+		<item>Channel 11 (2462 MHz)</item>  
+	</string-array>  	
+	<string-array name="lannetworkvalues">  
+		<item>192.168.1.0/24</item>  
+		<item>192.168.2.0/24</item> 
+		<item>192.168.3.0/24</item> 
+		<item>172.20.21.0/24</item>  
+		<item>172.20.22.0/24</item>
+		<item>172.20.23.0/24</item>   
+		<item>10.10.1.0/24</item>  
+		<item>10.10.2.0/24</item>  
+		<item>10.10.3.0/24</item> 
+	</string-array>
+	<string-array name="powervalues">  
+		<item>disabled</item>  
+		<item>3mW</item>  
+		<item>5mW</item>  
+		<item>10mW</item>  
+		<item>15mW</item>  
+		<item>20mW</item>  
+		<item>25mW</item>  
+		<item>30mW</item>  
+	</string-array>	 
+	<string-array name="encsetupvalues">  
+		<item>auto</item>  
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	
+	<string-array name="batterytempvalues">  
+		<item>disabled</item>  
+		<item>celsius</item>  
+		<item>fahrenheit</item>  
+	</string-array>
+	<string-array name="devicevalues">  
+		<item>auto</item> 
+		<item>generic</item>
+		<item>generic_ics</item>  
+		<item>passion</item>
+		<item>ruby</item>
+		<item>dream</item>
+		<item>bravo</item>
+		<item>bravoc</item>
+		<item>supersonic</item>
+		<item>pyramid</item>
+		<item>mecha</item>
+		<item>hero</item>
+		<item>heroc</item>
+		<item>sapphire</item>
+		<item>vigor</item>
+		<item>thunderc</item>
+		<item>ls855</item>
+		<item>ls3000</item>
+		<item>p970</item>
+		<item>p970g</item>
+		<item>p920</item>
+		<item>p925</item>
+		<item>p925g</item>
+		<item>edison</item>
+		<item>cdma_droid2we</item>
+		<item>umts_jordan</item>    		
+		<item>cdma_sholes</item>
+		<item>umts_sholes</item>
+		<item>cdma_shadow</item>
+		<item>umts_shadow</item>
+		<item>cdma_droid2</item>
+		<item>umts_droid2</item>    		    
+		<item>cdma_venus2</item>  
+		<item>umts_venus2</item>
+		<item>cdma_targa</item>
+		<item>cdma_solana</item>
+		<item>umts_solana</item>    
+		<item>cdma_spyder</item>
+		<item>umts_spyder</item>    
+		<item>SGH-I897</item>
+		<item>SCH-I510</item> 
+		<item>SPH-D700</item>
+		<item>SPH-D710</item>
+		<item>SCH-I500</item>
+		<item>SCH-R910</item>
+		<item>maguro</item>
+		<item>toro</item>
+		<item>GT-I9000</item>
+		<item>GT-I9100</item>
+		<item>galaxysl</item>
+		<item>blade</item> 
+	</string-array>
+	<string-array name="setupvalues">  
+		<item>auto</item>
+		<item>wext</item>  
+		<item>netd</item> 
+		<item>hostapd</item>
+		<item>softap</item>    
+		<item>softap_samsung</item> 
+	</string-array>
+	
+</resources>
