@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="global_application_name">Wireless Tether</string>
+	<string name="global_application_installed">Programm- und Konfigurationsdateien installiert!</string>
+	<string name="global_application_error_restartsecwifi">"Fehler beim Neustart (Sicherheitseinstellungen)!"</string>
+    <string name="global_application_tethering_running">Tethering ist aktiviert ...</string>
+	<string name="global_application_accesscontrol_disabled">Zugriffskontrolle deaktiviert</string>
+	<string name="global_application_accesscontrol_authorized">Authorisiert</string>
+	<string name="global_application_accesscontrol_unauthorized">Nicht Authorisiert</string>    
+	<string name="global_application_connected">verbunden</string>
+    <string name="main_activity_settings">Einstellungen</string>
+    <string name="main_activity_about">Über</string>
+    <string name="main_activity_donate">Spende</string>
+    <string name="main_activity_close">Schließen</string>
+    <string name="main_activity_notroot">Nicht Root!</string>
+    <string name="main_activity_nonetfilter">Kein Netfilter!</string>
+    <string name="main_activity_noaccesscontrol">Keine Zugriffskontrolle!</string>
+    <string name="main_activity_accesscontrol_disabled">Zugriffskontrolle deaktiviert.</string>    
+    <string name="main_activity_exit">Beenden</string>
+    <string name="main_activity_ignore">Ignorieren</string>
+    <string name="main_activity_yes">Ja</string>
+    <string name="main_activity_no">Nein</string>
+    <string name="main_activity_ok">OK</string> 
+    <string name="main_activity_locked">Bedienfläche gesperrt!</string>       
+    <string name="main_activity_showlog">Zeige Log</string>
+    <string name="main_activity_accesscontrol">Zugangskontrolle</string>
+    <string name="main_activity_start">Starte Tethering</string>
+    <string name="main_activity_start_summary">Bitte warten während gestartet wird...</string>
+    <string name="main_activity_start_errors">Beim Start wurden Fehler erkannt! Bitte überprüfe \'Zeige Log\'.</string>
+    <string name="main_activity_start_unable">Es kann nicht gestartet werden. Möglicherweise konnten keine Root-Rechte angefordert werden.</string>
+    <string name="main_activity_start_wiredtethering_running">\'Wired-tethering\' scheint im Moment aktiviert zu sein. Bitte zuvor deaktivieren.</string>
+    <string name="main_activity_start_usbtethering_running"><![CDATA[USB-tethering scheint im Moment aktiviert zu sein. Bitte unter: Settings -> Wireless & network setting -> Internet tethering deaktivieren.]]></string>
+    <string name="main_activity_start_unknownstate">Das Telefon befindet sich in einem unbekannten Status. Ein Neustart des Gerätes sollte dieses Problem beheben!</string>
+    <string name="main_activity_stop">Stoppe Tethering</string>
+    <string name="main_activity_stop_summary">Bitte warten während gestoppt wird...</string>  
+    <string name="main_activity_confirm">Bestätigen</string>
+    <string name="main_activity_cancel">Abbrechen</string>
+    <string name="main_activity_trackball_pressed_start">Trackball wurde gedrückt. Bestätigung für \"Tether-Start\" benötigt.</string>
+    <string name="main_activity_trackball_pressed_stop">Trackball wurde gedrückt. Bestätigung für \"Tether-Stop\" benötigt</string>
+    <string name="log_activity_nologfile">Kann Log-Datei nicht öffnen. Datei existiert nicht!</string>
+    <string name="main_layout_presstostart">- Drücken um Tethering zu starten. -</string> 
+    <string name="main_layout_presstostop">- Drücken um Tethering zu stoppen. -</string> 
+    <string name="main_layout_download">Download</string> 
+    <string name="main_layout_upload">Upload</string>     
+    <string name="accesscontrol_activity_reloadclientlist">Klienten-Liste neu laden</string>
+    <string name="accesscontrol_activity_applysettings">Einstellungen übernehmen</string>
+    <string name="accesscontrol_activity_enabled">Zugriffskontrolle aktiviert.</string>
+    <string name="accesscontrol_activity_disabled">Zugriffskontrolle deaktiviert.</string>
+    <string name="accesscontrol_activity_is_enabled">Zugriffskontrolle ist aktiviert.</string>
+    <string name="accesscontrol_activity_is_disabled">Zugriffskontrolle ist deaktiviert.</string>
+    <string name="accesscontrol_activity_error_save_whitelistfile">Kann whitelist-Datei nicht speichern!</string>
+    <string name="accesscontrol_activity_error_remove_whitelistfile">Kann whitelist-Datei nicht löschen!</string>
+    <string name="accesscontrol_activity_error_read_leasefile">Kann lease-Datei nicht lesen!</string>
+    <string name="accesscontrol_activity_config_saved">Konfiguration für die Zugriffskontrolle gespeichert!</string>
+    <string name="accesscontrol_activity_not_connected">- Nicht verbunden -</string>    
+    <string name="accesscontrol_layout_connectedclients">Verbundene/Authorisierte Klienten:</string>
+	<string name="accesscontrol_layout_apply">Übernehmen</string>
+	<string name="accesscontrol_layout_enable">Aktivieren</string>
+	<string name="accesscontrol_layout_disable">Deaktivieren</string>	
+    <string name="setup_activity_reinstall">Binär- und Konfigurationsdateien neu installieren</string>
+    <string name="setup_activity_restart_tethering_title">Neustart Tethering</string>
+    <string name="setup_activity_restart_tethering_message">Bitte warten während neu gestartet wird...</string>
+    <string name="setup_activity_error_passphrase_invalidchars">Passwort enthält ungültige Zeichen. Änderungen wurden nicht gespeichert!</string>
+    <string name="setup_activity_error_passphrase_tooshort">Passwort zu kurz! Änderung wurde nicht gespeichert.</string>
+    <string name="setup_activity_error_passphrase_toolong">Passphrase zu lange! Änderung wurde nicht gespeichert.</string>
+    <string name="setup_activity_error_restart_tethering">Neustart nicht möglich!</string>
+    <string name="setup_activity_error_passphrase_info">Passwort muss zwischen 8 und 30 Zeichen lang sein!</string>
+	<string name="setup_activity_error_passphrase_13chars">Passwort muss 13 Zeichen (ASCII) lang sein!</string>
+	<string name="setup_activity_error_ssid_invalidchars">SSID enthält ungültige Zeichen</string>
+	<string name="setup_activity_error_ssid_empty">Neue SSID kann nicht leer sein</string>
+	<string name="setup_activity_error_ssid_notsaved">. Änderungen wurden nicht gespeichert.</string>
+	<string name="setup_activity_info_ssid_changedto">SSID geändert auf </string>
+	<string name="setup_activity_info_channel_changedto">Kanal geändert auf </string>
+	<string name="setup_activity_info_passphrase_changedto">Passwort geändert auf </string>
+	<string name="setup_activity_info_txpower_changedto">Sende-Leistung geändert auf </string>
+	<string name="setup_activity_info_lan_changedto">LAN-Netzwerk geändert auf </string>
+	<string name="setup_activity_info_wakelock_disabled">Wake-Lock wurde deaktiviert.</string>
+	<string name="setup_activity_info_wakelock_enabled">Wake-Lock wurde aktiviert.</string>
+	<string name="setup_activity_info_accesscontrol_disabled">Zugangskontrolle deaktiviert.</string>
+	<string name="setup_activity_info_accesscontrol_enabled">Zugangskontrolle aktiviert.</string>   
+	<string name="setup_activity_bt_warning_title">Warnung: Bluetooth</string>
+	<string name="setup_activity_bt_warning_ok">OK</string>
+	<string name="setup_activity_txpower_warning_title">Warnung: Sendeleistung</string>
+	<string name="setup_activity_txpower_warning_ok">OK</string>	
+	<string name="setup_layout_category_bluetooth">Bluetooth</string>
+	<string name="setup_layout_category_wifi">Wifi</string>
+	<string name="setup_layout_category_security">Sicherheit</string>
+	<string name="setup_layout_category_lan">LAN</string>
+	<string name="setup_layout_category_notifications">Benachrichtigungen</string>
+	<string name="setup_layout_category_misc">Verschiedenes</string>
+	<string name="setup_layout_usebluetooth">Verwende Bluetooth</string>
+	<string name="setup_layout_usebluetooth_summary">Bluetooth PAN Tethering anstatt WiFi</string>
+	<string name="setup_layout_dontdisablewifi">WiFi nicht deaktivieren</string>
+	<string name="setup_layout_dontdisablewifi_summary">WiFi-Status beibehalten</string>
+	<string name="setup_layout_discoverable">Sichtbar</string>
+	<string name="setup_layout_discoverable_summary">Gerät sichtbar machen für 120 Sekunden nach Start</string>
+	<string name="setup_layout_wifiencryption">Aktiviere WiFi-Verschlüsselung</string>
+	<string name="setup_layout_wifiencryption_summary">WiFi-Verschlüsselung aktivieren</string>
+	<string name="setup_layout_encryptionsetup">Methode zur WiFi-Verschlüsselung</string>
+	<string name="setup_layout_encryptionsetup_summary">Ändere Verschlüsselungs-Methode</string>
+	<string name="setup_layout_passphrase">Ändere Passwort</string>
+	<string name="setup_layout_passphrase_summary">Ändere Passwort für WiFi-Verschlüsselung</string>
+	<string name="setup_layout_passphrase_dialog_title">Ändere Passwort</string>
+	<string name="setup_layout_ssid">Ändere SSID</string>
+	<string name="setup_layout_ssid_summary">Ändere SSID</string>
+	<string name="setup_layout_ssid_dialog_title">Ändere SSID</string>
+	<string name="setup_layout_ssid_dialog_message">Es sind nur alphanumerische Zeichen inklusive \'.\', \'_\' erlaubt!</string>
+	<string name="setup_layout_channel">Ändere Kanal</string>
+	<string name="setup_layout_channel_summary">WiFi Frequenz ändern</string>
+	<string name="setup_layout_channel_dialog_title">Auswahl Kanal</string>
+	<string name="setup_layout_txpower">Ändere Sende-Leistung</string>
+	<string name="setup_layout_txpower_summary">Ändere Sende-Leistung</string>
+	<string name="setup_layout_txpower_dialog_title">Ändere Sende-Leistung</string>
+	<string name="setup_layout_accesscontrol">Aktiviere Zugangskontrolle</string>
+	<string name="setup_layout_accesscontrol_summary">Zugangskontrolle aktivieren</string>	
+	<string name="setup_layout_lan">Ändere LAN</string>
+	<string name="setup_layout_lan_summary">Ändere LAN-Netzwerk Einstellungen</string>
+	<string name="setup_layout_lan_dialog_title">Auswahl LAN-Network</string>
+	<string name="setup_layout_notification">Benarichtigungs-Modus</string>
+	<string name="setup_layout_notification_summary">Benachrichtigungs-Modus bei Klienten-Verbindungen</string>
+	<string name="setup_layout_notification_dialog_title">Select Client Notification Mode</string>	
+	<string name="setup_layout_vibrate">Vibriere bei Verbindung</string>
+	<string name="setup_layout_vibrate_summary">Vibriere wenn ein Klient sich verbindet</string>
+	<string name="setup_layout_ringtone">Notifizierungs-Klingelton</string>
+	<string name="setup_layout_ringtone_summary">Klingelton bei Klient-Verbindung</string>
+	<string name="setup_layout_updatecheck">Deaktiviere Aktualisierungs-Prüfung</string>
+	<string name="setup_layout_updatecheck_summary">Deaktiviere Aktualisierungs-Prüfung</string>
+	<string name="setup_layout_wakelock">Deaktiviere Wake-Lock</string>
+	<string name="setup_layout_wakelock_summary">Deaktiviere Wake-Lock</string>
+	<string name="setup_layout_battery">Akku-Temperatur</string>
+	<string name="setup_layout_battery_summary">Konfiguriere Akku-Temperatur Anzeige</string>
+	<string name="setup_layout_lockscreen">Deaktiviere Anzeige-Sperre</string>
+	<string name="setup_layout_lockscreen_summary">Verstecke Schaltfläche für Anzeige-Sperre</string>		
+	<string name="about_layout_version">Version:</string>
+	<string name="about_layout_projecthome">Projekt-Homepage:</string>
+	<string name="about_layout_license">Lizenz:</string>
+	<string name="about_layout_authors">Autoren:</string>
+	<string name="about_layout_contributors">Beitragende:</string>
+	<string name="about_layout_software">Sonstige Software:</string>
+	<string name="clientrow_layout_macaddress">MAC-Adresse:</string>
+	<string name="clientrow_layout_name">Name:</string>
+	<string name="clientrow_layout_ipaddress">IP-Adresse:</string>
+	<string name="donate_layout_line1">Wenn Sie diese Applikation mögen, dann ziehen Sie bitte eine Spende in Betracht.</string>
+	<string name="donate_layout_line2">Sie unterstützen damit ein Opensource-Projekt.</string>
+	<string name="donate_layout_line3"></string>
+	<string name="donate_layout_line4">Sollten Sie zu einem späteren Zeitpunkt spenden wollen, dann können Sie das über den \'Über\'-Menüpunkt nachholen.</string>
+	<string name="donate_layout_line5">Vielen Dank!</string>
+	<string name="noaccesscontrol_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen für die \'Zugangskontrolle\' nicht. Die \'Zugangskontrolle\' wird deaktiviert.</string>
+	<string name="noaccesscontrol_layout_line2">FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line1">Entschuldigen Sie bitte, aber der installierte Kernel unterstützt notwendige Funktionen.</string>
+	<string name="nonetfilter_layout_line2">FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="noroot_layout_line1">Entschuldigen Sie bitte, aber sie haben keine Root-Rechte.</string>
+	<string name="update_layout_line1">Eine Aktualisiserung steht zur Verfügung!</string>
+	<string name="update_layout_line2">Wollen Sie diese Aktualisierung nun durchführen?</string>
+	<string name="bt_warning_line1">Es ist bekannt, daß diese Methode des Bluetooth-Tetherings nicht auf allen Geräten/Android-Versionen funktioniert.</string>
+	<string name="bt_warning_line2">Diese Funktionalität steht möglicherweise auf ihrem Gerät nicht zur Verfügung!</string>
+	<string name="txpower_warning_line1">Die Möglichkeit die Sende-Leistung zu ändern, hängt von dem eingebauten WiFi-Chip ab.</string>
+	<string name="txpower_warning_line2">Diese Funktionalität steht möglicherweise auf ihrem Gerät nicht zur Verfügung!</string>
+
+    <string-array name="notificationmodenames">  
+		<item>Keine</item>  
+		<item>Nicht-Authorisierte Klienten</item>  
+		<item>Alle Klienten</item>
+	</string-array>
+	
+    <string-array name="powernames">  
+		<item>Deaktiviert</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>  
+	</string-array>		
+	
+    <string-array name="encsetupnames">  
+		<item>Auto</item>
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	 	
+
+    <string-array name="batterytempnames">  
+		<item>Deaktiviert</item>  
+		<item>Celsius</item>  
+		<item>Fahrenheit</item>  
+	</string-array>		
+ 	  
+</resources>

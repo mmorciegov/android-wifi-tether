@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="global_application_installed">バイナリと設定ファイルをインストールしました！</string>
+    <string name="global_application_error_restartsecwifi">セキュアWi-Fiの再起動ができません！</string>
+    <string name="global_application_tethering_running">現在テザリングは起動中 ...</string>
+    <string name="global_application_accesscontrol_disabled">アクセス制御無効</string>
+    <string name="global_application_accesscontrol_authorized">認証済み</string>
+    <string name="global_application_accesscontrol_unauthorized">未認証</string>
+    <string name="global_application_connected">接続</string>
+    <string name="main_activity_settings">設定</string>
+    <string name="main_activity_about">情報</string>
+    <string name="main_activity_donate">寄付</string>
+    <string name="main_activity_close">閉じる</string>
+    <string name="main_activity_notroot">Rootがありません！</string>
+    <string name="main_activity_nonetfilter">Netfilterがありません！</string>
+    <string name="main_activity_noaccesscontrol">アクセスコントロールがありません！</string>
+    <string name="main_activity_accesscontrol_disabled">アクセスコントロールは無効です。</string>
+    <string name="main_activity_exit">終了</string>
+    <string name="main_activity_ignore">無視</string>
+    <string name="main_activity_yes">はい</string>
+    <string name="main_activity_no">いいえ</string>
+    <string name="main_activity_ok">OK</string>
+    <string name="main_activity_showlog">ログを表示</string>
+    <string name="main_activity_accesscontrol">アクセスコントロール</string>
+    <string name="main_activity_start">テザリングを開始</string>
+    <string name="main_activity_start_summary">開始までしばらくお待ちください...</string>
+    <string name="main_activity_start_errors">テザリングの開始にエラーが起きました！\'ログを表示\'を確認してください。</string>
+    <string name="main_activity_start_unable">テザリングを開始できませんでした。もう一度試してください！</string>
+    <string name="main_activity_start_wiredtethering_running">現在有線のテザリングが起動中のようです。まず無効にしてください！</string>
+    <string name="main_activity_start_usbtethering_running"><![CDATA[現在USBテザリングが起動しているようです。まずこれを無効にしてください: 設定 -> 無線とネットワーク -> インターネットテザリング]]></string>
+    <string name="main_activity_start_unknownstate">端末が不安定な状態にあります - 再起動してみてください！</string>
+    <string name="main_activity_stop">テザリングを停止</string>
+    <string name="main_activity_stop_summary">停止までしばらくお待ちください...</string>
+    <string name="main_activity_confirm">確認</string>
+    <string name="main_activity_cancel">キャンセル</string>
+    <string name="main_activity_trackball_pressed_start">トラックボールが押されました。テザリングを開始しますか?</string>
+    <string name="main_activity_trackball_pressed_stop">トラックボールが押されました。テザリングを停止しますか?</string>
+    <string name="log_activity_nologfile">ログファイルを開けません。ファイルが存在しません！</string>
+    <string name="main_layout_presstostart">- タッチでテザリングを開始 -</string>
+    <string name="main_layout_presstostop">- タッチでテザリングを停止 -</string>
+    <string name="main_layout_download">ダウンロード</string>
+    <string name="main_layout_upload">アップロード</string>
+    <string name="accesscontrol_activity_reloadclientlist">クライアントリストを再読込み</string>
+    <string name="accesscontrol_activity_applysettings">設定を適用</string>
+    <string name="accesscontrol_activity_enabled">アクセスコントロール有効</string>
+    <string name="accesscontrol_activity_disabled">アクセスコントロール無効</string>
+    <string name="accesscontrol_activity_is_enabled">アクセスコントロールは有効</string>
+    <string name="accesscontrol_activity_is_disabled">アクセスコントロールは無効</string>
+    <string name="accesscontrol_activity_error_save_whitelistfile">ホワイトリストファイルを保存できません！</string>
+    <string name="accesscontrol_activity_error_remove_whitelistfile">ホワイトリストファイルを削除できません！</string>
+    <string name="accesscontrol_activity_error_read_leasefile">リースファイルを読み込めません！</string>
+    <string name="accesscontrol_activity_config_saved">アクセスコントロール設定を保存しました！</string>
+    <string name="accesscontrol_activity_not_connected">- 未接続 -</string>
+    <string name="accesscontrol_layout_connectedclients">接続済み/認証済みクライアント:</string>
+    <string name="accesscontrol_layout_apply">適用</string>
+    <string name="accesscontrol_layout_enable">有効化</string>
+    <string name="accesscontrol_layout_disable">無効化</string>
+    <string name="setup_activity_reinstall">バイナリと設定を再インストール</string>
+    <string name="setup_activity_restart_tethering_title">テザリングリスタート</string>
+    <string name="setup_activity_restart_tethering_message">リスタート中です、お待ちください...</string>
+    <string name="setup_activity_error_passphrase_invalidchars">パスフレーズに不正な文字が含まれています、保存されません！</string>
+    <string name="setup_activity_error_passphrase_tooshort">パスフレーズが短すぎます！新しい値は保存されませんでした。</string>
+    <string name="setup_activity_error_passphrase_toolong">パスフレーズが長すぎます！新しい値は保存されませんでした。</string>
+    <string name="setup_activity_error_restart_tethering">テザリングをリスタートできません！</string>
+    <string name="setup_activity_error_passphrase_info">パスフレーズの長さは8文字から30文字の間でなくてはなりません！</string>
+    <string name="setup_activity_error_passphrase_13chars">パスフレーズは13文字(ASCII)である必要があります！</string>
+    <string name="setup_activity_error_ssid_invalidchars">SSIDに不正な文字が含まれています。</string>
+    <string name="setup_activity_error_ssid_empty">新しいSSIDは空にできません。</string>
+    <string name="setup_activity_error_ssid_notsaved">、保存されませんでした。</string>
+    <string name="setup_activity_info_ssid_changedto">SSID変更: </string>
+    <string name="setup_activity_info_channel_changedto">チャンネル変更: </string>
+    <string name="setup_activity_info_passphrase_changedto">パスフレーズ変更: </string>
+    <string name="setup_activity_info_txpower_changedto">送出力変更: </string>
+    <string name="setup_activity_info_lan_changedto">LANネットワーク変更: </string>
+    <string name="setup_activity_info_wakelock_disabled">ウェイクロックを無効にしました。</string>
+    <string name="setup_activity_info_wakelock_enabled">ウェイクロックを有効にしました。</string>
+    <string name="setup_activity_info_accesscontrol_disabled">アクセスコントロールを無効にしました。</string>
+    <string name="setup_activity_info_accesscontrol_enabled">アクセスコントロールを有効にしました。</string>
+    <string name="setup_layout_category_bluetooth">Bluetooth</string>
+    <string name="setup_layout_category_wifi">Wi-Fi</string>
+    <string name="setup_layout_category_security">セキュリティ</string>
+    <string name="setup_layout_category_lan">LAN</string>
+    <string name="setup_layout_category_notifications">通知</string>
+    <string name="setup_layout_category_misc">その他</string>
+    <string name="setup_layout_usebluetooth">Bluetoothを使用</string>
+    <string name="setup_layout_usebluetooth_summary">Wi-FiではなくBluetooth PANテザリングを使用する</string>
+    <string name="setup_layout_dontdisablewifi">Wi-Fiを無効にしない</string>
+    <string name="setup_layout_dontdisablewifi_summary">Wi-Fiの状態を維持する</string>
+    <string name="setup_layout_discoverable">検索可能にする</string>
+    <string name="setup_layout_discoverable_summary">開始から120秒間だけデバイスを検索可能にする</string>
+    <string name="setup_layout_wifiencryption">Wi-Fi暗号化</string>
+    <string name="setup_layout_wifiencryption_summary">Wi-Fi暗号化を有効にする</string>
+    <string name="setup_layout_encryptionsetup">暗号化モード</string>
+    <string name="setup_layout_encryptionsetup_summary">Wi-Fi暗号化モードを変更する</string>
+    <string name="setup_layout_passphrase">パスフレーズの変更</string>
+    <string name="setup_layout_passphrase_summary">Wi-Fi暗号化のパスフレーズを変更する</string>
+    <string name="setup_layout_passphrase_dialog_title">パスフレーズを入力</string>
+    <string name="setup_layout_ssid">SSIDを変更</string>
+    <string name="setup_layout_ssid_summary">SSIDを変更する</string>
+    <string name="setup_layout_ssid_dialog_title">SSIDを入力</string>
+    <string name="setup_layout_ssid_dialog_message">英数字と\'.\', \'_\'だけ入力できます！</string>
+    <string name="setup_layout_channel">チャンネルを変更</string>
+    <string name="setup_layout_channel_summary">無線周波数を変更する</string>
+    <string name="setup_layout_channel_dialog_title">チャンネルを選択</string>
+    <string name="setup_layout_txpower">出力強度</string>
+    <string name="setup_layout_txpower_summary">出力強度 を抑える</string>
+    <string name="setup_layout_txpower_dialog_title">強度を抑える</string>
+    <string name="setup_layout_accesscontrol">アクセスコントロールを使う</string>
+    <string name="setup_layout_accesscontrol_summary">アクセスコントロールを有効にする</string>
+    <string name="setup_layout_lan">LANを変更</string>
+    <string name="setup_layout_lan_summary">LANネットワーク設定</string>
+    <string name="setup_layout_lan_dialog_title">LANネットワークを選択</string>
+    <string name="setup_layout_notification">クライアント通知モード</string>
+    <string name="setup_layout_notification_summary">クライアント通知モードの設定</string>
+    <string name="setup_layout_notification_dialog_title">クライアント通知モードを選択</string>
+    <string name="setup_layout_vibrate">接続時に振動する</string>
+    <string name="setup_layout_vibrate_summary">クライアントが接続した際に振動する</string>
+    <string name="setup_layout_ringtone">通知音</string>
+    <string name="setup_layout_ringtone_summary">通知のために音を使用する</string>
+    <string name="setup_layout_updatecheck">更新チェックを無効にする</string>
+    <string name="setup_layout_updatecheck_summary">起動時に更新チェックを行わない</string>
+    <string name="setup_layout_wakelock">ウェイクロックしない</string>
+    <string name="setup_layout_wakelock_summary">テザリング中のウェイクロックを無効にする</string>
+    <string name="setup_layout_battery">Battery Temperature</string>
+    <string name="setup_layout_battery_summary">Configure battery temperature info</string>
+    <string name="about_layout_version">バージョン:</string>
+    <string name="about_layout_projecthome">プロジェクトホーム:</string>
+    <string name="about_layout_license">ライセンス:</string>
+    <string name="about_layout_authors">作者:</string>
+    <string name="about_layout_contributors">貢献者:</string>
+    <string name="about_layout_software">サードパーティソフトウェア:</string>
+    <string name="clientrow_layout_macaddress">MACアドレス:</string>
+    <string name="clientrow_layout_name">名前:</string>
+    <string name="clientrow_layout_ipaddress">IPアドレス:</string>
+    <string name="donate_layout_line1">もしこのアプリケーションが気に入りましたら、プロジェクト支援のために寄付をお考えください。</string>
+    <string name="donate_layout_line2">あなたの寄付によってオープンソースプロジェクトは支援されています。</string>
+    <string name="donate_layout_line3"></string>
+    <string name="donate_layout_line4">あとで寄付したくなったら、\'情報\'ダイアログから行えます。</string>
+    <string name="donate_layout_line5">ありがとう！</string>
+	<string name="noaccesscontrol_layout_line1">残念なことに、あなたのカーネルはこのアプリケーションのアクセスコントロール機能に必要な機能を備えていません。アクセスコントロールは無効になります。</string>
+    <string name="noaccesscontrol_layout_line2">FAQをご覧ください: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+    <string name="nonetfilter_layout_line1">残念なことに、あなたのカーネルはこのアプリケーションを使用するための機能が揃っていません。</string>
+    <string name="nonetfilter_layout_line2">FAQをご覧ください: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+    <string name="noroot_layout_line1">残念なことに、あなたのカーネルはこのアプリケーションを使用するための機能が揃っていません。</string>
+    <string name="update_layout_line1">アップデートが利用できます！</string>
+    <string name="update_layout_line2">今すぐアップデートをインストールしますか?</string>
+
+    <string-array name="notificationmodenames">
+    	<item>なし</item>
+    	<item>未認証クライアント</item>
+    	<item>全てのクライアント</item>
+    </string-array>
+
+    <string-array name="powernames">
+    	<item>無効</item>
+    	<item>3 mW (5 dBm)</item>
+    	<item>5 mW (7 dBm)</item>
+    	<item>10 mW (10 dBm)</item>
+    	<item>15 mW (12 dBm)</item>
+    	<item>20 mW (13 dBm)</item>
+    	<item>25 mW (14 dBm)</item>
+    	<item>30 mW (15 dBm)</item>
+    </string-array>
+
+    <string-array name="encsetupnames">
+    	<item>自動</item>
+    	<item>iwconfig</item>
+    	<item>wpa_supplicant</item>
+    </string-array>
+</resources>
