@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.googlecode.android.wifi.tether"
+      android:versionCode="34" android:versionName="3.2-pre1 ***EXPERIMENTAL***">
+    <uses-sdk android:minSdkVersion="3" />
+    <application android:name="com.googlecode.android.wifi.tether.TetherApplication" android:icon="@drawable/icon" android:label="@string/global_application_name" android:theme="@style/MyTheme">
+        <service android:enabled="true" android:name="com.googlecode.android.wifi.tether.TetherService" />
+        <activity android:name=".MainActivity"
+                  android:label="@string/global_application_name"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:screenOrientation="portrait" 
+                  android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".LogActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".AccessControlActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name="com.googlecode.android.wifi.tether.SetupActivity" android:launchMode="singleTask"/>
+        
+        <receiver android:name="TetherWidget" android:label="@string/global_application_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.googlecode.android.wifi.tether.intent.STATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/appwidget_info" />
+        </receiver>
+        
+        <receiver android:name="TetherServiceReceiver">
+            <intent-filter>
+                <action android:name="com.googlecode.android.wifi.tether.intent.MANAGE" />
+            </intent-filter>
+        </receiver>
+ 
+         <receiver android:name="com.googlecode.android.wifi.tether.WifiStateChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+        
+    </application>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>   
+	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>    
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+	<uses-permission android:name="android.permission.CHANGE_WIMAX_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIMAX_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
+</manifest> 

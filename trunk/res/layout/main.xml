@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/layoutHeaderMain"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/DarkGrey" >
+
+        <RelativeLayout
+            android:id="@+id/layoutBatteryTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10px"
+            android:layout_marginTop="10px"
+            android:background="@drawable/battery"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/batteryTempText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5px"
+                android:text="N/A"
+                android:textColor="@color/Black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutDownloadUpdate"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/DarkGrey"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/progressTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="5px"
+            android:paddingRight="5px"
+            android:text=""
+            android:textColor="@color/White"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:max="100"
+            android:paddingLeft="5px"
+            android:paddingRight="5px"
+            android:paddingTop="22px" />
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="5px"
+            android:paddingRight="5px"
+            android:paddingTop="40px"
+            android:text=""
+            android:textColor="@color/White"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/mainview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TableLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+
+            <TableRow android:id="@+id/startRow" >
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" >
+
+                    <TableRow>
+
+                        <!--
+                            <ImageView android:id="@+id/startTetherBtn"
+							android:src="@drawable/start" 
+ 		    				android:layout_width="200dp"
+		    				android:layout_height="150dp"
+							android:layout_gravity="center_horizontal" />
+
+                        -->
+
+                        <Button
+                            android:id="@+id/startTetherBtn"
+                            android:layout_width="200dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/tether_start_button" />
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:id="@+id/startText"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:paddingTop="10dp"
+                            android:text="@string/main_layout_presstostart"
+                            android:textColor="@color/White"
+                            android:textStyle="bold" />
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+
+            <TableRow android:id="@+id/stopRow" >
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" >
+
+                    <TableRow>
+
+                        <!--
+						<ImageView android:id="@+id/stopTetherBtn"
+							android:src="@drawable/stop" 
+ 		    				android:layout_width="200dp"
+		    				android:layout_height="150dp"
+							android:layout_gravity="center_horizontal" />			
+
+                        -->
+
+                        <Button
+                            android:id="@+id/stopTetherBtn"
+                            android:layout_width="200dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/tether_stop_button" />
+                    </TableRow>
+
+                    <TableRow>
+
+                        <TextView
+                            android:id="@+id/stopText"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:paddingTop="10dp"
+                            android:text="@string/main_layout_presstostop"
+                            android:textColor="@color/White"
+                            android:textStyle="bold" />
+                    </TableRow>
+                </TableLayout>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/trafficRow"
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/DarkGrey"
+        android:gravity="bottom"
+        android:visibility="invisible" >
+
+        <TextView
+            android:id="@+id/trafficDownLabel"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/main_layout_download"
+            android:textColor="@color/White"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trafficUpLabel"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/main_layout_upload"
+            android:textColor="@color/White"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trafficDown"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/trafficDownLabel"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@color/Green"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trafficUp"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/trafficUpLabel"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@color/Red"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trafficDownRate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/trafficDown"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="0dp"
+            android:textColor="@color/White"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trafficUpRate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/trafficUp"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="0dp"
+            android:textColor="@color/White"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/quotaRow"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/Transparent"
+            android:gravity="top"
+            android:visibility="invisible" >
+
+            <TextView
+                android:id="@+id/quotalabel"
+                android:layout_width="120dp"
+                android:layout_height="18dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center_horizontal"
+                android:text="@string/main_layout_quota"
+                android:textColor="@color/White"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/quotaCurrent"
+                android:layout_width="120dp"
+                android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/quotalabel"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/Green"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/quotaMax"
+                android:layout_width="120dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/quotaCurrent"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/Red"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+  <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical|right"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="3dp"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/keepAliveText"
+        android:layout_alignParentRight="true"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/White"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/countdownIdleText"
+        android:layout_below="@+id/keepAliveText"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/White"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+        <TextView
+        android:id="@+id/countdownTimerText"
+        android:layout_toLeftOf="@+id/keepAliveText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+	    android:layout_marginRight="5dp"
+        android:text=""
+        android:textColor="@color/White"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+    
+</RelativeLayout>
+</RelativeLayout>
