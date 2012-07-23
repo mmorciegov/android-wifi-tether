@@ -1,6 +1,6 @@
 #summary Update Summary.
 
-<wiki:gadget url="http://android-wifi-tether.googlecode.com/svn/wiki/com1.xml" up_projectName="android-wifi-tether" width="800"  height="100"/> 
+<wiki:gadget url="http://android-wifi-tether.googlecode.com/svn/wiki/_com1.xml" up_projectName="android-wifi-tether" width="800"  height="100"/> 
 = Updates to All Issues (including closed/fixed issues) = 
 <wiki:gadget url="http://android-wifi-tether.googlecode.com/svn/wiki/gc23.xml" up_projectName="android-wifi-tether" width="800"  height="250"/> 
 = Detailed Updates to Open Issues = 
