@@ -1,0 +1,7 @@
+#summary Update-replacement.
+
+<wiki:gadget url="http://bulletphysics.org/~erwincoumans/com1.xml" up_projectName="android-wifi-tether" width="800"  height="100"/> 
+= Updates to All Issues (including closed/fixed issues) = 
+<wiki:gadget url="http://bulletphysics.org/~erwincoumans/gc23.xml" up_projectName="android-wifi-tether" width="800"  height="250"/> 
+= Detailed Updates to Open Issues = 
+<wiki:gadget url="http://bulletphysics.org/~erwincoumans/t6.xml" up_projectName="android-wifi-tether" width="800"  height="250"/> 
