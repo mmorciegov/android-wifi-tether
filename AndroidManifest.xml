@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.googlecode.android.wifi.tether"
-      android:versionCode="34" android:versionName="3.2-pre1 ***EXPERIMENTAL***">
+      android:versionCode="35" android:versionName="3.2-pre2 ***EXPERIMENTAL***">
     <uses-sdk android:minSdkVersion="3" />
+
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>   
+	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>    
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+	<uses-permission android:name="android.permission.CHANGE_WIMAX_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIMAX_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />    
+    
     <application android:name="com.googlecode.android.wifi.tether.TetherApplication" android:icon="@drawable/icon" android:label="@string/global_application_name" android:theme="@style/MyTheme">
         <service android:enabled="true" android:name="com.googlecode.android.wifi.tether.TetherService" />
         <activity android:name=".MainActivity"
@@ -40,17 +54,5 @@
         </receiver>
         
     </application>
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>   
-	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>    
-	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
-	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
-	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-	<uses-permission android:name="android.permission.CHANGE_WIMAX_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIMAX_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
 </manifest> 

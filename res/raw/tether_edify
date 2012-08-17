@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=16
+# @Version=17
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -121,6 +121,34 @@ action() == "start" && (
 	  log(netd_cmd("softap startap "+getcfg("tether.interface")), "Starting AP");
 	  sleep("3");
 	  log(netd_cmd("interface setcfg "+getcfg("tether.interface")+" "+getcfg("ip.gateway")+" "+getcfg("ip.netmask")+" up"), "Configuring Ip-address");
+	  #log(run_program("/data/data/com.googlecode.android.wifi.tether/bin/ifconfig " + getcfg("tether.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
+	  #    run_program("/data/data/com.googlecode.android.wifi.tether/bin/ifconfig " + getcfg("tether.interface") + " up"),  "Activating WiFi interface");  	    
+	);
+
+	getcfg("wifi.driver") == "netdndc" && (  
+	  #
+	  # Netd - Generic
+	  # 
+	  getcfg("wifi.driver.reload") == "true" && (
+	    getcfg("wifi.load.cmd") == "none" && (
+	  	  log(load_wifi(), "Loading WiFi driver");
+	  	);
+	    getcfg("wifi.load.cmd") != "none" && (
+	  	  run_program(getcfg("wifi.unload.cmd"));
+	  	  log(run_program(getcfg("wifi.load.cmd")), "Loading WiFi driver (cmd)");
+	  	);
+	  	sleep("3");
+	  );
+	  log(run_program("/system/bin/ndc softap stopap"), "Stopping AP");
+	  log(run_program("/system/bin/ndc softap stop "+getcfg("wifi.interface")),"Stopping WiFI interface");
+	  log(run_program("/system/bin/ndc softap fwreload "+getcfg("wifi.interface")+" AP"),"Reloading firmware");
+	  log(run_program("/system/bin/ndc softap start "+getcfg("wifi.interface")), "Starting AP interface");
+
+
+	  log(run_program("/system/bin/ndc softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 0 8"), "Configuring AP");
+	  log(run_program("/system/bin/ndc softap startap"), "Starting AP");
+	  sleep("3");
+	  log(run_program("/system/bin/ndc interface setcfg "+getcfg("tether.interface")+" "+getcfg("ip.gateway")+" "+getcfg("ip.netmask")+" up"), "Configuring Ip-address");
 	  #log(run_program("/data/data/com.googlecode.android.wifi.tether/bin/ifconfig " + getcfg("tether.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
 	  #    run_program("/data/data/com.googlecode.android.wifi.tether/bin/ifconfig " + getcfg("tether.interface") + " up"),  "Activating WiFi interface");  	    
 	);
@@ -361,6 +389,22 @@ action() == "stop" && (
 	);
   );
 
+  getcfg("wifi.driver") == "netdndc" && (
+	log(run_program("/system/bin/ndc softap stopap"), "Stopping AP");
+	log(run_program("/system/bin/ndc softap stop "+getcfg("tether.interface")), "Stopping tether interface");
+	log(run_program("/system/bin/ndc softap stop "+getcfg("wifi.interface")), "Stopping WiFi interface");
+	log(run_program("/system/bin/ndc softap fwreload "+getcfg("wifi.interface")), "Reloading firmware");
+	getcfg("wifi.driver.reload") == "true" && (
+	    getcfg("wifi.unload.cmd") == "none" && (
+	  	  unload_wifi();
+	  	);
+	    getcfg("wifi.unload.cmd") != "none" && (
+	  	  run_program(getcfg("wifi.unload.cmd"));
+	  	);
+	  	setprop("wlan.driver.status","unloaded");
+	);
+  );
+
   getcfg("wifi.driver") == "hostapd" && ( 
     module_loaded(getcfg("hostapd.module.name")) &&  rmmod(getcfg("hostapd.module.name"));
     setprop("wlan.driver.status","unloaded");
@@ -434,3 +478,8 @@ action() == "restartsecwifi" && (
     "Enabling access control."
     );
 );
+
+#
+# Update log-file permission
+#
+run_program("/system/bin/chmod 666 /data/data/com.googlecode.android.wifi.tether/var/tether.log");

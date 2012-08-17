@@ -305,7 +305,7 @@ public class TetherApplication extends Application {
 				this.tethercfg.put("wifi.encryption", "wep");
 			}
 		}
-		else if (setupMethod.equals("netd")) {
+		else if (setupMethod.equals("netd") || setupMethod.equals("netdndc")) {
 			this.tethercfg.put("tether.interface", configuration.getNetdInterface());
 			if (encEnabled) {
 				this.tethercfg.put("wifi.encryption", configuration.getEncryptionIdentifier());
