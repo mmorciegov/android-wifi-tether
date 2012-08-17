@@ -6,8 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
+import android.annotation.SuppressLint;
 import android.util.Log;
 
+@SuppressLint({ "NewApi", "NewApi" })
 public class Configuration {
 
 	public static final String MSG_TAG = "TETHER -> Configuration";
@@ -91,6 +93,7 @@ public class Configuration {
 	private boolean softapSupported        = false;
 	private boolean softapSamsungSupported = false;
 	private boolean netdSupported          = false;
+	private boolean netdNdcSupported       = false;
 	private boolean tiadhocSupported       = false;
 	private boolean autoInternalNetSetup   = false;
 	
@@ -133,6 +136,7 @@ public class Configuration {
 		this.setupDevice();
 	}
 
+	@SuppressLint("NewApi")
 	public Configuration(String device) {
 		this.device = device;
 		this.sdk = android.os.Build.VERSION.SDK_INT; //Integer.parseInt(NativeTask.getProp("ro.build.version.sdk"));
@@ -347,6 +351,7 @@ public class Configuration {
 		this.hostapdSupported		= false;
 		this.tiadhocSupported		= false;
 		this.autoInternalNetSetup	= true;
+		this.netdNdcSupported 		= false;
 		
 		this.wextInterface = "eth0";
 
@@ -364,6 +369,11 @@ public class Configuration {
 		
 		this.autoSetupMethod = "softap";
 		this.genericSetupSection = true;
+		
+		if ((new File("/system/bin/ndc").exists())) {
+			//this.autoSetupMethod = "netdndc";
+			this.netdNdcSupported = true;
+		}	
 	}
 
 	/**
@@ -377,6 +387,8 @@ public class Configuration {
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
 		this.autoInternalNetSetup	= true;
+		this.netdNdcSupported       = false;
+
 		
 		if (sdk >= SDK_ICS) {
 			// Vigor on ICS
@@ -408,6 +420,10 @@ public class Configuration {
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
 
+		if ((new File("/system/bin/ndc").exists())) {
+			this.autoSetupMethod = "netdndc";
+			this.netdNdcSupported = true;
+		}	
 	}
 
 	/**
@@ -596,6 +612,7 @@ public class Configuration {
 		this.netdSupported          = true;
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
+		this.netdNdcSupported       = false;
 		
 		this.wextInterface = "wlan0";
 
@@ -608,6 +625,11 @@ public class Configuration {
 		
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
+
+		if ((new File("/system/bin/ndc").exists())) {
+			this.autoSetupMethod = "netdndc";
+			this.netdNdcSupported = true;
+		}	
 	}
 
 	/**
@@ -644,6 +666,7 @@ public class Configuration {
 		this.netdSupported          = true;
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
+		this.netdNdcSupported 	    = false;
 		
 		this.wextInterface = "eth0";
 
@@ -659,6 +682,11 @@ public class Configuration {
 		
 		this.autoSetupMethod = "softap";
 		this.genericSetupSection = true;
+
+		if ((new File("/system/bin/ndc").exists())) {
+			this.autoSetupMethod = "netdndc";
+			this.netdNdcSupported = true;
+		}	
 	}
 
 	/**
@@ -671,6 +699,7 @@ public class Configuration {
 		this.netdSupported          = true;
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
+		this.netdNdcSupported       = false;
 		
 		this.wextInterface = "eth0";
 
@@ -697,6 +726,11 @@ public class Configuration {
 		
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
+		
+		if ((new File("/system/bin/ndc").exists())) {
+			this.autoSetupMethod = "netdndc";
+			this.netdNdcSupported = true;
+		}
 	}
 
 	/**
@@ -859,6 +893,10 @@ public class Configuration {
 		return netdSupported;
 	}
 	
+	public boolean isNetdNdcSupported() {
+		return netdNdcSupported;
+	}
+
 	public String getWextInterface() {
 		return wextInterface;
 	}

@@ -311,7 +311,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         final int origTextColorPassphrase = SetupActivity.this.prefPassphrase.getEditText().getCurrentTextColor();
 
         
-        if (setupMethod.equals("netd") || setupMethod.equals("hostapd") || setupMethod.startsWith("softap")) {
+        if (setupMethod.equals("netd") || setupMethod.equals("netdndc") || setupMethod.equals("hostapd") || setupMethod.startsWith("softap")) {
 
         	Log.d(TAG, "Adding validators for WPA-Encryption.");
         	this.prefPassphrase.setSummary(getString(R.string.setup_layout_passphrase_summary)+" (WPA/WPA2-PSK)");
@@ -431,7 +431,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         }
         
         // Disabling Force Wifi-Relod
-        if (!(setupMethod.startsWith("softap") || setupMethod.equals("netd"))) {
+        if (!(setupMethod.startsWith("softap") || setupMethod.equals("netd") || setupMethod.equals("netdndc"))) {
         	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
         	CheckBoxPreference reloadWifiPreference = (CheckBoxPreference)findPreference("driverreloadpref");
         	wifiGroup.removePreference(reloadWifiPreference);
@@ -496,6 +496,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 					continue;
 				}
 			}
+			else if (setupvalues[i].equals("netdndc")) {
+				if (this.application.configuration.isNetdNdcSupported() == false) {
+					continue;
+				}
+			}			
 			else if (setupvalues[i].equals("hostapd")) {
 				if (this.application.configuration.isHostapdSupported() == false) {
 					continue;
@@ -939,7 +944,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
  
     Handler updateSettingsMenuHandler = new Handler() {
     	public void handleMessage(Message msg) {
-			SetupActivity.this.updateSettingsMenu();
+			updateSettingsMenu();
         	super.handleMessage(msg);
     	}
     };

@@ -74,7 +74,8 @@ public class LogActivity extends Activity {
                  isr.read(buff);
                  data = new String(buff);
          }
-         catch (Exception e) {      
+         catch (Exception e) {
+        	 e.printStackTrace();
         	 this.application.displayToastMessage(getString(R.string.log_activity_nologfile));
          }
          finally {

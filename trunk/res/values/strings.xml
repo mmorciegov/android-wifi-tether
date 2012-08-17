@@ -329,7 +329,8 @@
 	<string-array name="setupnames">  
 		<item>Auto</item> 
 		<item>WEXT (ad-hoc)</item>  
-		<item>Netd (master)</item> 
+		<item>Netd (master)</item>
+		<item>Netd-Ndc (master)</item> 
 		<item>Hostapd (master)</item>
 		<item>Softap (master)</item>
 		<item>Softap for Samsung (master)</item>      
@@ -467,6 +468,7 @@
 		<item>auto</item>
 		<item>wext</item>  
 		<item>netd</item> 
+		<item>netdndc</item>
 		<item>hostapd</item>
 		<item>softap</item>    
 		<item>softap_samsung</item> 

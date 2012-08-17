@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 import java.io.*;
 import java.net.*;
 
@@ -28,6 +27,7 @@ import com.googlecode.android.wifi.tether.data.ClientData;
 import com.googlecode.android.wifi.tether.system.Configuration;
 import com.googlecode.android.wifi.tether.system.WimaxHelper;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -39,6 +39,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
+@SuppressLint("NewApi")
 public class TetherService extends Service {
 
 	public static final String STATECHANGED_INTENT = "com.googlecode.android.wifi.tether.intent.STATE";

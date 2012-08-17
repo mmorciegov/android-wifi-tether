@@ -37,7 +37,7 @@ public class CoreTask {
 	
 	public String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "16";
+	private static final String FILESET_VERSION = "17";
 	
 	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
 	
