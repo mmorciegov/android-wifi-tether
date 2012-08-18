@@ -36,6 +36,14 @@ public class Configuration {
 	public static final String DEVICE_GTI9000     = "GT-I9000";			// Samsung Galaxy S
 	public static final String DEVICE_GTI9100     = "GT-I9100";			// Samsung Galaxy S2
 	public static final String DEVICE_SPHD710     = "SPH-D710";			// Samsung/Sprint Epic Touch 4G
+	
+	public static final String DEVICE_GTI9300     = "GT-I9300";			// Samsung Galaxy S3
+	public static final String DEVICE_D2SPR       = "d2spr";			// Samsung Galaxy S3 (Sprint)
+	public static final String DEVICE_D2USC       = "d2usc";			// Samsung Galaxy S3 (USC)
+	public static final String DEVICE_D2TMO       = "d2tmo";			// Samsung Galaxy S3 (TMO)
+	public static final String DEVICE_D2ATT       = "d2att";			// Samsung Galaxy S3 (AT&T)
+	public static final String DEVICE_D2VZW       = "d2vzw";			// Samsung Galaxy S3 (Verizon)
+	
 	public static final String DEVICE_SUPERSONIC  = "supersonic";		// HTC Evo 4G (Supersonic)
 	public static final String DEVICE_PYRAMID     = "pyramid";			// HTC Evo 3D
 
@@ -160,7 +168,7 @@ public class Configuration {
 		// Samsung Galaxy S2/Epic Touch
 		else if (device.equals(DEVICE_GTI9100) ||
 				 device.equals(DEVICE_SPHD710)) {
-			if (android.os.Build.VERSION.SDK_INT >= 14)  // 14 is ICS
+			if (android.os.Build.VERSION.SDK_INT >= SDK_ICS)  // 14 is ICS
 				this.setupNetdGalaxyNexus();
 			else 
 				this.setupGTI9100();
@@ -168,6 +176,15 @@ public class Configuration {
 		// Samsung Galaxy Nexus
 		else if (device.equals(DEVICE_MAGURO) ||
 				 device.equals(DEVICE_TORO)) {
+			this.setupNetdGalaxyNexus();
+		}
+		// Samsung Galaxy S3
+		else if (device.equals(DEVICE_GTI9300) ||
+				 device.equals(DEVICE_D2SPR) ||
+				 device.equals(DEVICE_D2USC) ||
+				 device.equals(DEVICE_D2TMO) ||
+				 device.equals(DEVICE_D2ATT) ||
+				 device.equals(DEVICE_D2VZW)) {
 			this.setupNetdGalaxyNexus();
 		}
 		// LG Optimus S
@@ -500,7 +517,7 @@ public class Configuration {
 		this.wextSupported          = true;
 		this.softapSupported        = false;
 		this.softapSamsungSupported = false;
-		this.netdSupported          = false;
+		this.netdSupported          = true;
 		this.tiadhocSupported       = false;
 		
 		this.wextInterface = "tiwlan0";
@@ -522,7 +539,7 @@ public class Configuration {
 			this.autoSetupMethod = "wext";
 		}
 		
-		this.netdInterface         = "tiwlan0";
+		this.netdInterface         = "wlan1";
 		this.encryptionIdentifier  = "wpa";
 		this.opennetworkIdentifier = "open";
 		
@@ -531,6 +548,16 @@ public class Configuration {
 		this.hostapdKernelModuleName = "tiap_drv";
 		
 		this.genericSetupSection = true;
+
+		if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
+			this.autoSetupMethod = "netd";
+		}
+		if ((new File("/system/bin/ndc").exists())) {
+			this.netdNdcSupported = true;
+			if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
+				this.autoSetupMethod = "netdndc";
+			}
+		}
 	}
 
 	/**
@@ -540,7 +567,7 @@ public class Configuration {
 		this.wextSupported        	= false;
 		this.softapSupported      	= false;
 		this.softapSamsungSupported = false;
-		this.netdSupported        	= false;
+		this.netdSupported        	= true;
 		this.tiadhocSupported      	= false;
 		
 		this.wextInterface = "tiwlan0";
@@ -561,15 +588,25 @@ public class Configuration {
 			this.hostapdSupported = false;
 			this.autoSetupMethod = "wext";
 		}		
-		this.netdInterface         = "tiap0";
+		this.netdInterface         = "wlan1";
 		this.encryptionIdentifier  = "wpa";
 		this.opennetworkIdentifier = "open";
 		
 		// Kernel-Module
 		this.hostapdKernelModulePath = "/system/lib/modules/tiap_drv.ko";
 		this.hostapdKernelModuleName = "tiap_drv";
-		
+
 		this.genericSetupSection = true;
+		
+		if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
+			this.autoSetupMethod = "netd";
+		}
+		if ((new File("/system/bin/ndc").exists())) {
+			this.netdNdcSupported = true;
+			if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
+				this.autoSetupMethod = "netdndc";
+			}
+		}
 	}	
 	
 	/**

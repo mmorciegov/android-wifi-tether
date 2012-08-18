@@ -322,6 +322,7 @@
 		<item>Samsung Galaxy Nexus (CDMA/LTE)</item> 
 		<item>Samsung Galaxy S</item>
 		<item>Samsung Galaxy S2</item>
+		<item>Samsung Galaxy S3</item>
 		<item>Samsung Galaxy SL</item> 
 		<item>ZTE Blade</item>  
 	</string-array>
@@ -461,6 +462,7 @@
 		<item>toro</item>
 		<item>GT-I9000</item>
 		<item>GT-I9100</item>
+		<item>GT-I9300</item>
 		<item>galaxysl</item>
 		<item>blade</item> 
 	</string-array>
