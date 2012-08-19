@@ -19,8 +19,9 @@ public class Configuration {
 	public static final int    SDK_GB             = 9;					// SDK Minimum Gingerbread
 	public static final int    SDK_ICS            = 14;					// SDK Minimum Ice Cream Sandwich
 
-	public static final String DEVICE_GENERIC     = "generic";			// Generic Non-ICS Profile
-	public static final String DEVICE_GENERIC_ICS = "generic_ics";		// Generic ICS Profile
+	public static final String DEVICE_GENERIC    			= "generic";			// Generic Non-ICS Profile
+	public static final String DEVICE_GENERIC_ICS 			= "generic_ics";		// Generic ICS Profile
+	public static final String DEVICE_GENERIC_ICS_WLAN1 	= "generic_ics_wlan1";	// Generic ICS Profile
 	
 	public static final String DEVICE_BLADE       = "blade";			// ZTE Blade
 	public static final String DEVICE_PASSION     = "passion";			// Google NexusOne
@@ -169,14 +170,14 @@ public class Configuration {
 		else if (device.equals(DEVICE_GTI9100) ||
 				 device.equals(DEVICE_SPHD710)) {
 			if (android.os.Build.VERSION.SDK_INT >= SDK_ICS)  // 14 is ICS
-				this.setupNetdGalaxyNexus();
+				this.setupGenericNetdWlan0();
 			else 
 				this.setupGTI9100();
 		}
 		// Samsung Galaxy Nexus
 		else if (device.equals(DEVICE_MAGURO) ||
 				 device.equals(DEVICE_TORO)) {
-			this.setupNetdGalaxyNexus();
+			this.setupGenericNetdWlan0();
 		}
 		// Samsung Galaxy S3
 		else if (device.equals(DEVICE_GTI9300) ||
@@ -185,7 +186,7 @@ public class Configuration {
 				 device.equals(DEVICE_D2TMO) ||
 				 device.equals(DEVICE_D2ATT) ||
 				 device.equals(DEVICE_D2VZW)) {
-			this.setupNetdGalaxyNexus();
+			this.setupGenericNetdWlan0();
 		}
 		// LG Optimus S
 		else if (device.equals(DEVICE_THUNDERC)) {
@@ -251,7 +252,10 @@ public class Configuration {
 			this.setupHostapGenWiLink7();
  		}
  		else if (device.equals(DEVICE_GENERIC_ICS)) {
- 			this.setupNetdGalaxyNexus();
+ 			this.setupGenericNetdWlan0();
+ 		}
+ 		else if (device.equals(DEVICE_GENERIC_ICS_WLAN1)) {
+ 			this.setupGenericNetdWlan1();
  		}
  		else if (device.equals(DEVICE_VIGOR)) {
  			this.setupNetdHTCRezound();
@@ -642,7 +646,7 @@ public class Configuration {
 	/**
 	 * Samsung Galaxy Nexus
 	 */
-	private void setupNetdGalaxyNexus() {
+	private void setupGenericNetdWlan0() {
 		this.wextSupported          = true;
 		this.softapSupported        = false;
 		this.softapSamsungSupported = false;
@@ -658,7 +662,7 @@ public class Configuration {
 		this.encryptionIdentifier = "wpa2-psk";
 		this.opennetworkIdentifier = "open";
 		
-		this.softapFirmwarePath = ""; //"/system/vendor/firmware/fw_bcmdhd_apsta.bin";
+		this.softapFirmwarePath = "";
 		
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
@@ -669,6 +673,33 @@ public class Configuration {
 		}	
 	}
 
+	private void setupGenericNetdWlan1() {
+		this.wextSupported          = true;
+		this.softapSupported        = false;
+		this.softapSamsungSupported = false;
+		this.netdSupported          = true;
+		this.hostapdSupported       = false;
+		this.tiadhocSupported       = false;
+		this.netdNdcSupported       = false;
+		
+		this.wextInterface = "wlan1";
+
+		this.netdInterface = "wlan1";
+		this.softapInterface = "wlan1";
+		this.encryptionIdentifier = "wpa2-psk";
+		this.opennetworkIdentifier = "open";
+		
+		this.softapFirmwarePath = "";
+		
+		this.autoSetupMethod = "netd";
+		this.genericSetupSection = true;
+
+		if ((new File("/system/bin/ndc").exists())) {
+			this.autoSetupMethod = "netdndc";
+			this.netdNdcSupported = true;
+		}	
+	}
+	
 	/**
 	 * Samsung Galaxy S
 	 *//*
