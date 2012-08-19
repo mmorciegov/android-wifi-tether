@@ -275,7 +275,8 @@
 	<string-array name="devicenames">  
 		<item>Auto</item>
 		<item>Generic</item>
-		<item>Generic ICS</item>
+		<item>Generic ICS/JB (wlan0)</item>
+		<item>Generic ICS/JB (wlan1)</item>
 		<item>Google NexusOne</item>
 		<item>HTC Amaze</item>
 		<item>HTC Dream</item>
@@ -416,6 +417,7 @@
 		<item>auto</item> 
 		<item>generic</item>
 		<item>generic_ics</item>  
+		<item>generic_ics_wlan1</item>
 		<item>passion</item>
 		<item>ruby</item>
 		<item>dream</item>
