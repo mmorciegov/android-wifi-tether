@@ -206,6 +206,7 @@
 	<string name="about_layout_software">3rd-Party-Software:</string>
 	<string name="about_changelog_software">Changelog:</string>
 	<string name="about_changelog_detail">\n
+		v3.2-beta1 - 08/20/2012:\n\t\t1. Enhanced support for ICS/JB (Google Galaxy Nexus, Google Nexus S, Motorola Razr, ...). Added new setup-method called \"netd-ndc\".\n\n
 		v3.2-pre1 - 06/14/2012:\n\t\t1. Added HTC Rezound (Vigor) infrastructure support. 2. Added countdown timer for existing automatic idle shutdown. 3. Added session quota (1MB - 999,999,999MB) and automatic quota shutdown support. 4. Added changelog to bottom of about box. 5. Increased maximum idle time for auto shutdown to 120 minutes. 6. Added keep-alive option to keep connection alive and notify user of network issues, included options to continue retrying or shutdown tether if keep-alive servers continue to not respond. 7. Added new credit for aforementioned work to Joshua Briefman. 8. Added standard countdown timer, will shutdown tether after a user selected amount of time has passed. 9. German translations for above changes by Harald Müller.\n\n
 		v3.1-beta14 - 04/22/2012:\n\t\tBugfix: Stopping tether using trackball didn\'t work.\n\n
 		v3.1-beta13 - 04/20/2012:\n\t\t1. Start/stop-image is now a image-button. 2. Start/stop-image is now a image-button.\n\n
@@ -278,6 +279,8 @@
 		<item>Generic ICS/JB (wlan0)</item>
 		<item>Generic ICS/JB (wlan1)</item>
 		<item>Google NexusOne</item>
+		<item>Google Nexus S</item>
+		<item>Google Nexus S 4G</item>
 		<item>HTC Amaze</item>
 		<item>HTC Dream</item>
 		<item>HTC Desire (GSM)</item>
@@ -419,6 +422,8 @@
 		<item>generic_ics</item>  
 		<item>generic_ics_wlan1</item>
 		<item>passion</item>
+		<item>crespo</item>
+		<item>crespo4g</item>
 		<item>ruby</item>
 		<item>dream</item>
 		<item>bravo</item>
