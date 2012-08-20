@@ -32,6 +32,9 @@ public class Configuration {
 	public static final String DEVICE_SGHI897     = "SGH-I897";			// Samsung Captivate
 	public static final String DEVICE_SCHR910     = "SCH-R910";			// Samsung Galaxy Indulge
 	
+	public static final String DEVICE_CRESPO      = "crespo";			// Google Nexus S
+	public static final String DEVICE_CRESPO4G    = "crespo4g";			// Google Nexus S 4G
+	
 	public static final String DEVICE_MAGURO      = "maguro";			// Samsung Galaxy Nexus (GSM)
 	public static final String DEVICE_TORO        = "toro";				// Samsung Galaxy Nexus (CDMA/LTE)
 	public static final String DEVICE_GTI9000     = "GT-I9000";			// Samsung Galaxy S
@@ -173,6 +176,11 @@ public class Configuration {
 				this.setupGenericNetdWlan0();
 			else 
 				this.setupGTI9100();
+		}
+		// Samsung Galaxy S
+		else if (device.equals(DEVICE_CRESPO) ||
+				 device.equals(DEVICE_CRESPO4G)) {
+				this.setupGenericNetdWlan0();
 		}
 		// Samsung Galaxy Nexus
 		else if (device.equals(DEVICE_MAGURO) ||

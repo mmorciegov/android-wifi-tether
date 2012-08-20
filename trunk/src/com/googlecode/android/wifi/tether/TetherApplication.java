@@ -48,7 +48,7 @@ public class TetherApplication extends Application {
 	public static final String MSG_TAG = "TETHER -> TetherApplication";
 
 	// See private void openAboutDialog() in TetherApplication.java
-	public static final String AUTHORS = "<HTML><a href=\"http://mysandbox.at\">Harald M&uuml;ller</a>, Sofia Lemons, Ben Buxton, Andrew Robinson, <a href=\"http://sirgatez.blogspot.com\">Joshua Briefman</a></HTML>";
+	public static final String AUTHORS = "<HTML><a href=\"https://plus.google.com/u/0/107088765107518450541\">Harald M&uuml;ller</a>, Sofia Lemons, Ben Buxton, Andrew Robinson, <a href=\"http://sirgatez.blogspot.com\">Joshua Briefman</a></HTML>";
 
 	public final String DEFAULT_PASSPHRASE = "abcdefghijklm";
 	public final String DEFAULT_LANNETWORK = "192.168.2.0/24";
