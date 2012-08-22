@@ -18,7 +18,9 @@ public class Configuration {
 	public static final int    SDK_FR             = 7;					// SDK Minimum Froyo
 	public static final int    SDK_GB             = 9;					// SDK Minimum Gingerbread
 	public static final int    SDK_ICS            = 14;					// SDK Minimum Ice Cream Sandwich
+	public static final int    SDK_JB             = 16;					// SDK Minimum JellyBean
 
+	
 	public static final String DEVICE_GENERIC    			= "generic";			// Generic Non-ICS Profile
 	public static final String DEVICE_GENERIC_ICS 			= "generic_ics";		// Generic ICS Profile
 	public static final String DEVICE_GENERIC_ICS_WLAN1 	= "generic_ics_wlan1";	// Generic ICS Profile
@@ -450,7 +452,6 @@ public class Configuration {
 		this.genericSetupSection = true;
 
 		if ((new File("/system/bin/ndc").exists())) {
-			this.autoSetupMethod = "netdndc";
 			this.netdNdcSupported = true;
 		}	
 	}
@@ -529,7 +530,7 @@ public class Configuration {
 		this.wextSupported          = true;
 		this.softapSupported        = false;
 		this.softapSamsungSupported = false;
-		this.netdSupported          = true;
+		this.netdSupported          = false;
 		this.tiadhocSupported       = false;
 		
 		this.wextInterface = "tiwlan0";
@@ -563,10 +564,14 @@ public class Configuration {
 
 		if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
 			this.autoSetupMethod = "netd";
+			this.netdSupported = true;
+			this.hostapdSupported = false;
+			this.encryptionIdentifier = "wpa2-psk";
 		}
 		if ((new File("/system/bin/ndc").exists())) {
 			this.netdNdcSupported = true;
 			if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
+				this.hostapdSupported = false;
 				this.autoSetupMethod = "netdndc";
 			}
 		}
@@ -579,7 +584,7 @@ public class Configuration {
 		this.wextSupported        	= false;
 		this.softapSupported      	= false;
 		this.softapSamsungSupported = false;
-		this.netdSupported        	= true;
+		this.netdSupported        	= false;
 		this.tiadhocSupported      	= false;
 		
 		this.wextInterface = "tiwlan0";
@@ -612,10 +617,14 @@ public class Configuration {
 		
 		if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
 			this.autoSetupMethod = "netd";
+			this.netdSupported = true;
+			this.hostapdSupported = false;
+			this.encryptionIdentifier = "wpa2-psk";
 		}
 		if ((new File("/system/bin/ndc").exists())) {
 			this.netdNdcSupported = true;
 			if (android.os.Build.VERSION.SDK_INT >= SDK_ICS) {
+				this.hostapdSupported = false;
 				this.autoSetupMethod = "netdndc";
 			}
 		}
@@ -676,7 +685,9 @@ public class Configuration {
 		this.genericSetupSection = true;
 
 		if ((new File("/system/bin/ndc").exists())) {
-			this.autoSetupMethod = "netdndc";
+			if (android.os.Build.VERSION.SDK_INT >= SDK_JB) {
+				this.autoSetupMethod = "netdndc";
+			}
 			this.netdNdcSupported = true;
 		}	
 	}
@@ -703,7 +714,9 @@ public class Configuration {
 		this.genericSetupSection = true;
 
 		if ((new File("/system/bin/ndc").exists())) {
-			this.autoSetupMethod = "netdndc";
+			if (android.os.Build.VERSION.SDK_INT >= SDK_JB) {
+				this.autoSetupMethod = "netdndc";
+			}
 			this.netdNdcSupported = true;
 		}	
 	}
@@ -760,7 +773,9 @@ public class Configuration {
 		this.genericSetupSection = true;
 
 		if ((new File("/system/bin/ndc").exists())) {
-			this.autoSetupMethod = "netdndc";
+			if (android.os.Build.VERSION.SDK_INT >= SDK_JB) {
+				this.autoSetupMethod = "netdndc";
+			}
 			this.netdNdcSupported = true;
 		}	
 	}
@@ -804,7 +819,9 @@ public class Configuration {
 		this.genericSetupSection = true;
 		
 		if ((new File("/system/bin/ndc").exists())) {
-			this.autoSetupMethod = "netdndc";
+			if (android.os.Build.VERSION.SDK_INT >= SDK_JB) {
+				this.autoSetupMethod = "netdndc";
+			}
 			this.netdNdcSupported = true;
 		}
 	}
