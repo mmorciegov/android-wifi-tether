@@ -20,7 +20,8 @@ public class Configuration {
 	public static final int    SDK_ICS            = 14;					// SDK Minimum Ice Cream Sandwich
 	public static final int    SDK_JB             = 16;					// SDK Minimum JellyBean
 
-	
+
+	public static final String manufacturer = android.os.Build.MANUFACTURER;
 	public static final String DEVICE_GENERIC    			= "generic";			// Generic Non-ICS Profile
 	public static final String DEVICE_GENERIC_ICS 			= "generic_ics";		// Generic ICS Profile
 	public static final String DEVICE_GENERIC_ICS_WLAN1 	= "generic_ics_wlan1";	// Generic ICS Profile
@@ -49,9 +50,13 @@ public class Configuration {
 	public static final String DEVICE_D2TMO       = "d2tmo";			// Samsung Galaxy S3 (TMO)
 	public static final String DEVICE_D2ATT       = "d2att";			// Samsung Galaxy S3 (AT&T)
 	public static final String DEVICE_D2VZW       = "d2vzw";			// Samsung Galaxy S3 (Verizon)
+
+	public static final String DEVICE_T0LTESPR    = "t0ltespr";			// Sprint Note 2
 	
 	public static final String DEVICE_SUPERSONIC  = "supersonic";		// HTC Evo 4G (Supersonic)
-	public static final String DEVICE_PYRAMID     = "pyramid";			// HTC Evo 3D
+	public static final String DEVICE_SHOOTER     = "shooter";			// HTC EVO 3D
+	public static final String DEVICE_SHOOTERU    = "shooteru";			// HTC EVO 3D int
+	public static final String DEVICE_PYRAMID     = "pyramid";			// 
 
 	public static final String DEVICE_VIGOR       = "vigor";			// HTC Rezound / Vigor (LTE/CDMA/GSM)
 
@@ -189,13 +194,14 @@ public class Configuration {
 				 device.equals(DEVICE_TORO)) {
 			this.setupGenericNetdWlan0();
 		}
-		// Samsung Galaxy S3
+		// Samsung Galaxy S3 ish devices
 		else if (device.equals(DEVICE_GTI9300) ||
 				 device.equals(DEVICE_D2SPR) ||
 				 device.equals(DEVICE_D2USC) ||
 				 device.equals(DEVICE_D2TMO) ||
 				 device.equals(DEVICE_D2ATT) ||
-				 device.equals(DEVICE_D2VZW)) {
+				 device.equals(DEVICE_D2VZW) || 
+				 device.equals(DEVICE_T0LTESPR)) {
 			this.setupGenericNetdWlan0();
 		}
 		// LG Optimus S
@@ -205,6 +211,8 @@ public class Configuration {
 		else if (device.equals(DEVICE_BRAVOC) ||
 				 device.equals(DEVICE_BRAVO) ||
 				 device.equals(DEVICE_SUPERSONIC) ||
+				 device.equals(DEVICE_SHOOTER) ||
+				 device.equals(DEVICE_SHOOTERU) ||
 				 device.equals(DEVICE_PYRAMID) ||
 				 device.equals(DEVICE_MECHA)) {
 			this.setupSoftapHTC();
@@ -468,20 +476,22 @@ public class Configuration {
 		this.hostapdSupported     = false;
 		this.tiadhocSupported      = false;
 		
-		this.wextInterface = "eth0";
-
-		this.netdInterface = "eth0";
-		this.softapInterface = "eth0";
+		this.wextInterface = "wlan0";
+		this.netdInterface = "wlan0";
+		this.softapInterface = "wlan0";
 		this.encryptionIdentifier = "wpa2-psk";
 		this.opennetworkIdentifier = "open";
 		
-		if (new File("/vendor/firmware/fw_bcm4329_apsta.bin").exists()) {
+		if (new File("/system/etc/firmware/fw_bcm4329_apsta.bin").exists()) {
+			this.softapFirmwarePath = "/system/etc/firmware/fw_bcm4329_apsta.bin";
+		} else if (new File("/vendor/firmware/fw_bcm4329_apsta.bin").exists()) {
 			this.softapFirmwarePath = "/vendor/firmware/fw_bcm4329_apsta.bin";
 		}
-		else if (new File("/etc/firmware/fw_bcm4329_apsta.bin").exists()) {
-			this.softapFirmwarePath = "/etc/firmware/fw_bcm4329_apsta.bin";
-		}
 		
+		if(this.device.equals(Configuration.DEVICE_SHOOTER) || this.device.equals(Configuration.DEVICE_SHOOTERU)){
+			this.wifiLoadCmd = "insmod /system/lib/modules/bcm4329.ko \"firmware_path=/system/etc/firmware/fw_bcm4329_apsta.bin nvram_path=/proc/calibration iface_name=wlan0\";insmod /system/lib/modules/bcmdhd.ko;";
+			this.wifiUnloadCmd = "rmmod bcm4329;rmmod bcmdhd";
+		}
 		this.autoSetupMethod = "softap";
 		this.genericSetupSection = true;
 	}
@@ -665,31 +675,53 @@ public class Configuration {
 	 */
 	private void setupGenericNetdWlan0() {
 		this.wextSupported          = true;
-		this.softapSupported        = false;
-		this.softapSamsungSupported = false;
+		this.softapSupported        = true;
+		if(manufacturer.toLowerCase().equals("samsung")){this.softapSamsungSupported = true;} else {this.softapSamsungSupported = false;}
 		this.netdSupported          = true;
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
 		this.netdNdcSupported       = false;
 		
 		this.wextInterface = "wlan0";
-
 		this.netdInterface = "wlan0";
 		this.softapInterface = "wlan0";
+		
 		this.encryptionIdentifier = "wpa2-psk";
 		this.opennetworkIdentifier = "open";
-		
-		this.softapFirmwarePath = "";
-		
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
-
+		
+		if ((new File("/system/bin/hostapd")).exists() == true) {
+			this.hostapdSupported   = true;
+			this.hostapdPath        = "/system/bin/hostapd";
+			this.hostapdInterface   = "wlan0";
+			this.hostapdTemplate    = "mini";
+			this.hostapdLoaderCmd   = "disabled";
+		}
+		
+		//IDK if softap would work, maybe maybenot
+		if ((new File("/system/etc/wifi/bcmdhd_apsta.bin_b2").exists()) || (new File("/system/etc/wifi/bcmdhd_apsta.bin").exists())) { 
+			this.softapFirmwarePath = "/system/etc/wifi/bcmdhd_apsta.bin";
+			} else {
+			this.softapFirmwarePath = "";
+		}
 		if ((new File("/system/bin/ndc").exists())) {
 			if (android.os.Build.VERSION.SDK_INT >= SDK_JB) {
 				this.autoSetupMethod = "netdndc";
 			}
 			this.netdNdcSupported = true;
 		}	
+		if(device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || 
+    			device.equals("d2tmo")  || device.equals("d2att") || device.equals("t0ltespr")){
+			//TODO:this might work for GS3 and can take out mess in TetherService.java, i dont care to mess around anymore
+			//this.wifiLoadCmd = "/system/bin/mfgloader -u;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\";";
+			//this.wifiUnloadCmd = "/system/bin/mfgloader -u;";
+				this.wifiLoadCmd = "none";
+				this.wifiUnloadCmd = "none";
+				this.netdNdcSupported = true;
+				this.autoSetupMethod = "netdndc";
+				
+		}
 	}
 
 	private void setupGenericNetdWlan1() {

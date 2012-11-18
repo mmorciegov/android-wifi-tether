@@ -24,6 +24,7 @@ import java.util.Properties;
 import com.googlecode.android.wifi.tether.data.ClientData;
 import com.googlecode.android.wifi.tether.system.Configuration;
 import com.googlecode.android.wifi.tether.system.CoreTask;
+import com.googlecode.android.wifi.tether.system.HostapdSymlinks;
 import com.googlecode.android.wifi.tether.system.WebserviceTask;
 
 import android.app.Application;
@@ -48,7 +49,7 @@ public class TetherApplication extends Application {
 	public static final String MSG_TAG = "TETHER -> TetherApplication";
 
 	// See private void openAboutDialog() in TetherApplication.java
-	public static final String AUTHORS = "<HTML><a href=\"https://plus.google.com/u/0/107088765107518450541\">Harald M&uuml;ller</a>, Sofia Lemons, Ben Buxton, Andrew Robinson, <a href=\"http://sirgatez.blogspot.com\">Joshua Briefman</a></HTML>";
+	public static final String AUTHORS = "<HTML><a href=\"https://plus.google.com/u/0/107088765107518450541\">Harald M&uuml;ller</a>, Sofia Lemons, Ben Buxton, Andrew Robinson, <a href=\"http://sirgatez.blogspot.com\">Joshua Briefman</a>, <a href=\"http://androidsecuritytest.com\">Trevor Eckhart</a></HTML>";
 
 	public final String DEFAULT_PASSPHRASE = "abcdefghijklm";
 	public final String DEFAULT_LANNETWORK = "192.168.2.0/24";
@@ -91,6 +92,9 @@ public class TetherApplication extends Application {
 	// Access-control
 	boolean accessControlSupported = true;
 	
+	//device string for setup
+	String device = "Unknown";
+	
 	// Whitelist
 	public CoreTask.Whitelist whitelist = null;
 	// Supplicant
@@ -105,6 +109,10 @@ public class TetherApplication extends Application {
 	
 	// CoreTask
 	public CoreTask coretask = null;
+
+	// SamsungSymlinks
+	public HostapdSymlinks samsungsymlinks = null;
+	
 	
 	// WebserviceTask
 	public WebserviceTask webserviceTask = null;
@@ -150,6 +158,9 @@ public class TetherApplication extends Application {
         this.tethercfg = this.coretask.new TetherConfig();
         this.tethercfg.read();
     	
+        // Init Device flag
+        this.device = android.os.Build.DEVICE; 
+        
     	// hostapd
     	this.hostapdcfg = this.coretask.new HostapdConfig();
 
@@ -225,19 +236,22 @@ public class TetherApplication extends Application {
 		
 		boolean encEnabled = this.settings.getBoolean("encpref", false);
 		boolean acEnabled = this.settings.getBoolean("acpref", false);
+        boolean fallbackTether = this.settings.getBoolean("fallbacktether", false);
+        boolean frameworkFirmwareReload = this.settings.getBoolean("fwfirmwarereloadpref", false);
+        boolean symlinkHostapd = this.settings.getBoolean("symlinkhostapd", false);
 		String ssid = this.settings.getString("ssidpref", "AndroidTether");
         String txpower = this.settings.getString("txpowerpref", "disabled");
         String lannetwork = this.settings.getString("lannetworkpref", DEFAULT_LANNETWORK);
         String wepkey = this.settings.getString("passphrasepref", DEFAULT_PASSPHRASE);
         String wepsetupMethod = this.settings.getString("encsetuppref", DEFAULT_ENCSETUP);
         String channel = this.settings.getString("channelpref", "1");
-        boolean mssclampingEnabled = this.settings.getBoolean("mssclampingpref", false);
-        boolean routefixEnabled = this.settings.getBoolean("routefixpref", false);
+        boolean mssclampingEnabled = this.settings.getBoolean("mssclampingpref", true);
+        boolean routefixEnabled = this.settings.getBoolean("routefixpref", true);
         String primaryDns = this.settings.getString("dnsprimarypref", "8.8.8.8");
         String secondaryDns = this.settings.getString("dnssecondarypref", "8.8.4.4");
         boolean hideSSID = this.settings.getBoolean("hidessidpref", false);
         boolean reloadDriver = this.settings.getBoolean("driverreloadpref", true);
-        
+        boolean netdndcMaxClientCmd = this.settings.getBoolean("netdndcmaxclientcmd", false);
         // Check if "auto"-setup method is selected
         String setupMethod = this.settings.getString("setuppref", "auto");
         
@@ -270,7 +284,38 @@ public class TetherApplication extends Application {
 		else {
 			this.tethercfg.put("mss.clamping", "false");
 		}
+
+
+		if (fallbackTether) {
+			this.tethercfg.put("fallbacktether", "true");
+		}
+		else {
+			this.tethercfg.put("fallbacktether", "false");
+		}
 		
+		if(netdndcMaxClientCmd){
+			//netdndcmaxclientcmd sets max clients to 25, true might fix stuff
+			this.tethercfg.put("netdndcmaxclientcmd", "true");
+		}
+		else {
+			this.tethercfg.put("netdndcmaxclientcmd", "false");
+		}
+		
+		/** not ready/needed
+		if (frameworkFirmwareReload) {
+			this.tethercfg.put("fwfirmwarereloadpref", "true");
+		}
+		else {
+			this.tethercfg.put("fwfirmwarereloadpref", "false");
+		}**/
+
+		if (symlinkHostapd) {
+			this.tethercfg.put("symlinkhostapd", "true");
+		}
+		else {
+			this.tethercfg.put("symlinkhostapd", "false");
+		}
+
 		if (hideSSID) {
 			this.tethercfg.put("wifi.essid.hide", "1");
 		}
@@ -292,12 +337,17 @@ public class TetherApplication extends Application {
 			this.tethercfg.put("tether.fix.route", "false");
 		}
 		
-
         // Write tether-section variable
    		this.tethercfg.put("setup.section.generic", ""+configuration.isGenericSetupSection());
-
+   		
    		// Wifi-interface
-		this.tethercfg.put("wifi.interface", this.coretask.getProp("wifi.interface"));
+   		if(this.coretask.getProp("wifi.interface").equals("undefined")){
+   			//TODO: put in better undefined check.  this wires it to netd's interface
+   			this.tethercfg.put("wifi.interface", configuration.getNetdInterface());
+   		} else {
+   			this.tethercfg.put("wifi.interface", this.coretask.getProp("wifi.interface"));
+   		}
+   		
 		this.tethercfg.put("wifi.driver", setupMethod);
 		if (setupMethod.equals("wext")) {
 			this.tethercfg.put("tether.interface", this.tethercfg.get("wifi.interface"));
@@ -464,14 +514,14 @@ public class TetherApplication extends Application {
 		}
 		
 		if (configuration.isTiadhocSupported()) {
-			TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/tiwlan.ini", "0644", R.raw.tiwlan_ini);
+			TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/conf/tiwlan.ini", "0644", R.raw.tiwlan_ini);
 			Hashtable<String,String> values = this.tiwlan.get();
 			values.put("dot11DesiredSSID", this.settings.getString("ssidpref", "AndroidTether"));
 			values.put("dot11DesiredChannel", this.settings.getString("channelpref", "1"));
 			this.tiwlan.write(values);
 		}
 		else {
-			File tiwlanconf = new File(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/tiwlan.ini");
+			File tiwlanconf = new File(CoreTask.DATA_FILE_PATH+"/conf/tiwlan.ini");
 			if (tiwlanconf.exists()) {
 				tiwlanconf.delete();
 			}
@@ -611,23 +661,23 @@ public class TetherApplication extends Application {
     }    
     
     public boolean binariesExists() {
-    	File file = new File(this.coretask.DATA_FILE_PATH+"/bin/tether");
+    	File file = new File(CoreTask.DATA_FILE_PATH+"/bin/tether");
     	return file.exists();
     }
     
     public void installWpaSupplicantConfig() {
-    	this.copyFile(this.coretask.DATA_FILE_PATH+"/conf/wpa_supplicant.conf", "0644", R.raw.wpa_supplicant_conf);
+    	this.copyFile(CoreTask.DATA_FILE_PATH+"/conf/wpa_supplicant.conf", "0644", R.raw.wpa_supplicant_conf);
     }
     
     public void installHostapdConfig(String hostapdTemplate) {
     	if (hostapdTemplate.equals("droi")) {
-    		this.copyFile(this.coretask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_droi);
+    		this.copyFile(CoreTask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_droi);
     	}
     	else if (hostapdTemplate.equals("mini")) {
-    		this.copyFile(this.coretask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_mini);
+    		this.copyFile(CoreTask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_mini);
     	}
     	else if (hostapdTemplate.equals("tiap")) {
-    		this.copyFile(this.coretask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_tiap);
+    		this.copyFile(CoreTask.DATA_FILE_PATH+"/conf/hostapd.conf", "0644", R.raw.hostapd_conf_tiap);
     	}
     }
     
@@ -644,29 +694,62 @@ public class TetherApplication extends Application {
 		String message = null;
 		// tether
 		if (message == null) {
-	    	message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/tether", "0755", R.raw.tether);
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/tether", "0755", R.raw.tether);
 		}
 		// dnsmasq
 		if (message == null) {
-	    	message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/dnsmasq", "0755", R.raw.dnsmasq);
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/dnsmasq", "0755", R.raw.dnsmasq);
 		}
 		// iptables
 		if (message == null) {
-	    	message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iptables", "0755", R.raw.iptables);
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/iptables", "0755", R.raw.iptables);
 		}
 		// iwconfig
 		if (message == null) {
-	    	message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/iwconfig", "0755", R.raw.iwconfig);
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/iwconfig", "0755", R.raw.iwconfig);
 		}
 		// ifconfig
 		if (message == null) {
-	    	message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/ifconfig", "0755", R.raw.ifconfig);
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/ifconfig", "0755", R.raw.ifconfig);
 		}
 		// rfkill
 		if (message == null) {
-	    	message = TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/bin/rfkill", "0755", R.raw.rfkill);
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/rfkill", "0755", R.raw.rfkill);
 		}
-		/*
+		// Cyanogen's JB hostapd
+		if (message == null) {
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/hostapd", "0755", R.raw.hostapd);
+		}
+		// install needed Hostapd Binaries Script
+		if (message == null) {
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/initialSamsungInstall.sh", "0755", R.raw.initialsamsunginstall_sh);
+		}
+		// install needed Hostapd Binaries Script
+		if (message == null) {
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/removeSamsungInstall.sh", "0755", R.raw.removesamsunginstall_sh);
+		}
+		// Symlink native Binaries
+		if (message == null) {
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/symlinkNativeBin.sh", "0755", R.raw.symlinknativebin_sh);
+		}
+		// Symlink WifiTetherBinaries
+		if (message == null) {
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/symlinkTetherBin.sh", "0755", R.raw.symlinktetherbin_sh);
+		}
+		// dos2unix 
+		if (message == null) {
+			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/initialSamsungInstall.sh");
+		}	// dos2unix
+		if (message == null) {
+			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/symlinkNativeBin.sh");
+		}	// dos2unix
+		if (message == null) {
+			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/symlinkTetherBin.sh");
+		}	// dos2unix
+		if (message == null) {
+			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/removeSamsungInstall.sh");
+		}
+    	/*
 		if (configuration.enableFixPersist()) {	
 			// fixpersist.sh
 			if (message == null) {
@@ -675,16 +758,15 @@ public class TetherApplication extends Application {
 		}*/
 		// edify script
 		if (message == null) {
-			TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/tether.edify", "0644", R.raw.tether_edify);
+			TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/conf/tether.edify", "0644", R.raw.tether_edify);
 		}
-		
 		// tether.cfg
 		/*if (message == null) {
 			TetherApplication.this.copyFile(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/tether.conf", "0644", R.raw.tether_conf);
 		}*/
 		
 		// wpa_supplicant drops privileges, we need to make files readable.
-		TetherApplication.this.coretask.chmod(TetherApplication.this.coretask.DATA_FILE_PATH+"/conf/", "0755");
+		TetherApplication.this.coretask.chmod(CoreTask.DATA_FILE_PATH+"/conf/", "0755");
 	
 		if (message == null) {
 	    	message = getString(R.string.global_application_installed);
@@ -784,7 +866,7 @@ public class TetherApplication extends Application {
     }
     
     private void checkDirs() {
-    	File dir = new File(this.coretask.DATA_FILE_PATH);
+    	File dir = new File(CoreTask.DATA_FILE_PATH);
     	if (dir.exists() == false) {
     			this.displayToastMessage("Application data-dir does not exist!");
     	}
@@ -792,7 +874,7 @@ public class TetherApplication extends Application {
     		//String[] dirs = { "/bin", "/var", "/conf", "/library" };
     		String[] dirs = { "/bin", "/var", "/conf" };
     		for (String dirname : dirs) {
-    			dir = new File(this.coretask.DATA_FILE_PATH + dirname);
+    			dir = new File(CoreTask.DATA_FILE_PATH + dirname);
     	    	if (dir.exists() == false) {
     	    		if (!dir.mkdir()) {
     	    			this.displayToastMessage("Couldn't create " + dirname + " directory!");

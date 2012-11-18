@@ -12,6 +12,7 @@
 
 package com.googlecode.android.wifi.tether;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,7 +26,11 @@ import java.net.*;
 
 import com.googlecode.android.wifi.tether.data.ClientData;
 import com.googlecode.android.wifi.tether.system.Configuration;
+import com.googlecode.android.wifi.tether.system.CoreTask;
+import com.googlecode.android.wifi.tether.system.HostapdSymlinks;
+import com.googlecode.android.wifi.tether.system.ServiceHandler;
 import com.googlecode.android.wifi.tether.system.WimaxHelper;
+import com.googlecode.android.wifi.tether.system.FallbackTether;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -50,7 +55,8 @@ public class TetherService extends Service {
 	public static final String KEEPALIVE_INTENT = "com.googlecode.android.wifi.tether.intent.KEEPALIVE";
 	public static final String COUNTDOWNTIMER_INTENT = "com.googlecode.android.wifi.tether.intent.COUNTDOWNTIMER";
 	
-	private static final String TAG = "TetherService";
+	private static final String TAG = "TETHER -> TetherService";
+	String device = "Unknown";
 	
 	// "Tethering"-states
 	public final static int STATE_RUNNING       = 1;
@@ -69,6 +75,8 @@ public class TetherService extends Service {
 
 	private final Binder binder = new LocalBinder();
 	
+	String manufacturer = android.os.Build.MANUFACTURER;
+	
 	private TetherApplication application = null;
 	public static TetherService singleton = null;
 
@@ -86,6 +94,8 @@ public class TetherService extends Service {
 	private WifiManager wifiManager;
 	private boolean origWifiState;
 	private WifiManager.WifiLock wifiLock = null;
+	
+	
 	
 	// Bluetooth
 	private BluetoothAdapter btAdapter;
@@ -149,6 +159,9 @@ public class TetherService extends Service {
         
         // Init timeStampCounterUpdate
         timestampCounterUpdate = System.currentTimeMillis();
+        
+        // Init Device flag
+        device = android.os.Build.DEVICE; 
         
         // Check state by getprop-tether value.
 		String tetherStatus = application.coretask.getProp("tether.status");
@@ -236,6 +249,8 @@ public class TetherService extends Service {
     void handleCommand(Intent intent) {
         // Nothing
     }	
+    
+    
 	
 	// ===========================================================
 	// Public Methods
@@ -246,6 +261,7 @@ public class TetherService extends Service {
     	state = STATE_STARTING;
     	autoShutdown = false;
  		new Thread(new Runnable(){
+
 			public void run(){
  		    	// Check if binaries need to be updated
 		    	if (application.binariesExists() == false || application.coretask.filesetOutdated()) {
@@ -258,7 +274,7 @@ public class TetherService extends Service {
 		    	origBtState = btAdapter.isEnabled();
 
 		    	boolean waitForShutdown = false;
-		    	
+
 		        // Check if we need to disable wimax
 		        application.updateDeviceParameters();
 		        if (application.configuration.getDevice().equals(Configuration.DEVICE_SPHD700)) {
@@ -271,26 +287,116 @@ public class TetherService extends Service {
 		        disableWifiAndBt(waitForShutdown);
 		        
 		        // Check if "auto"-setup method is selected
-		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", true);
+		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
+		        boolean fallbackTether = application.settings.getBoolean("fallbacktether", false);
+		        boolean frameworkFirmwareReload = application.settings.getBoolean("fwfirmwarereloadpref", false);
+		        boolean netdndcmaxclientcmd = application.settings.getBoolean("netdndcmaxclientcmd", false);
+		        boolean symlinkHostapd = application.settings.getBoolean("symlinkhostapd", false);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean active4G = application.settings.getBoolean("enable4gpref", true);
+		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
+		        String currentPassphrase = application.settings.getString("passphrasepref", application.DEFAULT_PASSPHRASE);
+		        
 		        if (setupMethod.equals("auto")) {
 		        	setupMethod = application.getDeviceParameters().getAutoSetupMethod();
 		        }
-		        // Don't stop wifi if we want softap or netd
-		    	if (setupMethod.startsWith("softap") || setupMethod.equals("netd")) {
-		    		if (reloadDriver == false) {
-		    			enableAndDisconnectWifi();
-		    		}
-		    	}
-		        
+
 			    // Generate configuration
 		    	application.updateConfiguration();
-		    	
+	
+		        if(fallbackTether){
+		        	if(symlinkHostapd){
+		        		//TODO: This is the lamest hack ever.  Seriously, someone fix this.
+		        		File checktetherfile = new File("/system/bin/hostapd_4stocktether");
+		        		if(!checktetherfile.exists()){
+		        			HostapdSymlinks.initialHostapdInstall();
+		        		}
+		        		Log.d(TAG, "Symlinking Native Bins");
+		        		HostapdSymlinks.symlinkNativeBins();
+		        	}
+
+			      //Start fallback tether mode	
+		          try { 	
+		        	  Log.d(TAG, "Starting fallback tether mode");
+		        	  //get context and start
+			          WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		        	  FallbackTether.controlStockTether(wifi, true, currentEncryptionEnabled, currentPassphrase);
+				    
+		        		// Acquire Wakelock
+			    		application.acquireWakeLock();
+			    		state = STATE_RUNNING;
+			    		
+			    		//show stats even though its worthless
+						clientConnectEnable(true);
+			    		trafficCounterEnable(true);
+			    		
+			         } catch (Exception e) {
+		                Log.e(TAG, "error: " + e.getMessage());
+						application.displayToastMessage("error: " + e.getMessage());
+				    	state = STATE_FAILURE_EXE;
+		            }
+		        } else {
+			        if(symlinkHostapd){
+		        		//TODO: This is the lamest hack ever.  Seriously, someone fix this.
+		        		Log.d(TAG, "Checking if files need to be installed");
+		        		File checktetherfile = new File("/system/bin/hostapd_4wifitether");
+		        		if(!checktetherfile.exists()){
+		        			HostapdSymlinks.initialHostapdInstall();
+		        		}
+		        		Log.d(TAG, "Symlinking Tether Bins");
+		        		HostapdSymlinks.symlinkTetherBins();
+			        }
+			        /** not ready/needed
+			    if (frameworkFirmwareReload){
+		        		Log.d(TAG, "Framework Driver Reload Mode");
+		        	try {
+		        		ServiceHandler.wifiFirmwareReload(getService("network_management"),"wlan0","AP");
+		        	}catch (Exception e){
+		            	Log.e(TAG, "error: " + e.getMessage());
+						//application.displayToastMessage("error: " + e.getMessage());
+				    	state = STATE_FAILURE_LOG;
+		        }	**/
+		        if((device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || device.equals("d2tmo")  || 
+			        		device.equals("d2att") ||  device.equals("d2dcm") || device.equals("espressowifi") || device.equals("espresso10wifi") || device.equals("t0ltespr"))){
+			        		Log.d(TAG, ">>insmod GS3 dhd module");
+			        		//TODO: add to Configuration wifi(un)LoadCmd
+			        		//mfgloader might be more graceful
+			        		//application.coretask.runRootCommand("/system/bin/mfgloader -u");
+			        		
+			        		//seriously its in /lib?
+			        		File checkdhdfile = new File("/lib/modules/dhd.ko");
+			        		File checkdhdsysfile = new File("/system/lib/modules/dhd.ko");
+			        		if(checkdhdsysfile.exists()){
+			        			//Try single cmdline for SuperUser.apk compatibility
+				        		CoreTask.runRootCommand("rmmod dhd;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"");
+			        		}else if(checkdhdfile.exists()){
+				        		CoreTask.runRootCommand("rmmod dhd;insmod /lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"");
+			        		}
+			        } else {
+		        		Log.d(TAG, "Driver Setup Method Check for driver reload");
+			            // Don't stop wifi if we want softap or netd, breaks gs3 mode e3d needs it
+				    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
+				    		if (reloadDriver == false) {
+				    			enableAndDisconnectWifi();
+				    		}
+				    	};
+		        	}
+		        /** Done cleaner in tether_edify
+	        	if (netdndcmaxclientcmd){
+	        		Log.d(TAG, "Sending Additional Commands Before Tether");
+	        		try {
+	        		ServiceHandler.setMaxClients(getService("network_management"),25);
+	        		}catch (Exception e){
+	            	Log.e(TAG, "error: " + e.getMessage());
+					//application.displayToastMessage("error: " + e.getMessage());
+			    	state = STATE_FAILURE_LOG;
+		        }	
+	        	}    **/
+		        
 		    	// Check if tether-service is already-running
 		    	if (state != STATE_RUNNING) {
 			    	// Starting service
-			    	if (application.coretask.runRootCommand(application.coretask.DATA_FILE_PATH+"/bin/tether start")) {
+			    	if (CoreTask.runRootCommand(CoreTask.DATA_FILE_PATH+"/bin/tether start")) {
 						// Acquire Wakelock
 			    		application.acquireWakeLock();
 			    		state = STATE_RUNNING;
@@ -334,6 +440,8 @@ public class TetherService extends Service {
 			        	WimaxHelper.samsungWimax(TetherService.this, true);
 			        }				
 				}
+
+		        };
 		    	sendStateBroadcast(state);
 			}
 		}).start();
@@ -364,28 +472,118 @@ public class TetherService extends Service {
 		    	shutdownIdleCheckerEnable(false);
 		    	shutdownTimerCheckerEnable(false);
 		    	shutdownQuotaCheckerEnable(false);
-
+		        
 		    	application.releaseWakeLock();
-		    	if (application.coretask.runRootCommand(application.coretask.DATA_FILE_PATH+"/bin/tether stop") == false) {
-		    		state = STATE_FAILURE_EXE;
-		    	}
-		    	TetherService.this.application.notificationManager.cancelAll();
-		    		
 		    	
 		    	// Check if "auto"-setup method is selected
-		    	boolean reloadDriver = application.settings.getBoolean("driverreloadpref", true);
+		    	boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
+		        boolean fallbackTether = application.settings.getBoolean("fallbacktether", false);
+		        boolean symlinkHostapd = application.settings.getBoolean("symlinkhostapd", false);
+		        boolean frameworkFirmwareReload = application.settings.getBoolean("fwfirmwarereloadpref", false);
+		        boolean netdndcmaxclientcmd = application.settings.getBoolean("netdndcmaxclientcmd", false);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean active4G = application.settings.getBoolean("enable4gpref", true);
+		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
+		        String currentPassphrase = application.settings.getString("passphrasepref", application.DEFAULT_PASSPHRASE);
 		        if (setupMethod.equals("auto")) {
 		        	setupMethod = application.getDeviceParameters().getAutoSetupMethod();
 		        }
-		        // Don't stop wifi if we want softap or netd
-		    	if (setupMethod.startsWith("softap") || setupMethod.equals("netd")) {
-			    	if (reloadDriver == false) {
-			    		disableWifiAndBt(false);
+		        
+		        if(fallbackTether){
+			        //Native Bin creation
+		        	if(symlinkHostapd){
+		        		File checktetherfile = new File("/system/bin/hostapd_4stocktether");
+		        		if(!checktetherfile.exists()){
+		        			HostapdSymlinks.initialHostapdInstall();
+		        		}
+		        		Log.d(TAG, "Symlinking Native Bins");
+		        		HostapdSymlinks.symlinkNativeBins();
+			        }
+
+			        //fallback wifi_service tether hack	
+			        try {	
+			          WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		        	  FallbackTether.controlStockTether(wifi, false, currentEncryptionEnabled, currentPassphrase);
+		        	  state = STATE_STOPPING;
+			        } catch (Exception e) {
+		              Log.e(TAG, "error: " + e.getMessage());
+		              application.displayToastMessage("error: " + e.getMessage());
+		              state = STATE_FAILURE_EXE;
+		            }
+		        } else {
+		        	//Insmod GS3 sta module with firmware/nvram 
+		        	if(symlinkHostapd){
+		        		Log.d(TAG, "Symlink Hack");
+		        		//TODO: This is the lamest hack ever.  Seriously, someone fix this.
+		        		Log.d(TAG, "Checking if files need to be installed");
+		        		File checktetherfile = new File("/system/bin/hostapd_4stocktether");
+		        		if(!checktetherfile.exists()){
+		        			HostapdSymlinks.initialHostapdInstall();
+		        		}
+
+		        		Log.d(TAG, "Symlinking Native Bins");
+		        		HostapdSymlinks.symlinkNativeBins();
+		        	}
+		        	/** not ready/needed?
+		            if (frameworkFirmwareReload){
+		        		Log.d(TAG, "Framework Driver Reload Mode");
+		        	try {
+		        		ServiceHandler.wifiFirmwareReload(getService("network_management"),"wlan0","STA");
+		        	}catch (Exception e){
+		            	Log.e(TAG, "error: " + e.getMessage());
+						//application.displayToastMessage("error: " + e.getMessage());
+				    	state = STATE_FAILURE_LOG;
+		        }
+		        }**/
+		            if((device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || device.equals("d2tmo")  || 
+			        		device.equals("d2att") ||  device.equals("d2dcm") || device.equals("espressowifi") || device.equals("espresso10wifi") || device.equals("t0ltespr"))){
+		        		Log.d(TAG, "inserting modules");
+		        		//TODO: add to Configuration wifi(un)LoadCmd
+		        		//Dont think adaptor likes this coming out of tether mode
+		        		//application.coretask.runRootCommand("rmmod dhd");
+		        		//application.coretask.runRootCommand("insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"");
+		        		//Try mfgloader instead
+		        		//seriously lib?
+		        		File checkdhdfile = new File("/lib/modules/dhd.ko");
+		        		File checkdhdsysfile = new File("/system/lib/modules/dhd.ko");
+		        		if(checkdhdsysfile.exists()){
+		        			//try one command string, might fix SuperUser.apk timing things
+		        			CoreTask.runRootCommand("/system/bin/mfgloader -u;/system/bin/mfgloader -l /system/lib/modules/dhd.ko");	
+		        		}else if(checkdhdfile.exists()){
+		        			//try one command string, might fix SuperUser.apk timing things
+			        		CoreTask.runRootCommand("/system/bin/mfgloader -u;/system/bin/mfgloader -l /lib/modules/dhd.ko");	
+		        		}
+		        }else {
+	        		Log.d(TAG, "Driver Setup Method Check for driver reload");
+		            // Don't stop wifi if we want softap or netd, breaks gs3 mode e3d needs it
+			    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
+				    	if ((reloadDriver == false)) {
+				    		disableWifiAndBt(false);
+				    	}
+			    	};
+		        }
+		            
+		           
+			    	if (CoreTask.runRootCommand(CoreTask.DATA_FILE_PATH+"/bin/tether stop") == false) {
+			    		state = STATE_FAILURE_EXE;
 			    	}
-		    	}	
-		    	
+			    	
+			    	/**
+		        	if (netdndcmaxclientcmd){
+		        		Log.d(TAG, "Sending Additional Commands After Tether");
+		        		try {
+		        		ServiceHandler.setMaxClients(getService("network_management"),0);
+		        		}catch (Exception e){
+		            	Log.e(TAG, "error: " + e.getMessage());
+						//application.displayToastMessage("error: " + e.getMessage());
+				    	state = STATE_FAILURE_LOG;
+			        }	
+		        	}   **/
+		       
+		        }	
+
+		    	TetherService.this.application.notificationManager.cancelAll();
+		        
 		    	// Re-Enable wifi if it was enabled
 	    		enableWifiAndBt(false);
 
@@ -436,8 +634,9 @@ public class TetherService extends Service {
 						// nothing
 					}
 		        }
-		    	
-		    	if (application.coretask.runRootCommand(application.coretask.DATA_FILE_PATH+"/bin/tether stop") == false) {
+		        
+		
+		    	if (CoreTask.runRootCommand(CoreTask.DATA_FILE_PATH+"/bin/tether stop") == false) {
 		    		state = STATE_FAILURE_EXE;
 		    	}
 		    	
@@ -445,26 +644,121 @@ public class TetherService extends Service {
 		        disableWifiAndBt(false);
 		        
 		    	// Check if "auto"-setup method is selected
-		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", true);
+		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
+		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
+		        boolean fallbackTether = application.settings.getBoolean("fallbacktether", false);
+		        boolean symlinkHostapd = application.settings.getBoolean("symlinkhostapd", false);
+		        boolean netdndcmaxclientcmd = application.settings.getBoolean("netdndcmaxclientcmd", false);
+		        
+		        String currentPassphrase = application.settings.getString("passphrasepref", application.DEFAULT_PASSPHRASE);
 		        if (setupMethod.equals("auto")) {
 		        	setupMethod = application.getDeviceParameters().getAutoSetupMethod();
 		        }
-
-		        // Don't stop wifi if we want softap or netd
-		    	if (setupMethod.startsWith("softap") || setupMethod.equals("netd")) {
-			    	if (reloadDriver == false) {
-			    		enableAndDisconnectWifi();
-			    	}
-		    	}
 		        
-		    	// Generate configuration
+		        if(fallbackTether){
+		        	if(symlinkHostapd){
+		        		Log.d(TAG, "Hostapd symlink hack");
+
+		        		Log.d(TAG, "Checking if files need to be installed");
+		        		File checktetherfile = new File("/system/bin/hostapd_4stocktether");
+		        		if(!checktetherfile.exists()){
+		        			HostapdSymlinks.initialHostapdInstall();
+		        		}
+
+		        		Log.d(TAG, "Symlinking Native Bins");
+		        		HostapdSymlinks.symlinkNativeBins();
+		        	};
+		        	
+	        
+		        	//Start fallback tether mode	
+		        	try { 	
+			        	Log.d(TAG, "Starting fallback tether mode");
+				        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+			        	FallbackTether.controlStockTether(wifi, true, currentEncryptionEnabled, currentPassphrase);
+	
+		        		// Acquire Wakelock
+			    		application.acquireWakeLock();
+			    		state = STATE_RUNNING;
+	
+						clientConnectEnable(true);
+			    		trafficCounterEnable(true);
+			    		
+		        	} catch (Exception e) {
+		            	Log.e(TAG, "error: " + e.getMessage());
+						application.displayToastMessage("error: " + e.getMessage());
+				    	state = STATE_FAILURE_EXE;
+		        	}        
+		        } else {
+			        if(symlinkHostapd){
+			        		//TODO: This is the lamest hack ever.  Seriously, someone fix this.
+			        		Log.d(TAG, "Checking if files need to be installed");
+			        		File checktetherfile = new File("/system/bin/hostapd_4wifitether");
+			        		if(!checktetherfile.exists()){
+			        			HostapdSymlinks.initialHostapdInstall();
+			        		}
+			        		Log.d(TAG, "Symlinking WifiTether Bins");
+			        		HostapdSymlinks.symlinkTetherBins();
+			        }
+			        
+			        /** not ready 
+			        //resets adaptors based on settings
+			        if (frameworkFirmwareReload){
+			        		Log.d(TAG, "Framework Driver Reload Mode");
+			        	try {
+			        		ServiceHandler.wifiFirmwareReload(getService("network_management"),"wlan0","AP");
+			        	}catch (Exception e){
+
+			            	Log.e(TAG, "error: " + e.getMessage());
+							//application.displayToastMessage("error: " + e.getMessage());
+					    	state = STATE_FAILURE_LOG;
+			        }	**/
+			        
+			         if((device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || device.equals("d2tmo")  || 
+			        		device.equals("d2att") ||  device.equals("d2dcm") || device.equals("espressowifi") || device.equals("espresso10wifi") || device.equals("t0ltespr"))){
+	        			Log.d(TAG, "Samsung GS3 Mode");
+		        		Log.d(TAG, "inserting modules");
+		        		//TODO: add to Configuration wifi(un)LoadCmd
+		        		//mfgloader might be more graceful
+		        		//application.coretask.runRootCommand("/system/bin/mfgloader -u");
+		        		//seriously its in /lib?
+		        		File checkdhdfile = new File("/lib/modules/dhd.ko");
+		        		File checkdhdsysfile = new File("/system/lib/modules/dhd.ko");
+		        		if(checkdhdsysfile.exists()){
+		        			//Try one command string, might fix SuperUser.apk issues
+			        		CoreTask.runRootCommand("rmmod dhd;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"");
+		        		}else if(checkdhdfile.exists()){
+			        		CoreTask.runRootCommand("rmmod dhd;insmod /lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"");
+		        		}
+	        		}else {
+		        		Log.d(TAG, "Driver Setup Method Check for driver reload");
+			            // Don't stop wifi if we want softap or netd, breaks gs3 mode e3d needs it
+				    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
+					    	if (reloadDriver == false) {
+					    		enableAndDisconnectWifi();
+					    	}
+				    	}
+	        	}     
+			    /**
+			    //sets max clients to 25  - done cleaner in tether_edify
+	        	if (netdndcmaxclientcmd){
+	        		Log.d(TAG, "Sending Additional Commands Before Tether");
+	        		try {
+	        		ServiceHandler.setMaxClients(getService("network_management"),25);
+	        		}catch (Exception e){
+	            	Log.e(TAG, "error: " + e.getMessage());
+					//application.displayToastMessage("error: " + e.getMessage());
+			    	state = STATE_FAILURE_LOG;
+		        }	
+	        	}    **/
+
+			    // Generate configuration
 		    	application.updateConfiguration();
-		    	
+
 		    	// Check if tether-service is already-running
 		    	if (state != STATE_RUNNING) {
 			    	// Starting service
-			    	if (application.coretask.runRootCommand(application.coretask.DATA_FILE_PATH+"/bin/tether start")) {
+			    	if (CoreTask.runRootCommand(CoreTask.DATA_FILE_PATH+"/bin/tether start")) {
 			    		state = STATE_RUNNING;
 			    	}
 			    	else {
@@ -504,16 +798,17 @@ public class TetherService extends Service {
 
 		    		if (TetherService.this.application.settings.getBoolean("keepalivecheckpref", false))
 		    			keepAliveCheckerEnable(true);
-				}
-		    	sendStateBroadcast(state);			
-			}
+				}	
+		    	}
+		    	sendStateBroadcast(state);		
+			};
 		}).start();
     }
     
     public void reloadACRules() {
     	try {
 	    	Log.d(TAG, "Restarting iptables for access-control-changes!");
-			if (application.coretask.runRootCommand(application.coretask.DATA_FILE_PATH+"/bin/tether restartsecwifi") == false) {
+			if (CoreTask.runRootCommand(CoreTask.DATA_FILE_PATH+"/bin/tether restartsecwifi") == false) {
 				application.displayToastMessage(getString(R.string.global_application_error_restartsecwifi));
 				return;
 			}
@@ -798,6 +1093,13 @@ public class TetherService extends Service {
    		}
    	}
 
+	private static IBinder getService(String service) throws Exception {
+        Class<?> ServiceManager = Class.forName("android.os.ServiceManager");
+        Method getService_method = ServiceManager.getMethod("getService", new Class[]{String.class});
+        IBinder b = (IBinder)getService_method.invoke(null, new Object[]{service});
+        return b;
+	}
+	
    	private void trafficCounterEnable(boolean enable) {
    		if (enable == true) {
 			if (this.trafficCounterThread == null || this.trafficCounterThread.isAlive() == false) {
@@ -871,7 +1173,7 @@ public class TetherService extends Service {
 		        // Checking if Access-Control is activated
 		        if (accessControlActive) {
 	                // Checking whitelistfile
-	                long currentTimestampWhitelistFile = TetherService.this.application.coretask.getModifiedDate(TetherService.this.application.coretask.DATA_FILE_PATH + "/conf/whitelist_mac.conf");
+	                long currentTimestampWhitelistFile = TetherService.this.application.coretask.getModifiedDate(CoreTask.DATA_FILE_PATH + "/conf/whitelist_mac.conf");
 	                if (this.timestampWhitelistfile != currentTimestampWhitelistFile) {
 	                    knownWhitelists = TetherService.this.application.whitelist.get();
 	                    this.timestampWhitelistfile = currentTimestampWhitelistFile;
@@ -879,7 +1181,7 @@ public class TetherService extends Service {
 		        }
 
 	            // Checking leasefile
-	            long currentTimestampLeaseFile = TetherService.this.application.coretask.getModifiedDate(TetherService.this.application.coretask.DATA_FILE_PATH + "/var/dnsmasq.leases");
+	            long currentTimestampLeaseFile = TetherService.this.application.coretask.getModifiedDate(CoreTask.DATA_FILE_PATH + "/var/dnsmasq.leases");
 	            if (this.timestampLeasefile != currentTimestampLeaseFile) {
 	                try {
 	                	// Getting current dns-leases

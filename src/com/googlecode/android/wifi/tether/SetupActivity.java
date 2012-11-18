@@ -40,7 +40,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -100,12 +99,12 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.currentLAN = this.application.settings.getString("lannetworkpref", this.application.DEFAULT_LANNETWORK);
         this.currentEncryptionEnabled = this.application.settings.getBoolean("encpref", false);
         this.currentTransmitPower = this.application.settings.getString("txpowerpref", "disabled");
-        this.currentMssclampingEnabled = this.application.settings.getBoolean("mssclampingpref", false);
-        this.currentRoutefixEnabled = this.application.settings.getBoolean("routefixpref", false);
+        this.currentMssclampingEnabled = this.application.settings.getBoolean("mssclampingpref", true);
+        this.currentRoutefixEnabled = this.application.settings.getBoolean("routefixpref", true);
         this.currentPrimaryDNS = this.application.settings.getString("dnsprimarypref", "8.8.8.8");
         this.currentSecondaryDNS = this.application.settings.getString("dnssecondarypref", "8.8.4.4");
         this.currentHideSSID = this.application.settings.getBoolean("hidessidpref", false);
-        this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref", true);
+        this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref", false);
         this.keepaliveshutdown = this.application.settings.getString("keepalivecheckoptionpref", "karetry");
         
         // Updating settings-menu
@@ -284,7 +283,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
              }
          }
      };
-    
     
     private void updateSettingsMenu() {
 

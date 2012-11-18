@@ -12,6 +12,7 @@
 
 package com.googlecode.android.wifi.tether;
 
+import com.googlecode.android.wifi.tether.system.HostapdSymlinks;
 import android.R.drawable;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -94,7 +95,12 @@ public class MainActivity extends Activity {
 	private static final int MENU_LOG = 1;
 	private static final int MENU_ABOUT = 2;
 	private static final int MENU_ACCESS = 3;
+	private static final int MENU_HOSTAPDCLEANUP = 4;
+	private static final int MENU_HOSTAPDINSTALL = 5;
+	private static final int MENU_HOSTAPDNATIVETETHER = 6;
+	private static final int MENU_HOSTAPDWIFITETHER = 7;
 	
+	String device = "Unknown";
 	public static final String TAG = "TETHER -> MainActivity";
 	public static MainActivity currentInstance = null;
 	
@@ -113,9 +119,15 @@ public class MainActivity extends Activity {
 
         // Initialize myself
         MainActivity.setCurrent(this);
-        
+
+		//create CoreTask
+		//this.samsungsymlinks = new SamsungSymlinks();
+		
         // Init Application
         application = (TetherApplication)this.getApplication();
+
+        // Init Device flag
+        device = android.os.Build.DEVICE; 
         
         // Init Table-Rows
         startTblRow = (TableRow)findViewById(R.id.startRow);
@@ -125,7 +137,7 @@ public class MainActivity extends Activity {
         progressTitle = (TextView)findViewById(R.id.progressTitle);
         downloadUpdateLayout = (RelativeLayout)findViewById(R.id.layoutDownloadUpdate);
         batteryTemperatureLayout = (RelativeLayout)findViewById(R.id.layoutBatteryTemp);
-        
+
         trafficRow = (RelativeLayout)findViewById(R.id.trafficRow);
         downloadText = (TextView)findViewById(R.id.trafficDown);
         uploadText = (TextView)findViewById(R.id.trafficUp);
@@ -178,14 +190,40 @@ public class MainActivity extends Activity {
         	// Check root-permission, files
 	    	if (!application.coretask.hasRootPermission())
 	    		openNotRootDialog();
+
+	    	//check for busybox, needed for that gross symlink stuff
+	        if(device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || device.equals("d2tmo")  || 
+	        device.equals("d2att") ||  device.equals("d2dcm") || device.equals("espressowifi") || device.equals("espresso10wifi") || device.equals("t0ltespr")){
+	        	//needs to be true
+				application.preferenceEditor.putBoolean("symlinkhostapd", false);
+				//additionalpretethercmds sets max clients to 25 in tether_edify, true might fix stuff
+				application.preferenceEditor.putBoolean("netdndcmaxclientcmd", true);
+				//use configuration for driver reload
+				application.preferenceEditor.putBoolean("driverreloadpref", false);
+				//this might work better but uses reflections.  disabled goes through insmod 
+				//application.preferenceEditor.putBoolean("fwfirmwarereloadpref", false);
+				application.preferenceEditor.commit();
+				//needed for only hostapd symlink might make check better
+	    		if (!application.coretask.isBusyboxInstalled())
+	    			openBusyboxDialog();
+	    	}
+	    	
+	    	//e3d needs driver reload
+	    	if(device.equals("shooter") || device.equals("shooteru")){
+				application.preferenceEditor.putBoolean("driverreloadpref", true);
+				application.preferenceEditor.putBoolean("netdndcmaxclientcmd", false);
+				application.preferenceEditor.putBoolean("symlinkhostapd", false);
+				//application.preferenceEditor.putBoolean("fwfirmwarereloadpref", true);
+				application.preferenceEditor.commit();
+	    	}
 	    	
 	        // Open donate-dialog
-			openDonateDialog();
-        
+			//openDonateDialog();
+     
 			// Check for updates
-			application.checkForUpdate();
+			// application.checkForUpdate();
         }
-        
+
         // Start Button
         startBtn = (Button) findViewById(R.id.startTetherBtn);
         startBtnListener = new OnClickListener() {
@@ -491,7 +529,8 @@ public class MainActivity extends Activity {
          }
      };	
 
-	
+
+ 	@SuppressWarnings("unused")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
     	boolean supRetVal = super.onCreateOptionsMenu(menu);
@@ -504,7 +543,14 @@ public class MainActivity extends Activity {
     	SubMenu log = menu.addSubMenu(0, MENU_LOG, 0, getString(R.string.main_activity_showlog));
     	log.setIcon(drawable.ic_menu_agenda);
     	SubMenu about = menu.addSubMenu(0, MENU_ABOUT, 0, getString(R.string.main_activity_about));
-    	about.setIcon(drawable.ic_menu_info_details);    	
+    	about.setIcon(drawable.ic_menu_info_details); 
+        if(device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || device.equals("d2tmo")  || 
+        device.equals("d2att") ||  device.equals("d2dcm") || device.equals("espressowifi") || device.equals("espresso10wifi") || device.equals("t0ltespr")){
+				SubMenu hostapdIntall = menu.addSubMenu(0, MENU_HOSTAPDINSTALL, 0, "Install Hostapd Binaries");
+    	    	SubMenu hostapdCleanup = menu.addSubMenu(0, MENU_HOSTAPDCLEANUP, 0, "Cleanup Hostapd Binaries");
+    	    	SubMenu hostapdNativeTether = menu.addSubMenu(0, MENU_HOSTAPDNATIVETETHER, 0, "Set Binaries to Native Tether");
+    	    	SubMenu hostapdWifiTether = menu.addSubMenu(0, MENU_HOSTAPDWIFITETHER, 0, "Set Binaries to Wifi Tether");
+    	 }
     	return supRetVal;
     }
     
@@ -516,17 +562,30 @@ public class MainActivity extends Activity {
 	    	case MENU_SETUP :
 		        startActivityForResult(new Intent(
 		        		MainActivity.this, SetupActivity.class), 0);
-		        break;
+		    break;
 	    	case MENU_LOG :
 		        startActivityForResult(new Intent(
 		        		MainActivity.this, LogActivity.class), 0);
-		        break;
+		    break;
 	    	case MENU_ABOUT :
 	    		this.openAboutDialog();
-	    		break;
+	    	break;
 	    	case MENU_ACCESS :
 		        startActivityForResult(new Intent(
 		        		MainActivity.this, AccessControlActivity.class), 0);   		
+		    break;
+	    	case MENU_HOSTAPDCLEANUP :
+	    		HostapdSymlinks.removeHostapdInstall();
+	    	break;
+	    	case MENU_HOSTAPDINSTALL :
+	    		HostapdSymlinks.initialHostapdInstall();
+	    	break;	
+	    	case MENU_HOSTAPDWIFITETHER  :
+	    		HostapdSymlinks.symlinkTetherBins();
+	    	break;	
+	    	case MENU_HOSTAPDNATIVETETHER :
+	    		HostapdSymlinks.symlinkNativeBins();
+	    	break;	
     	}
     	return supRetVal;
     }    
@@ -694,6 +753,27 @@ public class MainActivity extends Activity {
         View view = li.inflate(R.layout.norootview, null); 
 		new AlertDialog.Builder(MainActivity.this)
         .setTitle(getString(R.string.main_activity_notroot))
+        .setView(view)
+        .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                        Log.d(TAG, "Exit pressed");
+                        MainActivity.this.finish();
+                }
+        })
+        .setNeutralButton(getString(R.string.main_activity_ignore), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Log.d(TAG, "Ignore pressed");
+                    MainActivity.this.application.installFiles();
+                    MainActivity.this.application.displayToastMessage("Ignoring, note that this application will NOT work correctly.");
+                }
+        })
+        .show();
+   	}
+  	private void openBusyboxDialog() {
+		LayoutInflater li = LayoutInflater.from(this);
+        View view = li.inflate(R.layout.nobusyboxview, null); 
+		new AlertDialog.Builder(MainActivity.this)
+        .setTitle("Busybox Is not Installed")
         .setView(view)
         .setNegativeButton(getString(R.string.main_activity_exit), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {

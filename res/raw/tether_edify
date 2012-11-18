@@ -143,14 +143,24 @@ action() == "start" && (
 	  log(run_program("/system/bin/ndc softap stop "+getcfg("wifi.interface")),"Stopping WiFI interface");
 	  log(run_program("/system/bin/ndc softap fwreload "+getcfg("wifi.interface")+" AP"),"Reloading firmware");
 	  log(run_program("/system/bin/ndc softap start "+getcfg("wifi.interface")), "Starting AP interface");
-
-
-	  log(run_program("/system/bin/ndc softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 0 8"), "Configuring AP");
+	  
+	  # i think they added in new maxclient somewherealong line
+	  # ndc set ssid/securitytype/psk/channel/maxclient/hiddenssid/macaddrAcl
+	  ifelse((getcfg("netdndcmaxclientcmd") == "true"),(
+	  	log("Using ndc with ssid/securitytype/psk/channel/maxclient/hiddenssid/macaddrAcl");
+	  	log(run_program("/system/bin/ndc softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 25 0 8"), "Configuring AP with Maxclient");
+	  ),
+	  (
+	 	log("Using ndc with ssid/securitytype/psk/channel/hiddenssid/macaddrAcl");
+		log(run_program("/system/bin/ndc softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 0 8"), "Configuring AP");
+	  ));
+	  
 	  log(run_program("/system/bin/ndc softap startap"), "Starting AP");
 	  sleep("3");
 	  log(run_program("/system/bin/ndc interface setcfg "+getcfg("tether.interface")+" "+getcfg("ip.gateway")+" "+getcfg("ip.netmask")+" up"), "Configuring Ip-address");
 	  #log(run_program("/data/data/com.googlecode.android.wifi.tether/bin/ifconfig " + getcfg("tether.interface") + " " + getcfg("ip.gateway") + " netmask " + getcfg("ip.netmask")) &&
 	  #    run_program("/data/data/com.googlecode.android.wifi.tether/bin/ifconfig " + getcfg("tether.interface") + " up"),  "Activating WiFi interface");  	    
+	  #log(run_program(getcfg("hostapd.bin.path")+" -P /data/data/com.googlecode.android.wifi.tether/var/hostapd.pid -B /data/data/com.googlecode.android.wifi.tether/conf/hostapd.conf"), "Starting hostapd");
 	);
 	    
 	getcfg("wifi.driver") == "wext" && (

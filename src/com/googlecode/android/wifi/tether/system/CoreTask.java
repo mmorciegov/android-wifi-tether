@@ -35,14 +35,14 @@ public class CoreTask {
 
 	public static final String TAG = "TETHER -> CoreTask";
 	
-	public String DATA_FILE_PATH;
+	public static String DATA_FILE_PATH;
 	
 	private static final String FILESET_VERSION = "17";
 	
 	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
 	
 	public void setPath(String path){
-		this.DATA_FILE_PATH = path;
+		CoreTask.DATA_FILE_PATH = path;
 	}
 	
 	public class Whitelist {
@@ -302,7 +302,7 @@ public class CoreTask {
         
         ClientData clientData;
         
-        ArrayList<String> lines = readLinesFromFile(this.DATA_FILE_PATH+"/var/dnsmasq.leases");
+        ArrayList<String> lines = readLinesFromFile(CoreTask.DATA_FILE_PATH+"/var/dnsmasq.leases");
         
         for (String line : lines) {
 			clientData = new ClientData();
@@ -427,6 +427,17 @@ public class CoreTask {
     	
     	return true;
     }
+
+    
+    public boolean isBusyboxInstalled() {
+    	if ((new File("/system/bin/busybox")).exists() == false) {
+	    	if ((new File("/system/xbin/busybox")).exists() == false) {
+	    		return false;
+	    	}
+    	}
+    	
+    	return true;
+    }
     
     
     /*
@@ -509,13 +520,23 @@ public class CoreTask {
 		return rooted;
     }
     
-    public boolean runRootCommand(String command) {
+    public static boolean runRootCommand(String command) {
 		Log.d(TAG, "Root-Command ==> su -c \""+command+"\"");
 		int returncode = NativeTask.runCommand("su -c \""+command+"\"");
     	if (returncode == 0) {
 			return true;
 		}
     	Log.d(TAG, "Root-Command error, return code: " + returncode);
+		return false;
+    }
+
+    public static boolean runStandardCommand(String command) {
+		Log.d(TAG, "Standard-Command ==> \""+command+"\"");
+		int returncode = NativeTask.runCommand(command);
+    	if (returncode == 0) {
+			return true;
+		}
+    	Log.d(TAG, "Standard-Command error, return code: " + returncode);
 		return false;
     }
     
@@ -607,11 +628,11 @@ public class CoreTask {
     public boolean filesetOutdated(){
     	boolean outdated = true;
     	
-    	File inFile = new File(this.DATA_FILE_PATH+"/conf/tether.edify");
+    	File inFile = new File(CoreTask.DATA_FILE_PATH+"/conf/tether.edify");
     	if (inFile.exists() == false) {
     		return false;
     	}
-    	ArrayList<String> lines = readLinesFromFile(this.DATA_FILE_PATH+"/conf/tether.edify");
+    	ArrayList<String> lines = readLinesFromFile(CoreTask.DATA_FILE_PATH+"/conf/tether.edify");
 
     	int linecount = 0;
     	for (String line : lines) {

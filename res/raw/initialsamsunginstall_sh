@@ -1,0 +1,21 @@
+#!/system/bin/sh
+############################################################
+# Created By: TrevE @ xda
+#
+# This ugly hack symlinks bins around to switch tether apps 
+###########################################################
+
+busybox mount -o rw,remount /system;
+
+if [ ! -e /system/bin/hostapd_4stocktether ]; then
+	#move system files
+	busybox mv /system/bin/hostapd /system/bin/hostapd_4stocktether;
+	
+	#chmod files
+	busybox chmod 755 /system/bin/hostapd_4stocktether;
+	busybox chown 0:2000 /system/bin/hostapd_4stocktether;
+	busybox chmod 755 /system/bin/hostapd_4wifitether;
+	busybox chown 0:2000 /system/bin/hostapd_4wifitether;
+fi;
+
+busybox mount -o ro,remount /system;

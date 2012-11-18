@@ -19,6 +19,21 @@
 			android:entryValues="@array/setupvalues"  
 			android:dialogTitle="@string/setup_layout_setupmethod_dialog_title"
 			android:defaultValue="auto" />	  
+		<CheckBoxPreference  
+			android:key="fallbacktether"  
+			android:title="Fallback Tether Mode"  
+			android:summary="Use framework to tether" 
+			android:defaultValue="false" /> 
+		<CheckBoxPreference  
+			android:key="symlinkhostapd"  
+			android:title="Use Cyanogen Hostapd Binary"  
+			android:summary="Fancy Symlink magic may be required if AP starts but fails to connect"
+			android:defaultValue="false" /> 	
+		<CheckBoxPreference  
+			android:key="netdndcmaxclientcmd"  
+			android:title="Send Netdndc Max Client Cmd"  
+			android:summary="May be required in netdndc mode if AP starts but fails to connect. Do not use with Cyanogen Binary." 
+			android:defaultValue="false" />
 	    <CheckBoxPreference  
 			android:key="encpref"  
 			android:title="@string/setup_layout_wifiencryption"  
@@ -175,11 +190,13 @@
 		<CheckBoxPreference  
 			android:key="mssclampingpref"  
 			android:title="@string/setup_layout_mssclamping"  
-			android:summary="@string/setup_layout_mssclamping_summary" /> 		
+			android:summary="@string/setup_layout_mssclamping_summary"
+			android:defaultValue="true" /> 		
 		<CheckBoxPreference  
 			android:key="routefixpref"  
 			android:title="@string/setup_layout_routingfix"  
-			android:summary="@string/setup_layout_routingfix_summary" /> 				 	
+			android:summary="@string/setup_layout_routingfix_summary" 
+			android:defaultValue="true" /> 				 	
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_dns" android:key="dnsprefs">
 		<EditTextPreference  
