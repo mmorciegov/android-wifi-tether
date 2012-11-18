@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+import com.googlecode.android.wifi.tether.system.CoreTask;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebSettings;
@@ -67,7 +69,7 @@ public class LogActivity extends Activity {
         InputStreamReader isr = null;
         String data = "";
         try{
-	             File file = new File(application.coretask.DATA_FILE_PATH+"/var/tether.log");
+	             File file = new File(CoreTask.DATA_FILE_PATH+"/var/tether.log");
                  fis = new FileInputStream(file);
                  isr = new InputStreamReader(fis, "utf-8");
                  char[] buff = new char[(int) file.length()];

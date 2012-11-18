@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+	<ScrollView android:id="@+id/norootscrollview" 
+		android:orientation="vertical"
+		android:layout_width="fill_parent" 
+		android:layout_height="fill_parent">    
+		<LinearLayout
+		    android:orientation="vertical"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent">
+
+			<TextView
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="center_vertical|center_horizontal"
+			    android:paddingLeft="15px"
+			    android:paddingRight="15px"
+			    android:paddingTop="15px"
+			    android:text="Sorry, but you do not have busybox installed.  This is required to run the application"
+			    android:textColor="#ffffff"
+			    android:textStyle="bold" />
+
+			</LinearLayout>
+		</ScrollView>			
+</LinearLayout>
