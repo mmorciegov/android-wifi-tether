@@ -117,7 +117,12 @@ action() == "start" && (
 	  log(netd_cmd("softap stop "+getcfg("wifi.interface")),"Stopping WiFI interface");
 	  log(netd_cmd("softap fwreload "+getcfg("wifi.interface")+" AP"),"Reloading firmware");
 	  log(netd_cmd("softap start "+getcfg("wifi.interface")), "Starting AP interface");
+	  ifelse((getcfg("netd.maxclientcmd") == "true"),(
+	  log(netd_cmd("softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 25 0 8"), "Configuring AP with MaxClient Mode");
+	  ),
+	  (
 	  log(netd_cmd("softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 0 8"), "Configuring AP");
+	  ));
 	  log(netd_cmd("softap startap "+getcfg("tether.interface")), "Starting AP");
 	  sleep("3");
 	  log(netd_cmd("interface setcfg "+getcfg("tether.interface")+" "+getcfg("ip.gateway")+" "+getcfg("ip.netmask")+" up"), "Configuring Ip-address");
@@ -146,12 +151,12 @@ action() == "start" && (
 	  
 	  # i think they added in new maxclient somewherealong line
 	  # ndc set ssid/securitytype/psk/channel/maxclient/hiddenssid/macaddrAcl
-	  ifelse((getcfg("netdndcmaxclientcmd") == "true"),(
-	  	log("Using ndc with ssid/securitytype/psk/channel/maxclient/hiddenssid/macaddrAcl");
+	  ifelse((getcfg("netd.maxclientcmd") == "true"),(
+	  	# log("Using ndc with ssid/securitytype/psk/channel/maxclient/hiddenssid/macaddrAcl");
 	  	log(run_program("/system/bin/ndc softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 25 0 8"), "Configuring AP with Maxclient");
 	  ),
 	  (
-	 	log("Using ndc with ssid/securitytype/psk/channel/hiddenssid/macaddrAcl");
+	 	# log("Using ndc with ssid/securitytype/psk/channel/hiddenssid/macaddrAcl");
 		log(run_program("/system/bin/ndc softap set "+getcfg("wifi.interface")+" "+getcfg("tether.interface")+" "+getcfg("wifi.essid")+" "+getcfg("wifi.encryption")+" "+getcfg("wifi.encryption.key")+" "+getcfg("wifi.channel")+" 0 8"), "Configuring AP");
 	  ));
 	  
@@ -432,6 +437,7 @@ action() == "stop" && (
   	module_loaded("bcm4330") && rmmod("bcm4330");
   	module_loaded("bcm4329") && rmmod("bcm4329");
   	module_loaded("bcm4325") && rmmod("bcm4325");
+  	module_loaded("dhd") && rmmod("dhd");
   	module_loaded("wlan") && rmmod("wlan");
   	module_loaded("tiwlan_drv") && rmmod("tiwlan_drv");
   	module_loaded("tiap_drv") && rmmod("tiap_drv");

@@ -24,7 +24,6 @@ import java.util.Properties;
 import com.googlecode.android.wifi.tether.data.ClientData;
 import com.googlecode.android.wifi.tether.system.Configuration;
 import com.googlecode.android.wifi.tether.system.CoreTask;
-import com.googlecode.android.wifi.tether.system.HostapdSymlinks;
 import com.googlecode.android.wifi.tether.system.WebserviceTask;
 
 import android.app.Application;
@@ -109,10 +108,6 @@ public class TetherApplication extends Application {
 	
 	// CoreTask
 	public CoreTask coretask = null;
-
-	// SamsungSymlinks
-	public HostapdSymlinks samsungsymlinks = null;
-	
 	
 	// WebserviceTask
 	public WebserviceTask webserviceTask = null;
@@ -237,7 +232,6 @@ public class TetherApplication extends Application {
 		boolean encEnabled = this.settings.getBoolean("encpref", false);
 		boolean acEnabled = this.settings.getBoolean("acpref", false);
         boolean fallbackTether = this.settings.getBoolean("fallbacktether", false);
-        boolean frameworkFirmwareReload = this.settings.getBoolean("fwfirmwarereloadpref", false);
         boolean symlinkHostapd = this.settings.getBoolean("symlinkhostapd", false);
 		String ssid = this.settings.getString("ssidpref", "AndroidTether");
         String txpower = this.settings.getString("txpowerpref", "disabled");
@@ -251,7 +245,7 @@ public class TetherApplication extends Application {
         String secondaryDns = this.settings.getString("dnssecondarypref", "8.8.4.4");
         boolean hideSSID = this.settings.getBoolean("hidessidpref", false);
         boolean reloadDriver = this.settings.getBoolean("driverreloadpref", true);
-        boolean netdndcMaxClientCmd = this.settings.getBoolean("netdndcmaxclientcmd", false);
+        boolean netdMaxClientCmd = this.settings.getBoolean("netd.maxclientcmd", false);
         // Check if "auto"-setup method is selected
         String setupMethod = this.settings.getString("setuppref", "auto");
         
@@ -293,21 +287,13 @@ public class TetherApplication extends Application {
 			this.tethercfg.put("fallbacktether", "false");
 		}
 		
-		if(netdndcMaxClientCmd){
+		if(netdMaxClientCmd){
 			//netdndcmaxclientcmd sets max clients to 25, true might fix stuff
-			this.tethercfg.put("netdndcmaxclientcmd", "true");
+			this.tethercfg.put("netd.maxclientcmd", "true");
 		}
 		else {
-			this.tethercfg.put("netdndcmaxclientcmd", "false");
+			this.tethercfg.put("netd.maxclientcmd", "false");
 		}
-		
-		/** not ready/needed
-		if (frameworkFirmwareReload) {
-			this.tethercfg.put("fwfirmwarereloadpref", "true");
-		}
-		else {
-			this.tethercfg.put("fwfirmwarereloadpref", "false");
-		}**/
 
 		if (symlinkHostapd) {
 			this.tethercfg.put("symlinkhostapd", "true");
@@ -476,7 +462,12 @@ public class TetherApplication extends Application {
 					this.hostapdcfg.put("wpa_key_mgmt", "WPA-PSK");
 					this.hostapdcfg.put("wpa_pairwise", "CCMP");
 					this.hostapdcfg.put("wpa_passphrase", wepkey);
-				}				
+				}
+				if (netdMaxClientCmd){
+					this.hostapdcfg.put("max_num_sta", "25");
+					this.hostapdcfg.put("ieee80211n", "1");
+					this.hostapdcfg.put("ctrl_interface", "/data/misc/wifi/hostapd");
+				}
 			}
 			// Update the hostapd-configuration in case we have a ???
 			else if (configuration.getHostapdTemplate().equals("tiap")) {
@@ -711,43 +702,6 @@ public class TetherApplication extends Application {
 		// ifconfig
 		if (message == null) {
 	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/ifconfig", "0755", R.raw.ifconfig);
-		}
-		// rfkill
-		if (message == null) {
-	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/rfkill", "0755", R.raw.rfkill);
-		}
-		// Cyanogen's JB hostapd
-		if (message == null) {
-	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/hostapd", "0755", R.raw.hostapd);
-		}
-		// install needed Hostapd Binaries Script
-		if (message == null) {
-	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/initialSamsungInstall.sh", "0755", R.raw.initialsamsunginstall_sh);
-		}
-		// install needed Hostapd Binaries Script
-		if (message == null) {
-	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/removeSamsungInstall.sh", "0755", R.raw.removesamsunginstall_sh);
-		}
-		// Symlink native Binaries
-		if (message == null) {
-	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/symlinkNativeBin.sh", "0755", R.raw.symlinknativebin_sh);
-		}
-		// Symlink WifiTetherBinaries
-		if (message == null) {
-	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/symlinkTetherBin.sh", "0755", R.raw.symlinktetherbin_sh);
-		}
-		// dos2unix 
-		if (message == null) {
-			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/initialSamsungInstall.sh");
-		}	// dos2unix
-		if (message == null) {
-			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/symlinkNativeBin.sh");
-		}	// dos2unix
-		if (message == null) {
-			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/symlinkTetherBin.sh");
-		}	// dos2unix
-		if (message == null) {
-			CoreTask.runStandardCommand("busybox dos2unix " + CoreTask.DATA_FILE_PATH+"/bin/removeSamsungInstall.sh");
 		}
     	/*
 		if (configuration.enableFixPersist()) {	

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_application_name">WiFi Tether</string>
+	<string name="global_application_name">WiFi Tether- TrevE Mod</string>
 	<string name="global_application_installed">Binaries and config-files installed!</string>
 	<string name="global_application_error_restartsecwifi">Unable to restart secured wifi!</string>
 	<string name="global_application_tethering_running">Tethering is currently running ...</string>
@@ -181,6 +181,10 @@
 	<string name="setup_layout_dnssecondary_dialog_message">Use the following DNS server address:</string>
 	<string name="setup_layout_mssclamping">MSS clamping</string>
 	<string name="setup_layout_mssclamping_summary">Enable MSS clamping</string>
+	<string name="setup_layout_fallbacktether">Fallback Tether</string>
+	<string name="setup_layout_fallbacktether_summary">Use framework to tether (Available on Non-Rooted Devices)</string>
+	<string name="setup_layout_netdmaxclientcmd">Send Netd Max Client Cmd</string>
+	<string name="setup_layout_netdmaxclientcmd_summary">May be required in netd(ndc) mode if AP starts but fails to connect.</string>
 	<string name="setup_layout_routingfix">Routing fix</string>
 	<string name="setup_layout_routingfix_summary">Enable Routing-fix</string>	
 	<string name="setup_layout_notification">Client Notification Mode</string>
