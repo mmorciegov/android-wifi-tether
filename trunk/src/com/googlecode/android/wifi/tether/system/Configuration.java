@@ -690,38 +690,40 @@ public class Configuration {
 		this.opennetworkIdentifier = "open";
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
-		
+		//hostapd mode might work
 		if ((new File("/system/bin/hostapd")).exists() == true) {
 			this.hostapdSupported   = true;
 			this.hostapdPath        = "/system/bin/hostapd";
 			this.hostapdInterface   = "wlan0";
 			this.hostapdTemplate    = "mini";
-			this.hostapdLoaderCmd   = "disabled";
+			this.hostapdLoaderCmd = "rmmod dhd;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
 		}
 		
-		//IDK if softap would work, maybe maybenot
+		//Check for wifi firmware - gs3/tab2 models use this
 		if ((new File("/system/etc/wifi/bcmdhd_apsta.bin_b2").exists()) || (new File("/system/etc/wifi/bcmdhd_apsta.bin").exists())) { 
+			//idk if softap would worrk
 			this.softapFirmwarePath = "/system/etc/wifi/bcmdhd_apsta.bin";
+	
+				//gs3 / tab2 stuff - tab2 uses /lib
+				if(new File("/system/lib/modules/dhd.ko").exists()){
+					this.wifiLoadCmd = "rmmod dhd;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+					this.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/mfgloader -l /system/lib/modules/dhd.ko";
+				}else if(new File("/lib/modules/dhd.ko").exists()){
+					this.wifiLoadCmd ="rmmod dhd;insmod /lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+					this.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/mfgloader -l /lib/modules/dhd.ko";
+				}
+			
 			} else {
 			this.softapFirmwarePath = "";
 		}
+		
 		if ((new File("/system/bin/ndc").exists())) {
 			if (android.os.Build.VERSION.SDK_INT >= SDK_JB) {
 				this.autoSetupMethod = "netdndc";
 			}
 			this.netdNdcSupported = true;
 		}	
-		if(device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || 
-    			device.equals("d2tmo")  || device.equals("d2att") || device.equals("t0ltespr")){
-			//TODO:this might work for GS3 and can take out mess in TetherService.java, i dont care to mess around anymore
-			//this.wifiLoadCmd = "/system/bin/mfgloader -u;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\";";
-			//this.wifiUnloadCmd = "/system/bin/mfgloader -u;";
-				this.wifiLoadCmd = "none";
-				this.wifiUnloadCmd = "none";
-				this.netdNdcSupported = true;
-				this.autoSetupMethod = "netdndc";
-				
-		}
+	
 	}
 
 	private void setupGenericNetdWlan1() {

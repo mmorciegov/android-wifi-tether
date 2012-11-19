@@ -21,18 +21,13 @@
 			android:defaultValue="auto" />	  
 		<CheckBoxPreference  
 			android:key="fallbacktether"  
-			android:title="Fallback Tether Mode"  
-			android:summary="Use framework to tether" 
-			android:defaultValue="false" /> 
-		<CheckBoxPreference  
-			android:key="symlinkhostapd"  
-			android:title="Use Cyanogen Hostapd Binary"  
-			android:summary="Fancy Symlink magic may be required if AP starts but fails to connect"
+			android:title="@string/setup_layout_fallbacktether"  
+			android:summary="@string/setup_layout_fallbacktether_summary" 
 			android:defaultValue="false" /> 	
 		<CheckBoxPreference  
-			android:key="netdndcmaxclientcmd"  
-			android:title="Send Netdndc Max Client Cmd"  
-			android:summary="May be required in netdndc mode if AP starts but fails to connect. Do not use with Cyanogen Binary." 
+			android:key="netd.maxclientcmd"  
+			android:title="@string/setup_layout_netdmaxclientcmd"  
+			android:summary="@string/setup_layout_netdmaxclientcmd_summary" 
 			android:defaultValue="false" />
 	    <CheckBoxPreference  
 			android:key="encpref"  
