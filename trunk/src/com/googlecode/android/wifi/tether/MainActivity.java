@@ -205,10 +205,10 @@ public class MainActivity extends Activity {
 	    	}
 	    	
 	        // Open donate-dialog
-			//openDonateDialog();
+			openDonateDialog();
      
 			// Check for updates
-			// application.checkForUpdate();
+			application.checkForUpdate();
         }
 
         // Start Button

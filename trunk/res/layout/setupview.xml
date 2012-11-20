@@ -10,7 +10,8 @@
 			android:entries="@array/devicenames"  
 			android:entryValues="@array/devicevalues"  
 			android:dialogTitle="@string/setup_layout_devicetype_dialog_title"
-			android:defaultValue="auto" /> 		    
+			android:defaultValue="auto"
+		/> 		    
 		<ListPreference  
 			android:key="setuppref"  
 			android:title="@string/setup_layout_setupmethod"  
@@ -18,12 +19,14 @@
 			android:entries="@array/setupnames"  
 			android:entryValues="@array/setupvalues"  
 			android:dialogTitle="@string/setup_layout_setupmethod_dialog_title"
-			android:defaultValue="auto" />	  
+			android:defaultValue="auto"
+		/>	  
 		<CheckBoxPreference  
 			android:key="fallbacktether"  
 			android:title="@string/setup_layout_fallbacktether"  
 			android:summary="@string/setup_layout_fallbacktether_summary" 
-			android:defaultValue="false" /> 	
+			android:defaultValue="false"
+		/> 	
 		<CheckBoxPreference  
 			android:key="netd.maxclientcmd"  
 			android:title="@string/setup_layout_netdmaxclientcmd"  
