@@ -124,7 +124,9 @@
 	<string name="setup_layout_keepalive_intervalshutdown_manualsummary">Configure delay in minutes between keep-alive\'s first failed request and tether shutdown.</string>
 	<string name="setup_layout_keepalive_option">Keep-Alive Failure Options</string>
 	<string name="setup_layout_keepalive_optionsummary">Configure keep-alive failure options. Retry with no limit or retry until set time limit is reached then shutdown tether connection.</string>
-	<string name="setup_activity_info_keepaliveshutdowntimer">Keep-Alive shutdown timer changed...Changes will take effect for next tethering session.</string>
+	<string name="setup_activity_info_keepaliveshutdowntimer">Keep-Alive shutdown timer changed. Changes will take effect for next tethering session.</string>
+	<string name="setup_activity_info_fallbacktether">Changed the fallback-mode property. This will take effect for next tethering session.</string>
+	<string name="setup_activity_info_maxclientscmd">Changed the Netd-maxclient-cmd property. This will take effect for next tethering session.</string>
 	<string name="global_application_tethering_shutdown_keepalive">Tethering shutdown due to keepalive giving up trying to establish a connection.</string>
 						
 	<string name="setup_layout_quotashutdown_title">Quota Shutdown Limit</string>  

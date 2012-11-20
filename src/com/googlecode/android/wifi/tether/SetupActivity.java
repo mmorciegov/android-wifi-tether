@@ -74,6 +74,9 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private boolean currentDriverReload;
     private String keepaliveshutdown;
     
+    private boolean fallbacktether;
+    private boolean maxClientsCmd;
+    
     private EditTextPreference prefPassphrase;
     private EditTextPreference prefSSID;
     private EditTextPreference prefPrimaryDNS;
@@ -106,6 +109,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.currentHideSSID = this.application.settings.getBoolean("hidessidpref", false);
         this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref", false);
         this.keepaliveshutdown = this.application.settings.getString("keepalivecheckoptionpref", "karetry");
+        this.fallbacktether = this.application.settings.getBoolean("fallbacktether", false);
+        this.maxClientsCmd = this.application.settings.getBoolean("netd.maxclientcmd", false);
         
         // Updating settings-menu
         this.updateSettingsMenu();
@@ -252,7 +257,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         }
     };
     
-   Handler displayToastMessageHandler = new Handler() {
+    // FIXME - http://stackoverflow.com/questions/11828246/android-calling-non-static-methods-from-a-static-handler-class
+    Handler displayToastMessageHandler = new Handler() {
         public void handleMessage(Message msg) {
        		if (msg.obj != null) {
        			SetupActivity.this.application.displayToastMessage((String)msg.obj);
@@ -399,7 +405,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 	        		}
 	        }});
         }       
-        
+    
+        // Disable netdMaxClientCmd
+        if (setupMethod.startsWith("netd") == false) {
+        	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
+        	CheckBoxPreference netdMaxClientCmd = (CheckBoxPreference)findPreference("netd.maxclientcmd");
+        	wifiGroup.removePreference(netdMaxClientCmd);
+        }
+
         // Disable "Transmit power" if not supported
         if (setupMethod.equals("wext") == false) {
         	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
@@ -614,6 +627,30 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
 		    	}
+			   	else if (key.equals("fallbacktether")) {
+		    		boolean newFallbacktether = sharedPreferences.getBoolean("fallbacktether", false);
+		    		if (SetupActivity.this.fallbacktether == newFallbacktether) {
+	    				SetupActivity.this.fallbacktether = newFallbacktether;
+
+	    				// Send Message
+	    				message = getString(R.string.setup_activity_info_fallbacktether);
+		    			Message msg = new Message();
+		    			msg.obj = message;
+		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
+		    		}
+		    	}
+			   	else if (key.equals("netd.maxclientcmd")) {
+		    		boolean newMaxClientsCmd = sharedPreferences.getBoolean("netd.maxclientcmd", false);
+		    		if (SetupActivity.this.maxClientsCmd == newMaxClientsCmd) {
+	    				SetupActivity.this.maxClientsCmd = newMaxClientsCmd;
+
+	    				// Send Message
+	    				message = getString(R.string.setup_activity_info_maxclientscmd);
+		    			Message msg = new Message();
+		    			msg.obj = message;
+		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
+		    		}
+		    	}			   	
 		    	else if (key.equals("channelpref")) {
 		    		String newChannel = sharedPreferences.getString("channelpref", "1");
 		    		if (SetupActivity.this.currentChannel.equals(newChannel) == false) {
