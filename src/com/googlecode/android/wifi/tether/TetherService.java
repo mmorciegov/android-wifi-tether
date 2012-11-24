@@ -285,12 +285,12 @@ public class TetherService extends Service {
 		        
 		        // Check if "auto"-setup method is selected
 		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
-		        boolean fallbackTether = application.settings.getBoolean("fallbacktether", false);
-		        boolean netdmaxclientcmd = application.settings.getBoolean("netd.maxclientcmd", false);
+		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", false);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean active4G = application.settings.getBoolean("enable4gpref", true);
 		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
 		        String currentPassphrase = application.settings.getString("passphrasepref", application.DEFAULT_PASSPHRASE);
+		        
 		        
 		        if (setupMethod.equals("auto")) {
 		        	setupMethod = application.getDeviceParameters().getAutoSetupMethod();
@@ -299,7 +299,7 @@ public class TetherService extends Service {
 			    // Generate configuration
 		    	application.updateConfiguration();
 	
-		        if(fallbackTether){
+		        if(setupMethod.equals("framework_tether")){
 			      //Start fallback tether mode	
 		          try { 	
 		        	  Log.d(TAG, "Starting fallback tether mode");
@@ -322,14 +322,21 @@ public class TetherService extends Service {
 		            }
 		        } else {
 		        	//regular wifi tether mode
-	        		Log.d(TAG, "Driver Setup Method Check for driver reload");
-		            // Don't stop wifi if we want softap or netd, breaks gs3 mode e3d needs it
-			    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
-			    		if (reloadDriver == false) {
-			    			enableAndDisconnectWifi();
-			    		}
-			    	};
-		        	
+
+	        		//TODO: This is a hack to load drivers outside tether script
+		        	if(reloadDriver2) {
+				   		Log.d(TAG, ">>insmod outside tether start");
+		        		CoreTask.runRootCommand(Configuration.getWifiUnloadCmd() + ";" + Configuration.getWifiLoadCmd());
+		        	} else {
+		        		Log.d(TAG, "Driver Setup Method Check for driver reload");
+			            // Don't stop wifi if we want softap or netd
+				    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
+				    		if (reloadDriver == false) {
+				    			enableAndDisconnectWifi();
+				    		}
+				    	};
+		        	}
+			    	
 		    	// Check if tether-service is already-running
 		    	if (state != STATE_RUNNING) {
 			    	// Starting service
@@ -414,17 +421,17 @@ public class TetherService extends Service {
 		    	
 		    	// Check if "auto"-setup method is selected
 		    	boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
-		        boolean fallbackTether = application.settings.getBoolean("fallbacktether", false);
-		        boolean netdmaxclientcmd = application.settings.getBoolean("netd.maxclientcmd", false);
+		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", false);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean active4G = application.settings.getBoolean("enable4gpref", true);
 		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
+		        
 		        String currentPassphrase = application.settings.getString("passphrasepref", application.DEFAULT_PASSPHRASE);
 		        if (setupMethod.equals("auto")) {
 		        	setupMethod = application.getDeviceParameters().getAutoSetupMethod();
 		        }
 		        
-		        if(fallbackTether){
+		        if(setupMethod.equals("framework_tether")){
 			        //fallback wifi_service tether hack	
 			        try {	
 			          WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -436,19 +443,26 @@ public class TetherService extends Service {
 		              state = STATE_FAILURE_EXE;
 		            }
 		        } else {
+
 		        	//regular tether mode
-	        		Log.d(TAG, "Driver Setup Method Check for driver reload");
-		            // Don't stop wifi if we want softap or netd, breaks gs3 mode e3d needs it
-			    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
-				    	if ((reloadDriver == false)) {
-				    		disableWifiAndBt(false);
-				    	}
-			    	};
-		            
-			    	if (CoreTask.runRootCommand(CoreTask.DATA_FILE_PATH+"/bin/tether stop") == false) {
+		         	if (CoreTask.runRootCommand(CoreTask.DATA_FILE_PATH+"/bin/tether stop") == false) {
 			    		state = STATE_FAILURE_EXE;
 			    	}
-		       
+
+	        		//TODO: This is a hack to load drivers outside tether script
+		        	if(reloadDriver2) {
+				   		Log.d(TAG, ">>insmod outside tether stop");
+		        		CoreTask.runRootCommand(Configuration.getWifiUnloadCmd() + ";" + Configuration.getWifiFinalloadCmd());
+		        	} else {
+		        		Log.d(TAG, "Driver Setup Method Check for driver reload");
+			            // Don't stop wifi if we want softap or netd
+				    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
+					    	if (reloadDriver == false) {
+					    		disableWifiAndBt(false);
+					    	}
+				    	};
+		        	}
+			   
 		        }	
 
 		    	TetherService.this.application.notificationManager.cancelAll();
@@ -514,16 +528,15 @@ public class TetherService extends Service {
 		        
 		    	// Check if "auto"-setup method is selected
 		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
+		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", false);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
-		        boolean netdmaxclientcmd = application.settings.getBoolean("netd.maxclientcmd", false);
-		        boolean fallbackTether = application.settings.getBoolean("fallbacktether", false);
 		        String currentPassphrase = application.settings.getString("passphrasepref", application.DEFAULT_PASSPHRASE);
 		        if (setupMethod.equals("auto")) {
 		        	setupMethod = application.getDeviceParameters().getAutoSetupMethod();
 		        }
 		        
-		        if(fallbackTether){
+		        if(setupMethod.equals("framework_tether")){
 		        	//Start fallback tether mode	
 		        	try { 	
 			        	Log.d(TAG, "Starting fallback tether mode");
@@ -544,13 +557,20 @@ public class TetherService extends Service {
 		        	}        
 		        } else {
 		        	//regular wifitether mode
-	        		Log.d(TAG, "Driver Setup Method Check for driver reload");
-		            // Don't stop wifi if we want softap or netd, breaks gs3 mode e3d needs it
-			    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
-				    	if (reloadDriver == false) {
-				    		enableAndDisconnectWifi();
+
+	        		//TODO: This is a hack to load drivers outside tether script
+		        	if(reloadDriver2) {
+				   		Log.d(TAG, ">>insmod outside tether start");
+		        		CoreTask.runRootCommand(Configuration.getWifiUnloadCmd() + ";" + Configuration.getWifiLoadCmd());
+		        	} else {
+		        		Log.d(TAG, "Driver Setup Method Check for driver reload");
+			            // Don't stop wifi if we want softap or netd
+				    	if (setupMethod.startsWith("softap") || setupMethod.startsWith("netd")) {
+					    	if (reloadDriver == false) {
+					    		enableAndDisconnectWifi();
+					    	}
 				    	}
-			    	}
+		        	}
 	
 				    // Generate configuration
 			    	application.updateConfiguration();

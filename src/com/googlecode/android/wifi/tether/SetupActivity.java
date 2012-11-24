@@ -107,7 +107,10 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.currentPrimaryDNS = this.application.settings.getString("dnsprimarypref", "8.8.8.8");
         this.currentSecondaryDNS = this.application.settings.getString("dnssecondarypref", "8.8.4.4");
         this.currentHideSSID = this.application.settings.getBoolean("hidessidpref", false);
-        this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref", false);
+        
+        this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref", true);
+        this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref2", false);
+        
         this.keepaliveshutdown = this.application.settings.getString("keepalivecheckoptionpref", "karetry");
         this.fallbacktether = this.application.settings.getBoolean("fallbacktether", false);
         this.maxClientsCmd = this.application.settings.getBoolean("netd.maxclientcmd", false);
@@ -405,14 +408,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 	        		}
 	        }});
         }       
-    
-        // Disable netdMaxClientCmd
-        if (setupMethod.startsWith("netd") == false) {
-        	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
-        	CheckBoxPreference netdMaxClientCmd = (CheckBoxPreference)findPreference("netd.maxclientcmd");
-        	wifiGroup.removePreference(netdMaxClientCmd);
-        }
-
         // Disable "Transmit power" if not supported
         if (setupMethod.equals("wext") == false) {
         	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
@@ -441,12 +436,26 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	lanGroup.removePreference(mssClampingPreference);
         }
         
-        // Disabling Force Wifi-Relod
+        // Disabling Force Wifi-Relod && Netd Max Client
         if (!(setupMethod.startsWith("softap") || setupMethod.equals("netd") || setupMethod.equals("netdndc"))) {
         	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
         	CheckBoxPreference reloadWifiPreference = (CheckBoxPreference)findPreference("driverreloadpref");
+        	reloadWifiPreference.setChecked(false);
         	wifiGroup.removePreference(reloadWifiPreference);
+        	
+        	//TODO:hack for loading outside wifitether script
+        	CheckBoxPreference reloadWifiPreference2 = (CheckBoxPreference)findPreference("driverreloadpref2");
+        	reloadWifiPreference2.setChecked(false);
+        	wifiGroup.removePreference(reloadWifiPreference2);
         }
+
+        // netdndc Max Client
+        if (!(setupMethod.startsWith("netd"))) {
+        	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
+        	CheckBoxPreference maxClientPreference = (CheckBoxPreference)findPreference("netd.maxclientcmd");
+        	maxClientPreference.setChecked(false);
+        	wifiGroup.removePreference(maxClientPreference);
+        }        
         
         // Disable Route-Fix
         if (application.coretask.isRoutefixSupported() == false) {
@@ -532,6 +541,11 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 					continue;
 				}			
 			}
+			else if (setupvalues[i].equals("framework_tether")) {
+				if (this.application.configuration.isFrameworkTetherSupported() == false) {
+					continue;
+				}			
+			}			
 			tmpsetupnames.add(setupnames[i]);
 			tmpsetupvalues.add(setupvalues[i]);
 		}     

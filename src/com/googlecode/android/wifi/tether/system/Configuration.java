@@ -115,6 +115,7 @@ public class Configuration {
 	private boolean netdNdcSupported       = false;
 	private boolean tiadhocSupported       = false;
 	private boolean autoInternalNetSetup   = false;
+	private boolean frameworkTetherSupported = true;
 	
 	// wext-values
 	private String wextInterface           = "";
@@ -144,9 +145,12 @@ public class Configuration {
 	private String autoSetupMethod         = "wext";
 	
 	private boolean genericSetupSection    = true;
+	private boolean wifiFinalDriverLoad = false;
 	
-	private String wifiLoadCmd = "none";
-	private String wifiUnloadCmd = "none";
+	//TODO: hack driver reload outside tether
+	private static String wifiLoadCmd = "none";
+	private static String wifiUnloadCmd = "none";
+	private static String wifiFinalLoadCmd = "none";
 	
 	public Configuration() {
 		this.device = android.os.Build.DEVICE; //NativeTask.getProp("ro.product.device");
@@ -336,6 +340,7 @@ public class Configuration {
 		this.softapSamsungSupported = false;
 		this.netdSupported          = false;
 		this.tiadhocSupported       = true;
+		this.frameworkTetherSupported = true;
 		this.tiadhocInterface       = "tiwlan0";
 		this.genericSetupSection    = true;
 		this.autoSetupMethod        = "tiwlan0";
@@ -351,6 +356,7 @@ public class Configuration {
 		this.softapSamsungSupported = false;
 		this.netdSupported        = true;
 		this.tiadhocSupported     = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "wlan0";
 		
@@ -391,6 +397,7 @@ public class Configuration {
 		this.tiadhocSupported		= false;
 		this.autoInternalNetSetup	= true;
 		this.netdNdcSupported 		= false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "eth0";
 
@@ -427,6 +434,7 @@ public class Configuration {
 		this.tiadhocSupported       = false;
 		this.autoInternalNetSetup	= true;
 		this.netdNdcSupported       = false;
+		this.frameworkTetherSupported = true;
 
 		
 		if (sdk >= SDK_ICS) {
@@ -472,9 +480,10 @@ public class Configuration {
 		this.wextSupported        = true;
 		this.softapSupported      = true;
 		this.softapSamsungSupported = false;
-		this.netdSupported        = false;
-		this.hostapdSupported     = false;
+		this.netdSupported        = true;
+		this.hostapdSupported     = true;
 		this.tiadhocSupported      = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "wlan0";
 		this.netdInterface = "wlan0";
@@ -489,8 +498,12 @@ public class Configuration {
 		}
 		
 		if(this.device.equals(Configuration.DEVICE_SHOOTER) || this.device.equals(Configuration.DEVICE_SHOOTERU)){
-			this.wifiLoadCmd = "insmod /system/lib/modules/bcm4329.ko \"firmware_path=/system/etc/firmware/fw_bcm4329_apsta.bin nvram_path=/proc/calibration iface_name=wlan0\";insmod /system/lib/modules/bcmdhd.ko;";
-			this.wifiUnloadCmd = "rmmod bcm4329;rmmod bcmdhd";
+			//this.wifiLoadCmd = "rmmod bcm4329;rmmod bcmdhd;insmod /system/lib/modules/bcm4329.ko \"firmware_path=/system/etc/firmware/fw_bcm4329_apsta.bin nvram_path=/proc/calibration iface_name=wlan0\";insmod /system/lib/modules/bcmdhd.ko";
+			//this.wifiUnloadCmd = "rmmod bcm4329;rmmod bcmdhd;insmod /system/lib/modules/bcm4329.ko \"firmware_path=/system/etc/firmware/fw_bcm4329_sta.bin nvram_path=/proc/calibration iface_name=wlan0\";insmod /system/lib/modules/bcmdhd.ko";
+			this.wifiFinalDriverLoad = true;
+			Configuration.wifiLoadCmd = "insmod /system/lib/modules/bcm4329.ko \"nvram_path=/proc/calibration iface_name=wlan0\"";
+			Configuration.wifiUnloadCmd = "rmmod bcm4329";
+			Configuration.wifiFinalLoadCmd = "insmod /system/lib/modules/bcm4329.ko \"nvram_path=/proc/calibration iface_name=wlan0\"";		
 		}
 		this.autoSetupMethod = "softap";
 		this.genericSetupSection = true;
@@ -505,6 +518,7 @@ public class Configuration {
 		this.softapSamsungSupported = false;
 		this.netdSupported        	= false;
 		this.tiadhocSupported      	= false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "tiwlan0";
 		
@@ -542,6 +556,7 @@ public class Configuration {
 		this.softapSamsungSupported = false;
 		this.netdSupported          = false;
 		this.tiadhocSupported       = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "tiwlan0";
 		
@@ -596,6 +611,7 @@ public class Configuration {
 		this.softapSamsungSupported = false;
 		this.netdSupported        	= false;
 		this.tiadhocSupported      	= false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "tiwlan0";
 		
@@ -650,6 +666,7 @@ public class Configuration {
 		this.netdSupported        = false;
 		this.hostapdSupported     = false;
 		this.tiadhocSupported      = false;
+		this.frameworkTetherSupported = true;
 		
 		this.autoSetupMethod      = "wext";
 		
@@ -674,13 +691,14 @@ public class Configuration {
 	 * Samsung Galaxy Nexus
 	 */
 	private void setupGenericNetdWlan0() {
-		this.wextSupported          = true;
-		this.softapSupported        = true;
-		if(manufacturer.toLowerCase().equals("samsung")){this.softapSamsungSupported = true;} else {this.softapSamsungSupported = false;}
-		this.netdSupported          = true;
-		this.hostapdSupported       = false;
-		this.tiadhocSupported       = false;
-		this.netdNdcSupported       = false;
+		this.wextSupported            = true;
+		this.softapSupported       	  = true;
+		this.softapSamsungSupported	  = true;
+		this.netdSupported        	  = true;
+		this.hostapdSupported     	  = true;
+		this.tiadhocSupported     	  = false;
+		this.netdNdcSupported     	  = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "wlan0";
 		this.netdInterface = "wlan0";
@@ -690,6 +708,7 @@ public class Configuration {
 		this.opennetworkIdentifier = "open";
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
+		
 		//hostapd mode might work
 		if ((new File("/system/bin/hostapd")).exists() == true) {
 			this.hostapdSupported   = true;
@@ -700,19 +719,24 @@ public class Configuration {
 		}
 		
 		//Check for wifi firmware - gs3/tab2 models use this
-		if ((new File("/system/etc/wifi/bcmdhd_apsta.bin_b2").exists()) || (new File("/system/etc/wifi/bcmdhd_apsta.bin").exists())) { 
-			//idk if softap would worrk
-			this.softapFirmwarePath = "/system/etc/wifi/bcmdhd_apsta.bin";
-	
+		if ((new File("/system/lib/modules/dhd.ko").exists()) || (new File("/lib/modules/dhd.ko").exists())) { 
+			//idk if softap would work
+			this.softapFirmwarePath = "/system/etc/wifi/bcmdhd_apsta.bin_b2";
+			
 				//gs3 / tab2 stuff - tab2 uses /lib
 				if(new File("/system/lib/modules/dhd.ko").exists()){
-					this.wifiLoadCmd = "rmmod dhd;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
-					this.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/mfgloader -l /system/lib/modules/dhd.ko";
+					this.wifiFinalDriverLoad = true;
+					//this.wifiLoadCmd = "rmmod dhd;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+					Configuration.wifiLoadCmd = "insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+					Configuration.wifiUnloadCmd = "/system/bin/rmmod dhd";
+					Configuration.wifiFinalLoadCmd = "/system/bin/mfgloader -l /system/lib/modules/dhd.ko";
 				}else if(new File("/lib/modules/dhd.ko").exists()){
-					this.wifiLoadCmd ="rmmod dhd;insmod /lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
-					this.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/mfgloader -l /lib/modules/dhd.ko";
+					this.wifiFinalDriverLoad = true;
+					//this.wifiLoadCmd ="rmmod dhd;insmod /lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+					Configuration.wifiLoadCmd = "insmod /lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+					Configuration.wifiUnloadCmd = "/system/bin/rmmod dhd";
+					Configuration.wifiFinalLoadCmd = "/system/bin/mfgloader -l /lib/modules/dhd.ko";
 				}
-			
 			} else {
 			this.softapFirmwarePath = "";
 		}
@@ -734,6 +758,7 @@ public class Configuration {
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
 		this.netdNdcSupported       = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "wlan1";
 
@@ -790,6 +815,7 @@ public class Configuration {
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
 		this.netdNdcSupported 	    = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "eth0";
 
@@ -800,8 +826,8 @@ public class Configuration {
 		
 		this.softapFirmwarePath = "/etc/wifi/bcm4329_aps.bin";
 
-		this.wifiLoadCmd = "none";
-		this.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/rmmod dhd";
+		Configuration.wifiLoadCmd = "none";
+		Configuration.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/rmmod dhd";
 		
 		this.autoSetupMethod = "softap";
 		this.genericSetupSection = true;
@@ -825,6 +851,7 @@ public class Configuration {
 		this.hostapdSupported       = false;
 		this.tiadhocSupported       = false;
 		this.netdNdcSupported       = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "eth0";
 
@@ -846,8 +873,8 @@ public class Configuration {
 		//this.wifiLoadCmd = "/system/bin/insmod /lib/modules/dhd.ko firmware_path=/system/etc/wifi/bcm4330_aps.bin nvram_path=/system/etc/wifi/nvram_net.txt";
 		//this.wifiUnloadCmd = "/system/bin/rmmod dhd";
 		
-		this.wifiLoadCmd = "none";
-		this.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/rmmod dhd";
+		Configuration.wifiLoadCmd = "none";
+		Configuration.wifiUnloadCmd = "/system/bin/mfgloader -u;/system/bin/rmmod dhd";
 		
 		this.autoSetupMethod = "netd";
 		this.genericSetupSection = true;
@@ -871,6 +898,7 @@ public class Configuration {
 		this.netdSupported        = true;
 		this.hostapdSupported     = false;
 		this.tiadhocSupported      = false;
+		this.frameworkTetherSupported = true;
 
 		this.wextInterface = "eth0";
 
@@ -901,6 +929,7 @@ public class Configuration {
 		this.softapSamsungSupported = false;
 		this.netdSupported          = false;
 		this.tiadhocSupported       = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "tiwlan0";
 		
@@ -941,6 +970,7 @@ public class Configuration {
 		this.softapSamsungSupported = false;
 		this.netdSupported          = false;
 		this.tiadhocSupported       = false;
+		this.frameworkTetherSupported = true;
 		
 		this.wextInterface = "tiwlan0";
 		
@@ -981,6 +1011,7 @@ public class Configuration {
 		this.softapSupported      = false;
 		this.netdSupported        = false;
 		this.tiadhocSupported      = false;
+		this.frameworkTetherSupported = true;
 		
 		this.autoSetupMethod      = "wext";
 		this.encryptionIdentifier = "wep";
@@ -1051,7 +1082,7 @@ public class Configuration {
 	public String getNetdInterface() {
 		return netdInterface;
 	}
-
+	
 	public String getSoftapInterface() {
 		return softapInterface;
 	}	
@@ -1063,6 +1094,14 @@ public class Configuration {
 	public String getOpennetworkIdentifier() {
 		return opennetworkIdentifier;
 	}	
+
+	public boolean doWifiFinalDriverLoad() {
+		return wifiFinalDriverLoad;
+	}
+	
+	public boolean isFrameworkTetherSupported() {
+		return frameworkTetherSupported;
+	}
 	
 	public boolean isAutoInternalNetSetup() {
 		return autoInternalNetSetup;
@@ -1088,20 +1127,25 @@ public class Configuration {
 		return hostapdLoaderCmd;
 	}
 
-	public String getWifiLoadCmd() {
+	//TODO: hack for loading driver outside tether
+	public static String getWifiLoadCmd() {
 		return wifiLoadCmd;
 	}
-
+	
 	public void setWifiLoadCmd(String wifiLoadCmd) {
-		this.wifiLoadCmd = wifiLoadCmd;
+		Configuration.wifiLoadCmd = wifiLoadCmd;
 	}
 
-	public String getWifiUnloadCmd() {
+	public static String getWifiUnloadCmd() {
 		return wifiUnloadCmd;
+	}
+	
+	public static String getWifiFinalloadCmd() {
+		return wifiFinalLoadCmd;
 	}
 
 	public void setWifiUnloadCmd(String wifiUnloadCmd) {
-		this.wifiUnloadCmd = wifiUnloadCmd;
+		Configuration.wifiUnloadCmd = wifiUnloadCmd;
 	}
 
 	public static boolean hasKernelFeature(String feature) {
