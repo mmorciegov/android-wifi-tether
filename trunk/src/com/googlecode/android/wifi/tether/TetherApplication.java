@@ -231,8 +231,6 @@ public class TetherApplication extends Application {
 		
 		boolean encEnabled = this.settings.getBoolean("encpref", false);
 		boolean acEnabled = this.settings.getBoolean("acpref", false);
-        boolean fallbackTether = this.settings.getBoolean("fallbacktether", false);
-        boolean symlinkHostapd = this.settings.getBoolean("symlinkhostapd", false);
 		String ssid = this.settings.getString("ssidpref", "AndroidTether");
         String txpower = this.settings.getString("txpowerpref", "disabled");
         String lannetwork = this.settings.getString("lannetworkpref", DEFAULT_LANNETWORK);
@@ -245,6 +243,7 @@ public class TetherApplication extends Application {
         String secondaryDns = this.settings.getString("dnssecondarypref", "8.8.4.4");
         boolean hideSSID = this.settings.getBoolean("hidessidpref", false);
         boolean reloadDriver = this.settings.getBoolean("driverreloadpref", true);
+        boolean reloadDriver2 = this.settings.getBoolean("driverreloadpref2", false);
         boolean netdMaxClientCmd = this.settings.getBoolean("netd.maxclientcmd", false);
         // Check if "auto"-setup method is selected
         String setupMethod = this.settings.getString("setuppref", "auto");
@@ -278,14 +277,6 @@ public class TetherApplication extends Application {
 		else {
 			this.tethercfg.put("mss.clamping", "false");
 		}
-
-
-		if (fallbackTether) {
-			this.tethercfg.put("fallbacktether", "true");
-		}
-		else {
-			this.tethercfg.put("fallbacktether", "false");
-		}
 		
 		if(netdMaxClientCmd){
 			//netdndcmaxclientcmd sets max clients to 25, true might fix stuff
@@ -295,25 +286,27 @@ public class TetherApplication extends Application {
 			this.tethercfg.put("netd.maxclientcmd", "false");
 		}
 
-		if (symlinkHostapd) {
-			this.tethercfg.put("symlinkhostapd", "true");
-		}
-		else {
-			this.tethercfg.put("symlinkhostapd", "false");
-		}
-
 		if (hideSSID) {
 			this.tethercfg.put("wifi.essid.hide", "1");
 		}
 		else {
 			this.tethercfg.put("wifi.essid.hide", "0");
 		}
-		
+
+		//wifi driver reload inside tether script
 		if (reloadDriver) {
 			this.tethercfg.put("wifi.driver.reload", "true");
 		}
 		else {
 			this.tethercfg.put("wifi.driver.reload", "false");
+		}
+		
+		//TODO: wifi driver hack for outside tether script
+		if (reloadDriver2) {
+			this.tethercfg.put("wifi.driver.reload2", "true");
+		}
+		else {
+			this.tethercfg.put("wifi.driver.reload2", "false");
 		}
 		
 		if (routefixEnabled) {
@@ -323,6 +316,13 @@ public class TetherApplication extends Application {
 			this.tethercfg.put("tether.fix.route", "false");
 		}
 		
+		if (configuration.doWifiFinalDriverLoad()) {
+			this.tethercfg.put("wifi.final.load.cmd", Configuration.getWifiFinalloadCmd());
+		}
+		else {
+			this.tethercfg.put("wifi.final.load.cmd", "none");
+		}
+
         // Write tether-section variable
    		this.tethercfg.put("setup.section.generic", ""+configuration.isGenericSetupSection());
    		
@@ -382,8 +382,8 @@ public class TetherApplication extends Application {
 			}
 		}
 
-		this.tethercfg.put("wifi.load.cmd", configuration.getWifiLoadCmd());
-		this.tethercfg.put("wifi.unload.cmd", configuration.getWifiUnloadCmd());
+		this.tethercfg.put("wifi.load.cmd", Configuration.getWifiLoadCmd());
+		this.tethercfg.put("wifi.unload.cmd", Configuration.getWifiUnloadCmd());
 		
 		this.tethercfg.put("wifi.txpower", txpower);
 

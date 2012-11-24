@@ -89,7 +89,12 @@
 			android:key="driverreloadpref"  
 			android:title="@string/setup_layout_driverreload"  
 			android:summary="@string/setup_layout_driverreload_summary"
-			android:defaultValue="true" />				
+			android:defaultValue="true" />		
+		<CheckBoxPreference  
+			android:key="driverreloadpref2"  
+			android:title="@string/setup_layout_driverreload2"  
+			android:summary="@string/setup_layout_driverreload_summary2"
+			android:defaultValue="false" />								
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_security"
 		android:key="securityprefs">

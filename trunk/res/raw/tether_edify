@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=18
+# @Version=19
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -384,6 +384,12 @@ action() == "stop" && (
 	    getcfg("wifi.unload.cmd") != "none" && (
 	  	  run_program(getcfg("wifi.unload.cmd"));
 	  	);
+	  	getcfg("wifi.final.driver.load") == "true" && (
+	  	  run_program(getcfg("wifi.load.cmd"));
+	  	);
+	  	getcfg("wifi.final.load.cmd") != "none" && (
+	  	  run_program(getcfg("wifi.final.load.cmd"));
+	  	);
 	  	setprop("wlan.driver.status","unloaded");
 	);	
   );
@@ -400,6 +406,9 @@ action() == "stop" && (
 	    getcfg("wifi.unload.cmd") != "none" && (
 	  	  run_program(getcfg("wifi.unload.cmd"));
 	  	);
+	  	getcfg("wifi.final.load.cmd") != "none" && (
+	  	  run_program(getcfg("wifi.final.load.cmd"));
+	  	);
 	  	setprop("wlan.driver.status","unloaded");
 	);
   );
@@ -415,6 +424,9 @@ action() == "stop" && (
 	  	);
 	    getcfg("wifi.unload.cmd") != "none" && (
 	  	  run_program(getcfg("wifi.unload.cmd"));
+	  	);
+	  	getcfg("wifi.final.load.cmd") != "none" && (
+	  	  run_program(getcfg("wifi.final.load.cmd"));
 	  	);
 	  	setprop("wlan.driver.status","unloaded");
 	);

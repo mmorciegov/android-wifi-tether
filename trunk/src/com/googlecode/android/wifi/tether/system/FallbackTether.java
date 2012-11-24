@@ -36,8 +36,6 @@ public class FallbackTether extends Application {
         Method method1 = wifimanager.getClass().getMethod("setWifiApEnabled", WifiConfiguration.class, boolean.class);
         method1.invoke(wifimanager, config, enabled); 
         
-        
-        
         //checkstate
         Method getWifiApState = wifimanager.getClass().getMethod("getWifiApState");
         Integer state = (Integer) getWifiApState.invoke(wifimanager);

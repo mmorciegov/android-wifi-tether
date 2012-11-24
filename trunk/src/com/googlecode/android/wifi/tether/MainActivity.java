@@ -185,24 +185,6 @@ public class MainActivity extends Activity {
         	// Check root-permission, files
 	    	if (!application.coretask.hasRootPermission())
 	    		openNotRootDialog();
-
-	    	//check for busybox, needed for that gross symlink stuff
-	        if(device.equals("d2vzw") || device.equals("GT-I9300") || device.equals("d2spr") || device.equals("d2usc") || device.equals("d2tmo")  || 
-	        device.equals("d2att") ||  device.equals("d2dcm") || device.equals("espresso") || device.equals("espresso10") || device.equals("t0ltespr")){
-				//additionalpretethercmds sets max clients to 25 in tether_edify
-				application.preferenceEditor.putBoolean("netd.maxclientcmd", true);
-				//use configuration for driver reload
-				application.preferenceEditor.putBoolean("driverreloadpref", true);
-				application.preferenceEditor.commit();
-	    	}
-	    	
-	    	//e3d needs driver reload
-	    	if(device.equals("shooter") || device.equals("shooteru")){
-				application.preferenceEditor.putBoolean("driverreloadpref", true);
-				application.preferenceEditor.putBoolean("netd.maxclientcmd", false);
-				//application.preferenceEditor.putBoolean("fwfirmwarereloadpref", true);
-				application.preferenceEditor.commit();
-	    	}
 	    	
 	        // Open donate-dialog
 			openDonateDialog();

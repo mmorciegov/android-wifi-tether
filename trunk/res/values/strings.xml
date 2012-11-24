@@ -167,6 +167,8 @@
 	<string name="setup_layout_dontdisablebt_summary">Don\'t disable Bluetooth on tether-start</string>	    
 	<string name="setup_layout_driverreload">WiFi-driver reload</string>
 	<string name="setup_layout_driverreload_summary">Force WiFi-driver reloading</string>
+	<string name="setup_layout_driverreload2">WiFi-driver reload 2</string>
+	<string name="setup_layout_driverreload_summary2">Force WiFi-driver reloading before tether script</string>	
 	<string name="setup_layout_accesscontrol">Enable Access-Control</string>
 	<string name="setup_layout_accesscontrol_summary">Turn on access-control</string>	
 	<string name="setup_layout_lan">Change LAN</string>
