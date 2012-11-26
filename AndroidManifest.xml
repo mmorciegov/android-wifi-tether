@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.googlecode.android.wifi.tether"
-      android:versionCode="40" android:versionName="3.3-pre2 ***EXPERIMENTAL***">
+      android:versionCode="41" android:versionName="3.3-pre2 ***EXPERIMENTAL***">
     <uses-sdk android:minSdkVersion="3" />
 
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
@@ -16,7 +16,9 @@
 	<uses-permission android:name="android.permission.ACCESS_WIMAX_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />    
-    
+
+	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />	
+	
     <application android:name="com.googlecode.android.wifi.tether.TetherApplication" android:icon="@drawable/icon" android:label="@string/global_application_name" android:theme="@style/MyTheme">
         <service android:enabled="true" android:name="com.googlecode.android.wifi.tether.TetherService" />
         <activity android:name=".MainActivity"
@@ -54,5 +56,4 @@
         </receiver>
         
     </application>
-	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
 </manifest> 
