@@ -57,7 +57,7 @@
 			android:title="@string/setup_layout_ssid"  
 			android:summary="@string/setup_layout_ssid_summary"  
 			android:dialogTitle="@string/setup_layout_ssid_dialog_title" 
-			android:maxLength="15"  
+			android:maxLength="32"  
 			android:dialogMessage="@string/setup_layout_ssid_dialog_message"
 			android:defaultValue="AndroidTether" />
 		<CheckBoxPreference  
