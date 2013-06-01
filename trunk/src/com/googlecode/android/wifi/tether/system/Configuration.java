@@ -1149,25 +1149,33 @@ public class Configuration {
 	}
 
 	public static boolean hasKernelFeature(String feature) {
-    	try {
+		BufferedReader in = null;
+		FileInputStream fis = null;
+		GZIPInputStream gzin = null;
+		try {
 			File cfg = new File("/proc/config.gz");
 			if (cfg.exists() == false) {
 				return true;
 			}
-			FileInputStream fis = new FileInputStream(cfg);
-			GZIPInputStream gzin = new GZIPInputStream(fis);
-			BufferedReader in = null;
+			fis = new FileInputStream(cfg);
+			gzin = new GZIPInputStream(fis);
 			String line = "";
 			in = new BufferedReader(new InputStreamReader(gzin));
 			while ((line = in.readLine()) != null) {
-				   if (line.startsWith(feature)) {
-					    gzin.close();
-						return true;
-					}
+				if (line.startsWith(feature)) {
+					return true;
+				}
 			}
-			gzin.close();
     	} catch (IOException e) {
     		e.printStackTrace();
+    	}
+    	finally {
+		    try {
+				gzin.close();
+			    in.close();
+		    } catch (IOException e) {
+		    	// Nothing
+		    }
     	}
     	return false;
     }
