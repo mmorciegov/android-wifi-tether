@@ -102,8 +102,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.currentLAN = this.application.settings.getString("lannetworkpref", this.application.DEFAULT_LANNETWORK);
         this.currentEncryptionEnabled = this.application.settings.getBoolean("encpref", false);
         this.currentTransmitPower = this.application.settings.getString("txpowerpref", "disabled");
-        this.currentMssclampingEnabled = this.application.settings.getBoolean("mssclampingpref", true);
-        this.currentRoutefixEnabled = this.application.settings.getBoolean("routefixpref", true);
+        this.currentMssclampingEnabled = this.application.settings.getBoolean("mssclampingpref", this.application.coretask.isMSSClampingSupported());
+        this.currentRoutefixEnabled = this.application.settings.getBoolean("routefixpref", this.application.coretask.isRoutefixSupported());
         this.currentPrimaryDNS = this.application.settings.getString("dnsprimarypref", "8.8.8.8");
         this.currentSecondaryDNS = this.application.settings.getString("dnssecondarypref", "8.8.4.4");
         this.currentHideSSID = this.application.settings.getBoolean("hidessidpref", false);
