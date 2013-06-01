@@ -913,12 +913,12 @@ public class TetherService extends Service {
    		}
    	}
 
-	private static IBinder getService(String service) throws Exception {
+	/*private static IBinder getService(String service) throws Exception {
         Class<?> ServiceManager = Class.forName("android.os.ServiceManager");
         Method getService_method = ServiceManager.getMethod("getService", new Class[]{String.class});
         IBinder b = (IBinder)getService_method.invoke(null, new Object[]{service});
         return b;
-	}
+	}*/
 	
    	private void trafficCounterEnable(boolean enable) {
    		if (enable == true) {
