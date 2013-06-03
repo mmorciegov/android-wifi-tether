@@ -57,7 +57,7 @@ public class AccessControlActivity extends ListActivity {
     private static void setCurrent(AccessControlActivity current){
     	AccessControlActivity.currentInstance = current;
     }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	Log.d(TAG, "Calling onCreate()");

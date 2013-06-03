@@ -61,6 +61,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 	private String currentDevice;
 	private String currentSetup;
 	private String currentSSID;
+	private String currentMAC;
     private String currentChannel;
     private String currentPassphrase;
     private String currentLAN;
@@ -71,17 +72,18 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private String currentPrimaryDNS;
     private String currentSecondaryDNS;
     private boolean currentHideSSID;
+    private boolean currentMacSpoofEnabled;
     private boolean currentDriverReload;
     private String keepaliveshutdown;
-    
-    private boolean fallbacktether;
-    private boolean maxClientsCmd;
     
     private EditTextPreference prefPassphrase;
     private EditTextPreference prefSSID;
     private EditTextPreference prefPrimaryDNS;
     private EditTextPreference prefSecondaryDNS;
     private ListPreference keepaliveshutdownoption;
+    private CheckBoxPreference macspoofoption;
+    private CheckBoxPreference driverreloadpref1;
+    private CheckBoxPreference driverreloadpref2;
     
     private static int ID_DIALOG_RESTARTING = 2;
     private IntentFilter intentFilter;
@@ -97,23 +99,21 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.currentDevice = this.application.settings.getString("devicepref", "auto");
         this.currentSetup = this.application.settings.getString("setuppref", "auto");
         this.currentSSID = this.application.settings.getString("ssidpref", "AndroidTether"); 
+        this.currentMacSpoofEnabled = this.application.settings.getBoolean("tether.macspoof", false);
+        this.currentMAC = this.application.settings.getString("macspoof.addr", "00:11:22:33:44:55"); 
         this.currentChannel = this.application.settings.getString("channelpref", "1");
         this.currentPassphrase = this.application.settings.getString("passphrasepref", this.application.DEFAULT_PASSPHRASE);
         this.currentLAN = this.application.settings.getString("lannetworkpref", this.application.DEFAULT_LANNETWORK);
         this.currentEncryptionEnabled = this.application.settings.getBoolean("encpref", false);
         this.currentTransmitPower = this.application.settings.getString("txpowerpref", "disabled");
-        this.currentMssclampingEnabled = this.application.settings.getBoolean("mssclampingpref", this.application.coretask.isMSSClampingSupported());
-        this.currentRoutefixEnabled = this.application.settings.getBoolean("routefixpref", this.application.coretask.isRoutefixSupported());
+        this.currentMssclampingEnabled = this.application.settings.getBoolean("mssclampingpref", true);
+        this.currentRoutefixEnabled = this.application.settings.getBoolean("routefixpref", true);
         this.currentPrimaryDNS = this.application.settings.getString("dnsprimarypref", "8.8.8.8");
         this.currentSecondaryDNS = this.application.settings.getString("dnssecondarypref", "8.8.4.4");
         this.currentHideSSID = this.application.settings.getBoolean("hidessidpref", false);
-        
         this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref", true);
         this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref2", false);
-        
         this.keepaliveshutdown = this.application.settings.getString("keepalivecheckoptionpref", "karetry");
-        this.fallbacktether = this.application.settings.getBoolean("fallbacktether", false);
-        this.maxClientsCmd = this.application.settings.getBoolean("netd.maxclientcmd", false);
         
         // Updating settings-menu
         this.updateSettingsMenu();
@@ -192,6 +192,49 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 						}
 					}
 				});
+		
+		// MacSpoof option list
+		this.macspoofoption = (CheckBoxPreference) findPreference("tether.macspoof");
+		macspoofoption.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+	    public boolean onPreferenceChange(Preference preference, Object newValue) {
+	        if (newValue.toString().equals("true")) {
+	            getPreferenceScreen().findPreference("macspoof.addr").setEnabled(true);
+	        } else {
+	            getPreferenceScreen().findPreference("macspoof.addr").setEnabled(false);
+	        }
+	        return true;
+	    }
+	    });
+		this.driverreloadpref1 = (CheckBoxPreference) findPreference("driverreloadpref");
+		this.driverreloadpref2 = (CheckBoxPreference) findPreference("driverreloadpref2");
+		if(driverreloadpref1 != null){
+			// driverreload1 can be null 
+		driverreloadpref1.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+	    public boolean onPreferenceChange(Preference preference, Object newValue) {
+	        if (newValue.toString().equals("true")) {
+	            getPreferenceScreen().findPreference("driverreloadpref2").setEnabled(false);
+	            driverreloadpref2.setChecked(false);
+	        } else {
+	            getPreferenceScreen().findPreference("driverreloadpref2").setEnabled(true);
+	        }
+	        return true;
+	    }
+	    });
+		}
+		if(driverreloadpref2 != null){
+		// driverreload2
+		driverreloadpref2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+	    public boolean onPreferenceChange(Preference preference, Object newValue) {
+	        if (newValue.toString().equals("true")) {
+	            getPreferenceScreen().findPreference("driverreloadpref").setEnabled(false);
+	            driverreloadpref1.setChecked(false);
+	        } else {
+	            getPreferenceScreen().findPreference("driverreloadpref").setEnabled(true);
+	        }
+	        return true;
+	    }
+	    });
+		}
     }
 	
     @Override
@@ -260,8 +303,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         }
     };
     
-    // FIXME - http://stackoverflow.com/questions/11828246/android-calling-non-static-methods-from-a-static-handler-class
-    Handler displayToastMessageHandler = new Handler() {
+   Handler displayToastMessageHandler = new Handler() {
         public void handleMessage(Message msg) {
        		if (msg.obj != null) {
        			SetupActivity.this.application.displayToastMessage((String)msg.obj);
@@ -408,6 +450,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 	        		}
 	        }});
         }       
+        
         // Disable "Transmit power" if not supported
         if (setupMethod.equals("wext") == false) {
         	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
@@ -428,11 +471,14 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	CheckBoxPreference hideSSIDPreference = (CheckBoxPreference)findPreference("hidessidpref");
         	wifiGroup.removePreference(hideSSIDPreference);
         }
+
+        
         
         // Disable MSS Clamping
         if (application.coretask.isMSSClampingSupported() == false) {
         	PreferenceGroup lanGroup = (PreferenceGroup)findPreference("lanprefs");
         	CheckBoxPreference mssClampingPreference = (CheckBoxPreference)findPreference("mssclampingpref");
+        	mssClampingPreference.setChecked(false);
         	lanGroup.removePreference(mssClampingPreference);
         }
         
@@ -455,7 +501,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	CheckBoxPreference maxClientPreference = (CheckBoxPreference)findPreference("netd.maxclientcmd");
         	maxClientPreference.setChecked(false);
         	wifiGroup.removePreference(maxClientPreference);
-        }        
+        }
         
         // Disable Route-Fix
         if (application.coretask.isRoutefixSupported() == false) {
@@ -476,7 +522,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         } else {
 			getPreferenceScreen().findPreference("keepalivecheckprefcheckintervalshutdownpref").setEnabled(true);
         }
-        
+
+
         
         // Remove Auto-Channel option if not supported by device
         ListPreference channelpref = (ListPreference)findPreference("channelpref");
@@ -545,7 +592,8 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 				if (this.application.configuration.isFrameworkTetherSupported() == false) {
 					continue;
 				}			
-			}			
+			}
+			//framework_tether
 			tmpsetupnames.add(setupnames[i]);
 			tmpsetupvalues.add(setupvalues[i]);
 		}     
@@ -629,6 +677,25 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
 		    	}
+			   	else if (key.equals("macspoof.addr")) {
+		    		String newMAC = sharedPreferences.getString("macspoof.addr", "00:11:22:33:44:55");
+		    		if (SetupActivity.this.currentMAC.equals(newMAC) == false) {
+	    				SetupActivity.this.currentMAC = newMAC;
+	    				message = "Mac Set to '"+newMAC+"'.";
+	    				try{
+	    					if (TetherService.singleton != null && TetherService.singleton.getState() == TetherService.STATE_RUNNING) {
+	    						TetherService.singleton.restart();
+		    				}
+	    				}
+	    				catch (Exception ex) {
+	    					message = getString(R.string.setup_activity_error_restart_tethering);
+	    				}
+		    			// Send Message
+		    			Message msg = new Message();
+		    			msg.obj = message;
+		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
+		    		}
+		    	}
 			   	else if (key.equals("keepalivecheckoptionpref")) {
 		    		String newkeepaliveshutdown = sharedPreferences.getString("keepalivecheckoptionpref", "karetry");
 		    		if (SetupActivity.this.keepaliveshutdown.equals(newkeepaliveshutdown) == false) {
@@ -641,30 +708,6 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
 		    		}
 		    	}
-			   	else if (key.equals("fallbacktether")) {
-		    		boolean newFallbacktether = sharedPreferences.getBoolean("fallbacktether", false);
-		    		if (SetupActivity.this.fallbacktether == newFallbacktether) {
-	    				SetupActivity.this.fallbacktether = newFallbacktether;
-
-	    				// Send Message
-	    				message = getString(R.string.setup_activity_info_fallbacktether);
-		    			Message msg = new Message();
-		    			msg.obj = message;
-		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
-		    		}
-		    	}
-			   	else if (key.equals("netd.maxclientcmd")) {
-		    		boolean newMaxClientsCmd = sharedPreferences.getBoolean("netd.maxclientcmd", false);
-		    		if (SetupActivity.this.maxClientsCmd == newMaxClientsCmd) {
-	    				SetupActivity.this.maxClientsCmd = newMaxClientsCmd;
-
-	    				// Send Message
-	    				message = getString(R.string.setup_activity_info_maxclientscmd);
-		    			Message msg = new Message();
-		    			msg.obj = message;
-		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
-		    		}
-		    	}			   	
 		    	else if (key.equals("channelpref")) {
 		    		String newChannel = sharedPreferences.getString("channelpref", "1");
 		    		if (SetupActivity.this.currentChannel.equals(newChannel) == false) {
@@ -793,6 +836,28 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
 			   			}		    			
 		    		}
 		    	}
+		    	else if (key.equals("tether.macspoof")) {
+		    		boolean macspoofCheckbox = sharedPreferences.getBoolean("tether.macspoof", false);
+		    		if (macspoofCheckbox != SetupActivity.this.currentMacSpoofEnabled) {
+			    		// Restarting
+						try{
+							if (TetherService.singleton != null && TetherService.singleton.getState() == TetherService.STATE_RUNNING) {
+								TetherService.singleton.restart();
+		    				}
+						}
+						catch (Exception ex) {
+						}
+						
+						SetupActivity.this.currentMacSpoofEnabled = macspoofCheckbox;
+						
+						// Send Message
+		    			Message msg = new Message();
+		    			msg.obj = message;
+		    			SetupActivity.this.displayToastMessageHandler.sendMessage(msg);
+		    			  			
+		    		}
+		    	}
+			   	
 			   	
 		    	else if (key.equals("driverreloadpref")) {
 		    		boolean driverReload = sharedPreferences.getBoolean("driverreloadpref", false);

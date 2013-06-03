@@ -10,7 +10,7 @@ This program enables wifi-tethering for "rooted" handsets.
 Clients (your laptop for example) can connect via wifi and get access to the internet using the mobile connection (4G, 3G, 2G) of your phone.
 
 Wifi-tethering creates a so called adhoc (peer-to-peer) network on most devices. 
-Infrastructure-mode is suppported for a large set of devices.
+Infrastructure-mode is supported for a large set of devices.
 
 ** PREREQUISITE **
 

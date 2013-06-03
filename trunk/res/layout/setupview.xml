@@ -10,8 +10,7 @@
 			android:entries="@array/devicenames"  
 			android:entryValues="@array/devicevalues"  
 			android:dialogTitle="@string/setup_layout_devicetype_dialog_title"
-			android:defaultValue="auto"
-		/> 		    
+			android:defaultValue="auto" /> 		    
 		<ListPreference  
 			android:key="setuppref"  
 			android:title="@string/setup_layout_setupmethod"  
@@ -19,19 +18,12 @@
 			android:entries="@array/setupnames"  
 			android:entryValues="@array/setupvalues"  
 			android:dialogTitle="@string/setup_layout_setupmethod_dialog_title"
-			android:defaultValue="auto"
-		/>	  
-		<CheckBoxPreference  
-			android:key="fallbacktether"  
-			android:title="@string/setup_layout_fallbacktether"  
-			android:summary="@string/setup_layout_fallbacktether_summary" 
-			android:defaultValue="false"
-		/> 	
+			android:defaultValue="auto" />	  
 		<CheckBoxPreference  
 			android:key="netd.maxclientcmd"  
 			android:title="@string/setup_layout_netdmaxclientcmd"  
 			android:summary="@string/setup_layout_netdmaxclientcmd_summary" 
-			android:defaultValue="false" />
+			android:defaultValue="true" />
 	    <CheckBoxPreference  
 			android:key="encpref"  
 			android:title="@string/setup_layout_wifiencryption"  
@@ -57,7 +49,7 @@
 			android:title="@string/setup_layout_ssid"  
 			android:summary="@string/setup_layout_ssid_summary"  
 			android:dialogTitle="@string/setup_layout_ssid_dialog_title" 
-			android:maxLength="32"  
+			android:maxLength="15"  
 			android:dialogMessage="@string/setup_layout_ssid_dialog_message"
 			android:defaultValue="AndroidTether" />
 		<CheckBoxPreference  
@@ -72,6 +64,20 @@
 			android:entryValues="@array/channelvalues"  
 			android:dialogTitle="@string/setup_layout_channel_dialog_title"
 			android:defaultValue="1" /> 
+		<CheckBoxPreference  
+			android:key="tether.macspoof"  
+			android:title="Mac Address Spoof"  
+			android:summary="Enables Below changing of MAC address" 
+			android:defaultValue="false" />	
+		<EditTextPreference  
+			android:key="macspoof.addr"  
+			android:title="Change MAC"  
+			android:summary="changes hardware mac address before tethering.\nrequires /system/xbin/busybox"  
+			android:dialogTitle="Enter MAC" 
+			android:maxLength="17"  
+			android:dialogMessage="Format 00:11:22:33:44:55"
+			android:defaultValue="00:11:22:33:44:55" 
+			android:dependency="tether.macspoof" />
 		<ListPreference  
 			android:key="txpowerpref"  
 			android:title="@string/setup_layout_txpower"  
@@ -89,12 +95,12 @@
 			android:key="driverreloadpref"  
 			android:title="@string/setup_layout_driverreload"  
 			android:summary="@string/setup_layout_driverreload_summary"
-			android:defaultValue="true" />		
+			android:defaultValue="false" />		
 		<CheckBoxPreference  
 			android:key="driverreloadpref2"  
 			android:title="@string/setup_layout_driverreload2"  
 			android:summary="@string/setup_layout_driverreload_summary2"
-			android:defaultValue="false" />								
+			android:defaultValue="true" />				
 	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/setup_layout_category_security"
 		android:key="securityprefs">

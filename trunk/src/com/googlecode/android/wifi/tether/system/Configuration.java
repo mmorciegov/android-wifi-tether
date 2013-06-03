@@ -52,7 +52,16 @@ public class Configuration {
 	public static final String DEVICE_D2VZW       = "d2vzw";			// Samsung Galaxy S3 (Verizon)
 
 	public static final String DEVICE_T0LTESPR    = "t0ltespr";			// Sprint Note 2
-	
+
+
+	public static final String DEVICE_GalaxyS4		= "jfltexx";		//Samsung Galaxy S4
+	public static final String DEVICE_JFLTEATT 		= "jflteatt";		//Samsung Galaxy S4 (AT&T)
+	public static final String DEVICE_JFLTETMO		= "jfltetmo";		//Samsung Galaxy S4 (TMO) 
+	public static final String DEVICE_JFLTESPR 		= "jfltespr"; 		// Samsung Galaxy S4 (SPR)
+	public static final String DEVICE_JFLTEVZW		= "jfltevzw";		//Samsung Galaxy S4 (VZW)
+	public static final String DEVICE_JFLTECAN		= "jfltecan";		//Samsung Galaxy S4 (CAN)
+	public static final String DEVICE_JFLTEUSC		= "jflteusc";		//Samsung Galaxy S4 (USC)
+
 	public static final String DEVICE_SUPERSONIC  = "supersonic";		// HTC Evo 4G (Supersonic)
 	public static final String DEVICE_SHOOTER     = "shooter";			// HTC EVO 3D
 	public static final String DEVICE_SHOOTERU    = "shooteru";			// HTC EVO 3D int
@@ -208,6 +217,18 @@ public class Configuration {
 				 device.equals(DEVICE_T0LTESPR)) {
 			this.setupGenericNetdWlan0();
 		}
+
+		// Samsung Galaxy S4 ish devices
+		else if (device.equals(DEVICE_GalaxyS4) ||
+				 device.equals(DEVICE_JFLTEATT) ||
+				 device.equals(DEVICE_JFLTETMO) ||
+				 device.equals(DEVICE_JFLTESPR) ||
+				 device.equals(DEVICE_JFLTEVZW) ||
+				 device.equals(DEVICE_JFLTEVZW) || 
+				 device.equals(DEVICE_JFLTEUSC)) {
+			this.setupGS4();
+		}
+
 		// LG Optimus S
 		else if (device.equals(DEVICE_THUNDERC)) {
 			this.setupThunderc();
@@ -487,7 +508,7 @@ public class Configuration {
 		
 		this.wextInterface = "wlan0";
 		this.netdInterface = "wlan0";
-		this.softapInterface = "wlan0";
+		this.softapInterface = "eth0";
 		this.encryptionIdentifier = "wpa2-psk";
 		this.opennetworkIdentifier = "open";
 		
@@ -495,6 +516,8 @@ public class Configuration {
 			this.softapFirmwarePath = "/system/etc/firmware/fw_bcm4329_apsta.bin";
 		} else if (new File("/vendor/firmware/fw_bcm4329_apsta.bin").exists()) {
 			this.softapFirmwarePath = "/vendor/firmware/fw_bcm4329_apsta.bin";
+		} else if (new File("/system/etc/firmware/bcm4329.hcd").exists()) {
+			this.softapFirmwarePath = "/system/etc/firmware/bcm4329.hcd";
 		}
 		
 		if(this.device.equals(Configuration.DEVICE_SHOOTER) || this.device.equals(Configuration.DEVICE_SHOOTERU)){
@@ -504,6 +527,7 @@ public class Configuration {
 			Configuration.wifiLoadCmd = "insmod /system/lib/modules/bcm4329.ko \"nvram_path=/proc/calibration iface_name=wlan0\"";
 			Configuration.wifiUnloadCmd = "rmmod bcm4329";
 			Configuration.wifiFinalLoadCmd = "insmod /system/lib/modules/bcm4329.ko \"nvram_path=/proc/calibration iface_name=wlan0\"";		
+			this.softapInterface = "wlan0";
 		}
 		this.autoSetupMethod = "softap";
 		this.genericSetupSection = true;
@@ -750,6 +774,46 @@ public class Configuration {
 	
 	}
 
+	//TODO:S4 stuff
+
+	/**
+	 * Samsung GS4
+	 */
+	private void setupGS4() {
+		this.wextSupported            = true;
+		this.softapSupported       	  = false;
+		this.softapSamsungSupported	  = false;
+		this.netdSupported        	  = false;
+		this.hostapdSupported     	  = true;
+		this.tiadhocSupported     	  = false;
+		this.netdNdcSupported     	  = false;
+		this.frameworkTetherSupported = true;
+		
+		this.wextInterface = "wlan0";
+		this.netdInterface = "wlan0";
+		this.softapInterface = "wlan0";
+		
+		this.encryptionIdentifier = "wpa2-psk";
+		this.opennetworkIdentifier = "open";
+		this.autoSetupMethod = "hostapd";
+		this.genericSetupSection = true;
+		
+		//hostapd mode might work
+		if ((new File("/system/bin/hostapd")).exists() == true) {
+			this.hostapdSupported   = true;
+			this.hostapdPath        = "/system/bin/hostapd";
+			this.hostapdInterface   = "wlan0";
+			this.wifiFinalDriverLoad = true;
+			this.hostapdTemplate    = "mini";
+			this.hostapdLoaderCmd = "rmmod dhd;insmod /system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+			Configuration.wifiUnloadCmd = "/system/bin/rmmod dhd";
+			Configuration.wifiFinalLoadCmd = "insmod system/lib/modules/dhd.ko \"firmware_path=/system/etc/wifi/bcmdhd_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt\"";
+		}
+	
+	}
+	
+	
+	
 	private void setupGenericNetdWlan1() {
 		this.wextSupported          = true;
 		this.softapSupported        = false;
@@ -1149,33 +1213,25 @@ public class Configuration {
 	}
 
 	public static boolean hasKernelFeature(String feature) {
-		BufferedReader in = null;
-		FileInputStream fis = null;
-		GZIPInputStream gzin = null;
-		try {
+    	try {
 			File cfg = new File("/proc/config.gz");
 			if (cfg.exists() == false) {
 				return true;
 			}
-			fis = new FileInputStream(cfg);
-			gzin = new GZIPInputStream(fis);
+			FileInputStream fis = new FileInputStream(cfg);
+			GZIPInputStream gzin = new GZIPInputStream(fis);
+			BufferedReader in = null;
 			String line = "";
 			in = new BufferedReader(new InputStreamReader(gzin));
 			while ((line = in.readLine()) != null) {
-				if (line.startsWith(feature)) {
-					return true;
-				}
+				   if (line.startsWith(feature)) {
+					    gzin.close();
+						return true;
+					}
 			}
+			gzin.close();
     	} catch (IOException e) {
     		e.printStackTrace();
-    	}
-    	finally {
-		    try {
-				gzin.close();
-			    in.close();
-		    } catch (IOException e) {
-		    	// Nothing
-		    }
     	}
     	return false;
     }
