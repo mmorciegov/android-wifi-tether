@@ -12,6 +12,8 @@
 
 package com.googlecode.android.wifi.tether;
 
+import java.util.Locale;
+
 import android.R.drawable;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -114,9 +116,6 @@ public class MainActivity extends Activity {
 
         // Initialize myself
         MainActivity.setCurrent(this);
-
-		//create CoreTask
-		//this.samsungsymlinks = new SamsungSymlinks();
 		
         // Init Application
         application = (TetherApplication)this.getApplication();
@@ -419,7 +418,7 @@ public class MainActivity extends Activity {
                		int minutes = (int) ((countdown[0] / (1000*60)) % 60);
                		int hours   = (int) ((countdown[0] / (1000*60*60)) % 24);
 	            	
-	            	String countdowncurrentstring = String.format("%02d:%02d:%02d", 
+	            	String countdowncurrentstring = String.format(Locale.getDefault(), "%02d:%02d:%02d", 
 	            			hours,
 	            			minutes,
 	            			seconds);
@@ -442,7 +441,7 @@ public class MainActivity extends Activity {
                 	int minutes = (int) ((countdowntimer[0] / (1000*60)) % 60);
                 	int hours   = (int) ((countdowntimer[0] / (1000*60*60)) % 24);
  	            	
- 	            	String timercurrentstring = String.format("%02d:%02d:%02d", 
+ 	            	String timercurrentstring = String.format(Locale.getDefault(), "%02d:%02d:%02d", 
  	            			hours,
  	            			minutes,
  	            			seconds);

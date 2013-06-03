@@ -124,9 +124,7 @@
 	<string name="setup_layout_keepalive_intervalshutdown_manualsummary">Configure delay in minutes between keep-alive\'s first failed request and tether shutdown.</string>
 	<string name="setup_layout_keepalive_option">Keep-Alive Failure Options</string>
 	<string name="setup_layout_keepalive_optionsummary">Configure keep-alive failure options. Retry with no limit or retry until set time limit is reached then shutdown tether connection.</string>
-	<string name="setup_activity_info_keepaliveshutdowntimer">Keep-Alive shutdown timer changed. Changes will take effect for next tethering session.</string>
-	<string name="setup_activity_info_fallbacktether">Changed the fallback-mode property. This will take effect for next tethering session.</string>
-	<string name="setup_activity_info_maxclientscmd">Changed the Netd-maxclient-cmd property. This will take effect for next tethering session.</string>
+	<string name="setup_activity_info_keepaliveshutdowntimer">Keep-Alive shutdown timer changed...Changes will take effect for next tethering session.</string>
 	<string name="global_application_tethering_shutdown_keepalive">Tethering shutdown due to keepalive giving up trying to establish a connection.</string>
 						
 	<string name="setup_layout_quotashutdown_title">Quota Shutdown Limit</string>  
@@ -166,9 +164,9 @@
 	<string name="setup_layout_dontdisablebt">Don\'t disable Bluetooth</string>
 	<string name="setup_layout_dontdisablebt_summary">Don\'t disable Bluetooth on tether-start</string>	    
 	<string name="setup_layout_driverreload">WiFi-driver reload</string>
-	<string name="setup_layout_driverreload_summary">Force WiFi-driver reloading</string>
+	<string name="setup_layout_driverreload_summary">Force WiFi-driver reloading inside tether script</string>
 	<string name="setup_layout_driverreload2">WiFi-driver reload 2</string>
-	<string name="setup_layout_driverreload_summary2">Force WiFi-driver reloading before tether script</string>	
+	<string name="setup_layout_driverreload_summary2">Force WiFi-driver reloading before tether script</string>
 	<string name="setup_layout_accesscontrol">Enable Access-Control</string>
 	<string name="setup_layout_accesscontrol_summary">Turn on access-control</string>	
 	<string name="setup_layout_lan">Change LAN</string>
@@ -185,8 +183,6 @@
 	<string name="setup_layout_dnssecondary_dialog_message">Use the following DNS server address:</string>
 	<string name="setup_layout_mssclamping">MSS clamping</string>
 	<string name="setup_layout_mssclamping_summary">Enable MSS clamping</string>
-	<string name="setup_layout_fallbacktether">Fallback Tether</string>
-	<string name="setup_layout_fallbacktether_summary">Use framework to tether (Available on Non-Rooted Devices)</string>
 	<string name="setup_layout_netdmaxclientcmd">Send Netd Max Client Cmd</string>
 	<string name="setup_layout_netdmaxclientcmd_summary">May be required in netd(ndc) mode if AP starts but fails to connect.</string>
 	<string name="setup_layout_routingfix">Routing fix</string>
@@ -214,6 +210,9 @@
 	<string name="about_layout_software">3rd-Party-Software:</string>
 	<string name="about_changelog_software">Changelog:</string>
 	<string name="about_changelog_detail">\n
+	    v3.3-pre3 - 06/03/2013::\n\t\t1. Added Samsung GS4 support. Includes updated ifconfig built by <a href="http://www.ziggy471.com/">Ziggy471</a>\n\n
+	    v3.3-pre2 - 12/20/2012::\n\t\t1. Added WiFi AP MAC address Spoofing. \n\n
+	    v3.3-pre1 - 11/03/2012::\n\t\t1. Added Samsung GS3 netd(ndc) modes. \n\n
 		v3.2-beta1 - 08/20/2012:\n\t\t1. Enhanced support for ICS/JB (Google Galaxy Nexus, Google Nexus S, Motorola Razr, ...). Added new setup-method called \"netd-ndc\".\n\n
 		v3.2-pre1 - 06/14/2012:\n\t\t1. Added HTC Rezound (Vigor) infrastructure support. 2. Added countdown timer for existing automatic idle shutdown. 3. Added session quota (1MB - 999,999,999MB) and automatic quota shutdown support. 4. Added changelog to bottom of about box. 5. Increased maximum idle time for auto shutdown to 120 minutes. 6. Added keep-alive option to keep connection alive and notify user of network issues, included options to continue retrying or shutdown tether if keep-alive servers continue to not respond. 7. Added new credit for aforementioned work to Joshua Briefman. 8. Added standard countdown timer, will shutdown tether after a user selected amount of time has passed. 9. German translations for above changes by Harald Müller.\n\n
 		v3.1-beta14 - 04/22/2012:\n\t\tBugfix: Stopping tether using trackball didn\'t work.\n\n
@@ -335,6 +334,7 @@
 		<item>Samsung Galaxy S</item>
 		<item>Samsung Galaxy S2</item>
 		<item>Samsung Galaxy S3</item>
+		<item>Samsung Galaxy S4</item>
 		<item>Samsung Galaxy SL</item> 
 		<item>ZTE Blade</item>  
 	</string-array>
@@ -346,7 +346,8 @@
 		<item>Netd-Ndc (master)</item> 
 		<item>Hostapd (master)</item>
 		<item>Softap (master)</item>
-		<item>Softap for Samsung (master)</item>      
+		<item>Softap for Samsung (master)</item>  
+		<item>Native Framework Tether</item>    
 	</string-array>
 	
 	<!-- Below values don't need to be translated -->
@@ -478,6 +479,7 @@
 		<item>GT-I9000</item>
 		<item>GT-I9100</item>
 		<item>GT-I9300</item>
+		<item>jfltexx</item>
 		<item>galaxysl</item>
 		<item>blade</item> 
 	</string-array>
@@ -489,6 +491,7 @@
 		<item>hostapd</item>
 		<item>softap</item>    
 		<item>softap_samsung</item> 
+		<item>framework_tether</item>
 	</string-array>
 	
 </resources>

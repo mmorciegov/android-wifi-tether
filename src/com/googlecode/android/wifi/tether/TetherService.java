@@ -285,7 +285,7 @@ public class TetherService extends Service {
 		        
 		        // Check if "auto"-setup method is selected
 		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
-		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", false);
+		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", true);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean active4G = application.settings.getBoolean("enable4gpref", true);
 		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
@@ -421,7 +421,7 @@ public class TetherService extends Service {
 		    	
 		    	// Check if "auto"-setup method is selected
 		    	boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
-		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", false);
+		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", true);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean active4G = application.settings.getBoolean("enable4gpref", true);
 		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
@@ -528,7 +528,7 @@ public class TetherService extends Service {
 		        
 		    	// Check if "auto"-setup method is selected
 		        boolean reloadDriver = application.settings.getBoolean("driverreloadpref", false);
-		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", false);
+		        boolean reloadDriver2 = application.settings.getBoolean("driverreloadpref2", true);
 		        String setupMethod = application.settings.getString("setuppref", "auto");
 		        boolean currentEncryptionEnabled = application.settings.getBoolean("encpref", false);
 		        String currentPassphrase = application.settings.getString("passphrasepref", application.DEFAULT_PASSPHRASE);
@@ -913,12 +913,12 @@ public class TetherService extends Service {
    		}
    	}
 
-	/*private static IBinder getService(String service) throws Exception {
+	private static IBinder getService(String service) throws Exception {
         Class<?> ServiceManager = Class.forName("android.os.ServiceManager");
         Method getService_method = ServiceManager.getMethod("getService", new Class[]{String.class});
         IBinder b = (IBinder)getService_method.invoke(null, new Object[]{service});
         return b;
-	}*/
+	}
 	
    	private void trafficCounterEnable(boolean enable) {
    		if (enable == true) {

@@ -234,16 +234,18 @@ public class TetherApplication extends Application {
 		String ssid = this.settings.getString("ssidpref", "AndroidTether");
         String txpower = this.settings.getString("txpowerpref", "disabled");
         String lannetwork = this.settings.getString("lannetworkpref", DEFAULT_LANNETWORK);
+        boolean currentMacSpoofEnabled = this.settings.getBoolean("tether.macspoof", false);
+        String currentMAC = this.settings.getString("macspoof.addr", "00:11:22:33:44:55"); 
         String wepkey = this.settings.getString("passphrasepref", DEFAULT_PASSPHRASE);
         String wepsetupMethod = this.settings.getString("encsetuppref", DEFAULT_ENCSETUP);
         String channel = this.settings.getString("channelpref", "1");
-        boolean mssclampingEnabled = this.settings.getBoolean("mssclampingpref", this.coretask.isMSSClampingSupported());
-        boolean routefixEnabled = this.settings.getBoolean("routefixpref", this.coretask.isRoutefixSupported());
+        boolean mssclampingEnabled = this.settings.getBoolean("mssclampingpref", true);
+        boolean routefixEnabled = this.settings.getBoolean("routefixpref", true);
         String primaryDns = this.settings.getString("dnsprimarypref", "8.8.8.8");
         String secondaryDns = this.settings.getString("dnssecondarypref", "8.8.4.4");
         boolean hideSSID = this.settings.getBoolean("hidessidpref", false);
-        boolean reloadDriver = this.settings.getBoolean("driverreloadpref", true);
-        boolean reloadDriver2 = this.settings.getBoolean("driverreloadpref2", false);
+        boolean reloadDriver = this.settings.getBoolean("driverreloadpref", false);
+        boolean reloadDriver2 = this.settings.getBoolean("driverreloadpref2", true);
         boolean netdMaxClientCmd = this.settings.getBoolean("netd.maxclientcmd", false);
         // Check if "auto"-setup method is selected
         String setupMethod = this.settings.getString("setuppref", "auto");
@@ -266,6 +268,15 @@ public class TetherApplication extends Application {
 		this.tethercfg.put("ip.network", lannetwork.split("/")[0]);
 		this.tethercfg.put("ip.gateway", subnet + ".254");
 		this.tethercfg.put("ip.netmask", "255.255.255.0");
+		
+		//macspoof		
+		if (currentMacSpoofEnabled) {
+			this.tethercfg.put("tether.macspoof", "true");
+		}else {
+			this.tethercfg.put("tether.macspoof", "false");
+		}
+		this.tethercfg.put("macspoof.addr", currentMAC); 
+		
 		
 		// dns
 		this.tethercfg.put("dns.primary", primaryDns);
@@ -702,6 +713,10 @@ public class TetherApplication extends Application {
 		// ifconfig
 		if (message == null) {
 	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/ifconfig", "0755", R.raw.ifconfig);
+		}
+		// rfkill
+		if (message == null) {
+	    	message = TetherApplication.this.copyFile(CoreTask.DATA_FILE_PATH+"/bin/rfkill", "0755", R.raw.rfkill);
 		}
     	/*
 		if (configuration.enableFixPersist()) {	
