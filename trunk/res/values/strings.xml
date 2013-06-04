@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_application_name">WiFi Tether- TrevE Mod</string>
+	<string name="global_application_name">WiFi Tether</string>
 	<string name="global_application_installed">Binaries and config-files installed!</string>
 	<string name="global_application_error_restartsecwifi">Unable to restart secured wifi!</string>
-	<string name="global_application_tethering_running">Tethering is currently running ...</string>
+	<string name="global_application_tethering_running"><![CDATA[UTethering is currently running ...]]></string>
 	<string name="global_application_accesscontrol_disabled">AC disabled</string>
 	<string name="global_application_accesscontrol_authorized">Authorized</string>
 	<string name="global_application_accesscontrol_unauthorized">Unauthorized</string>
@@ -66,7 +66,7 @@
 	<string name="accesscontrol_layout_disable">Disable</string>
 	<string name="setup_activity_reinstall">(Re)-Install binaries/configs</string>
 	<string name="setup_activity_restart_tethering_title">Restart Tethering</string>
-	<string name="setup_activity_restart_tethering_message">Please wait while restarting...</string>
+	<string name="setup_activity_restart_tethering_message"><![CDATA[Please wait while restarting...]]></string>
 	<string name="setup_activity_error_passphrase_invalidchars">Passphrase contains invalid characters, not saved!</string>
 	<string name="setup_activity_error_passphrase_tooshort">Passphrase too short! New value was not saved.</string>
 	<string name="setup_activity_error_passphrase_toolong">Passphrase too long! New value was not saved.</string>
@@ -99,7 +99,7 @@
 	<string name="setup_layout_shutdown_timer">Shutdown Timer</string>  
 	<string name="setup_layout_shutdown_timer_summary">Stop tethering-service after a specified length of time.</string>    
 	<string name="setup_layout_shutdown_timer_unit_minutes">minutes</string> 
-	<string name="setup_layout_shutdown_timer_dialog_elapsed">Shutdown after ... minutes have elapsed.</string>
+	<string name="setup_layout_shutdown_timer_dialog_elapsed"><![CDATA[Shutdown after ... minutes have elapsed.]]></string>
 	<string name="setup_layout_shutdown_timer_limit">Set timer</string>
 	<string name="setup_layout_shutdown_timer_limit_summary">Configure the length of time before shutdown.</string>
 	<string name="global_application_tethering_shutdown_timer">Tethering shutdown due timer expiration.</string>
@@ -107,7 +107,7 @@
 	<string name="setup_layout_shutdown_inactive">Idle Shutdown</string>  
 	<string name="setup_layout_shutdown_inactive_summary">Stop tethering-service after a specified time of inactivity</string>    
 	<string name="setup_layout_shutdown_inactive_unit_minutes">minutes</string> 
-	<string name="setup_layout_shutdown_inactive_dialog_idletime">Shutdown after ... of inactivity.</string>
+	<string name="setup_layout_shutdown_inactive_dialog_idletime"><![CDATA[Shutdown after ... of inactivity.]]></string>
 	<string name="setup_layout_shutdown_inactive_idle_time">Set idle limit</string>
 	<string name="setup_layout_shutdown_inactive_idle_summary">Configure the idle-time.</string>
 	<string name="global_application_tethering_shutdown_inactive">Tethering shutdown due to inactivity.</string>
@@ -117,7 +117,7 @@
 	<string name="setup_layout_keepalive_summary">This option will regularly connect to a webserver and download a small amount of data at a user specified interval to verify your connection, if it fails you will be notified.</string>    
 	<string name="setup_layout_keepalive_websites_manual">Websites to check for keep-alive</string>  
 	<string name="setup_layout_keepalive_websites_default">www.google.com;www.yahoo.com;www.bing.com</string>  
-	<string name="setup_layout_keepalive_websites_manualsummary">Enter a list of valid HTTP servers seperated by semi-colons. Leave blank to restore default values.</string>  
+	<string name="setup_layout_keepalive_websites_manualsummary">Enter a list of valid HTTP servers separated by semi-colons. Leave blank to restore default values.</string>  
 	<string name="setup_layout_keepalive_interval_manual">Keep-Alive check interval</string>
 	<string name="setup_layout_keepalive_interval_manualsummary">Configure delay in minutes between keep-alive request if last attempt was successful.</string>
 	<string name="setup_layout_keepalive_intervalshutdown_manual">Keep-Alive failed retry period</string>
@@ -216,7 +216,7 @@
 	<string name="about_layout_contributors">Contributors:</string>
 	<string name="about_layout_software">3rd-Party-Software:</string>
 	<string name="about_changelog_software">Changelog:</string>
-	<string name="about_changelog_detail">\n
+	<string name="about_changelog_detail"><![CDATA[\n
 	    v3.3-pre3 - 06/03/2013::\n\t\t1. Added Samsung GS4 support. Includes updated ifconfig built by <a href="http://www.ziggy471.com/">Ziggy471</a>\n\n
 	    v3.3-pre2 - 12/20/2012::\n\t\t1. Added WiFi AP MAC address Spoofing. \n\n
 	    v3.3-pre1 - 11/03/2012::\n\t\t1. Added Samsung GS3 netd(ndc) modes. \n\n
@@ -225,7 +225,7 @@
 		v3.1-beta14 - 04/22/2012:\n\t\tBugfix: Stopping tether using trackball didn\'t work.\n\n
 		v3.1-beta13 - 04/20/2012:\n\t\t1. Start/stop-image is now a image-button. 2. Start/stop-image is now a image-button.\n\n
 		v3.1-beta12 - 04/09/2012:\n\t\t1. Added support for Galaxy S2 (ICS). 2. Added an generic ics-profile which might work on different devices. (You have to select this profile - called Generic ICS - manually in app-stettings under Device profile.).\n\n
-		</string>
+		]]></string>
 	<string name="clientrow_layout_macaddress">MAC-Address:</string>
 	<string name="clientrow_layout_name">Name:</string>
 	<string name="clientrow_layout_ipaddress">IP-Address:</string>
@@ -360,7 +360,7 @@
 	<!-- Below values don't need to be translated -->
 	<string name="main_activity_temperatureunit_celsius">°C</string>
 	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
-	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
+	<string name="donateUrl">https://code.google.com/p/android-wifi-tether/wiki/Donate</string>
 	<string-array name="notificationmodevalues">  
 		<item>0</item>  
 		<item>1</item>  

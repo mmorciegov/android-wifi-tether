@@ -733,7 +733,7 @@ public class MainActivity extends Activity {
         .setNeutralButton(getString(R.string.main_activity_donate), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                         Log.d(TAG, "Donate pressed");
-    					Uri uri = Uri.parse(getString(R.string.paypalUrl));
+    					Uri uri = Uri.parse(getString(R.string.donateUrl));
     					startActivity(new Intent(Intent.ACTION_VIEW, uri));
                 }
         })
@@ -764,7 +764,7 @@ public class MainActivity extends Activity {
 	        .setNegativeButton(getString(R.string.main_activity_donate), new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int whichButton) {
 	                        Log.d(TAG, "Donate pressed");
-	    					Uri uri = Uri.parse(getString(R.string.paypalUrl));
+	    					Uri uri = Uri.parse(getString(R.string.donateUrl));
 	    					startActivity(new Intent(Intent.ACTION_VIEW, uri));
 	                }
 	        })
