@@ -268,8 +268,11 @@ public class TetherService extends Service {
 		        	}
 		        }
 		    	
-		    	origWifiState = wifiManager.isWifiEnabled();
-		    	origBtState = btAdapter.isEnabled();
+		    	if (wifiManager != null)
+		    		origWifiState = wifiManager.isWifiEnabled();
+		    	
+		    	if (btAdapter != null)
+		    		origBtState = btAdapter.isEnabled();
 
 		    	boolean waitForShutdown = false;
 
@@ -802,7 +805,7 @@ public class TetherService extends Service {
     		disableAction = true;
     		Log.d(TAG, "Wifi disabled!");
     	}
-		if (this.btAdapter.isEnabled() && dontdisablebt == false) {
+		if (this.btAdapter != null && this.btAdapter.isEnabled() && dontdisablebt == false) {
 			this.btAdapter.disable();
 			disableAction = true;
 			Log.d(TAG, "BT disabled");
