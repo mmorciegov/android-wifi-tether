@@ -1,0 +1,19 @@
+#summary Consider donating if you enjoy the product.
+
+= Donate to developers =
+<g:plusone size="big"></g:plusone>
+
+Consider a donation if you enjoy "WiFi Tether for Root Users"!
+Please find below a list of developers (including duties, solved problems) ...
+
+
+=== Harry ===
+... blahblah.
+
+*[http://www.paypal.com Donate to Harry]*
+
+
+=== Trevor ===
+... blahblah.
+
+*[http://www.paypal.com Donate to Trevor]*
