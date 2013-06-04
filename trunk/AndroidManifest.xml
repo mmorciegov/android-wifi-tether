@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.googlecode.android.wifi.tether"
       android:versionCode="41" android:versionName="3.3-pre3-06042013 ***Synergized***">
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
 
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
@@ -20,7 +20,11 @@
 	<uses-permission android:name="android.permission.WRITE_SETTINGS" />    
 
     
-    <application android:name="com.googlecode.android.wifi.tether.TetherApplication" android:icon="@drawable/icon" android:label="@string/global_application_name" android:theme="@style/MyTheme">
+    <application android:name="com.googlecode.android.wifi.tether.TetherApplication" 
+        android:icon="@drawable/icon" 
+        android:label="@string/global_application_name" 
+        android:theme="@style/MyTheme"
+        android:allowBackup="false">
         <service android:enabled="true" android:name="com.googlecode.android.wifi.tether.TetherService" />
         <activity android:name=".MainActivity"
                   android:label="@string/global_application_name"
@@ -44,7 +48,7 @@
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/appwidget_info" />
         </receiver>
         
-        <receiver android:name="TetherServiceReceiver">
+        <receiver android:name="TetherServiceReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="com.googlecode.android.wifi.tether.intent.MANAGE" />
             </intent-filter>
