@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.googlecode.android.wifi.tether"
-      android:versionCode="41" android:versionName="3.3-pre3-06032013 ***Synergized***">
+      android:versionCode="41" android:versionName="3.3-pre3-06042013 ***Synergized***">
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="17" />
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
 

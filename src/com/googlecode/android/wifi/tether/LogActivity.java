@@ -54,7 +54,9 @@ public class LogActivity extends Activity {
         this.webView.getSettings().setJavaScriptEnabled(false);
         this.webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         this.webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(false);
-        this.webView.getSettings().setPluginsEnabled(false);
+
+       // this.webView.getSettings().setPluginState(WebSettings.PluginState.OFF);
+       // this.webView.getSettings().setPluginsEnabled(false);
         this.webView.getSettings().setSupportMultipleWindows(false);
         this.webView.getSettings().setSupportZoom(false);
         this.setWebViewContent();
