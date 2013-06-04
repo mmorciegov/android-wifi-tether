@@ -14,6 +14,6 @@ Please find below a list of developers (including duties, solved problems) ...
 
 
 === Trevor ===
-... blahblah.
+Responsible for netdndc max client mode (Samsung GS3) / Enhanced hostapd modes (Samsung GS4), updated SoftAP (newer Evo3d / Sensation XE), WiFI AP MAC Spoofing, and other code updates to support later APIs
 
-*[http://www.paypal.com Donate to Trevor]*
+*[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H7ZP8Q57EWTPJ Donate to Trevor]*
