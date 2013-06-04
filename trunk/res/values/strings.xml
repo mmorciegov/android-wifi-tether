@@ -124,15 +124,15 @@
 	<string name="setup_layout_keepalive_intervalshutdown_manualsummary">Configure delay in minutes between keep-alive\'s first failed request and tether shutdown.</string>
 	<string name="setup_layout_keepalive_option">Keep-Alive Failure Options</string>
 	<string name="setup_layout_keepalive_optionsummary">Configure keep-alive failure options. Retry with no limit or retry until set time limit is reached then shutdown tether connection.</string>
-	<string name="setup_activity_info_keepaliveshutdowntimer">Keep-Alive shutdown timer changed...Changes will take effect for next tethering session.</string>
+	<string name="setup_activity_info_keepaliveshutdowntimer">Keep-Alive shutdown timer changed. Changes will take effect for next tethering session.</string>
+	<string name="setup_activity_info_fallbacktether">Changed the fallback-mode property. This will take effect for next tethering session.</string>
+	<string name="setup_activity_info_maxclientscmd">Changed the Netd-maxclient-cmd property. This will take effect for next tethering session.</string>
 	<string name="global_application_tethering_shutdown_keepalive">Tethering shutdown due to keepalive giving up trying to establish a connection.</string>
-						
 	<string name="setup_layout_quotashutdown_title">Quota Shutdown Limit</string>  
 	<string name="setup_layout_quotashutdown_summary">Stop tethering-service after a specified data usage quota.</string>    
 	<string name="setup_layout_quotashutdown_limit_manual">Set quota limit (in MB)</string>
 	<string name="setup_layout_quotashutdown_limit_manualsummary">Manually set the quota. Value is in MB between 1MB and 999,999,999MB.</string>
 	<string name="global_application_tethering_quotashutdown_limit">Tethering shutdown due to usage quota exhausted.</string>    
-	
 	<string name="setup_layout_category_lan">LAN</string>
 	<string name="setup_layout_category_notifications">Notifications</string>
 	<string name="setup_layout_category_misc">Miscellaneous</string>
@@ -158,6 +158,13 @@
 	<string name="setup_layout_channel">Change Channel</string>
 	<string name="setup_layout_channel_summary">Wireless frequency channel</string>
 	<string name="setup_layout_channel_dialog_title">Select Channel</string>
+	<string name="setup_layout_macspoofenable">Mac Address Spoof</string>
+	<string name="setup_layout_macspoofenable_summary">Enables Below changing of MAC address</string>
+	<string name="setup_layout_macspoofaddr">Change MAC</string>
+	<string name="setup_layout_macspoofaddr_summary">Changes AP\'s MAC address before tethering</string>
+	<string name="setup_layout_macspoofaddr_dialog_title">Enter MAC</string>
+	<string name="setup_layout_macspoofaddr_dialog_message">Format 00:11:22:33:44:55</string>
+	
 	<string name="setup_layout_txpower">Transmit Power</string>
 	<string name="setup_layout_txpower_summary">Reduce transmit power</string>
 	<string name="setup_layout_txpower_dialog_title">Reduce Power</string>
@@ -166,7 +173,7 @@
 	<string name="setup_layout_driverreload">WiFi-driver reload</string>
 	<string name="setup_layout_driverreload_summary">Force WiFi-driver reloading inside tether script</string>
 	<string name="setup_layout_driverreload2">WiFi-driver reload 2</string>
-	<string name="setup_layout_driverreload_summary2">Force WiFi-driver reloading before tether script</string>
+	<string name="setup_layout_driverreload_summary2">Force WiFi-driver reloading before tether script.  May require SuperSU</string>
 	<string name="setup_layout_accesscontrol">Enable Access-Control</string>
 	<string name="setup_layout_accesscontrol_summary">Turn on access-control</string>	
 	<string name="setup_layout_lan">Change LAN</string>

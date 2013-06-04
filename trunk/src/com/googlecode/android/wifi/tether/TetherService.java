@@ -12,6 +12,7 @@
 
 package com.googlecode.android.wifi.tether;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -913,12 +914,12 @@ public class TetherService extends Service {
    		}
    	}
 
-	private static IBinder getService(String service) throws Exception {
+	/*private static IBinder getService(String service) throws Exception {
         Class<?> ServiceManager = Class.forName("android.os.ServiceManager");
         Method getService_method = ServiceManager.getMethod("getService", new Class[]{String.class});
         IBinder b = (IBinder)getService_method.invoke(null, new Object[]{service});
         return b;
-	}
+	}*/
 	
    	private void trafficCounterEnable(boolean enable) {
    		if (enable == true) {
@@ -1138,7 +1139,7 @@ public class TetherService extends Service {
   		private static final int INTERVALSHUTDOWNFAIL = (10*60);	// Interval in seconds to retry if failed.
 		private Socket MySocket = null;
         private DataOutputStream MyOutStream = null;
-        private DataInputStream MyInStream = null;
+        private BufferedReader MyInStream = null;
         private String MyTempString = "";
         private String[] MyHostName = new String[100]; // Up to 100 hostnames Max         
         private Integer TotalHostName = 0;        
@@ -1223,7 +1224,8 @@ public class TetherService extends Service {
    		        	try {
    		        		MySocket = new Socket(MyHostName[CurrentHostName], 80);
    		        		MyOutStream = new DataOutputStream(MySocket.getOutputStream());
-   		        		MyInStream = new DataInputStream(MySocket.getInputStream());
+   		        		MyInStream = new BufferedReader(new InputStreamReader(MySocket.getInputStream()));
+   		        		//MyInStream = new DataInputStream(MySocket.getInputStream());
    		        	} catch (UnknownHostException e) {
    		        		Log.d(TAG, "KeepAlive: Unable to connect to unknown host \"" + MyHostName[CurrentHostName] + "\"");
    		        		keepalive[0] = 1;

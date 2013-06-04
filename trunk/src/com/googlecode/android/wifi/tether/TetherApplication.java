@@ -239,8 +239,8 @@ public class TetherApplication extends Application {
         String wepkey = this.settings.getString("passphrasepref", DEFAULT_PASSPHRASE);
         String wepsetupMethod = this.settings.getString("encsetuppref", DEFAULT_ENCSETUP);
         String channel = this.settings.getString("channelpref", "1");
-        boolean mssclampingEnabled = this.settings.getBoolean("mssclampingpref", true);
-        boolean routefixEnabled = this.settings.getBoolean("routefixpref", true);
+        boolean mssclampingEnabled = this.settings.getBoolean("mssclampingpref", this.coretask.isMSSClampingSupported());
+        boolean routefixEnabled = this.settings.getBoolean("routefixpref", this.coretask.isRoutefixSupported());
         String primaryDns = this.settings.getString("dnsprimarypref", "8.8.8.8");
         String secondaryDns = this.settings.getString("dnssecondarypref", "8.8.4.4");
         boolean hideSSID = this.settings.getBoolean("hidessidpref", false);

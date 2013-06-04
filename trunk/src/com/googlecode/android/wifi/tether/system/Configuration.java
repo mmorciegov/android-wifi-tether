@@ -1211,28 +1211,37 @@ public class Configuration {
 	public void setWifiUnloadCmd(String wifiUnloadCmd) {
 		Configuration.wifiUnloadCmd = wifiUnloadCmd;
 	}
+	
+    public static boolean hasKernelFeature(String feature) {
+        BufferedReader in = null;
+        FileInputStream fis = null;
+        GZIPInputStream gzin = null;
+        try {
+                File cfg = new File("/proc/config.gz");
+                if (cfg.exists() == false) {
+                        return true;
+                }
+                fis = new FileInputStream(cfg);
+                gzin = new GZIPInputStream(fis);
+                String line = "";
+                in = new BufferedReader(new InputStreamReader(gzin));
+                while ((line = in.readLine()) != null) {
+                        if (line.startsWith(feature)) {
+                                return true;
+                        }
+                }
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
+        finally {
+            try {
+            		gzin.close();
+            		in.close();
+            } catch (IOException e) {
+                // Nothing
+            }
+}
+return false;
+}
 
-	public static boolean hasKernelFeature(String feature) {
-    	try {
-			File cfg = new File("/proc/config.gz");
-			if (cfg.exists() == false) {
-				return true;
-			}
-			FileInputStream fis = new FileInputStream(cfg);
-			GZIPInputStream gzin = new GZIPInputStream(fis);
-			BufferedReader in = null;
-			String line = "";
-			in = new BufferedReader(new InputStreamReader(gzin));
-			while ((line = in.readLine()) != null) {
-				   if (line.startsWith(feature)) {
-					    gzin.close();
-						return true;
-					}
-			}
-			gzin.close();
-    	} catch (IOException e) {
-    		e.printStackTrace();
-    	}
-    	return false;
-    }
 }
