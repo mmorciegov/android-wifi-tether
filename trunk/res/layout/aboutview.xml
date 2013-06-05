@@ -1,181 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    
-	<ScrollView android:id="@+id/aboutscrollview" 
-		android:orientation="vertical"
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent">    
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aboutscrollview" 
+	android:orientation="vertical"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent">    
 
-	    <LinearLayout
-		    android:orientation="vertical"
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:text="@string/about_layout_version"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
+    <LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="match_parent">
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:text="@string/about_layout_version"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/versionName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="- Unkown -"
-                android:textColor="#ffffff" />
+           <TextView
+               android:id="@+id/versionName"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center_vertical"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="- Unkown -"
+               android:textColor="#ffffff" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:text="@string/about_layout_projecthome"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:text="@string/about_layout_projecthome"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="http://android-wifi-tether.googlecode.com"
-                android:textColor="#ffffff"
-                android:textColorLink="#ffffff"
-                android:textSize="12sp" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:autoLink="web"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="http://android-wifi-tether.googlecode.com"
+               android:textColor="#ffffff"
+               android:textColorLink="#ffffff"
+               android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:text="@string/about_layout_license"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:text="@string/about_layout_license"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="GNU General Public License v3"
-                android:textColor="#ffffff" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="GNU General Public License v3"
+               android:textColor="#ffffff" />
 
-            <TextView
-                android:id="@+id/versionName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="http://www.gnu.org/licenses/gpl.html"
-                android:textColor="#ffffff"
-                android:textColorLink="#ffffff"
-                android:textSize="12sp" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:autoLink="web"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="http://www.gnu.org/licenses/gpl.html"
+               android:textColor="#ffffff"
+               android:textColorLink="#ffffff"
+               android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:text="@string/about_layout_authors"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:text="@string/about_layout_authors"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/authors"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="Empty String"
-                android:textColor="#ffffff" />
+           <TextView
+               android:id="@+id/authors"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="Empty String"
+               android:textColor="#ffffff" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:text="@string/about_layout_contributors"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:text="@string/about_layout_contributors"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="parrothd, zodiac, drakaz, capnbry, webacoustics, pogo1975, vampirefo, kitame, Marcello de Sales, wacomalt, tekahuna, kr0w, Giuseppe Pappalardo"
-                android:textColor="#ffffff" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="parrothd, zodiac, drakaz, capnbry, webacoustics, pogo1975, vampirefo, kitame, Marcello de Sales, wacomalt, tekahuna, kr0w, Giuseppe Pappalardo"
+               android:textColor="#ffffff" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:text="@string/about_layout_software"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:text="@string/about_layout_software"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="http://www.iptables.org"
-                android:textColor="#ffffff"
-                android:textColorLink="#ffffff"
-                android:textSize="12sp" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:autoLink="web"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="http://www.iptables.org"
+               android:textColor="#ffffff"
+               android:textColorLink="#ffffff"
+               android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="http://thekelleys.org.uk/dnsmasq/doc.html"
-                android:textColor="#ffffff"
-                android:textColorLink="#ffffff"
-                android:textSize="12sp" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:paddingTop="15px"
-                android:text="@string/about_changelog_software"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15px"
-                android:paddingRight="15px"
-                android:text="@string/about_changelog_detail"
-                android:textColor="#ffffff" />
-			</LinearLayout>
-		</ScrollView>			
-</LinearLayout>
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:autoLink="web"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="http://thekelleys.org.uk/dnsmasq/doc.html"
+               android:textColor="#ffffff"
+               android:textColorLink="#ffffff"
+               android:textSize="12sp" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:paddingTop="15dp"
+               android:text="@string/about_changelog_software"
+               android:textColor="#ffffff"
+               android:textStyle="bold" />
+           <TextView
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:paddingLeft="15dp"
+               android:paddingRight="15dp"
+               android:text="@string/about_changelog_detail"
+               android:textColor="#ffffff" />
+		</LinearLayout>
+	</ScrollView>			
