@@ -8,7 +8,7 @@ Please find below a list of developers (including duties, solved problems) and s
 
 
 === Harry ===
-_... opensourced the very first version of the tethering-app for HTC G1. He added support for a lot of devices. Active since 2009._
+_... opensourced the very first version of the tethering-app for the HTC G1. He added support for a lot of devices. Active since 2009._
 
 *[https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=4146444 Donate to Harry]*
 
