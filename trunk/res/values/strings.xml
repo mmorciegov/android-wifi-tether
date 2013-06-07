@@ -216,16 +216,17 @@
 	<string name="about_layout_contributors">Contributors:</string>
 	<string name="about_layout_software">3rd-Party-Software:</string>
 	<string name="about_changelog_software">Changelog:</string>
-	<string name="about_changelog_detail"><![CDATA[\n
-	    v3.3-pre3 - 06/03/2013::\n\t\t1. Added Samsung GS4 support. Includes updated ifconfig built by <a href="http://www.ziggy471.com/">Ziggy471</a>\n\n
-	    v3.3-pre2 - 12/20/2012::\n\t\t1. Added WiFi AP MAC address Spoofing. \n\n
-	    v3.3-pre1 - 11/03/2012::\n\t\t1. Added Samsung GS3 netd(ndc) modes. \n\n
+	<string name="about_changelog_detail">\n
+	    v3.3-beta1 - 06/03/2013:\n\t\t1. Cleanups. \n\n
+	    v3.3-pre3 - 06/03/2013:\n\t\t1. Added Samsung GS4 support. Includes updated ifconfig built by <a href="http://www.ziggy471.com/">Ziggy471</a> \n\n
+	    v3.3-pre2 - 12/20/2012:\n\t\t1. Added WiFi AP MAC address Spoofing. \n\n
+	    v3.3-pre1 - 11/03/2012:\n\t\t1. Added Samsung GS3 netd(ndc) modes. \n\n
 		v3.2-beta1 - 08/20/2012:\n\t\t1. Enhanced support for ICS/JB (Google Galaxy Nexus, Google Nexus S, Motorola Razr, ...). Added new setup-method called \"netd-ndc\".\n\n
 		v3.2-pre1 - 06/14/2012:\n\t\t1. Added HTC Rezound (Vigor) infrastructure support. 2. Added countdown timer for existing automatic idle shutdown. 3. Added session quota (1MB - 999,999,999MB) and automatic quota shutdown support. 4. Added changelog to bottom of about box. 5. Increased maximum idle time for auto shutdown to 120 minutes. 6. Added keep-alive option to keep connection alive and notify user of network issues, included options to continue retrying or shutdown tether if keep-alive servers continue to not respond. 7. Added new credit for aforementioned work to Joshua Briefman. 8. Added standard countdown timer, will shutdown tether after a user selected amount of time has passed. 9. German translations for above changes by Harald Müller.\n\n
 		v3.1-beta14 - 04/22/2012:\n\t\tBugfix: Stopping tether using trackball didn\'t work.\n\n
 		v3.1-beta13 - 04/20/2012:\n\t\t1. Start/stop-image is now a image-button. 2. Start/stop-image is now a image-button.\n\n
 		v3.1-beta12 - 04/09/2012:\n\t\t1. Added support for Galaxy S2 (ICS). 2. Added an generic ics-profile which might work on different devices. (You have to select this profile - called Generic ICS - manually in app-stettings under Device profile.).\n\n
-		]]></string>
+	</string>
 	<string name="clientrow_layout_macaddress">MAC-Address:</string>
 	<string name="clientrow_layout_name">Name:</string>
 	<string name="clientrow_layout_ipaddress">IP-Address:</string>
