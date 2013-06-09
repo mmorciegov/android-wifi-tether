@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -265,25 +264,6 @@ public class TetherWidget extends AppWidgetProvider {
         }
     }
 
-    @Override
-    public void onEnabled(Context context) {
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(
-                new ComponentName("com.googlecode.android.wifi.tether", ".TetherWidget"),
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
-    }
-
-
-	@Override
-    public void onDisabled(Context context) {
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(
-                new ComponentName("com.googlecode.android.wifi.tether", ".TetherWidget"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
-    }
-
     /**
      * Load image for given widget and build {@link RemoteViews} for it.
      */
@@ -294,7 +274,7 @@ public class TetherWidget extends AppWidgetProvider {
         return views;
     }
 
-    /**
+	/**
      * Updates the widget when something changes, or when a button is pushed.
      *
      * @param context
