@@ -217,7 +217,7 @@
 	<string name="about_layout_software">3rd-Party-Software:</string>
 	<string name="about_changelog_software">Changelog:</string>
 	<string name="about_changelog_detail">\n
-	    v3.3-beta2 - 06/03/2013:\n\t\t1. Fixed widget-support. \n\n
+	    v3.3-beta2 - 06/10/2013:\n\t\t1. Fixed widget-support. \n\n
 	    v3.3-beta1 - 06/03/2013:\n\t\t1. Cleanups. \n\n
 	    v3.3-pre3 - 06/03/2013:\n\t\t1. Added Samsung GS4 support. Includes updated ifconfig built by <a href="http://www.ziggy471.com/">Ziggy471</a> \n\n
 	    v3.3-pre2 - 12/20/2012:\n\t\t1. Added WiFi AP MAC address Spoofing. \n\n
