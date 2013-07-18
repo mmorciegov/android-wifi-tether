@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="global_application_name">WiFi 网络共享- TrevE Mod</string>
+	<string name="global_application_name">WiFi 网络共享</string>
 	<string name="global_application_installed">二进制程序及配置文件安装完毕!</string>
 	<string name="global_application_error_restartsecwifi">无法重启加密WiFi!</string>
 	<string name="global_application_tethering_running">网络共享正在运行...</string>
