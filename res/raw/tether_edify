@@ -1,5 +1,5 @@
 # This script controls actions to be taken when the tethering is started or stopped.
-# @Version=20
+# @Version=21
 # ------------------------------------------------------------------------------------
 # It uses the "edify" language, which is also used for the android OTA update scripts. 
 # See:
@@ -327,13 +327,15 @@ action() == "start" && (
   #
   kill_process("dnsmasq");
   sleep("2");
-  run_program("/data/data/com.googlecode.android.wifi.tether/bin/dnsmasq -i " + getcfg("tether.interface") +" --dhcp-authoritative --no-negcache --user=root "+
-                  "--no-resolv --no-hosts "+
-                  "--server="+ getcfg("dns.primary") +" "+
-                  "--server="+ getcfg("dns.secondary") +" "+
-                  "--dhcp-range="+ getcfg("dhcp.iprange") +" " +
-                  "--dhcp-leasefile=/data/data/com.googlecode.android.wifi.tether/var/dnsmasq.leases " +
-                  "--pid-file=/data/data/com.googlecode.android.wifi.tether/var/dnsmasq.pid");
+  run_program("/data/data/com.googlecode.android.wifi.tether/bin/dnsmasq" +
+                  " -I lo -i " + getcfg("tether.interface") +
+                  " --dhcp-authoritative --no-negcache --user=root"+
+                  " --no-resolv --no-hosts "+
+                  " --server="+ getcfg("dns.primary") +
+                  " --server="+ getcfg("dns.secondary") +
+                  " --dhcp-range="+ getcfg("dhcp.iprange") +
+                  " --dhcp-leasefile=/data/data/com.googlecode.android.wifi.tether/var/dnsmasq.leases" +
+                  " --pid-file=/data/data/com.googlecode.android.wifi.tether/var/dnsmasq.pid");                  
   
   #
   # Access control
