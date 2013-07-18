@@ -1,0 +1,494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="global_application_name">WiFi 网络共享- TrevE Mod</string>
+	<string name="global_application_installed">二进制程序及配置文件安装完毕!</string>
+	<string name="global_application_error_restartsecwifi">无法重启加密WiFi!</string>
+	<string name="global_application_tethering_running">网络共享正在运行...</string>
+	<string name="global_application_accesscontrol_disabled">已禁用访问控制</string>
+	<string name="global_application_accesscontrol_authorized">已认证</string>
+	<string name="global_application_accesscontrol_unauthorized">未认证</string>
+	<string name="global_application_connected">已连接</string>
+	<string name="main_activity_settings">设置</string>
+	<string name="main_activity_about">关于</string>
+	<string name="main_activity_donation_headline">自愿捐助</string>
+	<string name="main_activity_donate">捐助</string>
+	<string name="main_activity_close">关闭</string>
+	<string name="main_activity_notroot">未获取 Root 权限!</string>
+	<string name="main_activity_nonetfilter">缺乏 Netfilter 支持!</string>
+	<string name="main_activity_noaccesscontrol">没有访问控制!</string>
+	<string name="main_activity_accesscontrol_disabled">访问控制已禁用.</string>
+	<string name="main_activity_exit">退出</string>
+	<string name="main_activity_ignore">忽略</string>
+	<string name="main_activity_yes">是</string>
+	<string name="main_activity_no">否</string>
+	<string name="main_activity_ok">OK</string>
+	<string name="main_activity_locked">网络共享被锁定!</string>
+	<string name="main_activity_showlog">显示日志</string>
+	<string name="main_activity_accesscontrol">访问控制</string>
+	<string name="main_activity_start">启动共享</string>
+	<string name="main_activity_start_summary"><![CDATA[启动中...请耐心等待]]></string>
+	<string name="main_activity_start_errors">共享已经启动，但存在问题!请检查 \'显示日志\'.</string>
+	<string name="main_activity_start_unable">无法启动共享，您的设备是否已经 root ？</string>
+	<string name="main_activity_start_wiredtethering_running">有线共享正在运行, 请先禁用!</string>
+	<string name="main_activity_start_usbtethering_running"><![CDATA[USB 网络共享正在运行. 请先禁用: 设置-> 无线和网络 -> 网络共享.]]></string>
+	<string name="main_activity_start_unknownstate">您的手机当前运行在未知状态 － 请尝试关机后重新启动!</string>
+	<string name="main_activity_stop">停止共享</string>
+	<string name="main_activity_stop_summary"><![CDATA[停止中...请耐心等待]]></string> 
+	<string name="main_activity_confirm">确认</string>
+	<string name="main_activity_cancel">撤销</string>
+	<string name="main_activity_trackball_pressed_start">轨迹球已点击. 确认共享启动</string>
+	<string name="main_activity_trackball_pressed_stop">轨迹球已点击. 确认共享停止.</string>
+	<string name="main_activity_keepalive_headline">保持在线</string>
+	<string name="main_activity_idle_headline">空闲</string>
+	<string name="main_activity_timer_headline">定时器</string>
+	
+	<string name="log_activity_nologfile">无法打开日志文件. 文件不存在!</string>
+	<string name="main_layout_presstostart">- 点击启动共享. -</string> 
+	<string name="main_layout_presstostop">- 点击结束共享. -</string> 
+	<string name="main_layout_download">下载</string> 
+	<string name="main_layout_quota">限额</string> 
+	<string name="main_layout_upload">上传</string> 
+	<string name="main_layout_lock">Lock</string> 
+	<string name="accesscontrol_activity_reloadclientlist">刷新客户端列表</string>
+	<string name="accesscontrol_activity_applysettings">应用设置</string>
+	<string name="accesscontrol_activity_enabled">访问控制已启用.</string>
+	<string name="accesscontrol_activity_disabled">访问控制已禁用.</string>
+	<string name="accesscontrol_activity_is_enabled">访问控制已经启用.</string>
+	<string name="accesscontrol_activity_is_disabled">访问控制已经禁用.</string>
+	<string name="accesscontrol_activity_error_save_whitelistfile">无法保存白名单文件!</string>
+	<string name="accesscontrol_activity_error_remove_whitelistfile">无法移除白名单文件!</string>
+	<string name="accesscontrol_activity_error_read_leasefile">Unable to read leases-file!</string>
+	<string name="accesscontrol_activity_config_saved">访问控制配置已保存!</string>
+	<string name="accesscontrol_activity_not_connected">- 未连接 -</string>
+	<string name="accesscontrol_layout_connectedclients"> 已连接/已认证的客户端:</string>
+	<string name="accesscontrol_layout_apply">应用</string>
+	<string name="accesscontrol_layout_enable">启用</string>
+	<string name="accesscontrol_layout_disable">禁用</string>
+	<string name="setup_activity_reinstall">(重新)安装二进制/配置文件</string>
+	<string name="setup_activity_restart_tethering_title">重启共享</string>
+	<string name="setup_activity_restart_tethering_message">重新启动中...请耐心等待</string>
+	<string name="setup_activity_error_passphrase_invalidchars">密码包含无效字符，未保存!</string>
+	<string name="setup_activity_error_passphrase_tooshort">密码过短! 新密码未保存.</string>
+	<string name="setup_activity_error_passphrase_toolong">密码过长! 新密码未保存.</string>
+	<string name="setup_activity_error_restart_tethering">无法重新启动共享!</string>
+	<string name="setup_activity_error_passphrase_info">密码长度必须在 8 到 30 之间!</string>
+	<string name="setup_activity_error_passphrase_13chars">密码必须为 13 个ASCII字符!</string>
+	<string name="setup_activity_error_ssid_invalidchars">SSID 包含无效字符</string>
+	<string name="setup_activity_error_ssid_empty">新的 SSID 不可为空</string>
+	<string name="setup_activity_error_ssid_notsaved">, 未保存.</string>
+	<string name="setup_activity_error_ipaddress_invalid">Ip 地址无效, 未保存.</string>
+	<string name="setup_activity_info_device_changedto">设备配置变更为 </string>
+	<string name="setup_activity_info_setup_changedto">配置方法变更为 </string>
+	<string name="setup_activity_info_ssid_changedto">SSID 变更为 </string>
+	<string name="setup_activity_info_channel_changedto">信道变更为 </string>
+	<string name="setup_activity_info_passphrase_changedto">密码变更为 </string>
+	<string name="setup_activity_info_txpower_changedto">发射功率变更为 </string>
+	<string name="setup_activity_info_lan_changedto">局域网变更为 </string>
+	<string name="setup_activity_info_wakelock_disabled">Wake-lock 已禁用.</string>
+	<string name="setup_activity_info_wakelock_enabled">Wake-lock 已启用.</string>
+	<string name="setup_activity_info_accesscontrol_disabled">访问控制已禁用.</string>
+	<string name="setup_activity_info_accesscontrol_enabled">访问控制已启用.</string>
+	<string name="setup_activity_txpower_warning_title">警告: 发射功率</string>
+	<string name="setup_activity_txpower_warning_ok">确认</string>	
+	<string name="setup_activity_hidessid_warning_title">警告: 隐藏 SSID</string>
+	<string name="setup_activity_hidessid_warning_ok">确认</string>
+	<string name="setup_layout_category_wifi">Wifi</string>
+	<string name="setup_layout_category_security">安全</string>
+
+	<string name="setup_layout_category_shutdown">自动关闭选项</string>    
+	<string name="setup_layout_shutdown_timer">定时关闭</string>  
+	<string name="setup_layout_shutdown_timer_summary">在指定时间后关闭共享服务.</string>    
+	<string name="setup_layout_shutdown_timer_unit_minutes">分钟</string> 
+	<string name="setup_layout_shutdown_timer_dialog_elapsed">Shutdown after ... minutes have elapsed.</string>
+	<string name="setup_layout_shutdown_timer_limit">设置定时器</string>
+	<string name="setup_layout_shutdown_timer_limit_summary">配置定时关闭的时间.</string>
+	<string name="global_application_tethering_shutdown_timer">定时器时间已到，共享关闭.</string>
+	
+	<string name="setup_layout_shutdown_inactive">空闲自动关闭</string>  
+	<string name="setup_layout_shutdown_inactive_summary">在指定时间内没有激活则自动关闭</string>    
+	<string name="setup_layout_shutdown_inactive_unit_minutes">分钟</string> 
+	<string name="setup_layout_shutdown_inactive_dialog_idletime">Shutdown after ... of inactivity.</string>
+	<string name="setup_layout_shutdown_inactive_idle_time">设定空闲上限</string>
+	<string name="setup_layout_shutdown_inactive_idle_summary">配置空闲时间.</string>
+	<string name="global_application_tethering_shutdown_inactive">由于空闲时间超出上限, 共享关闭.</string>
+	
+	<string name="setup_layout_category_keepalive">保持在线 - 连接检查</string>    
+	<string name="setup_layout_keepalive_title">保持在线 - 连接检查</string>    
+	<string name="setup_layout_keepalive_summary">此选项将按照指定的时间间隔定期连接到某一网站并下载一小部分数据，如果失败将会通知您.</string>    
+	<string name="setup_layout_keepalive_websites_manual">用于检查是否在线的网站</string>  
+	<string name="setup_layout_keepalive_websites_default">www.google.com;www.yahoo.com;www.bing.com</string>  
+	<string name="setup_layout_keepalive_websites_manualsummary">输入一系列有效的 HTTP 服务器，使用分号隔开. 留空则恢复默认值.</string>  
+	<string name="setup_layout_keepalive_interval_manual">保持在线的检查间隔</string>
+	<string name="setup_layout_keepalive_interval_manualsummary">配置线检查成功后再次检查的间隔.</string>
+	<string name="setup_layout_keepalive_intervalshutdown_manual">在线检查失败重试间隔</string>
+	<string name="setup_layout_keepalive_intervalshutdown_manualsummary">配置在线检查请求失败后事隔多少分钟后关闭共享.</string>
+	<string name="setup_layout_keepalive_option">保持在线检查失败选项</string>
+	<string name="setup_layout_keepalive_optionsummary">配置在线检测失败选项. 无限次重试或达到重试次数限制后关闭共享连接.</string>
+	<string name="setup_activity_info_keepaliveshutdowntimer">在线检查关闭定时器改变. 修改将在下次共享会话中生效.</string>
+<string name="setup_activity_info_fallbacktether">后备模式属性改变. 将在下次共享会话时生效.</string>
+	<string name="setup_activity_info_maxclientscmd">Netd-最大连接数命令 属性改变. 将在下次共享会话时生效.</string>
+	<string name="global_application_tethering_shutdown_keepalive">由于在线检查无法建立连接, 共享关闭.</string>
+						
+	<string name="setup_layout_quotashutdown_title">限额自动关闭</string>  
+	<string name="setup_layout_quotashutdown_summary">到达指定的数据使用限额时自动关闭共享.</string>    
+	<string name="setup_layout_quotashutdown_limit_manual">设定限额 (MB)</string>
+	<string name="setup_layout_quotashutdown_limit_manualsummary">手动设置限额. 数值范围在 1MB 到 999,999,999MB 之间.</string>
+	<string name="global_application_tethering_quotashutdown_limit">到达限额限制，共享关闭.</string>    
+	
+	<string name="setup_layout_category_lan">局域网</string>
+	<string name="setup_layout_category_notifications">通知</string>
+	<string name="setup_layout_category_misc">杂项</string>
+	<string name="setup_layout_wifiencryption">使用 WiFi-加密</string>
+	<string name="setup_layout_wifiencryption_summary">打开 wifi 加密</string>
+	<string name="setup_layout_encryptionsetup">设置加密方法</string>
+	<string name="setup_layout_encryptionsetup_summary">改变 WiFi 加密方法</string>
+	<string name="setup_layout_devicetype">改变设备配置</string>
+	<string name="setup_layout_devicetype_summary">改变设备配置</string>
+	<string name="setup_layout_devicetype_dialog_title">设备配置</string>
+	<string name="setup_layout_setupmethod">改变设置方法</string>
+	<string name="setup_layout_setupmethod_summary">改变设置方法</string>
+	<string name="setup_layout_setupmethod_dialog_title">设置方法</string>
+	<string name="setup_layout_passphrase">更改密码</string>
+	<string name="setup_layout_passphrase_summary">更改 WiFi 加密的密码</string>
+	<string name="setup_layout_passphrase_dialog_title">输入密码</string>
+	<string name="setup_layout_ssid">更改 SSID</string>
+	<string name="setup_layout_ssid_summary">更改 SSID</string>
+	<string name="setup_layout_ssid_dialog_title">输入 SSID</string>
+	<string name="setup_layout_ssid_dialog_message">仅允许字母、数字和 \'.\', \'_\' 的组合!</string>
+	<string name="setup_layout_hidessid">隐藏 SSID</string>
+	<string name="setup_layout_hidessid_summary">不广播 SSID</string>
+	<string name="setup_layout_channel">更改信道</string>
+	<string name="setup_layout_channel_summary">无线频率信道</string>
+	<string name="setup_layout_channel_dialog_title">选择信道</string>
+	<string name="setup_layout_txpower">发射功率</string>
+	<string name="setup_layout_txpower_summary">减少发射功率</string>
+	<string name="setup_layout_txpower_dialog_title">减少功率</string>
+	<string name="setup_layout_dontdisablebt">不禁用蓝牙</string>
+	<string name="setup_layout_dontdisablebt_summary">启动共享时不禁用蓝牙</string>	    
+	<string name="setup_layout_driverreload">重新加载 WiFi 驱动</string>
+	<string name="setup_layout_driverreload_summary">强制重新加载 WiFi 驱动</string>
+	<string name="setup_layout_driverreload2">WiFi 驱动重新加载 2</string>
+	<string name="setup_layout_driverreload_summary2">在共享脚本执行前强制重新加载 WiFi 驱动</string>	
+	<string name="setup_layout_accesscontrol">激活访问控制</string>
+	<string name="setup_layout_accesscontrol_summary">打开访问控制</string>	
+	<string name="setup_layout_lan">更改局域网</string>
+	<string name="setup_layout_lan_summary">局域网络设置</string>
+	<string name="setup_layout_lan_dialog_title">选择局域网</string>
+	<string name="setup_layout_category_dns">域名服务器（DNS）</string>
+	<string name="setup_layout_dnsprimary">更改首选 DNS</string>
+	<string name="setup_layout_dnsprimary_summary">更改首选 DNS</string>
+	<string name="setup_layout_dnsprimary_dialog_title">首选 DNS</string>
+	<string name="setup_layout_dnsprimary_dialog_message">使用如下 DNS 服务器地址:</string>
+	<string name="setup_layout_dnssecondary">更改备选 DNS</string>
+	<string name="setup_layout_dnssecondary_summary">更改备选 DNS</string>
+	<string name="setup_layout_dnssecondary_dialog_title">备选 DNS</string>
+	<string name="setup_layout_dnssecondary_dialog_message">使用如下 DNS 服务器地址:</string>
+	<string name="setup_layout_mssclamping">MSS clamping</string>
+	<string name="setup_layout_mssclamping_summary">激活 MSS clamping</string>
+	<string name="setup_layout_fallbacktether">后备共享方式</string>
+	<string name="setup_layout_fallbacktether_summary">使用系统自带的网络共享 （非 Root 设备上可用）</string>
+	<string name="setup_layout_netdmaxclientcmd">发送 Netd 最大客户数命令</string>
+	<string name="setup_layout_netdmaxclientcmd_summary">在 netd(ndc) 模式下 ，若 AP 启动但无法连接，则可能需要发送此命令.</string>
+	<string name="setup_layout_routingfix">路由修正</string>
+	<string name="setup_layout_routingfix_summary">允许路由修正</string>	
+	<string name="setup_layout_notification">客户端连接提醒模式</string>
+	<string name="setup_layout_notification_summary">客户端连接提醒模式设置</string>
+	<string name="setup_layout_notification_dialog_title">选择客户端连接提醒模式</string>	
+	<string name="setup_layout_vibrate">连接时震动</string>
+	<string name="setup_layout_vibrate_summary">当有客户端连接时震动</string>
+	<string name="setup_layout_ringtone">提示铃声</string>
+	<string name="setup_layout_ringtone_summary">提示使用的铃声</string>
+	<string name="setup_layout_updatecheck">禁用更新检查</string>
+	<string name="setup_layout_updatecheck_summary">启动时不检查更新</string>
+	<string name="setup_layout_enable4gpref">激活 4G 移动网络</string>
+	<string name="setup_layout_enable4gpref_summary">当共享启动后激活 4G 网络</string>
+	<string name="setup_layout_wakelock">禁用 Wake-Lock</string>
+	<string name="setup_layout_wakelock_summary">共享时关闭 wake-lock </string>
+	<string name="setup_layout_battery">电池温度</string>
+	<string name="setup_layout_battery_summary">配置电池温度信息</string>
+	<string name="about_layout_version">版本:</string>
+	<string name="about_layout_projecthome">项目主页:</string>
+	<string name="about_layout_license">许可信息:</string>
+	<string name="about_layout_authors">作者:</string>
+	<string name="about_layout_contributors">贡献者:</string>
+	<string name="about_layout_software">第三方软件:</string>
+	<string name="about_changelog_software">更新日志:</string>
+	<string name="about_changelog_detail">\n
+		v3.2-beta1 - 08/20/2012:\n\t\t1. Enhanced support for ICS/JB (Google Galaxy Nexus, Google Nexus S, Motorola Razr, ...). Added new setup-method called \"netd-ndc\".\n\n
+		v3.2-pre1 - 06/14/2012:\n\t\t1. Added HTC Rezound (Vigor) infrastructure support. 2. Added countdown timer for existing automatic idle shutdown. 3. Added session quota (1MB - 999,999,999MB) and automatic quota shutdown support. 4. Added changelog to bottom of about box. 5. Increased maximum idle time for auto shutdown to 120 minutes. 6. Added keep-alive option to keep connection alive and notify user of network issues, included options to continue retrying or shutdown tether if keep-alive servers continue to not respond. 7. Added new credit for aforementioned work to Joshua Briefman. 8. Added standard countdown timer, will shutdown tether after a user selected amount of time has passed. 9. German translations for above changes by Harald Müller.\n\n
+		v3.1-beta14 - 04/22/2012:\n\t\tBugfix: Stopping tether using trackball didn\'t work.\n\n
+		v3.1-beta13 - 04/20/2012:\n\t\t1. Start/stop-image is now a image-button. 2. Start/stop-image is now a image-button.\n\n
+		v3.1-beta12 - 04/09/2012:\n\t\t1. Added support for Galaxy S2 (ICS). 2. Added an generic ics-profile which might work on different devices. (You have to select this profile - called Generic ICS - manually in app-stettings under Device profile.).\n\n
+		</string>
+	<string name="clientrow_layout_macaddress">MAC 地址:</string>
+	<string name="clientrow_layout_name">名字:</string>
+	<string name="clientrow_layout_ipaddress">IP 地址:</string>
+	<string name="donate_layout_line1">如果您喜欢本程序, 请考虑捐助以帮助我们改进此项目.</string>
+	<string name="donate_layout_line2">您可通过捐助来为开源项目提供支持.</string>
+	<string name="donate_layout_line3">捐助并不是购买一个新的程序, 仅是帮助我们继续这项工作.</string>
+	<string name="donate_layout_line4">如果您希望稍后捐助, 可以在 \'关于\' 中进行操作.</string>
+	<string name="donate_layout_line5">谢谢!</string>
+	<string name="noaccesscontrol_layout_line1">抱歉, 您的内核没有运行本程序访问控制功能的所有必备特性. 访问控制将被禁用.</string>
+	<string name="noaccesscontrol_layout_line2">Please see our FAQ: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="nonetfilter_layout_line1">抱歉,您的内核没有运行本程序的所有必备特性.</string>
+	<string name="nonetfilter_layout_line2">请查看我们的常见问题列表: http://code.google.com/p/android-wifi-tether/wiki/FAQ</string>
+	<string name="noroot_layout_line1">抱歉,您的内核没有运行本程序的所有必备特性.</string>
+	<string name="update_layout_line1">有可用的更新!</string>
+	<string name="update_layout_line2">您是否想现在安装此更新?</string>
+	<string name="bt_warning_line1">这种蓝牙共享 (PAN) 的方式目前已知不能在所有的设备/android平台上工作.</string>
+	<string name="bt_warning_line2">此功能可能无法在您的设备上正常工作!</string>
+	<string name="txpower_warning_line1">wifi 发射功率的降低功能依赖于 wifi 芯片.</string>
+	<string name="txpower_warning_line2">此功能可能无法在您的设备上正常工作!</string>
+	<string name="hidessid_warning_line1">能否建立隐藏 ssid 网络依赖于您手机设备上的 wifi 驱动 </string>
+	<string name="hidessid_warning_line2">此功能可能无法在您的设备上正常工作!</string>
+
+	<string-array name="keepaliveoption">  
+		<item>Keep Trying</item>  
+		<item>Shutdown Tether (timer)</item>  
+	</string-array>		
+
+	<string-array name="keepaliveoptionvalues">  
+		<item>karetry</item> 
+		<item>kashutdown</item> 
+	</string-array>		
+				
+	<string-array name="notificationmodenames">  
+		<item>None</item>  
+		<item>Unauthorized Clients</item>  
+		<item>All Clients</item>
+	</string-array>
+
+	<string-array name="powernames">  
+		<item>Disabled</item>
+		<item>3 mW (5 dBm)</item>  
+		<item>5 mW (7 dBm)</item>  
+		<item>10 mW (10 dBm)</item>  
+		<item>15 mW (12 dBm)</item>  
+		<item>20 mW (13 dBm)</item>  
+		<item>25 mW (14 dBm)</item>  
+		<item>30 mW (15 dBm)</item>  
+	</string-array>
+	
+	<string-array name="encsetupnames">  
+		<item>Auto</item>
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	 
+	
+	<string-array name="batterytempnames">  
+		<item>Disabled</item>  
+		<item>Celsius</item>  
+		<item>Fahrenheit</item>  
+	</string-array>		
+	
+	<string-array name="devicenames">  
+		<item>Auto</item>
+		<item>Generic</item>
+		<item>Generic ICS/JB (wlan0)</item>
+		<item>Generic ICS/JB (wlan1)</item>
+		<item>Google NexusOne</item>
+		<item>Google Nexus S</item>
+		<item>Google Nexus S 4G</item>
+		<item>HTC Amaze</item>
+		<item>HTC Dream</item>
+		<item>HTC Desire (GSM)</item>
+		<item>HTC Desire (CDMA)</item>
+		<item>HTC Evo 4G</item>
+		<item>HTC Evo 3D</item>
+		<item>HTC Thunderbolt (LTE/CDMA)</item>
+		<item>HTC Hero (GSM)</item>
+		<item>HTC Hero (CDMA)</item>
+		<item>HTC Magic</item>
+		<item>HTC Rezound (LTE/CDMA/GSM)</item>
+		<item>LG Optimus S</item>
+		<item>LG Marquee</item>
+		<item>LG Optimus Mach</item>
+		<item>LG Optimus Black</item>
+		<item>LG Optimus Black (G)</item>
+		<item>LG Optimus 3D</item> 
+		<item>LG Thrill</item>
+		<item>LG Thrill (G)</item> 
+		<item>Motorola Atrix 2</item>
+		<item>Motorola Droid2 Global (CDMA)</item>
+		<item>Motorola Defy (GSM)</item>    
+		<item>Motorola Droid (CDMA)</item>  
+		<item>Motorola Milestone (GSM)</item> 
+		<item>Motorola DroidX (CDMA)</item>
+		<item>Motorola MilestoneX (GSM)</item>
+		<item>Motorola Droid2 (CDMA)</item>
+		<item>Motorola Milestone2 (GSM)</item> 
+		<item>Motorola Droid Pro (CDMA)</item>     
+		<item>Motorola Milestone Plus (GSM)</item>
+		<item>Motorola Droid Bionic</item>
+		<item>Motorola Droid 3</item>
+		<item>Motorola Milestone 3 (GSM)</item>
+		<item>Motorola Droid RAZR (CDMA/LTE)</item>
+		<item>Motorola Droid RAZR (GSM)</item>  
+		<item>Samsung Captivate</item>
+		<item>Samsung Droid Charge</item>  
+		<item>Samsung Epic 4G</item>
+		<item>Samsung Epic Touch 4G</item>
+		<item>Samsung Fascinate</item> 
+		<item>Samsung Galaxy Indulge</item>
+		<item>Samsung Galaxy Nexus (GSM)</item> 
+		<item>Samsung Galaxy Nexus (CDMA/LTE)</item> 
+		<item>Samsung Galaxy S</item>
+		<item>Samsung Galaxy S2</item>
+		<item>Samsung Galaxy S3</item>
+		<item>Samsung Galaxy SL</item> 
+		<item>ZTE Blade</item>  
+	</string-array>
+	
+	<string-array name="setupnames">  
+		<item>auto</item> 
+		<item>WEXT (ad-hoc)</item>  
+		<item>Netd (master)</item>
+		<item>Netd-Ndc (master)</item> 
+		<item>Hostapd (master)</item>
+		<item>Softap (master)</item>
+		<item>Softap for Samsung (master)</item>      
+	</string-array>
+	
+	<!-- Below values don't need to be translated -->
+	<string name="main_activity_temperatureunit_celsius">°C</string>
+	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
+	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
+	<string-array name="notificationmodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+	</string-array>
+	
+	<string-array name="powermodevalues">  
+		<item>0</item>  
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item> 
+	</string-array>
+	<string-array name="channelvalues">  
+		<item>0</item> 
+		<item>1</item>  
+		<item>2</item>  
+		<item>3</item>  
+		<item>4</item>  
+		<item>5</item>  
+		<item>6</item>  
+		<item>7</item>  
+		<item>8</item>  
+		<item>9</item>  
+		<item>10</item>  
+		<item>11</item>  
+	</string-array>
+	<string-array name="channelnames">  
+		<item>Auto</item> 
+		<item>Channel 01 (2412 MHz)</item>  
+		<item>Channel 02 (2417 MHz)</item>  
+		<item>Channel 03 (2422 MHz)</item>  
+		<item>Channel 04 (2427 MHz)</item>  
+		<item>Channel 05 (2432 MHz)</item>  
+		<item>Channel 06 (2437 MHz)</item>  
+		<item>Channel 07 (2442 MHz)</item>  
+		<item>Channel 08 (2447 MHz)</item>  
+		<item>Channel 09 (2452 MHz)</item>  
+		<item>Channel 10 (2457 MHz)</item>  
+		<item>Channel 11 (2462 MHz)</item>  
+	</string-array>  	
+	<string-array name="lannetworkvalues">  
+		<item>192.168.1.0/24</item>  
+		<item>192.168.2.0/24</item> 
+		<item>192.168.3.0/24</item> 
+		<item>172.20.21.0/24</item>  
+		<item>172.20.22.0/24</item>
+		<item>172.20.23.0/24</item>   
+		<item>10.10.1.0/24</item>  
+		<item>10.10.2.0/24</item>  
+		<item>10.10.3.0/24</item> 
+	</string-array>
+	<string-array name="powervalues">  
+		<item>disabled</item>  
+		<item>3mW</item>  
+		<item>5mW</item>  
+		<item>10mW</item>  
+		<item>15mW</item>  
+		<item>20mW</item>  
+		<item>25mW</item>  
+		<item>30mW</item>  
+	</string-array>	 
+	<string-array name="encsetupvalues">  
+		<item>auto</item>  
+		<item>iwconfig</item>  
+		<item>wpa_supplicant</item>  
+	</string-array>	
+	<string-array name="batterytempvalues">  
+		<item>disabled</item>  
+		<item>celsius</item>  
+		<item>fahrenheit</item>  
+	</string-array>
+	<string-array name="devicevalues">  
+		<item>auto</item> 
+		<item>generic</item>
+		<item>generic_ics</item>  
+		<item>generic_ics_wlan1</item>
+		<item>passion</item>
+		<item>crespo</item>
+		<item>crespo4g</item>
+		<item>ruby</item>
+		<item>dream</item>
+		<item>bravo</item>
+		<item>bravoc</item>
+		<item>supersonic</item>
+		<item>pyramid</item>
+		<item>mecha</item>
+		<item>hero</item>
+		<item>heroc</item>
+		<item>sapphire</item>
+		<item>vigor</item>
+		<item>thunderc</item>
+		<item>ls855</item>
+		<item>ls3000</item>
+		<item>p970</item>
+		<item>p970g</item>
+		<item>p920</item>
+		<item>p925</item>
+		<item>p925g</item>
+		<item>edison</item>
+		<item>cdma_droid2we</item>
+		<item>umts_jordan</item>    		
+		<item>cdma_sholes</item>
+		<item>umts_sholes</item>
+		<item>cdma_shadow</item>
+		<item>umts_shadow</item>
+		<item>cdma_droid2</item>
+		<item>umts_droid2</item>    		    
+		<item>cdma_venus2</item>  
+		<item>umts_venus2</item>
+		<item>cdma_targa</item>
+		<item>cdma_solana</item>
+		<item>umts_solana</item>    
+		<item>cdma_spyder</item>
+		<item>umts_spyder</item>    
+		<item>SGH-I897</item>
+		<item>SCH-I510</item> 
+		<item>SPH-D700</item>
+		<item>SPH-D710</item>
+		<item>SCH-I500</item>
+		<item>SCH-R910</item>
+		<item>maguro</item>
+		<item>toro</item>
+		<item>GT-I9000</item>
+		<item>GT-I9100</item>
+		<item>GT-I9300</item>
+		<item>galaxysl</item>
+		<item>blade</item> 
+	</string-array>
+	<string-array name="setupvalues">  
+		<item>auto</item>
+		<item>wext</item>  
+		<item>netd</item> 
+		<item>netdndc</item>
+		<item>hostapd</item>
+		<item>softap</item>    
+		<item>softap_samsung</item> 
+	</string-array>
+	
+</resources>
