@@ -185,8 +185,6 @@
 	<string name="setup_layout_dnssecondary_dialog_message">使用如下 DNS 服务器地址:</string>
 	<string name="setup_layout_mssclamping">MSS clamping</string>
 	<string name="setup_layout_mssclamping_summary">激活 MSS clamping</string>
-	<string name="setup_layout_fallbacktether">后备共享方式</string>
-	<string name="setup_layout_fallbacktether_summary">使用系统自带的网络共享 （非 Root 设备上可用）</string>
 	<string name="setup_layout_netdmaxclientcmd">发送 Netd 最大客户数命令</string>
 	<string name="setup_layout_netdmaxclientcmd_summary">在 netd(ndc) 模式下 ，若 AP 启动但无法连接，则可能需要发送此命令.</string>
 	<string name="setup_layout_routingfix">路由修正</string>
@@ -352,7 +350,6 @@
 	<!-- Below values don't need to be translated -->
 	<string name="main_activity_temperatureunit_celsius">°C</string>
 	<string name="main_activity_temperatureunit_fahrenheit">°F</string>
-	<string name="paypalUrl">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4146444</string>
 	<string-array name="notificationmodevalues">  
 		<item>0</item>  
 		<item>1</item>  
