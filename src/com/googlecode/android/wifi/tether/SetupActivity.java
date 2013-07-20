@@ -75,6 +75,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
     private boolean currentMacSpoofEnabled;
     private boolean currentDriverReload;
     private String keepaliveshutdown;
+    private boolean currentNetdNoIfaceCmd;
     
     private EditTextPreference prefPassphrase;
     private EditTextPreference prefSSID;
@@ -114,6 +115,7 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref", true);
         this.currentDriverReload = this.application.settings.getBoolean("driverreloadpref2", false);
         this.keepaliveshutdown = this.application.settings.getString("keepalivecheckoptionpref", "karetry");
+        this.currentNetdNoIfaceCmd = this.application.settings.getBoolean("netd.notetherifacecmd", this.application.coretask.isNdcNoTetherCmdSupported());
         
         // Updating settings-menu
         this.updateSettingsMenu();
@@ -502,6 +504,18 @@ public class SetupActivity extends PreferenceActivity implements OnSharedPrefere
         	maxClientPreference.setChecked(false);
         	wifiGroup.removePreference(maxClientPreference);
         }
+
+        // netdndc Max Client
+    	CheckBoxPreference noTetherIfacePreference = (CheckBoxPreference)findPreference("netd.notetherifacecmd");
+        if (!(setupMethod.startsWith("netd"))) {
+        	PreferenceGroup wifiGroup = (PreferenceGroup)findPreference("wifiprefs");
+        	noTetherIfacePreference.setChecked(false);
+        	noTetherIfacePreference.setDefaultValue(false);
+        	wifiGroup.removePreference(noTetherIfacePreference);
+        }   
+        noTetherIfacePreference.setChecked(this.currentNetdNoIfaceCmd);
+    	this.application.preferenceEditor.putBoolean("netd.notetherifacecmd", this.currentNetdNoIfaceCmd);
+		this.application.preferenceEditor.commit();
         
         // Disable Route-Fix
         if (application.coretask.isRoutefixSupported() == false) {

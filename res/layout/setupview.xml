@@ -24,7 +24,11 @@
 			android:title="@string/setup_layout_netdmaxclientcmd"  
 			android:summary="@string/setup_layout_netdmaxclientcmd_summary" 
 			android:defaultValue="true" />
-	    <CheckBoxPreference  
+		<CheckBoxPreference  
+			android:key="netd.notetherifacecmd"  
+			android:title="@string/setup_layout_netdnotetherifacecmd"  
+			android:summary="@string/setup_layout_netdnotetherifacecmd_summary" />
+		<CheckBoxPreference  
 			android:key="encpref"  
 			android:title="@string/setup_layout_wifiencryption"  
 			android:summary="@string/setup_layout_wifiencryption_summary" /> 	
