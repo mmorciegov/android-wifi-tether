@@ -19,6 +19,7 @@ public class Configuration {
 	public static final int    SDK_GB             = 9;					// SDK Minimum Gingerbread
 	public static final int    SDK_ICS            = 14;					// SDK Minimum Ice Cream Sandwich
 	public static final int    SDK_JB             = 16;					// SDK Minimum JellyBean
+	public static final int    SDK_JB_MR1         = 17;					// SDK Minimum JellyBean MR1 (4.2)
 
 
 	public static final String manufacturer = android.os.Build.MANUFACTURER;

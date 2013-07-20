@@ -249,6 +249,7 @@ public class TetherApplication extends Application {
         boolean netdMaxClientCmd = this.settings.getBoolean("netd.maxclientcmd", false);
         // Check if "auto"-setup method is selected
         String setupMethod = this.settings.getString("setuppref", "auto");
+        boolean netdNoIfaceCmd = this.settings.getBoolean("netd.notetherifacecmd", this.coretask.isNdcNoTetherCmdSupported());
         
         if (configuration.isTiadhocSupported() == false) {
 	        if (setupMethod.equals("auto")) {
@@ -295,6 +296,13 @@ public class TetherApplication extends Application {
 		}
 		else {
 			this.tethercfg.put("netd.maxclientcmd", "false");
+		}
+		
+		if (netdNoIfaceCmd) {
+			this.tethercfg.put("netd.noifacecmd", "true");
+		}
+		else {
+			this.tethercfg.put("netd.noifacecmd", "false");
 		}
 
 		if (hideSSID) {

@@ -37,7 +37,7 @@ public class CoreTask {
 	
 	public static String DATA_FILE_PATH;
 	
-	private static final String FILESET_VERSION = "21";
+	private static final String FILESET_VERSION = "22";
 	
 	private Hashtable<String,String> runningProcesses = new Hashtable<String,String>();
 	
@@ -456,6 +456,13 @@ public class CoreTask {
      */
     public boolean isRoutefixSupported() {
     	if ((new File("/system/bin/ip")).exists()) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean isNdcNoTetherCmdSupported() {
+    	if (android.os.Build.VERSION.SDK_INT >= Configuration.SDK_JB_MR1) {
     		return true;
     	}
     	return false;
