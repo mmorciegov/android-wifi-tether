@@ -12,7 +12,7 @@ Clients (your laptop for example) can connect via wifi and get access to the int
 Wifi-tethering creates a so called adhoc (peer-to-peer) network on most devices. 
 Infrastructure-mode is supported for a large set of devices.
 
-** PREREQUISITE **
+**  PREREQUISITE  **
 
 1) Root
 2) Netfilter-enabled kernel (most stock-kernel nowadays come with such a kernel).
